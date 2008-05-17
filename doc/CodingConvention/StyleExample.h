@@ -79,20 +79,20 @@ namespace SomeNamespace
              * This is the verbose description of the constructor that does 
              * foo and bar.
              *
-             * @note You can also write JavaDoc like Docblocks the way as you 
-             *       see it in the destructor comment.
+             * @note This is a note.
              */
             StyleExample();
 
 /*}}}*/
             // ~StyleExample();/*{{{*/
 
-            /** Brief description if JAVADOC_AUTOBRIEF is set to YES. Second 
-             * sentence is the detailed description, since the brief description 
-             * ends after a dot. A brief description can also NOT span multiple 
-             * lines.
+            /** 
+             * @brief Brief description. 
              *
-             * @warning You should NOT write autobrief docblocks in sxc!
+             * The Second sentence is the detailed description. And it is very
+             * detailed, isn't it?
+             *
+             * @warning Use autobrief only for comments fitting into one line.
              */
             ~StyleExample();
 
@@ -117,7 +117,7 @@ namespace SomeNamespace
             /**
              * @brief Does something with many arguments.
              *
-             * No one knows, what this method does.
+             * No one knows what this method does.
              * 
              * @param argA An important integer.
              * @param argB A less important integer.
@@ -134,6 +134,7 @@ namespace SomeNamespace
             // int getSomeValue();/*{{{*/
 
             /** A normal setter.
+             *
              * @return Height of some object.
              */
             int getSomeValue();
@@ -142,6 +143,7 @@ namespace SomeNamespace
             // bool isValid();/*{{{*/
 
             /** Check if the object is still valid.
+             *
              * @return Whether this object is valid.
              */
             bool isValid();
