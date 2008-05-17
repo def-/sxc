@@ -1,0 +1,3 @@
+- Only general error types, central handler which expects a boolean parameter that
+  defines whether that one is a critical one or not.
+

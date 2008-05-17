@@ -1,0 +1,12 @@
+% sxc-reg user@example.org
+
+- Seperate C++ program that may be enabled/disabled at compile time.
+- Tries to register an account, reports success or that registering did not
+  work (and possibly why).
+- After being launched, it validates the command line arguments and then asks
+  the user for a password. Then, the registration progress is initiated using
+  the gloox library which is already part of sxc.
+
+% sxc-profile u@h.tld name=foo age=23
+
+% sxc-find nick=foobar

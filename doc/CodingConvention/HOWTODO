@@ -1,0 +1,10 @@
+[02:39:37 PM] andreas.waidler: @todo (für doxygen) im docblock wenn eine funktion/etc allgemein verändert werden soll, wenn ein ablauf umstrukturiert werden soll oder wenn was neues dazu kommt; TODO innerhalb von funktionen, wenn kleinere sachen verändert werden sollten? oder wie managen wir das?
+[02:41:20 PM] andreas.waidler: Also TODO = Code-intern, @todo für ganze Klassen/Funktionen/Abläufe, TODO-List für Features oder große Umstrukturierungen?
+
+[03:10:07 PM] dfelsing: das mit der todo klingt gut
+[03:15:16 PM] andreas.waidler: kk, dann merk ich mir das so oder notiererere
+[03:15:19 PM] dfelsing: alles was auch die .h verändert in die .h
+[03:15:25 PM] andreas.waidler: jop
+[03:16:07 PM] dfelsing: soll ich git einrichten?
+[03:16:46 PM] andreas.waidler: also: @todo -> .h; TODO -> .cpp (sofern nicht schon als @todo in .h); TODO-List für größeres, notizen, roter faden
+[03:16:57 PM] dfelsing: korrekt

@@ -1,0 +1,32 @@
+/pgp keyId passphrase
+TODO: command to launch to encrypt
+TODO: command to launch to decrypt
+
+TODO: how to assign keys to buddies
+PROP: file pgp_id
+
+- When an encrypted message is received that can't be decrypted, it will be
+  "enarmored" and printed to the buddies out-file. This will look like the
+  following:
+  
+  -----BEGIN PGP ARMORED FILE----- Version: GnuPG v2.0.7 (GNU/Linux)
+  Comment: Use "gpg --dearmor" for unpacking
+
+  hQIOA0x6TGjVJTjLEAgAm+ngfdXAMsg5E5zabn/BSABJJPRA4dIqNafufq2sNQT3
+  6pRRwREIHMiypRiLFLXBMJyA3Z7jvyhEsqyGi/DA6U8jxKetu4qY8e/17PdpYrZh
+  wUidWA72jAp6TNtvJsShLSfrq2HjT2voO2UOIlQfXirke8ahxk8wKAKRfvemENgz
+  XNZfKWE/2Sgwo+3jI9R6OC2ECO00ipDxX86fWy0GcugDgjGfWOp9++Q5Mhr9jpf9
+  z2lOgZgBqhAct14gx7hzIjLB95jV9NRC0zyRhReUaTOdKQWt8VKXmzCv+5TyUWd+
+  yWpGIAwdRHWNTxgOHG/ZuJSGSVs8nOEO0sDClYz4NwgAm2ng2vJRCn4l0QiY7OoM
+  G9YwmkK01rZ+Gj441xQpKPux+LS/Kwz0c0fWCzPHOQ3tYpsjL0Ij//5GV0SgUvqK
+  jOc0GPKLnDjtNRhqDo4YBYdsaTuswloNmaRoDcaJj6ZzzVy52FIl8p7BdeX9F8uE
+  QhV1kXrnDvb/lIuRP4jHwY6UaZdS+c0g37FMpDUc92jpmh4q3AgGaAJcL/toLn9r
+  QefOfnnYZyTmtttHNq4jA/Ut4KU2RaNzc1fH9g+EqDyK4Pp8nvaUlVeeGLchbOj3
+  LHWrm5KrFJHnBIM5aXRn7I/wPOFBZw4Ckn4nRh+45Dhavg5CiIYlv/4sqoM+sqfD
+  kdJJAbor8zTlJ/Ncqgjhus3kEgP4iiJPmMsxQFqMGRlbbi0YeemTltwXuslCRsHD
+  szUIQqazS0hUs9wY55LRSmtPrKyQ1rgIFGZ2ZA==
+  =6snF
+  -----END PGP ARMORED FILE-----
+
+  This makes it possible for users (and scripts) to decrypt those messages at a
+  later moment.

@@ -1,0 +1,41 @@
+NAME
+
+    sxc - Simple Xmpp Client
+
+DESCRIPTION
+
+    sxc (pronounced "sexy") is for jabber what ii (irc it/irc improved) is for
+    IRC: A minimalistic file-based jabber client which runs in the background
+    and can be controlled with basic command line tools to read from/write
+    into the files/FIFOs sxc creates.
+
+TECHNICAL STUFF
+
+    sxc will be written in C++ and will run on any POSIX compatible platform.
+    Each instance of sxc logs in into exactly one account. It creates an
+    account directory containing directories for contacts, an information
+    directory (nfo/), a FIFO file (in) and a normal file (out). Each contact is
+    represented by a directory that is named after the contact's Jabber-ID and
+    contains, just like the account directory, a FIFO file (in), a normal file
+    (out) and an information directoy (nfo/).
+
+    You can communicate with sxc, the server (e.g. add a contact or change your
+    presence status) by writing into the account's in-FIFO. Server messages
+    will be written to the account's out-file. Messages are sent by writing
+    into the contact's in-file, responses can be read by reading the contents
+    of the contact's out-file. The presence state can be changed by writing
+    into the account's in-file. The nfo/ directories will contain information
+    about current presence state, whether a contact has been added to your
+    buddy list and so on.
+
+    Since this directory tree is similar to the one of ii (except the
+    additional nfo/ directory and the missing in-FIFOs in ii's query
+    directories) it's easy to write interfaces/bots that support both programs.
+    They can even be written as a shell script!
+
+EXAMPLES
+
+    echo "this is a message" > joe@example.org/john@example.org/in
+    echo "/status away" > joe@example.org/in
+    cat joe@example.org/john@example.org/out
+    cat joe@example.org/john@example.org/nfo/status

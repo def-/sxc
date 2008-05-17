@@ -1,0 +1,72 @@
+                            sxc - flow sheet
+CALL:
+
+echo "/pwd password" > example@example.org/in &
+exec sxc example@example.org/resource [-p 5222]
+
+
+
+main()
+    try 
+        create JID object out of JID string
+    catch
+        no parameter/no JID/invalid JID passed?
+            exit with error code
+
+    port passed as parameter?
+        store in variable
+    else
+        store default port (5222) (or -1 (gloox)?) in variable
+
+    // TODO: how to implement gpg, otr, ...?
+
+    return Control::ini(JID, port)
+end main()
+
+
+
+int Control::init(JID jid, int port)
+    // runs until connection has been closed and returns
+    // 0 if gloox Client::connect() returned true (connection has NOT been
+    // refused), error code otherwise
+    // TODO: when the connection gets closed (unexpectedly): exit, output to
+    // control-out, and/or try to connect again?
+
+    store jid, port
+
+    create Control::File::Out(jid) and store it
+    create Control::File::In(jid)
+end Control::init
+
+
+
+// gets called by Control::File::In on status change
+int Control::presenceChange(newPresence)
+end Control::presenceChange
+
+
+
+int Control::connect() // gets called by Control::File::In on "/set online"
+    only if not already existing
+        create Client(jid, passphrase, port) object and store it as property of singleton Control-object
+        create Control::Roster()
+
+    setVersion(sxc, 0.0)
+    setIdentity("client", "im")
+    connect()
+end Control::connect
+
+
+
+Control::File::Out::Out()
+    create file
+    run Control::handleError() on error
+end Control::File::Out::Out
+
+
+
+// Roster implements all the RosterListener-functions
+Roster::Roster()
+    create RosterManager(ClientBase)
+    RosterManager->registerRosterListener(this)
+end Roster::Roster
