@@ -23,6 +23,8 @@
 // INCLUDE/*{{{*/
 
 #include <iostream>
+#include <gloox/jid.h>
+#include <gloox/presence.h>
 
 #include "Control.h"
 
