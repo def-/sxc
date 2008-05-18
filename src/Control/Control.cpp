@@ -51,7 +51,7 @@ namespace Control
         //if (client.presence
     }/*}}}*/
 
-    int Control::printError(/*{{{*/
+    Error Control::printError(/*{{{*/
         Error errorType,
         const std::string message)
     {
@@ -69,10 +69,6 @@ namespace Control
                 << outputPrefix << "Port: 0 - 65535 or -1 for default"
                 << std::endl;
             errorOutput = "Invalid parameters.";
-            break;
-
-        case ErrorPortUnspecified:
-            errorOutput = "No port specified.";
             break;
 
         case ErrorPortInvalid:

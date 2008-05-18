@@ -48,7 +48,7 @@ namespace Control
              * @param JID A valid JID.
              * @param port The port on the server to connect to. -1 to use the
              *        default one.
-             * @return The return code @ref Error
+             * @return The exit code. @ref Control::Error
              */
             Error initialize(const gloox::JID jid, int port = -1);
 
@@ -73,12 +73,12 @@ namespace Control
 
             /** Print an error to stderr.
              *
-             * @param errorType The return code of the error. @ref Error
-             * @param message Additional information some return codes can
+             * @param errorType The type of the error. @ref Control::Error
+             * @param message Additional information some exit codes can
              *        have.
-             * @return The return code.
+             * @return The exit code. @ref Control::Error
              */
-            int printError(
+            Error printError(
                 Error errorType,
                 std::string message = gloox::EmptyString);
 
@@ -87,12 +87,11 @@ namespace Control
 
             /** Handle an error that occured while sxc is active.
              *
-             * @param errorType The return code of the error. @ref Error
-             * @param message Additional information some return codes can
+             * @param errorType The type of the error. @ref Control::Error
+             * @param message Additional information some error codes can
              *        have.
              * @param isCritical On true print output to cerr and exit sxc,
              *        else only print to Control::Control::Out
-             * @return The return code.
              */
             void handleError(
                 Error errorType,

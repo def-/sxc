@@ -47,7 +47,7 @@ int main(int argc, char *argv[])/*{{{*/
                 if (port >= -1) // The port can only be specified once.
                     throw Control::ErrorParametersInvalid;
                 if (!argv[++i])
-                    throw Control::ErrorPortUnspecified;
+                    throw Control::ErrorPortInvalid;
 
                 std::istringstream instream;
                 instream.str(std::string(argv[i]));
@@ -58,23 +58,24 @@ int main(int argc, char *argv[])/*{{{*/
                 || port < -1       // Allow to explicitely use default port.
                 || port > 65535)
                     throw Control::ErrorPortInvalid;
-            } else if (argv[i][0] == '-')
+            } else if (argv[i][0] == '-') { // No other parameters.
                 throw Control::ErrorParametersInvalid;
             // The JID can only be specified once.
-            else if (jid.username().empty()) {
+            } else if (jid.username().empty()) {
                 if (!jid.setJID(argv[i]) || jid.username().empty())
                     throw Control::ErrorJidInvalid;
-            } else
+            } else {
                 throw Control::ErrorParametersInvalid;
+            }
         }/*}}}*/
 
-        if (port == -2) port = -1; // Port was not set by parameter.
-            Control::Control::getInstance().initialize(jid, port);
+        // Port was not set by parameter, use the default one.
+        if (port == -2) port = -1;
 
-        std::cout << port << std::endl;
+        Control::Control::getInstance().initialize(jid, port);
         pause(); // Run forever (until a signal is received).
-    } catch (const Control::Error returnCode) {
-        return Control::Control::getInstance().printError(returnCode, argv[0]);
+    } catch (const Control::Error exitCode) {
+        return Control::Control::getInstance().printError(exitCode, argv[0]);
     }
 }/*}}}*/
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
