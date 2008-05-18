@@ -93,13 +93,21 @@ namespace Control
 
             /** Print an error to stderr.
              *
-             * @param returnCode The return code of the error. @ref Error
-             * @param text Additional information some return codes can have.
+             * @param errorType The return code of the error. @ref Error
+             * @param message Additional information some return codes can
+             *        have.
              * @return The return code.
              */
             int printError(
-                Error returnCode,
-                std::string text = gloox::EmptyString);
+                Error errorType,
+                std::string message = gloox::EmptyString);
+
+/*}}}*/
+            //void handleError(/*{{{*/
+            void handleError(
+                Error errorType,
+                std::string message = gloox::EmptyString,
+                bool isCritical);
 
 /*}}}*/
 

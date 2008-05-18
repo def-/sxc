@@ -17,18 +17,6 @@
  */
 /*}}}*/
 
-/**
- * @file StyleExample.h
- * @brief Example how the classes should look like.
- * @author Andreas Waidler
- * @date 2008-05-17
- *
- * This file is a prototype of the header files that will be used in sxc. Stick 
- * to the examples shown here or use your brain.
- *
- * Inspired by @ref http://www.possibility.com/
- */
-
 
 #ifndef SOMENAMESPACE_STYLEEXAMPLE_H
 #define SOMENAMESPACE_STYLEEXAMPLE_H
@@ -56,6 +44,10 @@ namespace SomeNamespace
 {
     /**
      * @class SomeNamespace
+     *
+     * @author Andreas Waidler
+     * @author Bernd Sad Torb
+     *
      * @brief Coding style example class.
      *
      * An example class showing the coding style used in sxc. It is inspired by 
