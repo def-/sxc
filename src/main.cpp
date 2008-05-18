@@ -30,6 +30,7 @@
 
 /*}}}*/
 
+#include <iostream>
 
 int main(int argc, char *argv[])/*{{{*/
 {
@@ -50,8 +51,11 @@ int main(int argc, char *argv[])/*{{{*/
 
                 std::istringstream instream;
                 instream.str(std::string(argv[i]));
-                if (!(instream >> port) // Specified port is no integer.
-                || port < -1 // Explicitly use default port.
+                instream >> port;
+
+                if (instream.bad() // Specified port is no integer.
+                || !instream.eof() // Port doesn't end after integer.
+                || port < -1       // Allow to explicitely use default port.
                 || port > 65535)
                     throw Control::ErrorPortInvalid;
             } else if (argv[i][0] == '-')
@@ -65,10 +69,10 @@ int main(int argc, char *argv[])/*{{{*/
         }/*}}}*/
 
         if (port == -2) port = -1; // Port was not set by parameter.
-            throw Control::Control::getInstance().initialize(jid, port);
+            Control::Control::getInstance().initialize(jid, port);
 
-        while (true)
-            sleep(-1);
+        std::cout << port << std::endl;
+        pause(); // Run forever (until a signal is received).
     } catch (const Control::Error returnCode) {
         return Control::Control::getInstance().printError(returnCode, argv[0]);
     }
