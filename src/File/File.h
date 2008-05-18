@@ -36,6 +36,8 @@
 
 namespace File
 {
+    class FileInputException;
+    class FileOutputException;
     class Input;
     class Output;
 }
