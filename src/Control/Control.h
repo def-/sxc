@@ -20,10 +20,6 @@
 
 /* $Id$ */
 
-/**
- *
- */
-
 
 #ifndef CONTROL_CONTROL_H
 #define CONTROL_CONTROL_H
@@ -35,6 +31,7 @@
 #include <gloox/presence.h>
 
 #include "../Singleton.h"
+#include "Error.h"
 
 /*}}}*/
 
@@ -44,23 +41,6 @@ namespace Control
     class Control : public Singleton<Control>
     {
         public:
-            //enum Error/*{{{*/
-
-            /// Errors and return codes.
-            enum Error
-            {
-                ErrorNoError = 0, //< No error occured.
-                ErrorParametersInvalid,
-                ErrorPortUnspecified,
-                ErrorPortInvalid,
-                ErrorJidInvalid,
-                FileOutPermissionError = 40,
-                FileInPermissionError,
-                FileCreationPermissionError,
-                FileOutOfSpaceError
-            };
-
-/*}}}*/
             //Error initialize(const gloox::JID jid, int port = -1);/*{{{*/
 
             /** Initialize the connection, the roster, and the control files.
@@ -104,10 +84,20 @@ namespace Control
 
 /*}}}*/
             //void handleError(/*{{{*/
+
+            /** Handle an error that occured while sxc is active.
+             *
+             * @param errorType The return code of the error. @ref Error
+             * @param message Additional information some return codes can
+             *        have.
+             * @param isCritical On true print output to cerr and exit sxc,
+             *        else only print to Control::Control::Out
+             * @return The return code.
+             */
             void handleError(
                 Error errorType,
                 std::string message = gloox::EmptyString,
-                bool isCritical);
+                bool isCritical = false);
 
 /*}}}*/
 

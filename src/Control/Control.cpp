@@ -36,7 +36,7 @@ namespace Control
     const std::string Control::errorPrefix = outputPrefix + "Error: ";
 
 
-    Control::Error Control::initialize(const gloox::JID jid, int port)/*{{{*/
+    Error Control::initialize(const gloox::JID jid, int port)/*{{{*/
     {
         return ErrorNoError;
     }/*}}}*/
@@ -50,18 +50,18 @@ namespace Control
     }/*}}}*/
 
     int Control::printError(/*{{{*/
-        Error returnCode,
-        const std::string text)
+        Error errorType,
+        const std::string message)
     {
         std::string errorOutput = "";
 
-        switch (returnCode) {
-        case Control::ErrorNoError:
+        switch (errorType) {
+        case ErrorNoError:
             break;
 
-        case Control::ErrorParametersInvalid:
+        case ErrorParametersInvalid:
             std::cerr
-                << outputPrefix << "Usage: " << text /* filename */
+                << outputPrefix << "Usage: " << message /* filename */
                 << " jid [-p port]" << std::endl
                 << outputPrefix << "JID: node@domain[/resource]" << std::endl
                 << outputPrefix << "Port: 0 - 65535 or -1 for default"
@@ -69,15 +69,15 @@ namespace Control
             errorOutput = "Invalid parameters.";
             break;
 
-        case Control::ErrorPortUnspecified:
+        case ErrorPortUnspecified:
             errorOutput = "No port specified.";
             break;
 
-        case Control::ErrorPortInvalid:
+        case ErrorPortInvalid:
             errorOutput = "Invalid port specified.";
             break;
 
-        case Control::ErrorJidInvalid:
+        case ErrorJidInvalid:
             errorOutput = "Invalid JID specified.";
             break;
 
@@ -88,6 +88,20 @@ namespace Control
         if (!errorOutput.empty())
             std::cerr << errorPrefix << errorOutput << std::endl;
 
-        return returnCode;
+        return errorType;
     }/*}}}*/
+
+    void Control::handleError(
+        Error errorType,
+        std::string message,
+        bool isCritical)
+    {
+        if (isCritical)
+        {
+            printError(errorType, message);
+        }
+
+    }
 }
+// Use no tabs at all; four spaces indentation; max. eighty chars per line.
+// vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
