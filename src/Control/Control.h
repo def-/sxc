@@ -34,73 +34,71 @@
 #include <gloox/jid.h>
 #include <gloox/presence.h>
 
+#include "../Singleton.h"
+
 /*}}}*/
 
 
 namespace Control
 {
-    class Control
+    class Control : public Singleton<Control>
     {
         public:
-            //enum ReturnCode/*{{{*/
+            //enum Error/*{{{*/
 
-            /**
-             * The return codes of the program.
-             */
-            enum ReturnCode
+            /// Errors and return codes.
+            enum Error
             {
-                ReturnOk = 0,
-                ReturnParametersInvalid,
-                ReturnPortUnspecified = 21,
-                ReturnPortInvalid,
-                ReturnJidInvalid
+                ErrorNoError = 0, //< No error occured.
+                ErrorParametersInvalid,
+                ErrorPortUnspecified,
+                ErrorPortInvalid,
+                ErrorJidInvalid,
+                FileOutPermissionError = 40,
+                FileInPermissionError,
+                FileCreationPermissionError,
+                FileOutOfSpaceError
             };
 
 /*}}}*/
-            //static ReturnCode initialize(const gloox::JID jid, int port = -1);/*{{{*/
+            //Error initialize(const gloox::JID jid, int port = -1);/*{{{*/
 
-            /**
-             * Initialize the connection, the roster, and the control files.
+            /** Initialize the connection, the roster, and the control files.
              *
              * @param JID A valid JID.
              * @param port The port on the server to connect to. -1 to use the
-             * default one.
-             *
-             * @return The return code @ref ReturnCode
+             *        default one.
+             * @return The return code @ref Error
              */
-            static ReturnCode initialize(const gloox::JID jid, int port = -1);
+            Error initialize(const gloox::JID jid, int port = -1);
 
 /*}}}*/
-            //static bool setPresence(/*{{{*/
+            //bool setPresence(/*{{{*/
 
-            /**
-             * Set the presence.
+            /** Set the presence.
              *
              * @param presence The presence type. @ref
-             * gloox::Presence::PresenceType
+             *        gloox::Presence::PresenceType
              * @param priority The priority ranging from -128 to 127.
              * @param status A message describing the status.
-             *
              * @return Whether it was possible to set the presence.
              */
-            static bool setPresence(
+            bool setPresence(
                 gloox::Presence::PresenceType presence,
                 int priority = 0,
                 const std::string &status=gloox::EmptyString);
 
 /*}}}*/
-            //static int printError(/*{{{*/
+            //int printError(/*{{{*/
 
-            /**
-             * Print an error to stderr.
+            /** Print an error to stderr.
              *
-             * @param returnCode The return code of the error. @ref ReturnCode
+             * @param returnCode The return code of the error. @ref Error
              * @param text Additional information some return codes can have.
-             *
              * @return The return code.
              */
-            static int printError(
-                ReturnCode returnCode,
+            int printError(
+                Error returnCode,
                 std::string text = gloox::EmptyString);
 
 /*}}}*/
@@ -108,42 +106,38 @@ namespace Control
         private:
             //static const std::string outputPrefix;/*{{{*/
 
-            /**
-             * The text printed before every output to the console.
-             */
+            /// The text printed before every output to the console.
             static const std::string outputPrefix;
 
 /*}}}*/
             //static const std::string errorPrefix;/*{{{*/
 
-            /**
-             * The text printed before every error output to the console.
-             */
+            /// The text printed before every error output to the console.
             static const std::string errorPrefix;
 
 /*}}}*/
-            //static Control::Roster roster;/*{{{*/
+            //gloox::JID jid;/*{{{*/
 
-            /**
-             * The roster.
-             */
-            //static Control::Roster roster;
+            /// The JID, stored until the Client is initialized.
+            gloox::JID jid;
 
 /*}}}*/
-            //static Control::File::In input;/*{{{*/
+            //Control::Roster roster;/*{{{*/
 
-            /**
-             * The input file.
-             */
-            //static Control::File::In input;
+            /// The roster.
+            //Control::Roster roster;
 
 /*}}}*/
-            //static Control::File::Out output;/*{{{*/
+            //Control::File::In input;/*{{{*/
 
-            /**
-             * The output file.
-             */
-            //static Control::File::Out output;
+            /// The input file.
+            //Control::File::In input;
+
+/*}}}*/
+            //Control::File::Out output;/*{{{*/
+
+            /// The output file.
+            //Control::File::Out output;
 
 /*}}}*/
     };

@@ -25,20 +25,17 @@ namespace SomeNamespace
 
     bool StyleExample::doSomething(std::string someString, int someNumber)
     {
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 3; i++) {
+            if (someNumber % i)
+                someNumber = i;
             std::cout << someString;
         }
         if (someNumber < 30)
             return someNumber * 3 - 23;
         else
             return someNumber * 89;
-        // Alternatively:
-        // return (someNumber < 30)
-        //     ? someNumber * 3 - 23
-        //     : someNumber * 89;
-        
-        // If it was shorter:
+
+        // Short return:
         // return (a < 1) ? true : false;
 
     }
@@ -57,8 +54,7 @@ namespace SomeNamespace
         if ("a" == argC)
             std::cout << "bbb";
         
-        switch (argB)
-        {
+        switch (argB) {
 		case 1:
 			std::cout << "foo";
 			// FALL THROUGH

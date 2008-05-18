@@ -36,9 +36,9 @@ namespace Control
     const std::string Control::errorPrefix = outputPrefix + "Error: ";
 
 
-    Control::ReturnCode Control::initialize(const gloox::JID jid, int port)/*{{{*/
+    Control::Error Control::initialize(const gloox::JID jid, int port)/*{{{*/
     {
-        return ReturnOk;
+        return ErrorNoError;
     }/*}}}*/
 
     bool Control::setPresence(/*{{{*/
@@ -50,13 +50,16 @@ namespace Control
     }/*}}}*/
 
     int Control::printError(/*{{{*/
-        ReturnCode returnCode,
+        Error returnCode,
         const std::string text)
     {
         std::string errorOutput = "";
 
         switch (returnCode) {
-        case Control::ReturnParametersInvalid:
+        case Control::ErrorNoError:
+            break;
+
+        case Control::ErrorParametersInvalid:
             std::cerr
                 << outputPrefix << "Usage: " << text /* filename */
                 << " jid [-p port]" << std::endl
@@ -66,17 +69,20 @@ namespace Control
             errorOutput = "Invalid parameters.";
             break;
 
-        case Control::ReturnPortUnspecified:
+        case Control::ErrorPortUnspecified:
             errorOutput = "No port specified.";
             break;
 
-        case Control::ReturnPortInvalid:
+        case Control::ErrorPortInvalid:
             errorOutput = "Invalid port specified.";
             break;
 
-        case Control::ReturnJidInvalid:
+        case Control::ErrorJidInvalid:
             errorOutput = "Invalid JID specified.";
             break;
+
+        default: // An unknown error occured.
+            errorOutput = "Unknown error.";
         }
 
         if (!errorOutput.empty())

@@ -1,3 +1,2 @@
-- The file name of a class file should be its class name followed by .cpp or
-  .h
+- Files are named like the included class
 - The file which contains the main() function is called main.cpp
