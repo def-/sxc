@@ -23,6 +23,8 @@
 // INCLUDE/*{{{*/
 
 #include <iostream>
+#include <gloox/jid.h>
+#include <gloox/presence.h>
 
 #include "Control.h"
 
@@ -33,12 +35,14 @@ namespace Control
 {
     const std::string Control::outputPrefix = "sxc: ";
 
-    const std::string Control::errorPrefix = outputPrefix + "Error: ";
 
-
-    Error Control::initialize(const gloox::JID jid, int port)/*{{{*/
+    void Control::initialize(const gloox::JID newJid, int newPort)/*{{{*/
     {
-        return ErrorNoError;
+        jid = newJid;
+        port = newPort;
+
+        //output = File::Output(jid.bare());
+        //input = File::Input(jid.bare());
     }/*}}}*/
 
     bool Control::setPresence(/*{{{*/
@@ -46,62 +50,21 @@ namespace Control
         int priority,
         const std::string &status)
     {
+        if (!client)
+            // TODO: delete
+            client = new gloox::Client(jid, password, port);
         //if (client.presence
     }/*}}}*/
 
-    int Control::printError(/*{{{*/
-        Error errorType,
-        const std::string message)
+    void Control::print(std::string text)/*{{{*/
     {
-        std::string errorOutput = "";
-
-        switch (errorType) {
-        case ErrorNoError:
-            break;
-
-        case ErrorParametersInvalid:
-            std::cerr
-                << outputPrefix << "Usage: " << message /* filename */
-                << " jid [-p port]" << std::endl
-                << outputPrefix << "JID: node@domain[/resource]" << std::endl
-                << outputPrefix << "Port: 0 - 65535 or -1 for default"
-                << std::endl;
-            errorOutput = "Invalid parameters.";
-            break;
-
-        case ErrorPortUnspecified:
-            errorOutput = "No port specified.";
-            break;
-
-        case ErrorPortInvalid:
-            errorOutput = "Invalid port specified.";
-            break;
-
-        case ErrorJidInvalid:
-            errorOutput = "Invalid JID specified.";
-            break;
-
-        default: // An unknown error occured.
-            errorOutput = "Unknown error.";
-        }
-
-        if (!errorOutput.empty())
-            std::cerr << errorPrefix << errorOutput << std::endl;
-
-        return errorType;
+        //output.write(text);
     }/*}}}*/
 
-    void Control::handleError(
-        Error errorType,
-        std::string message,
-        bool isCritical)
+    void Control::printStdErr(std::string text)/*{{{*/
     {
-        if (isCritical)
-        {
-            printError(errorType, message);
-        }
-
-    }
+        std::cerr << outputPrefix << text << std::endl;
+    }/*}}}*/
 }
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
