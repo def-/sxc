@@ -26,6 +26,7 @@
 // INCLUDES/*{{{*/
 
 #include <string>
+#include "File.h"
 
 /*}}}*/
 
