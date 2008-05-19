@@ -26,6 +26,9 @@
 // INCLUDES/*{{{*/
 
 #include <string>
+#include <istream>
+#include <pthread.h>
+#include "File.h"
 
 /*}}}*/
 
@@ -57,7 +60,7 @@ namespace File
             InputBase();
 
 /*}}}*/
-            // ~InputBase();/*{{{*/
+            // virtual ~InputBase();/*{{{*/
 
             /**
              * @brief Destructor, frees resources and cleans up.
@@ -65,7 +68,7 @@ namespace File
             virtual ~InputBase();
 
 /*}}}*/
-            // void listen();/*{{{*/
+            // void listen(bool blocking = false);/*{{{*/
 
             /**
              * @brief Starts listening on the FIFO.
@@ -75,6 +78,11 @@ namespace File
              * only finish when close() is called. Per default, @a blocking is 
              * @c false so a thread is started which runs non-blocking and calls 
              * this function with @a blocking set to @c true.
+             *
+             * @note You do not want to override this method.
+             *
+             * @param blocking Specifies whether this method should listen 
+             *                 blocking or non-blocking.
              */
             void listen(bool blocking = false);
 
@@ -85,8 +93,20 @@ namespace File
              * @brief Reads the FIFO blocking until the other end is closed.
              *
              * Input is handled by calling @ref _handle
+             *
+             * @note Do not override this.
              */
             void read();
+
+/*}}}*/
+            // void close();/*{{{*/
+
+            /**
+             * @brief Closes the FIFO.
+             *
+             * @note Do not override this.
+             */
+            void close();
 
 /*}}}*/
 
@@ -97,7 +117,7 @@ namespace File
             /// The path including file name where the FIFO is located.
             std::string _path;
             /// The FIFO from which will be read.
-            istream _fifo;
+            std::istream _fifo;
             /// The thread running @ref _pthreadListen
             pthread_t _thread;
             /// Indicates whether @ref _thread is running.

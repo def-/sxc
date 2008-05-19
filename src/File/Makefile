@@ -2,9 +2,10 @@
 
 ### config
 
-CXX = "g++"
+CXX = g++
+#CXXFLAGS = 
 #DEF = -DECHO
-SRC = Input.cpp Output.cpp
+SRC = InputBase.cpp
 
 ### end config
 
@@ -12,11 +13,12 @@ SRC = Input.cpp Output.cpp
 # preparation
 
 OBJ = $(SRC:.cpp=.o)
-CMD = ${CXX} $(DEFINES)
+CMD = $(CXX) $(DEF)
 
 # targets
 
-all: %.o
+all: $(OBJ)
+	@echo "successfully compiled namespace: File"
 
 %.o: %.cpp
 	$(CMD) -c $<
