@@ -20,8 +20,8 @@
 
 /* $Id$ */
 
-#ifndef FILE_INPUT_H
-#define FILE_INPUT_H
+#ifndef FILE_INPUTBASE_H
+#define FILE_INPUTBASE_H
 
 // INCLUDES/*{{{*/
 
@@ -33,7 +33,7 @@
 namespace File
 {
     /**
-     * @class Input
+     * @class InputBase
      * @author Andreas Waidler
      * @brief Abstract Base Class handling input (FIFOs).
      *
@@ -42,10 +42,10 @@ namespace File
      * Contains pure virtual methods that will define the location of the FIFO 
      * and how the input is handled.
      */
-    class Input
+    class InputBase
     {
         public:
-            // Input();/*{{{*/
+            // InputBase();/*{{{*/
 
             /**
              * @brief Default constructor, initializes (settings for) the FIFO.
@@ -54,15 +54,15 @@ namespace File
              * information where the FIFO should be 
              * located. Tries to create it or checks its permissions.
              */
-            Input();
+            InputBase();
 
 /*}}}*/
-            // ~Input();/*{{{*/
+            // ~InputBase();/*{{{*/
 
             /**
              * @brief Destructor, frees resources and cleans up.
              */
-            virtual ~Input();
+            virtual ~InputBase();
 
 /*}}}*/
             // void listen();/*{{{*/
@@ -162,7 +162,7 @@ namespace File
     };
 }
 
-#endif // FILE_INPUT_H
+#endif // FILE_INPUTBASE_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

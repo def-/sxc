@@ -38,8 +38,8 @@ namespace File
 {
     class FileInputException;
     class FileOutputException;
-    class Input;
-    class Output;
+    class InputBase;
+    class OutputBase;
 }
 
 #endif // FILE_FILE_H
