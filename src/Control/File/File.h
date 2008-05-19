@@ -19,31 +19,29 @@
 /*}}}*/
 
 /**
- * @file File/File.h
- * @brief File of the File namespace.
+ * @file Control/File/File.h
+ * @brief File of the Control::File namespace.
  * @author Andreas Waidler
  * @date 2008-05-18
  */
 
 /* $Id$ */
 
-#ifndef FILE_FILE_H
-#define FILE_FILE_H
+#ifndef CONTROL_FILE_FILE_H
+#define CONTROL_FILE_FILE_H
 
 /**
- * @namespace File
- * @brief Contains the abstract base classes for file operations.
+ * @namespace Control::File
+ * @brief Contains the classes for file operations of Control.
  */
 
-namespace File
+namespace Control::File
 {
-    class FileInputException;
-    class FileOutputException;
-    class InputBase;
-    class OutputBas;
+    class Input;
+    class Output;
 }
 
-#endif // FILE_FILE_H
+#endif // CONTROL_FILE_FILE_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
