@@ -39,7 +39,7 @@ namespace File
     class FileInputException;
     class FileOutputException;
     class InputBase;
-    class OutputBase;
+    class OutputBas;
 }
 
 #endif // FILE_FILE_H

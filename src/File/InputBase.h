@@ -26,6 +26,8 @@
 // INCLUDES/*{{{*/
 
 #include <string>
+#include <istream>
+#include <pthread.h>
 #include "File.h"
 
 /*}}}*/
@@ -115,7 +117,7 @@ namespace File
             /// The path including file name where the FIFO is located.
             std::string _path;
             /// The FIFO from which will be read.
-            istream _fifo;
+            std::istream _fifo;
             /// The thread running @ref _pthreadListen
             pthread_t _thread;
             /// Indicates whether @ref _thread is running.
