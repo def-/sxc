@@ -95,10 +95,8 @@ namespace Control
         bool isCritical)
     {
         if (isCritical)
-        {
-            printError(errorType, message);
-        }
-
+            exit(printError(errorType, message));
+        //output.write();
     }
 }
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
