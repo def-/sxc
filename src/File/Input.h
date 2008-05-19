@@ -20,35 +20,133 @@
 
 /* $Id$ */
 
-#ifndef FILE_IN_H
-#define FILE_IN_H
+#ifndef FILE_INPUT_H
+#define FILE_INPUT_H
+
+// INCLUDES/*{{{*/
+
+#include <string>
+
+/*}}}*/
+
 
 namespace File
 {
-/** Abstract Base Class handling input (FIFOs).
- *
- * This class creates a named pipe called "in" which is placed in the directory 
- * of which the name is passed to the constructor.
- */
-    class In
+    /**
+     * @class Input
+     * @author Andreas Waidler
+     * @brief Abstract Base Class handling input (FIFOs).
+     *
+     * Handles creation and checking of, listening (non-blocking) and reading 
+     * (blocking) on FIFOs.
+     * Contains pure virtual methods that will define the location of the FIFO 
+     * and how the input is handled.
+     */
+    class Input
     {
         public:
-            // File(std::string baseDir);/*{{{*/
+            // Input();/*{{{*/
 
-            /** 
+            /**
+             * @brief Default constructor, initializes (settings for) the FIFO.
+             *
+             * Calls @ref _createPath to get @ref _path filled with the 
+             * information where the FIFO should be 
+             * located. Tries to create it or checks its permissions.
+             */
+            Input();
+
+/*}}}*/
+            // ~Input();/*{{{*/
+
+            /**
+             * @brief Destructor, frees resources and cleans up.
+             */
+            virtual ~Input();
+
+/*}}}*/
+            // void listen();/*{{{*/
+
+            /**
+             * @brief Starts listening on the FIFO.
+             *
+             * Listens on the FIFO until @ref close() is called. If @a blocking 
+             * ist set to @c true this method will read blocking, i.e. it will 
+             * only finish when close() is called. Per default, @a blocking is 
+             * @c false so a thread is started which runs non-blocking and calls 
+             * this function with @a blocking set to @c true.
+             */
+            void listen(bool blocking = false);
+
+/*}}}*/
+            // void read();/*{{{*/
+
+            /**
+             * @brief Reads the FIFO blocking until the other end is closed.
+             *
+             * Input is handled by calling @ref _handle
+             */
+            void read();
+
+/*}}}*/
+
+        protected:
+
+
+        private:
+            /// The path including file name where the FIFO is located.
+            std::string _path;
+            /// The thread running TODO
+
+            // virtual std::string _createPath() = 0;/*{{{*/
+
+            /**
+             * @brief Returns the path and file name of the FIFO.
+             *
+             * Called by the default constructor which stores the result in @ref 
+             * _path which is used throughout in the other methods.
+             *
+             * @note Pure virtual.
+             *
+             * @return Path and file name where the FIFO should be placed.
+             */
+            virtual std::string _createPath() = 0;
+
+/*}}}*/
+            // virtual void _handle(std::string input) = 0;/*{{{*/
+
+            /**
+             * @brief Handles input that has been written into the FIFO.
+             *
+             * @note Pure virtual.
+             *
+             * @param input Something that has been written into the FIFO.
+             */
+            virtual void _handle(std::string input) = 0;
+
+/*}}}*/
+
+            void *_pthreadListen // TODO
+            // void _checkPermissions();/*{{{*/
+
+            /**
+             * @brief Checks the permissions of the FIFO.
+             *
+             * This method throws an exception if invalid file permissions are 
+             * set. "Valid file permissions" means that this program runs with 
+             * the UID of the FIFOs owner and that the FIFO is not writable for 
+             * other users.
+             *
+             * @exception File::FileInputException With TODO on invalid permissions.
              */
 
-            File(std::string baseDir);
+            void _checkPermissions();
 
 /*}}}*/
-            // ~File();/*{{{*/
-
-            ~File();
-
-/*}}}*/
-        protected:
-        private:
     };
 }
 
-#endif // FILE_IN_H
+#endif // FILE_INPUT_H
+
+// Use no tabs at all; four spaces indentation; max. eighty chars per line.
+// vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
