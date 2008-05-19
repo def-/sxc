@@ -96,8 +96,12 @@ namespace File
         private:
             /// The path including file name where the FIFO is located.
             std::string _path;
-            /// The thread running TODO
-
+            /// The FIFO from which will be read.
+            istream _fifo;
+            /// The thread running @ref _pthreadListen
+            pthread_t _thread;
+            /// Indicates whether @ref _thread is running.
+            bool _threadIsRunning;
             // virtual std::string _createPath() = 0;/*{{{*/
 
             /**
