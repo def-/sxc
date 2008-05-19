@@ -96,7 +96,16 @@ namespace File
             void read();
 
 /*}}}*/
-            // TODO close()
+            // void close();/*{{{*/
+
+            /**
+             * @brief Closes the FIFO.
+             *
+             * @note Do not override this.
+             */
+            void close();
+
+/*}}}*/
 
         protected:
 
