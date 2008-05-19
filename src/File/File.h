@@ -1,6 +1,7 @@
 // LICENSE/*{{{*/
 /*
-  Copyright (C) 2008 Andreas Waidler
+  sxc - Simple Xmpp Client
+  Copyright (C) 2008 Andreas Waidler, Dennis Felsing
 
   This program is free software: you can redistribute it and/or modify it 
   under the terms of the GNU General Public License as published by the Free 
@@ -18,8 +19,8 @@
 /*}}}*/
 
 /**
- * @file File.h
- * @brief File for the File namespace.
+ * @file File/File.h
+ * @brief File of the File namespace.
  * @author Andreas Waidler
  * @date 2008-05-18
  */
