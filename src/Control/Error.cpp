@@ -35,7 +35,7 @@ namespace Control
     const std::string Error::outputPrefix = "Error: ";
 
     Error::Error(/*{{{*/
-        ErrorType errorType,
+        Type errorType,
         std::string message,
         bool isCritical)
     {
@@ -62,7 +62,7 @@ namespace Control
     }/*}}}*/
 
     const std::string Error::format(/*{{{*/
-        ErrorType errorType,
+        Type errorType,
         std::string message)
     {
         switch (errorType) {

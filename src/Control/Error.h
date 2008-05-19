@@ -43,10 +43,10 @@ namespace Control
     class Error
     {
         public:
-            //enum ErrorType/*{{{*/
+            //enum Type/*{{{*/
 
             /// Error types and exit codes at the same time.
-            enum ErrorType
+            enum Type
             {
                 ErrorNoError = 0, //< No error occured.
                 ErrorGeneral = 1,
@@ -71,7 +71,7 @@ namespace Control
              *        to the Control output file.
              */
             Error(
-                ErrorType errorType,
+                Type errorType,
                 std::string message = gloox::EmptyString,
                 bool isCritical = false);
 
@@ -95,7 +95,7 @@ namespace Control
              * @return The generated error text.
              */
             const std::string format(
-                ErrorType errorType,
+                Type errorType,
                 const std::string message = gloox::EmptyString);
 
 /*}}}*/
