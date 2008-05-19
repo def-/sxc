@@ -24,11 +24,13 @@
 #ifndef CONTROL_CONTROL_H
 #define CONTROL_CONTROL_H
 
+
 // INCLUDE/*{{{*/
 
 #include <string>
 #include <gloox/jid.h>
 #include <gloox/presence.h>
+#include <gloox/client.h>
 
 #include "../Singleton.h"
 #include "Error.h"
@@ -45,12 +47,13 @@ namespace Control
 
             /** Initialize the connection, the roster, and the control files.
              *
-             * @param JID A valid JID.
-             * @param port The port on the server to connect to. -1 to use the
-             *        default one.
-             * @return The exit code. @ref Control::Error
+             * @warning The parameters won't be checked for validity.
+             *
+             * @param newJid A valid JID.
+             * @param newPort The port on the server to connect to. -1 to use
+             *        the default one.
              */
-            Error initialize(const gloox::JID jid, int port = -1);
+            void initialize(const gloox::JID newJid, int newPort = -1);
 
 /*}}}*/
             //bool setPresence(/*{{{*/
@@ -69,34 +72,22 @@ namespace Control
                 const std::string &status=gloox::EmptyString);
 
 /*}}}*/
-            //int printError(/*{{{*/
+            //int print(std::string text);/*{{{*/
 
-            /** Print an error to stderr.
+            /** Print a text to the output file.
              *
-             * @param errorType The type of the error. @ref Control::Error
-             * @param message Additional information some exit codes can
-             *        have.
-             * @return The exit code. @ref Control::Error
+             * @param text The raw text to print.
              */
-            Error printError(
-                Error errorType,
-                std::string message = gloox::EmptyString);
+            void print(std::string text);
 
 /*}}}*/
-            //void handleError(/*{{{*/
+            //int printStdErr(std::string text);/*{{{*/
 
-            /** Handle an error that occured while sxc is active.
+            /** Print a text to stderr.
              *
-             * @param errorType The type of the error. @ref Control::Error
-             * @param message Additional information some error codes can
-             *        have.
-             * @param isCritical On true print output to cerr and exit sxc,
-             *        else only print to Control::Control::Out
+             * @param text The raw text to print.
              */
-            void handleError(
-                Error errorType,
-                std::string message = gloox::EmptyString,
-                bool isCritical = false);
+            void printStdErr(std::string text);
 
 /*}}}*/
 
@@ -107,34 +98,46 @@ namespace Control
             static const std::string outputPrefix;
 
 /*}}}*/
-            //static const std::string errorPrefix;/*{{{*/
-
-            /// The text printed before every error output to the console.
-            static const std::string errorPrefix;
-
-/*}}}*/
             //gloox::JID jid;/*{{{*/
 
             /// The JID, stored until the Client is initialized.
             gloox::JID jid;
 
 /*}}}*/
-            //Control::Roster roster;/*{{{*/
+            //int port;/*{{{*/
+
+            /// The server's port, stored until the Client is initialized.
+            int port;
+
+/*}}}*/
+            //std::string password;/*{{{*/
+
+            /// The password of the user.
+            std::string password;
+
+/*}}}*/
+            //gloox::Client client;/*{{{*/
+
+            /// The XMPP client.
+            gloox::Client *client;
+
+/*}}}*/
+            //Roster roster;/*{{{*/
 
             /// The roster.
-            //Control::Roster roster;
+            //Roster roster;
 
 /*}}}*/
-            //Control::File::In input;/*{{{*/
+            //Control::File::Input input;/*{{{*/
 
             /// The input file.
-            //Control::File::In input;
+            //Control::File::Input input;
 
 /*}}}*/
-            //Control::File::Out output;/*{{{*/
+            //Control::File::Output output;/*{{{*/
 
             /// The output file.
-            //Control::File::Out output;
+            //Control::File::Output output;
 
 /*}}}*/
     };

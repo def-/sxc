@@ -30,8 +30,6 @@
 
 /*}}}*/
 
-#include <iostream>
-
 int main(int argc, char *argv[])/*{{{*/
 {
     int port = -2; // Set to undefined.
@@ -39,15 +37,15 @@ int main(int argc, char *argv[])/*{{{*/
 
     try {
         if (argc > 4 || argc < 2)
-            throw Control::ErrorParametersInvalid;
+            throw Control::Error::ErrorParametersInvalid;
 
         // Parsing arguments./*{{{*/
         for (int i = 1; argv[i]; ++i) {
             if (std::string(argv[i]) == "-p") {
                 if (port >= -1) // The port can only be specified once.
-                    throw Control::ErrorParametersInvalid;
+                    throw Control::Error::ErrorParametersInvalid;
                 if (!argv[++i])
-                    throw Control::ErrorPortInvalid;
+                    throw Control::Error::ErrorPortInvalid;
 
                 std::istringstream instream;
                 instream.str(std::string(argv[i]));
@@ -57,15 +55,15 @@ int main(int argc, char *argv[])/*{{{*/
                 || !instream.eof() // Port doesn't end after integer.
                 || port < -1       // Allow to explicitely use default port.
                 || port > 65535)
-                    throw Control::ErrorPortInvalid;
+                    throw Control::Error::ErrorPortInvalid;
             } else if (argv[i][0] == '-') { // No other parameters.
-                throw Control::ErrorParametersInvalid;
+                throw Control::Error::ErrorParametersInvalid;
             // The JID can only be specified once.
             } else if (jid.username().empty()) {
                 if (!jid.setJID(argv[i]) || jid.username().empty())
-                    throw Control::ErrorJidInvalid;
+                    throw Control::Error::ErrorJidInvalid;
             } else {
-                throw Control::ErrorParametersInvalid;
+                throw Control::Error::ErrorParametersInvalid;
             }
         }/*}}}*/
 
@@ -74,8 +72,8 @@ int main(int argc, char *argv[])/*{{{*/
 
         Control::Control::getInstance().initialize(jid, port);
         pause(); // Run forever (until a signal is received).
-    } catch (const Control::Error exitCode) {
-        return Control::Control::getInstance().printError(exitCode, argv[0]);
+    } catch (const Control::Error::ErrorType exitCode) {
+        Control::Error(exitCode, argv[0], true);
     }
 }/*}}}*/
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
