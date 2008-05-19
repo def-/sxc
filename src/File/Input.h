@@ -125,8 +125,20 @@ namespace File
             virtual void _handle(std::string input) = 0;
 
 /*}}}*/
+            // void *_pthreadListen(void *ptr);/*{{{*/
 
-            void *_pthreadListen // TODO
+            /**
+             * @brief Calls @ref listen() with @a blocking being @c true.
+             *
+             * Called by @c pthread_create() in @ref listen() when 
+             * non-blocking listening has been requested.
+             *
+             * @param ptr Needed by @c pthread_create() but not used.
+             * @return 0
+             */
+            void *_pthreadListen(void *ptr);
+
+/*}}}*/
             // void _checkPermissions();/*{{{*/
 
             /**
