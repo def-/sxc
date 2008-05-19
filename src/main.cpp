@@ -82,7 +82,7 @@ int main(int argc, char *argv[])/*{{{*/
         Control::Control::getInstance().initialize(jid, port);
         pause(); // Run forever (until a signal is received).
     } catch (const Control::Error::Type e) {
-        Control::Error(e, argv[0], true);
+        Control::Error(e, argv[0], Control::Error::SeverityCritical);
     }
 }/*}}}*/
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

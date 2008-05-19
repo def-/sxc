@@ -33,13 +33,20 @@
 namespace Control
 {
     const std::string Error::outputPrefix = "Error: ";
+    const std::string Error::outputDebugPrefix = "Debug: ";
 
     Error::Error(/*{{{*/
         Type errorType,
         std::string message,
-        bool isCritical)
+        Severity severity)
     {
-        if (isCritical) {
+        switch (severity) {
+        case SeverityNormal:
+            Control::getInstance().print(
+                outputPrefix + format(errorType, message));
+            break;
+
+        case SeverityCritical: {
             if (errorType == ErrorParametersInvalid) {
                 Control::getInstance().printStdErr(
                     "Usage: " + message /* Filename */ + " jid [-p port]");
@@ -55,10 +62,13 @@ namespace Control
                 Control::getInstance().printStdErr(outputPrefix + errorOutput);
 
             exit(errorType);
+            break;
         }
 
-        Control::getInstance().print(
-            outputPrefix + format(errorType, message));
+        case SeverityDebug:
+            Control::getInstance().printStdErr(outputDebugPrefix + message);
+            break;
+        }
     }/*}}}*/
 
     const std::string Error::format(/*{{{*/

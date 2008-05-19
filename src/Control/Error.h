@@ -43,6 +43,16 @@ namespace Control
     class Error
     {
         public:
+            //enum Severity/*{{{*/
+
+            /// The severity of an error affects how it is handled.
+            enum Severity
+            {
+                SeverityNormal, //< Write to @ref Control::File::Out.
+                SeverityCritical, //< Print to StdErr.
+                SeverityDebug //< Debugging Output, to StdErr.
+            };
+/*}}}*/
             //enum Type/*{{{*/
 
             /// Error types and exit codes at the same time.
@@ -73,7 +83,7 @@ namespace Control
             Error(
                 Type errorType,
                 std::string message = gloox::EmptyString,
-                bool isCritical = false);
+                Severity severity = SeverityNormal);
 
 /*}}}*/
 
@@ -82,6 +92,12 @@ namespace Control
 
             /// The text printed before every error output to the console.
             static const std::string outputPrefix;
+
+/*}}}*/
+            //static const std::string outputDebugPrefix;/*{{{*/
+
+            /// The text printed before every debug output.
+            static const std::string outputDebugPrefix;
 
 /*}}}*/
 
