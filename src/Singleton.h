@@ -23,10 +23,8 @@
 
 
 /**
- * @class SomeNamespace
- *
+ * @class Singleton
  * @author Dennis Felsing
- *
  * @brief A singleton base class.
  *
  * Singleton classes inherit from this class.
@@ -45,8 +43,6 @@
  * Example::getInstance().doSomething();
  * @endcode
  */
-
-
 template <class Type>
 class Singleton
 {

@@ -33,6 +33,13 @@
 
 namespace Control
 {
+    /**
+     * @class Error
+     * @author Dennis Felsing
+     * @brief A class representing an error.
+     *
+     * Creating an object of this class outputs it.
+     */
     class Error
     {
         public:

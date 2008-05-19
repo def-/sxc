@@ -40,12 +40,34 @@
 
 namespace Control
 {
+    /**
+     * @class Control
+     * @author Dennis Felsing
+     * @brief The central class connecting and controlling other classes.
+     *
+     * This class initializes the sxc's main input and output files, handles
+     * input and errors.
+     *
+     * @note As this class is a singleton you can use it from anywhere.
+     *       @code
+     *       Control::Control::getInstance().print("foobar");
+     *       @endcode
+     */
     class Control : public Singleton<Control>
     {
         public:
-            //Error initialize(const gloox::JID jid, int port = -1);/*{{{*/
+            //void initialize(const gloox::JID jid, int port = -1);/*{{{*/
 
-            /** Initialize the connection, the roster, and the control files.
+            /**
+             * @brief Save the JID and the port and initialize the control
+             *        files.
+             *
+             * Create new instances of @ref File::Input, and @ref File::Output.
+             * Also save the parameters to be able to use them when connecting
+             * to the server on a call to @ref setPresence().
+             *
+             * @note Does not connect to the server, see @ref _setPresence()
+             *       for that.
              *
              * @warning The parameters won't be checked for validity.
              *
@@ -58,7 +80,11 @@ namespace Control
 /*}}}*/
             //bool setPresence(/*{{{*/
 
-            /** Set the presence.
+            /**
+             * @brief Set the presence.
+             *
+             * Set the user's presence and immediately send it out. Create the
+             * @ref gloox::Client first if not existing, but password provided.
              *
              * @param presence The presence type. @ref
              *        gloox::Presence::PresenceType
@@ -74,16 +100,28 @@ namespace Control
 /*}}}*/
             //int print(std::string text);/*{{{*/
 
-            /** Print a text to the output file.
+            /**
+             * @brief Print a text to the output file.
              *
-             * @param text The raw text to print.
+             * Print a text to the output file by sending it to the instance of
+             * @ref File::Output.
+             *
+             * @param text The raw text to be written to the output file.
              */
             void print(std::string text);
 
 /*}}}*/
             //int printStdErr(std::string text);/*{{{*/
 
-            /** Print a text to stderr.
+            /**
+             * @brief Print a text to stderr.
+             *
+             * Format a raw text and print it to stderr.
+             *
+             * @note As sxc normally communicates using its own files, this
+             *       method should only be used on critical errors, for example
+             *       when you can't write to the output file or before the
+             *       output file has been initialized.
              *
              * @param text The raw text to print.
              */
@@ -94,25 +132,25 @@ namespace Control
         private:
             //static const std::string outputPrefix;/*{{{*/
 
-            /// The text printed before every output to the console.
+            /// The text printed before every output using @ref printStdErr().
             static const std::string outputPrefix;
 
 /*}}}*/
             //gloox::JID jid;/*{{{*/
 
-            /// The JID, stored until the Client is initialized.
+            /// The JID, stored to initialize the Client with.
             gloox::JID jid;
 
 /*}}}*/
             //int port;/*{{{*/
 
-            /// The server's port, stored until the Client is initialized.
+            /// The server's port, stored to initialize the Client with.
             int port;
 
 /*}}}*/
             //std::string password;/*{{{*/
 
-            /// The password of the user.
+            /// The password of the JID.
             std::string password;
 
 /*}}}*/

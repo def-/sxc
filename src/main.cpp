@@ -30,6 +30,15 @@
 
 /*}}}*/
 
+/**
+ * @file main.cpp
+ * @author Dennis Felsing
+ * @brief The starting point of sxc.
+ *
+ * Parse the parameters the program was started with and then initialize the
+ * @ref Control::Control.
+ */
+
 int main(int argc, char *argv[])/*{{{*/
 {
     int port = -2; // Set to undefined.
