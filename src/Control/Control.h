@@ -78,6 +78,14 @@ namespace Control
             void initialize(const gloox::JID newJid, int newPort = -1);
 
 /*}}}*/
+
+            //bool setPassword(std::string newPassword);/*{{{*/
+
+            /**
+             */
+            bool setPassword(std::string newPassword);
+
+/*}}}*/
             //bool setPresence(/*{{{*/
 
             /**
@@ -98,6 +106,35 @@ namespace Control
                 const std::string &status=gloox::EmptyString);
 
 /*}}}*/
+            //bool sendMessage(std::string to, std::string message);/*{{{*/
+
+            /**
+             */
+            bool sendMessage(std::string to, std::string message);
+
+/*}}}*/
+            //bool receiveMessage(std::string from, std::string message);/*{{{*/
+
+            /**
+             */
+            bool receiveMessage(std::string from, std::string message);
+
+/*}}}*/
+            //bool addContract(std::string jid);/*{{{*/
+
+            /**
+             */
+            bool addContract(std::string jid);
+
+/*}}}*/
+            //bool removeContract(std::string jid);/*{{{*/
+
+            /**
+             */
+            bool removeContract(std::string jid);
+
+/*}}}*/
+
             //int print(std::string text);/*{{{*/
 
             /**
@@ -162,7 +199,7 @@ namespace Control
 /*}}}*/
             //Roster roster;/*{{{*/
 
-            /// The roster.
+            /// The roster operation listener.
             //Roster roster;
 
 /*}}}*/
