@@ -4,4 +4,3 @@
 /set online|away|offline|invisible|not-available[|...]
 /msg jid text
 /pwd password
-/log quiet|verbose|debug
