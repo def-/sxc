@@ -1,5 +1,6 @@
 /pgp keyId passphrase
-/add jid
+/add jid [message]
+/ack user
 /del jid
 /set online|away|offline|invisible|not-available[|...]
 /msg jid text
