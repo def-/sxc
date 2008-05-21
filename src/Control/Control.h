@@ -82,6 +82,16 @@ namespace Control
             //bool setPassword(std::string newPassword);/*{{{*/
 
             /**
+             * @brief Set the password to a given string.
+             *
+             * If the connection is not established takes a new password and
+             * stores it for the later connecting to the server.
+             * If you are already connected to the server the new password is
+             * transmitted to the server.
+             *
+             * @param newPassword The new password to be set.
+             * @return True when not connected to the server or when the server
+             *         accepts the new password, else false.
              */
             bool setPassword(std::string newPassword);
 
@@ -93,6 +103,11 @@ namespace Control
              *
              * Set the user's presence and immediately send it out. Create the
              * @ref gloox::Client first if not existing, but password provided.
+             *
+             * @note Setting the presence to anything but "offline" tries to
+             *       establish a connection to the server if that hasn't been
+             *       done before. Setting to "offline" also disconnects from
+             *       the server.
              *
              * @param presence The presence type. @ref
              *        gloox::Presence::PresenceType
@@ -109,6 +124,14 @@ namespace Control
             //bool sendMessage(std::string to, std::string message);/*{{{*/
 
             /**
+             * @brief Send a text message to a user.
+             *
+             * This function sends a given message to a recipant, whether he is
+             * on the roster or not.
+             *
+             * @param to A string representing the JID of the recipant.
+             * @param message The message to be transmitted.
+             * @return Whether it was possible to send the message.
              */
             bool sendMessage(std::string to, std::string message);
 
@@ -116,20 +139,62 @@ namespace Control
             //bool receiveMessage(std::string from, std::string message);/*{{{*/
 
             /**
+             * @brief Redirect an incomming message.
+             *
+             * This function redirects an incomming message to the out-file of
+             * the contact or to the general out-file if he is not on the
+             * roster.
+             *
+             * @param from The sender of the message.
+             * @param message The received message.
              */
-            bool receiveMessage(std::string from, std::string message);
+            void receiveMessage(std::string from, std::string message);
 
 /*}}}*/
-            //bool addContract(std::string jid);/*{{{*/
+            //bool addContract(/*{{{*/
 
             /**
+             * @brief Add a contact to the roster
+             *
+             * This function adds a contact to the roster and optionally sends
+             * him a message to ask for the permission to see his presence.
+             *
+             * @param jid The JID to add to the roster.
+             * @param message The message to send to the JID to ask for
+             *        permission.
+             * @return Whether the JID is valid.
              */
-            bool addContract(std::string jid);
+            bool addContract(
+                std::string jid,
+                std::string message = gloox::EmptyString);
+
+/*}}}*/
+            //bool acknowledgeAdd(std::string jid);/*{{{*/
+
+            /**
+             * @brief Permit a user to see your presence.
+             *
+             * When a user adds you to your roster and wants to see your
+             * presence, he has to send you a request. This function
+             * acknowledges this request and thereby grants the user to see
+             * your presence.
+             *
+             * @param jid A string representing the JID of the user.
+             * @return Whether the JID is valid.
+             */
+            bool acknowledgeAdd(std::string jid);
 
 /*}}}*/
             //bool removeContract(std::string jid);/*{{{*/
 
             /**
+             * @brief Remove a contact from the roster.
+             *
+             * This function removes a contact from the roster and disallows
+             * him to see your presence.
+             *
+             * @param jid A string representing the JID of the contact.
+             * @return Whether the JID is valid.
              */
             bool removeContract(std::string jid);
 
