@@ -1,0 +1,4 @@
+- Use new Error types
+-> Rewrite _throwErrno()?
+- Write test file.
+
