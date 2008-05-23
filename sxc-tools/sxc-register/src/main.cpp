@@ -1,3 +1,12 @@
+/**
+ * TODO:
+ * - Make the registration work with additional information (stdin or
+ *   parameters)
+ * - Parameter for Port
+ * - General class for sxc-tools (and maybe sxc too?) for parameter parsing,
+ *   output, ...
+ */
+
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -23,12 +32,12 @@
 // INCLUDE/*{{{*/
 
 #include <gloox/jid.h>
-#include <gloox/client.h>
 
 #include "Registerer.h"
 #include "Error.h"
 
 /*}}}*/
+
 
 /**
  * @file main.cpp
@@ -39,7 +48,7 @@
  * running @ref Registerer.
  */
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[])/*{{{*/
 {
     if (argc != 2)
         return ErrorParametersInvalid;
@@ -51,4 +60,4 @@ int main(int argc, char *argv[])
 
     Registerer registrator;
     registrator.start(jid);
-}
+}/*}}}*/
