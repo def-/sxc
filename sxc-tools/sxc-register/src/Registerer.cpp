@@ -166,13 +166,13 @@ void Registerer::handleRegistrationFields(/*{{{*/
                 std::string("Verify: unable to suppress echo"));
 
         // Prompt the user for a password.
-        std::cout << "Password: " << std::flush;
+        std::cerr << "Password: " << std::flush;
         getline(std::cin, values.password);
         //std::cin >> values.password;
 
         // Restore the terminal state.
         tcsetattr(fileno(stdin), TCSANOW, &savedTermState);
-        std::cout << std::endl;
+        std::cerr << std::endl;
     } catch (...) {
         // Restore the terminal state.
         tcsetattr(fileno(stdin), TCSANOW, &savedTermState);
@@ -226,5 +226,5 @@ void Registerer::handleRegistrationResult(/*{{{*/
 
 void Registerer::print(std::string text)/*{{{*/
 {
-    std::cout << prefix << text << std::endl;
+    std::cerr << prefix << text << std::endl;
 }/*}}}*/

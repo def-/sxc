@@ -34,7 +34,7 @@
  * @author Dennis Felsing
  * @brief Main class for registering a new JID.
  *
- * Connects to the server and registers a new JID.
+ * Connects to the server and registers a new JID. Outputs errors to stderr.
  */
 class Registerer
     : public gloox::RegistrationHandler, gloox::ConnectionListener
