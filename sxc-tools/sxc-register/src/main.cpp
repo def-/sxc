@@ -25,7 +25,7 @@
 #include <gloox/jid.h>
 #include <gloox/client.h>
 
-#include "Registrator.h"
+#include "Registerer.h"
 #include "Error.h"
 
 /*}}}*/
@@ -36,7 +36,7 @@
  * @brief The starting point of sxc-register.
  *
  * Create a JID object from the parameter and start the registration process by
- * running @ref Registrator.
+ * running @ref Registerer.
  */
 
 int main(int argc, char *argv[])
@@ -49,6 +49,6 @@ int main(int argc, char *argv[])
     if (jid.username().empty())
         return ErrorJidInvalid;
 
-    Registrator registrator;
+    Registerer registrator;
     registrator.start(jid);
 }
