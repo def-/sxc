@@ -92,8 +92,7 @@ namespace File
              * Listens on the FIFO until @ref close() is called. If @a blocking 
              * ist set to @c true this method will read blocking, i.e. it will 
              * only finish when close() is called. Per default, @a blocking is 
-             * @c false so a thread is started which runs non-blocking and calls 
-             * this function with @a blocking set to @c true.
+             * @c false.
              *
              * @warning Do not override this method!
              *
@@ -120,6 +119,8 @@ namespace File
             /**
              * @brief Closes the FIFO.
              *
+             * Closes the FIFO and cancles the thread, if running.
+             *
              * @warning Do not override this method!
              */
             void close();
@@ -133,7 +134,7 @@ namespace File
             /// The path including file name where the FIFO is located.
             std::string _path;
             /// The FIFO from which will be read.
-            std::istream _fifo;
+            std::ifstream _fifo;
             /// The thread running @ref _pthreadListen
             pthread_t _thread;
             /// Indicates whether @ref _thread is running.
@@ -198,11 +199,10 @@ namespace File
             /**
              * @brief Calls @ref listen() with @a blocking being @c true.
              *
-             * Called by @c pthread_create() in @ref listen() when 
-             * non-blocking listening has been requested.
+             * Passed to @c pthread_create() in @ref listen().
              *
              * @param ptr Needed by @c pthread_create() but not used.
-             * @return 0
+             * @return NULL
              */
             void *_pthreadListen(void *ptr);
 
