@@ -35,10 +35,13 @@
  * @brief Contains the classes for file operations of Control.
  */
 
-namespace Control::File
+namespace Control
 {
-    class Input;
-    class Output;
+    namespace File
+    {
+        class Input;
+        class Output;
+    }
 }
 
 #endif // CONTROL_FILE_FILE_H
