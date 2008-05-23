@@ -84,22 +84,22 @@ namespace File
             void initialize();
 
 /*}}}*/
-            // void listen(bool blocking = false);/*{{{*/
+            // void listen(bool blocking = FALSE);/*{{{*/
 
             /**
              * @brief Starts listening on the FIFO.
              *
              * Listens on the FIFO until @ref close() is called. If @a blocking 
-             * ist set to @c true this method will read blocking, i.e. it will 
+             * ist set to @c TRUE this method will read blocking, i.e. it will 
              * only finish when close() is called. Per default, @a blocking is 
-             * @c false.
+             * @c FALSE.
              *
              * @warning Do not override this method!
              *
              * @param blocking Specifies whether this method should listen 
              *                 blocking or non-blocking.
              */
-            void listen(bool blocking = false);
+            void listen(bool blocking = FALSE);
 
 /*}}}*/
             // void read();/*{{{*/
@@ -166,6 +166,24 @@ namespace File
             virtual void _handle(std::string input) = 0;
 
 /*}}}*/
+            // void _throwErrno(int errno);/*{{{*/
+
+            /**
+             * @brief Generates an exception out of the passed error number and 
+             *        throws it.
+             *
+             * @param errno Error number @c errno.
+             * @param severity Severity of the error, per default critical.
+             * @param origin Describes the operation that failed, will be 
+             *               printed.
+             */
+            void _throwErrno(
+                int errno,
+                Control::Error::Severity severity =
+                Control::Error::Severity::SeverityCritical,
+                std::string origin);
+
+/*}}}*/
             // void _tryCreate();/*{{{*/
 
             /**
@@ -197,7 +215,7 @@ namespace File
             // void *_pthreadListen(void *ptr);/*{{{*/
 
             /**
-             * @brief Calls @ref listen() with @a blocking being @c true.
+             * @brief Calls @ref listen() with @a blocking being @c TRUE.
              *
              * Passed to @c pthread_create() in @ref listen().
              *
