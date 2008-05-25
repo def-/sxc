@@ -84,23 +84,22 @@ namespace File
             void initialize();
 
 /*}}}*/
-            // void listen(bool blocking = false);/*{{{*/
+            // void listen(bool blocking = FALSE);/*{{{*/
 
             /**
              * @brief Starts listening on the FIFO.
              *
              * Listens on the FIFO until @ref close() is called. If @a blocking 
-             * ist set to @c true this method will read blocking, i.e. it will 
+             * ist set to @c TRUE this method will read blocking, i.e. it will 
              * only finish when close() is called. Per default, @a blocking is 
-             * @c false so a thread is started which runs non-blocking and calls 
-             * this function with @a blocking set to @c true.
+             * @c FALSE.
              *
              * @warning Do not override this method!
              *
              * @param blocking Specifies whether this method should listen 
              *                 blocking or non-blocking.
              */
-            void listen(bool blocking = false);
+            void listen(bool blocking = FALSE);
 
 /*}}}*/
             // void read();/*{{{*/
@@ -120,6 +119,8 @@ namespace File
             /**
              * @brief Closes the FIFO.
              *
+             * Closes the FIFO and cancles the thread, if running.
+             *
              * @warning Do not override this method!
              */
             void close();
@@ -133,7 +134,7 @@ namespace File
             /// The path including file name where the FIFO is located.
             std::string _path;
             /// The FIFO from which will be read.
-            std::istream _fifo;
+            std::ifstream _fifo;
             /// The thread running @ref _pthreadListen
             pthread_t _thread;
             /// Indicates whether @ref _thread is running.
@@ -163,6 +164,24 @@ namespace File
              * @param input Something that has been written into the FIFO.
              */
             virtual void _handle(std::string input) = 0;
+
+/*}}}*/
+            // void _throwErrno(int errno);/*{{{*/
+
+            /**
+             * @brief Generates an exception out of the passed error number and 
+             *        throws it.
+             *
+             * @param errno Error number @c errno.
+             * @param severity Severity of the error, per default critical.
+             * @param origin Describes the operation that failed, will be 
+             *               printed.
+             */
+            void _throwErrno(
+                int errno,
+                Control::Error::Severity severity =
+                Control::Error::Severity::SeverityCritical,
+                std::string origin);
 
 /*}}}*/
             // void _tryCreate();/*{{{*/
@@ -196,13 +215,12 @@ namespace File
             // void *_pthreadListen(void *ptr);/*{{{*/
 
             /**
-             * @brief Calls @ref listen() with @a blocking being @c true.
+             * @brief Calls @ref listen() with @a blocking being @c TRUE.
              *
-             * Called by @c pthread_create() in @ref listen() when 
-             * non-blocking listening has been requested.
+             * Passed to @c pthread_create() in @ref listen().
              *
              * @param ptr Needed by @c pthread_create() but not used.
-             * @return 0
+             * @return NULL
              */
             void *_pthreadListen(void *ptr);
 
