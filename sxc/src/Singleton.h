@@ -60,6 +60,7 @@ class Singleton
         }
 
 /*}}}*/
+
     private:
         // class Instance : public Type {};/*{{{*/
         /**

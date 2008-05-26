@@ -1,3 +1,6 @@
+// TODO: Add some Message Handler (or something like that) for messages from
+//       users not in the contact list.
+
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -31,9 +34,11 @@
 #include <gloox/jid.h>
 #include <gloox/presence.h>
 #include <gloox/client.h>
+#include <gloox/connectionlistener.h>
 
 #include "../Singleton.h"
 #include "Error.h"
+#include "Roster.h"
 
 /*}}}*/
 
@@ -53,7 +58,7 @@ namespace Control
      *       Control::Control::getInstance().print("foobar");
      *       @endcode
      */
-    class Control : public Singleton<Control>
+    class Control : public Singleton<Control>, gloox::ConnectionListener
     {
         public:
             //void initialize(const gloox::JID jid, int port = -1);/*{{{*/
@@ -103,11 +108,6 @@ namespace Control
              *
              * Set the user's presence and immediately send it out. Create the
              * @ref gloox::Client first if not existing, but password provided.
-             *
-             * @note Setting the presence to anything but "offline" tries to
-             *       establish a connection to the server if that hasn't been
-             *       done before. Setting to "offline" also disconnects from
-             *       the server.
              *
              * @param presence The presence type. @ref
              *        gloox::Presence::PresenceType
@@ -230,12 +230,33 @@ namespace Control
             void printStdErr(std::string text);
 
 /*}}}*/
+            //gloox::ClientBase *getClient();/*{{{*/
+
+            /**
+             */
+            gloox::ClientBase *getClient();
+
+/*}}}*/
+
+            virtual void onConnect();
+            virtual void onDisconnect(gloox::ConnectionError e);
+            virtual void onResourceBind(const std::string &resource) {}
+            virtual void onResourceBindError(const gloox::Error *error) {}
+            virtual void onSessionCreateError(const gloox::Error *error) {}
+            virtual bool onTLSConnect(const gloox::CertInfo &info) {}
+            virtual void onStreamEvent(gloox::StreamEvent event) {}
 
         private:
             //static const std::string outputPrefix;/*{{{*/
 
             /// The text printed before every output using @ref printStdErr().
             static const std::string outputPrefix;
+
+/*}}}*/
+            //static const std::string connectionPrefix;/*{{{*/
+
+            /// The text printed before every output about the connection.
+            static const std::string connectionPrefix;
 
 /*}}}*/
             //gloox::JID jid;/*{{{*/
@@ -265,7 +286,7 @@ namespace Control
             //Roster roster;/*{{{*/
 
             /// The roster operation listener.
-            //Roster roster;
+            Roster *roster;
 
 /*}}}*/
             //Control::File::Input input;/*{{{*/
