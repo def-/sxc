@@ -35,13 +35,13 @@ namespace Contact
     Contact::Contact(gloox::JID jid)/*{{{*/
     : MessageSession(Control::Control::getInstance().getClient(), jid)
     {
-        //input = new File::Input(jid.bare());
-        //output = new File::Output(jid.bare());
+        //_input = new File::Input(jid.bare());
+        //_output = new File::Output(jid.bare());
     }/*}}}*/
 
     void Contact::handleMessage(gloox::Message &msg)/*{{{*/
     {
-        //output->write(msg->body());
+        //_output->write(msg->body());
     }/*}}}*/
 }
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

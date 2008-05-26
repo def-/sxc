@@ -88,20 +88,14 @@ namespace Control
 /*}}}*/
 
         private:
-            //static const std::string outputPrefix;/*{{{*/
+            //static const std::string _outputPrefix;/*{{{*/
 
             /// The text printed before every error output to the console.
-            static const std::string outputPrefix;
-
-/*}}}*/
-            //static const std::string outputDebugPrefix;/*{{{*/
-
-            /// The text printed before every debug output.
-            static const std::string outputDebugPrefix;
+            static const std::string _outputPrefix;
 
 /*}}}*/
 
-            //const std::string format(/*{{{*/
+            //const std::string _format(/*{{{*/
 
             /** Generate a formatted error text.
              *
@@ -110,7 +104,7 @@ namespace Control
              *        have.
              * @return The generated error text.
              */
-            const std::string format(
+            const std::string _format(
                 Type errorType,
                 const std::string message = gloox::EmptyString);
 

@@ -59,8 +59,8 @@ namespace Contact
 
 /*}}}*/
         private:
-            //File::Input *input;
-            //File::Output *output;
+            //File::Input *_input;
+            //File::Output *_output;
 
     };
 }

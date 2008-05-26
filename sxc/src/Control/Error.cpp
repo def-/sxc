@@ -32,8 +32,7 @@
 
 namespace Control
 {
-    const std::string Error::outputPrefix = "Error: ";
-    const std::string Error::outputDebugPrefix = "Debug: ";
+    const std::string Error::_outputPrefix = "Error: ";
 
     Error::Error(/*{{{*/
         Type errorType,
@@ -43,7 +42,7 @@ namespace Control
         switch (severity) {
         case SeverityNormal:
             Control::getInstance().print(
-                outputPrefix + format(errorType, message));
+                _outputPrefix + _format(errorType, message));
             break;
 
         case SeverityCritical: {
@@ -56,22 +55,22 @@ namespace Control
                     "Port: 0 - 65535 or -1 for default");
             }
 
-            const std::string errorOutput = format(errorType, message);
+            const std::string errorOutput = _format(errorType, message);
 
             if (!errorOutput.empty())
-                Control::getInstance().printStdErr(outputPrefix + errorOutput);
+                Control::getInstance().printStdErr(_outputPrefix + errorOutput);
 
             exit(errorType);
             break;
         }
 
         case SeverityDebug:
-            Control::getInstance().printStdErr(outputDebugPrefix + message);
+            Control::getInstance().printStdErr(_outputDebugPrefix + message);
             break;
         }
     }/*}}}*/
 
-    const std::string Error::format(/*{{{*/
+    const std::string Error::_format(/*{{{*/
         Type errorType,
         std::string message)
     {

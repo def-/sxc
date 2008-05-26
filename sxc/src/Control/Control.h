@@ -247,58 +247,58 @@ namespace Control
             virtual void onStreamEvent(gloox::StreamEvent event) {}
 
         private:
-            //static const std::string outputPrefix;/*{{{*/
+            //static const std::string _outputPrefix;/*{{{*/
 
             /// The text printed before every output using @ref printStdErr().
-            static const std::string outputPrefix;
+            static const std::string _outputPrefix;
 
 /*}}}*/
-            //static const std::string connectionPrefix;/*{{{*/
+            //static const std::string _connectionPrefix;/*{{{*/
 
             /// The text printed before every output about the connection.
-            static const std::string connectionPrefix;
+            static const std::string _connectionPrefix;
 
 /*}}}*/
-            //gloox::JID jid;/*{{{*/
+            //gloox::JID _jid;/*{{{*/
 
             /// The JID, stored to initialize the Client with.
-            gloox::JID jid;
+            gloox::JID _jid;
 
 /*}}}*/
-            //int port;/*{{{*/
+            //int _port;/*{{{*/
 
             /// The server's port, stored to initialize the Client with.
-            int port;
+            int _port;
 
 /*}}}*/
-            //std::string password;/*{{{*/
+            //std::string _password;/*{{{*/
 
             /// The password of the JID.
-            std::string password;
+            std::string _password;
 
 /*}}}*/
-            //gloox::Client client;/*{{{*/
+            //gloox::Client _client;/*{{{*/
 
             /// The XMPP client.
-            gloox::Client *client;
+            gloox::Client *_client;
 
 /*}}}*/
-            //Roster roster;/*{{{*/
+            //Roster _roster;/*{{{*/
 
             /// The roster operation listener.
-            Roster *roster;
+            Roster *_roster;
 
 /*}}}*/
-            //Control::File::Input input;/*{{{*/
+            //Control::File::Input _input;/*{{{*/
 
             /// The input file.
-            //Control::File::Input input;
+            //Control::File::Input _input;
 
 /*}}}*/
-            //Control::File::Output output;/*{{{*/
+            //Control::File::Output _output;/*{{{*/
 
             /// The output file.
-            //Control::File::Output output;
+            //Control::File::Output _output;
 
 /*}}}*/
     };

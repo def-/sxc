@@ -35,17 +35,17 @@
 
 namespace Control
 {
-    const std::string Control::outputPrefix = "sxc: ";
-    const std::string Control::connectionPrefix = "sxc: ";
+    const std::string Control::_outputPrefix = "sxc: ";
+    const std::string Control::_connectionPrefix = "sxc: ";
 
 
     void Control::initialize(const gloox::JID newJid, int newPort)/*{{{*/
     {
-        jid = newJid;
-        port = newPort;
+        _jid = newJid;
+        _port = newPort;
 
-        //output = File::Output(jid.bare());
-        //input = File::Input(jid.bare());
+        //_output = File::Output(jid.bare());
+        //_input = File::Input(jid.bare());
     }/*}}}*/
 
     bool Control::setPresence(/*{{{*/
@@ -55,24 +55,24 @@ namespace Control
     {
         bool doConnect = false;
 
-        if (!client) {
-            client = new gloox::Client(jid, password, port);
-            client->registerConnectionListener(this);
-            roster = new Roster(client);
+        if (!_client) {
+            _client = new gloox::Client(_jid, _password, _port);
+            _client->registerConnectionListener(this);
+            _roster = new Roster(_client);
             doConnect = true;
         }
-        client->setPresence(presence, priority, status);
-        if (doConnect) client->connect();
+        _client->setPresence(presence, priority, status);
+        if (doConnect) _client->connect();
     }/*}}}*/
 
     void Control::print(std::string text)/*{{{*/
     {
-        //output.write(text);
+        //_output.write(text);
     }/*}}}*/
 
     void Control::printStdErr(std::string text)/*{{{*/
     {
-        std::cerr << outputPrefix << text << std::endl;
+        std::cerr << _outputPrefix << text << std::endl;
     }/*}}}*/
 
     void Control::onConnect()/*{{{*/
@@ -151,12 +151,12 @@ namespace Control
         }
 
         if (!text.empty())
-            print(connectionPrefix + text);
+            print(_connectionPrefix + text);
     }/*}}}*/
 
     gloox::ClientBase *Control::getClient()/*{{{*/
     {
-        return client;
+        return _client;
     }/*}}}*/
 }
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
