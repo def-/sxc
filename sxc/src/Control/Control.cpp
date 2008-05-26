@@ -34,6 +34,7 @@
 namespace Control
 {
     const std::string Control::outputPrefix = "sxc: ";
+    const std::string Control::connectionPrefix = "sxc: ";
 
 
     void Control::initialize(const gloox::JID newJid, int newPort)/*{{{*/
@@ -65,6 +66,85 @@ namespace Control
     {
         std::cerr << outputPrefix << text << std::endl;
     }/*}}}*/
+
+    void Control::onConnect()/*{{{*/
+    {
+        // TODO: print or printStdErr?
+        #if DEBUG
+            print("Connection established.");
+        #endif
+    }/*}}}*/
+
+    void Control::onDisconnect(gloox::ConnectionError e)
+    {
+        // TODO: more functionality (DEBUG, authError, streamErrorText,
+        //       streamError)
+
+        std::string text;
+
+        switch (e) {
+        case gloox::ConnNoError:
+            break;
+        case gloox::ConnStreamError:
+            text = "A stream error occured. The stream has been closed";
+            break;
+        case gloox::ConnStreamVersionError:
+            text = "The incoming stream's version is not supported.";
+            break;
+        case gloox::ConnStreamClosed:
+            text = "The stream has been closed by the server.";
+            break;
+        case gloox::ConnProxyAuthRequired:
+            text = "The HTTP/SOCKS5 proxy requires authentication.";
+            break;
+        case gloox::ConnProxyAuthFailed:
+            text = "The HTTP/SOCKS5 proxy authentication failed.";
+            break;
+        case gloox::ConnProxyNoSupportedAuth:
+            text = "The HTTP/SOCKS5 proxy requires an unsupported auth "
+                   "mechanism.";
+            break;
+        case gloox::ConnIoError:
+            text = "An I/O error occured.";
+            break;
+        case gloox::ConnParseError:
+            text = "An XML parse error occured.";
+            break;
+        case gloox::ConnConnectionRefused:
+            text = "The connection was refused by the server (on the socket "
+                   "level).";
+            break;
+        case gloox::ConnDnsError:
+            text = "Resolving the server's hostname failed.";
+            break;
+        case gloox::ConnOutOfMemory:
+            text = "Out of memory.";
+            break;
+        case gloox::ConnNoSupportedAuth:
+            text = "The auth mechanisms the server offers are not supported "
+                   "or the server offered no auth mechanisms at all.";
+            break;
+        case gloox::ConnTlsFailed:
+            text = "The server's certificate could not be verified or the TLS "
+                   "handshake did not complete successfully.";
+            break;
+        case gloox::ConnTlsNotAvailable:
+            text = "The server doesn't offer TLS.";
+            break;
+        case gloox::ConnCompressionFailed:
+            text = "Negotiating or initializing compression failed.";
+            break;
+        case gloox::ConnUserDisconnected:
+            // The user (or higher-level protocol) requested a disconnect.
+            break;
+        case gloox::ConnNotConnected:
+            text = "There is no active connection.";
+            break;
+        }
+
+        if (!text.empty())
+            print(connectionPrefix + text);
+    }
 }
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

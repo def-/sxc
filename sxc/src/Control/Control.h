@@ -31,6 +31,7 @@
 #include <gloox/jid.h>
 #include <gloox/presence.h>
 #include <gloox/client.h>
+#include <gloox/connectionlistener.h>
 
 #include "../Singleton.h"
 #include "Error.h"
@@ -53,7 +54,7 @@ namespace Control
      *       Control::Control::getInstance().print("foobar");
      *       @endcode
      */
-    class Control : public Singleton<Control>
+    class Control : public Singleton<Control>, gloox::ConnectionListener
     {
         public:
             //void initialize(const gloox::JID jid, int port = -1);/*{{{*/
@@ -231,11 +232,25 @@ namespace Control
 
 /*}}}*/
 
+            virtual void onConnect();
+            virtual void onDisconnect(gloox::ConnectionError e);
+            virtual void onResourceBind(const std::string &resource) {}
+            virtual void onResourceBindError(const gloox::Error *error) {}
+            virtual void onSessionCreateError(const gloox::Error *error) {}
+            virtual bool onTLSConnect(const gloox::CertInfo &info) {}
+            virtual void onStreamEvent(gloox::StreamEvent event) {}
+
         private:
             //static const std::string outputPrefix;/*{{{*/
 
             /// The text printed before every output using @ref printStdErr().
             static const std::string outputPrefix;
+
+/*}}}*/
+            //static const std::string connectionPrefix;/*{{{*/
+
+            /// The text printed before every output about the connection.
+            static const std::string connectionPrefix;
 
 /*}}}*/
             //gloox::JID jid;/*{{{*/
