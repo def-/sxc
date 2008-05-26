@@ -25,8 +25,10 @@
 #include <iostream>
 #include <gloox/jid.h>
 #include <gloox/presence.h>
+#include <gloox/clientbase.h>
 
 #include "Control.h"
+#include "Roster.h"
 
 /*}}}*/
 
@@ -51,10 +53,16 @@ namespace Control
         int priority,
         const std::string &status)
     {
-        if (!client)
-            // TODO: delete
+        bool doConnect = false;
+
+        if (!client) {
             client = new gloox::Client(jid, password, port);
-        //if (client.presence
+            client->registerConnectionListener(this);
+            roster = new Roster(client);
+            doConnect = true;
+        }
+        client->setPresence(presence, priority, status);
+        if (doConnect) client->connect();
     }/*}}}*/
 
     void Control::print(std::string text)/*{{{*/
@@ -75,7 +83,7 @@ namespace Control
         #endif
     }/*}}}*/
 
-    void Control::onDisconnect(gloox::ConnectionError e)
+    void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
     {
         // TODO: more functionality (DEBUG, authError, streamErrorText,
         //       streamError)
@@ -144,7 +152,12 @@ namespace Control
 
         if (!text.empty())
             print(connectionPrefix + text);
-    }
+    }/*}}}*/
+
+    gloox::ClientBase *Control::getClient()/*{{{*/
+    {
+        return client;
+    }/*}}}*/
 }
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

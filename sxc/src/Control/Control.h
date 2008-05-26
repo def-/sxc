@@ -1,3 +1,6 @@
+// TODO: Add some Message Handler (or something like that) for messages from
+//       users not in the contact list.
+
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -35,6 +38,7 @@
 
 #include "../Singleton.h"
 #include "Error.h"
+#include "Roster.h"
 
 /*}}}*/
 
@@ -104,11 +108,6 @@ namespace Control
              *
              * Set the user's presence and immediately send it out. Create the
              * @ref gloox::Client first if not existing, but password provided.
-             *
-             * @note Setting the presence to anything but "offline" tries to
-             *       establish a connection to the server if that hasn't been
-             *       done before. Setting to "offline" also disconnects from
-             *       the server.
              *
              * @param presence The presence type. @ref
              *        gloox::Presence::PresenceType
@@ -231,6 +230,13 @@ namespace Control
             void printStdErr(std::string text);
 
 /*}}}*/
+            //gloox::ClientBase *getClient();/*{{{*/
+
+            /**
+             */
+            gloox::ClientBase *getClient();
+
+/*}}}*/
 
             virtual void onConnect();
             virtual void onDisconnect(gloox::ConnectionError e);
@@ -280,7 +286,7 @@ namespace Control
             //Roster roster;/*{{{*/
 
             /// The roster operation listener.
-            //Roster roster;
+            Roster *roster;
 
 /*}}}*/
             //Control::File::Input input;/*{{{*/
