@@ -1,6 +1,3 @@
-// TODO
-// - remove _thrower and anything concerning an InputBase object. This is not 
-//   needed, i think!
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -23,105 +20,46 @@
 
 /* $Id$ */
 
-#ifndef FILE_FILEINPUTEXCEPTION_H
-#define FILE_FILEINPUTEXCEPTION_H
+#ifndef EXCEPTION_FILEINPUTEXCEPTION_H
+#define EXCEPTION_FILEINPUTEXCEPTION_H
 
 // INCLUDES/*{{{*/
 
-#include <exception>
 #include <string>
-#include "File.h"
-#include "InputBase.h"
+#include "Exception.h"
+#include "Type.h"
 
 /*}}}*/
 
 
-namespace File
+namespace Exception
 {
     /**
-     * @class File::FileInputException
+     * @class Exception::FileInputException
      * @brief Exception class for the input file classes.
      *
      * @author Andreas Waidler
      */
-    class FileInputException : public exception
+    class FileInputException : public Exception
     {
         public:
-            // FileInputException(InputBase &, ErrorType, string);/*{{{*/
-
-            /**
-             * @brief Constructor, sets passed parameters.
-             *
-             * @param thrower Reference of the object that threw this exception.
-             * @param type The ErrorType that occurred.
-             * @param message The message that should be used to notify the 
-             *        user.
-             */
-            FileInputException(
-                File::InputBase &thrower,
-                Control::Error::ErrorType type,
-                std::string message);
-
-/*}}}*/
-            // virtual const char *what() const throw();/*{{{*/
-
-            /**
-             * @brief Returns the error message.
-             *
-             * The C-String returned is @a message from @ref 
-             * FileOutputException().
-             *
-             * @see getMessage() which does the same but returns a std::string
-             *
-             * @return A message to notify the user with.
-             */
-            virtual const char *what() const throw();
-
-/*}}}*/
-            // File::InputBase &getThrower();/*{{{*/
-
-            /** Returns reference to the object that threw this exception.
-             *
-             * @return Refernce of @ref _thrower.
-             */
-            File::InputBase &getThrower();
-
-/*}}}*/
-            // Control::Error::ErrorType getErrorType() const throw();/*{{{*/
-
-            /** Returns ErrorType of this exception.
-             * 
-             * @return An element of the Control::Error::ErrorType enum.
-             */
-            const Control::Error::ErrorType getErrorType() const throw();
-
-/*}}}*/
-            // std::string getMessage();/*{{{*/
-
-            /** Returns the error message.
-             *
-             * @return Error message of this exception.
-             */
-            std::string getMessage();
-
-/*}}}*/
 
         private:
-            /// Pointer to the object that threw this exception.
-            File::InputBase *_thrower;
-            /// Error type of this exception.
-            Control::Error::ErrorType _type;
-            // Message of this exception.
-            std::string _message;
+            // virtual void setMessage(Type type, std::string message) throw();/*{{{*/
 
+            /**
+             * @brief Sets the exception message based on the exception type.
+             * 
+             * @param type The type and error code of the exception.
+             * @param message Message describing the exception.
+             */
+            virtual void setMessage(Type type, std::string message) throw();
 
-
-
-
+/*}}}*/
     };
 }
 
-#endif // FILE_FILEINPUTEXCEPTION_H
+#endif // EXCEPTION_FILEINPUTEXCEPTION_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
