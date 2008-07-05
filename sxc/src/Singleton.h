@@ -43,8 +43,7 @@
  * Example::getInstance().doSomething();
  * @endcode
  */
-template <class Type>
-class Singleton
+template <class Type> class Singleton
 {
     public:
         //static Type &getInstance()/*{{{*/

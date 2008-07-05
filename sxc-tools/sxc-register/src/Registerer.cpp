@@ -63,6 +63,54 @@ void Registerer::start(gloox::JID newJid)/*{{{*/
     delete client;
 }/*}}}*/
 
+const std::string Registerer::enterField(std::string text)/*{{{*/
+{
+    std::string response;
+    std::cerr << text << ": " << std::flush;
+    getline(std::cin, response);
+    return response;
+}/*}}}*/
+
+const std::string Registerer::enterPassword(bool retype)/*{{{*/
+{
+    struct termios savedTermState;
+    std::string password;
+
+    try {
+        // Save a copy of the console state.
+        if (tcgetattr(fileno(stdin), &savedTermState)) // Cin must track stdin.
+            throw std::runtime_error(std::string("Get: ") + strerror(errno));
+
+        // Suppress echo so password is not logged.
+        struct termios newTermState = savedTermState;
+        newTermState.c_lflag &= ~ECHO;
+
+        if (tcsetattr(fileno(stdin), TCSAFLUSH, &newTermState))
+            throw std::runtime_error(std::string("Set: ") + strerror(errno));
+
+        // Verify that echo suppression is supported.
+        if (newTermState.c_lflag & ECHO)
+            throw std::runtime_error(std::string("Verify: unable to suppress echo"));
+
+        // Prompt the user for a password.
+        std::cerr << (retype ? "Retype Password: " : "Password: ") << std::flush;
+        getline(std::cin, password);
+        //std::cin >> password;
+
+        // Restore the terminal state.
+        tcsetattr(fileno(stdin), TCSANOW, &savedTermState);
+        std::cerr << std::endl;
+    } catch (...) {
+        // Restore the terminal state.
+        tcsetattr(fileno(stdin), TCSANOW, &savedTermState);
+
+        print("Entering password failed.");
+        exit(1);
+    }
+
+    return password;
+}/*}}}*/
+
 void Registerer::onConnect()/*{{{*/
 {
     // Request the registration fields the server requires.
@@ -142,44 +190,65 @@ void Registerer::handleRegistrationFields(/*{{{*/
     int fields,
     std::string instructions)
 {
-    struct termios savedTermState;
-
     gloox::RegistrationFields values;
-    values.username = jid->username();
 
-    // Prompt the user for a password./*{{{*/
-    try {
-        // Save a copy of the console state.
-        if (tcgetattr(fileno(stdin), &savedTermState)) // Cin must track stdin.
-            throw std::runtime_error(std::string("Get: ") + strerror(errno));
+    if (fields & gloox::Registration::FieldUsername)
+        values.username = jid->username();
 
-        // Suppress echo so password is not logged.
-        struct termios newTermState = savedTermState;
-        newTermState.c_lflag &= ~ECHO;
+    // Get additional fields from stdin./*{{{*/
+    if (fields & gloox::Registration::FieldNick)
+        values.nick = enterField("Nick");
 
-        if (tcsetattr(fileno(stdin), TCSAFLUSH, &newTermState))
-            throw std::runtime_error(std::string("Set: ") + strerror(errno));
+    if (fields & gloox::Registration::FieldName)
+        values.name = enterField("Name");
 
-        // Verify that echo suppression is supported.
-        if (newTermState.c_lflag & ECHO)
-            throw std::runtime_error(
-                std::string("Verify: unable to suppress echo"));
+    if (fields & gloox::Registration::FieldFirst)
+        values.first = enterField("First");
 
-        // Prompt the user for a password.
-        std::cerr << "Password: " << std::flush;
-        getline(std::cin, values.password);
-        //std::cin >> values.password;
+    if (fields & gloox::Registration::FieldLast)
+        values.last = enterField("Last");
 
-        // Restore the terminal state.
-        tcsetattr(fileno(stdin), TCSANOW, &savedTermState);
-        std::cerr << std::endl;
-    } catch (...) {
-        // Restore the terminal state.
-        tcsetattr(fileno(stdin), TCSANOW, &savedTermState);
+    if (fields & gloox::Registration::FieldEmail)
+        values.email = enterField("Email");
 
-        print("Entering password failed.");
-        exit(1);
-    }/*}}}*/
+    if (fields & gloox::Registration::FieldAddress)
+        values.address = enterField("Address");
+
+    if (fields & gloox::Registration::FieldCity)
+        values.city = enterField("City");
+
+    if (fields & gloox::Registration::FieldState)
+        values.state = enterField("State");
+
+    if (fields & gloox::Registration::FieldZip)
+        values.zip = enterField("Zip");
+
+    if (fields & gloox::Registration::FieldPhone)
+        values.phone = enterField("Phone");
+
+    if (fields & gloox::Registration::FieldUrl)
+        values.url = enterField("Url");
+
+    if (fields & gloox::Registration::FieldDate)
+        values.date = enterField("Date");
+
+    if (fields & gloox::Registration::FieldMisc)
+        values.misc = enterField("Misc");
+
+    if (fields & gloox::Registration::FieldText)
+        values.text = enterField("Text");
+/*}}}*/
+
+    if (fields & gloox::Registration::FieldPassword) {
+        std::string password;
+        while (true) {
+            password = enterPassword();
+            values.password = enterPassword(true);
+        if (password == values.password)
+            break;
+        std::cerr << "Mismatch, try again." << std::endl;
+        }
+    }
 
     registration->createAccount(fields, values);
 }/*}}}*/

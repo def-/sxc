@@ -94,6 +94,12 @@ namespace Control
             static const std::string _outputPrefix;
 
 /*}}}*/
+            //static const std::string _outputDebugPrefix;/*{{{*/
+
+            /// The text printed before every debugging output to the console.
+            static const std::string _outputDebugPrefix;
+
+/*}}}*/
 
             //const std::string _format(/*{{{*/
 
@@ -111,6 +117,7 @@ namespace Control
 /*}}}*/
     };
 }
+
 
 #endif // CONTROL_ERROR_H
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

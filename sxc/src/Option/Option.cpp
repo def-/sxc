@@ -20,20 +20,53 @@
 
 /* $Id$ */
 
+
+#ifndef OPTION_OPTION_CPP
+#define OPTION_OPTION_CPP
+
+
 // INCLUDE/*{{{*/
 
-#include "Roster.h"
+#include <sstream>
+#include <gloox/jid.h>
+
+#include "OptionImplementation.h"
+#include "Parser.h"
 
 /*}}}*/
 
-
-namespace Control
+namespace Option
 {
-    Roster::Roster(gloox::ClientBase *parent)/*{{{*/
-    : RosterManager(parent)
+    template <> Option<bool>::Option(/*{{{*/
+        Parser *parser,
+        char shortName,
+        std::string longName,
+        std::string variable,
+        std::string description,
+        bool defaultValue,
+        bool isObligatory)
+    : OptionBase(
+        shortName,
+        longName,
+        variable,
+        description,
+        false, // Booleans do not require an argument.
+        false),  // Booleans always are mandatory.
+        _value(false) // Default is false.
     {
+        parser->addOption(this);
+    }/*}}}*/
+
+    template <> void Option<bool>::doSetValue(std::string rawValue)/*{{{*/
+    {
+        _isSet = true;
+        _value = true;
+        std::cout << "Set: " << getLongName() << std::endl;
     }/*}}}*/
 }
+
+
+#endif //OPTION_OPTION_CPP
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

@@ -53,6 +53,32 @@ class Registerer
         void start(gloox::JID jid);
 
 /*}}}*/
+        //const std::string enterPassword(bool retype = false);/*{{{*//*{{{*/
+
+        /**
+         * @brief Get a password from stdin.
+         *
+         * This function waits for interaction from the user to get a password
+         * without showing the entered characters.
+         *
+         * @param retype Whether this is the affirmation of the password.
+         * @return The entered password.
+         */
+        const std::string enterPassword(bool retype = false);
+
+/*}}}*//*}}}*/
+        //const std::string enterField(std::string text);/*{{{*/
+
+        /**
+         * @brief Get an entry from stdin.
+         *
+         * This function asks the user to input a text.
+         *
+         * @return The entered text.
+         */
+        const std::string enterField(std::string text);
+
+/*}}}*/
         //virtual void onConnect();/*{{{*/
 
         /**

@@ -20,20 +20,42 @@
 
 /* $Id$ */
 
-// INCLUDE/*{{{*/
 
-#include "Roster.h"
+#ifndef EXCEPTION_TYPE_H
+#define EXCEPTION_TYPE_H
+
+
+// INCLUDE/*{{{*/
 
 /*}}}*/
 
+/**
+ * @file Exception
+ * @author Dennis Felsing
+ * @brief An enum for all exception types and their exit codes.
+ */
 
-namespace Control
+namespace Exception
 {
-    Roster::Roster(gloox::ClientBase *parent)/*{{{*/
-    : RosterManager(parent)
+    /// Exception types and return codes.
+    enum Type
     {
-    }/*}}}*/
+        General = 64,
+        // Parameter exceptions.
+        OptionNotSet = 80,
+        ArgumentUnknown = 81,
+        ArgumentUnspecified = 82,
+        ParametersInvalid = 83,
+        PortInvalid = 84,
+        JidInvalid = 85,
+        // File errors.
+        // TODO
+        // Gloox errors.
+        // TODO
+    };
 }
 
+
+#endif // EXCEPTION_TYPE_H
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

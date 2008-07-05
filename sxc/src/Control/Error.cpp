@@ -33,6 +33,7 @@
 namespace Control
 {
     const std::string Error::_outputPrefix = "Error: ";
+    const std::string Error::_outputDebugPrefix = "Debug: ";
 
     Error::Error(/*{{{*/
         Type errorType,
@@ -96,5 +97,6 @@ namespace Control
         }
     }/*}}}*/
 }
+
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

@@ -20,20 +20,33 @@
 
 /* $Id$ */
 
-// INCLUDE/*{{{*/
+// INCLUDES/*{{{*/
 
-#include "Roster.h"
+#include <string>
+
+#include "OptionPort.h"
 
 /*}}}*/
 
-
-namespace Control
+namespace Option
 {
-    Roster::Roster(gloox::ClientBase *parent)/*{{{*/
-    : RosterManager(parent)
+    OptionPort::OptionPort(/*{{{*/
+        Parser *parser,
+        char shortName,
+        std::string longName,
+        std::string variable,
+        std::string description)
+    : Option<int>::Option(parser, shortName, longName, variable, description, -1)
     {
     }/*}}}*/
-}
 
+    void OptionPort::setValue(std::string rawValue)/*{{{*/
+    {
+        Option<int>::setValue(rawValue);
+
+        if (getValue() < -1 || getValue() > 65535)
+            throw "Invalid port.";
+    }/*}}}*/
+}
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

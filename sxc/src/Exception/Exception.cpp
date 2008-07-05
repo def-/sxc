@@ -22,16 +22,43 @@
 
 // INCLUDE/*{{{*/
 
-#include "Roster.h"
+#include <string>
+
+#include "Exception.h"
+#include "Type.h"
 
 /*}}}*/
 
 
-namespace Control
+namespace Exception
 {
-    Roster::Roster(gloox::ClientBase *parent)/*{{{*/
-    : RosterManager(parent)
+    Exception::Exception(Type type, std::string message) throw()/*{{{*/
     {
+        setMessage(type, message);
+    }/*}}}*/
+
+    Exception::~Exception() throw()/*{{{*/
+    {
+    }/*}}}*/
+
+    void Exception::setMessage(Type type, std::string message) throw()/*{{{*/
+    {
+        doSetMessage(type, message);
+    }/*}}}*/
+
+    const std::string &Exception::getMessage() const throw()/*{{{*/
+    {
+        return _message;
+    }/*}}}*/
+
+    Type Exception::getType() const throw()/*{{{*/
+    {
+        return _type;
+    }/*}}}*/
+
+    const char *Exception::what() const throw()/*{{{*/
+    {
+        return getMessage().c_str();
     }/*}}}*/
 }
 
