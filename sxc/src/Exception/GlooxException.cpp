@@ -20,34 +20,27 @@
 
 /* $Id$ */
 
-// INCLUDES/*{{{*/
+// INCLUDE/*{{{*/
 
 #include <string>
 
-#include "OptionPort.h"
-#include "../Exception/OptionException.h"
+#include "GlooxException.h"
 
 /*}}}*/
 
-namespace Option
+
+namespace Exception
 {
-    OptionPort::OptionPort(/*{{{*/
-        Parser *parser,
-        char shortName,
-        std::string longName,
-        std::string variable,
-        std::string description)
-    : Option<int>::Option(parser, shortName, longName, variable, description, -1)
+    GlooxException::GlooxException(Type type, std::string message)/*{{{*/
+    : Exception(type, message)
     {
     }/*}}}*/
 
-    void OptionPort::setValue(std::string rawValue)/*{{{*/
+    void GlooxException::createDescription() throw()/*{{{*/
     {
-        Option<int>::setValue(rawValue);
-
-        if (getValue() < -1 || getValue() > 65535)
-            throw Exception::OptionException(Exception::PortInvalid, rawValue);
+        _description = "Gloox error: " + _message;
     }/*}}}*/
 }
+
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

@@ -44,6 +44,18 @@ namespace Exception
     class Exception : public std::exception
     {
         public:
+            //Exception(Type type, std::string message) throw();/*{{{*/
+
+            /**
+             * @brief The constructor.
+             *
+             * @param type The type of the exception.
+             * @param message A text describing the exception more verbose.
+             */
+            Exception(Type type, std::string message) throw();
+
+/*}}}*/
+
             //virtual ~Exception() throw() {}/*{{{*/
 
             /**
@@ -68,33 +80,6 @@ namespace Exception
 
 /*}}}*/
 
-            //void setMessage(Type type, std::string message) throw();/*{{{*/
-
-            /**
-             * @brief Set the given values.
-             *
-             * This function just calls @ref doSetMessage().
-             *
-             * @param type The type of the exception.
-             * @param message A text describing the exception more verbose.
-             */
-            void setMessage(Type type, std::string message) throw();
-
-/*}}}*/
-            //virtual void doSetMessage(Type type, std::string message) = 0;/*{{{*/
-
-            /**
-             * @brief Set the given values.
-             *
-             * This function does the real work and has to be implemented by
-             * child classes that can be thrown.
-             *
-             * @param type The type of the exception.
-             * @param message A text describing the exception more verbose.
-             */
-            virtual void doSetMessage(Type type, std::string message) = 0;
-
-/*}}}*/
             //const std::string &getMessage() const throw();/*{{{*/
 
             /**
@@ -103,6 +88,18 @@ namespace Exception
              * @return A text describing the exception more verbose.
              */
             const std::string &getMessage() const throw();
+
+/*}}}*/
+            //const std::string &getDescription() const throw();/*{{{*/
+
+            /**
+             * @brief Get a const reference to the description.
+             *
+             * Runs @ref createDescription() if @ref _description is not set.
+             *
+             * @return A text describing the exception more verbose.
+             */
+            const std::string &getDescription() throw();
 
 /*}}}*/
             //Type getType() const throw();/*{{{*/
@@ -115,16 +112,27 @@ namespace Exception
 
 /*}}}*/
 
-        private:
-            //Exception(Type type, std::string message) throw();/*{{{*/
+        protected:
+            //virtual void createDescription() throw() = 0;/*{{{*/
 
             /**
-             * @brief The constructor.
+             * @brief Create the description string.
              *
-             * @param type The type of the exception.
-             * @param message A text describing the exception more verbose.
+             * This function has to be implemented by a child class that is
+             * going to be instantiated.
+             *
+             * @note @ref _isDescriptionCreated is set by getDescription and
+             *       therefore hasn't to be set here too.
              */
-            Exception(Type type, std::string message) throw();
+            virtual void createDescription() throw() = 0;
+
+/*}}}*/
+            //void setInvalid() throw();/*{{{*/
+
+            /**
+             * @brief Set the description to an invalid text.
+             */
+            void setInvalid() throw();
 
 /*}}}*/
 
@@ -136,9 +144,20 @@ namespace Exception
 /*}}}*/
             //std::string _message;/*{{{*/
 
-            /// A text describing the exception more verbose.
+            /// The message the exception was given at construction.
             std::string _message;
 
+/*}}}*/
+            //std::string _description;/*{{{*/
+
+            /// A description of the exception more verbose.
+            std::string _description;
+
+/*}}}*/
+            //bool _isDescriptionCreated;/*{{{*/
+
+            /// Whether the description has already been created.
+            bool _isDescriptionCreated;
 /*}}}*/
     };
 }

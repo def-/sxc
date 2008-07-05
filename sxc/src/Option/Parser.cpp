@@ -27,6 +27,7 @@
 #include <iostream>
 
 #include "Parser.h"
+#include "../Exception/OptionException.h"
 
 /*}}}*/
 
@@ -72,7 +73,9 @@ namespace Option
                 || std::string("-") + (*option)->getShortName() == *argument) {
                     if ((*option)->getRequiresArgument()) {
                         if (argument + 1 == arguments.end())
-                            throw "No argument specified.";
+                            throw Exception::OptionException(
+                                Exception::ArgumentNotSet,
+                                (*option)->getName());
                         // Get the next argument.
                         argument = arguments.erase(argument);
                         (*option)->setValue(*argument);
@@ -96,7 +99,9 @@ namespace Option
             }
 
             if ((*option)->getIsObligatory() && !(*option)->getIsSet()) {
-                throw "Option not set.";
+                throw Exception::OptionException(
+                    Exception::ArgumentNotSet,
+                    (*option)->getName());
             }
         }/*}}}*/
 
@@ -117,11 +122,15 @@ namespace Option
             }
 
             if ((*option)->getIsObligatory() && !(*option)->getIsSet())
-                throw "Option not set.";
+                throw Exception::OptionException(
+                    Exception::ArgumentNotSet,
+                    (*option)->getName());
         }/*}}}*/
 
         if (arguments.size())
-            throw "Unknown argument.";
+            throw Exception::OptionException(
+                Exception::ArgumentUnknown,
+                arguments.at(0));
     }/*}}}*/
 
     void Parser::showUsage()/*{{{*/

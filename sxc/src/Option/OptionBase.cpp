@@ -60,6 +60,15 @@ namespace Option
         return _longName;
     }/*}}}*/
 
+    std::string OptionBase::getName()
+    {
+        if ("" != _longName)
+            return _longName;
+        else if (' ' != _shortName)
+            return "" + _shortName;
+        return "";
+    }
+
     std::string OptionBase::getVariable()/*{{{*/
     {
         return _variable;

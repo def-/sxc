@@ -21,46 +21,51 @@
 /* $Id$ */
 
 
-#ifndef EXCEPTION_TYPE_H
-#define EXCEPTION_TYPE_H
+#ifndef EXCEPTION_GLOOXEXCEPTION_H
+#define EXCEPTION_GLOOXEXCEPTION_H
 
 
 // INCLUDE/*{{{*/
 
-/*}}}*/
+#include <string>
 
-/**
- * @file Exception
- * @author Dennis Felsing
- * @brief An enum for all exception types and their exit codes.
- */
+#include "Exception.h"
+
+/*}}}*/
 
 namespace Exception
 {
-    //enum Type/*{{{*/
-
-    /// Exception types and return codes.
-    enum Type
+    /**
+     * @class GlooxException
+     * @author Dennis Felsing
+     * @brief An exception class for gloox errors.
+     */
+    class GlooxException : public Exception
     {
-        General = 64,
-        // Program argument exceptions./*{{{*/
-        ArgumentNotSet = 80,
-        ArgumentUnknown = 81,
-        ValueUnspecified = 82,
-        PortInvalid = 83,
-        JidInvalid = 84,
+        public:
+            //GlooxException(Type type, std::string message)/*{{{*/
+
+            /**
+             * @brief Create a gloox exception object.
+             *
+             * @param type The type of the exception.
+             * @param message A text describing the exception more verbose.
+             */
+            GlooxException(Type type, std::string message);
+
 /*}}}*/
-        // File errors./*{{{*/
-        // TODO
-/*}}}*/
-        // Gloox errors./*{{{*/
-        // TODO
+            //void createDescription() throw()/*{{{*/
+
+            /**
+             * @brief Create the description text.
+             */
+            void createDescription() throw();
+
 /*}}}*/
     };
-/*}}}*/
 }
 
 
-#endif // EXCEPTION_TYPE_H
+#endif // EXCEPTION_GLOOXEXCEPTION_H
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

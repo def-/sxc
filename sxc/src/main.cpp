@@ -34,6 +34,7 @@
 #include "Option/OptionPort.h"
 #include "Control/Control.h"
 #include "Control/Error.h"
+#include "Exception/Exception.h"
 
 /*}}}*/
 
@@ -54,10 +55,10 @@ int main(int argc, char *argv[])/*{{{*/
 
     try {
         parser.parse(argv);
-    } catch (const char *e) {
-        std::cout << e << std::endl;
+    } catch (Exception::Exception &e) {
+        std::cout << e.getDescription() << std::endl;
         parser.showUsage();
-        return 1;
+        return e.getType();
     }
 
     try {

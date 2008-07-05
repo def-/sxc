@@ -100,6 +100,16 @@ namespace Option
             std::string getLongName();
 
 /*}}}*/
+            //std::string getName();/*{{{*/
+
+            /**
+             * @brief Get the long name, or if not specified the short name.
+             *
+             * @return The name.
+             */
+            std::string getName();
+
+/*}}}*/
             //std::string getVariable();/*{{{*/
 
             /**

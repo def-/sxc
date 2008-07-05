@@ -29,26 +29,34 @@
 
 /*}}}*/
 
-
 namespace Exception
 {
     Exception::Exception(Type type, std::string message) throw()/*{{{*/
+    : _type(type), _message(message), _isDescriptionCreated(false)
     {
-        setMessage(type, message);
     }/*}}}*/
 
     Exception::~Exception() throw()/*{{{*/
     {
     }/*}}}*/
 
-    void Exception::setMessage(Type type, std::string message) throw()/*{{{*/
-    {
-        doSetMessage(type, message);
-    }/*}}}*/
-
     const std::string &Exception::getMessage() const throw()/*{{{*/
     {
         return _message;
+    }/*}}}*/
+
+    const std::string &Exception::getDescription() throw()/*{{{*/
+    {
+        if (!_isDescriptionCreated) {
+            createDescription();
+            _isDescriptionCreated = true;
+        }
+        return _description;
+    }/*}}}*/
+
+    void Exception::setInvalid() throw()/*{{{*/
+    {
+        _description = "Invalid exception type.";
     }/*}}}*/
 
     Type Exception::getType() const throw()/*{{{*/

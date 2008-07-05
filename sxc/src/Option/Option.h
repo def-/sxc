@@ -31,6 +31,7 @@
 
 #include "OptionBase.h"
 #include "Parser.h" 
+#include "../Exception/OptionException.h"
 
 /*}}}*/
 
@@ -166,7 +167,9 @@ namespace Option
         if (!_value.setJID(rawValue)
         || _value.username().empty()
         || _value.server().empty())
-            throw "Invalid JID";
+            throw Exception::OptionException(
+                Exception::JidInvalid,
+                _value.full());
     }/*}}}*/
 
 }
