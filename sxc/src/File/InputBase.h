@@ -26,9 +26,8 @@
 // INCLUDES/*{{{*/
 
 #include <string>
-#include <istream>
+#include <fstream>
 #include <pthread.h>
-#include "File.h"
 
 /*}}}*/
 
@@ -43,8 +42,7 @@ namespace File
      * Handles creation and checking of, listening (non-blocking) on and reading
      * (blocking) off FIFOs.
      * Contains pure virtual methods that will define the location of the FIFO 
-     * and how the input is handled. These pure virtual methods have to be 
-     * overwritten by each direct child.
+     * and how the input is handled.
      */
     class InputBase
     {
@@ -71,9 +69,9 @@ namespace File
             /**
              * @brief Initializes the object.
              *
-             * Calls @ref _createPath() to set @ref _path. Tries to create the 
+             * Calls @ref _createFilePath() to set @ref _path. Tries to create the 
              * FIFO or checks its permissions by calling @ref _tryCreate() or 
-             * @ref _checkPermissions().
+             * @ref _validateFile().
              *
              * @note This method has to be called before any other method can be
              *       used! You may want to call it in the constructor of the 
@@ -84,22 +82,26 @@ namespace File
             void initialize();
 
 /*}}}*/
-            // void listen(bool blocking = FALSE);/*{{{*/
+            // void listen(bool blocking = false);/*{{{*/
 
             /**
-             * @brief Starts listening on the FIFO.
+             * @brief Initiates listening on the FIFO.
              *
-             * Listens on the FIFO until @ref close() is called. If @a blocking 
-             * ist set to @c TRUE this method will read blocking, i.e. it will 
-             * only finish when close() is called. Per default, @a blocking is 
-             * @c FALSE.
+             * If @a blocking is set to @c true this method will read blocking,
+             * i.e. it will finish when @ref close() is run. Per default, @a 
+             * blocking is @c false.
+             *
+             * This method creates a thread that executes @ref _listen()
+             * which will run in the background. If @a blocking is true @c 
+             * pthread_join() is called which causes this method to wait until 
+             * the thread terminates.
              *
              * @warning Do not override this method!
              *
              * @param blocking Specifies whether this method should listen 
-             *                 blocking or non-blocking.
+             * blocking or non-blocking.
              */
-            void listen(bool blocking = FALSE);
+            void listen(bool blocking = false);
 
 /*}}}*/
             // void read();/*{{{*/
@@ -107,7 +109,7 @@ namespace File
             /**
              * @brief Reads the FIFO blocking until the other end is closed.
              *
-             * Input is handled by calling @ref _handle
+             * Input is handled by calling @ref _handleInput().
              *
              * @warning Do not override this method!
              */
@@ -135,11 +137,11 @@ namespace File
             std::string _path;
             /// The FIFO from which will be read.
             std::ifstream _fifo;
-            /// The thread running @ref _pthreadListen
+            /// The thread running @ref _listen
             pthread_t _thread;
             /// Indicates whether @ref _thread is running.
             bool _threadIsRunning;
-            // virtual std::string _createPath() = 0;/*{{{*/
+            // virtual std::string _createFilePath() = 0;/*{{{*/
 
             /**
              * @brief Returns the path and file name of the FIFO.
@@ -151,10 +153,10 @@ namespace File
              *
              * @return Path and file name where the FIFO should be placed.
              */
-            virtual std::string _createPath() = 0;
+            virtual std::string _createFilePath() = 0;
 
 /*}}}*/
-            // virtual void _handle(std::string input) = 0;/*{{{*/
+            // virtual void _handleInput(std::string input) = 0;/*{{{*/
 
             /**
              * @brief Handles input that has been written into the FIFO.
@@ -163,66 +165,58 @@ namespace File
              *
              * @param input Something that has been written into the FIFO.
              */
-            virtual void _handle(std::string input) = 0;
+            virtual void _handleInput(std::string input) = 0;
 
 /*}}}*/
-            // void _throwErrno(int errno);/*{{{*/
+            // void _createFile();/*{{{*/
 
-            /**
-             * @brief Generates an exception out of the passed error number and 
-             *        throws it.
+            /** Creates the FIFO.
              *
-             * @param errno Error number @c errno.
-             * @param severity Severity of the error, per default critical.
-             * @param origin Describes the operation that failed, will be 
-             *               printed.
+             * @exception Exception::FileInputException When the file could not
+             *            be created. @c Exception::Type is the result of 
+             *            @ref Exception::errnoToType().
              */
-            void _throwErrno(
-                int errno,
-                Control::Error::Severity severity =
-                Control::Error::Severity::SeverityCritical,
-                std::string origin);
+            void _createFile();
 
 /*}}}*/
-            // void _tryCreate();/*{{{*/
+            // void _validateFile();/*{{{*/
 
             /**
-             * @brief Tries to create the FIFO.
+             * @brief Checks the FIFO for validity and throws an exception if 
+             *        something is not like expected. 
              *
-             * @exception FileInputException ErrorType 
-             *            ErrorFileCreationPermission when the file could not be
-             *            created.
-             */
-            void _tryCreate();
-
-/*}}}*/
-            // void _checkPermissions();/*{{{*/
-
-            /**
-             * @brief Checks the permissions of the FIFO.
+             * The FIFOs owner-uid has to be the one who runs this program. 
+             * Additionally, the FIFO must @b not be readable or writable for
+             * other users. (chmod 600).
              *
-             * This method throws an exception if invalid file permissions are 
-             * set. "Valid file permissions" means that this program runs with 
-             * the UID of the FIFOs owner and that the FIFO is not writable for 
-             * other users.
-             *
-             * @exception File::FileInputException ErrorType on invalid permissions.
+             * @exception Exception::FileInputException When file is invalid.
+             *            @ref Exception::Type will be @ref BadFile or @c errno
+             *            converted to Type by @ref Exception::errnoToType().
              */
 
-            void _checkPermissions();
+            void _validateFile();
 
 /*}}}*/
-            // void *_pthreadListen(void *ptr);/*{{{*/
+            // static void *_listen(void *fifo);/*{{{*/
 
             /**
-             * @brief Calls @ref listen() with @a blocking being @c TRUE.
+             * @brief Listens blocking on the passed FIFO.
              *
-             * Passed to @c pthread_create() in @ref listen().
+             * Runs an infinite loop on @ref read() of the object @a fifo.
              *
-             * @param ptr Needed by @c pthread_create() but not used.
+             * @warning Should only be called by a pthread created in @ref 
+             *          listen. This method will never stop by itsself, thus
+             *          its thread has to be canceled.
+             * @warning The parameter @a fifo should not be anything other than
+             *          a this-pointer.
+             *
+             * @param fifo Pointer to object of class InputBase.
              * @return NULL
+             * @see InputBase::listen()
+             * @see InputBase::close()
+             * @see InputBase::read()
              */
-            void *_pthreadListen(void *ptr);
+            static void *_listen(void *fifo);
 
 /*}}}*/
     };
