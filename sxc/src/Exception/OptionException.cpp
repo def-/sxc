@@ -58,7 +58,6 @@ namespace Exception
             default:
                 setInvalid();
         }
-        //_description = "Program argument error: " + _message;
     }/*}}}*/
 }
 

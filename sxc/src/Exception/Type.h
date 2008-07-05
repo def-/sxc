@@ -54,7 +54,12 @@ namespace Exception
         // TODO
 /*}}}*/
         // Gloox errors./*{{{*/
-        // TODO
+        Connection = 90,
+        Registration = 91,
+        PrivacyList = 92,
+        SessionCreate = 93,
+        Stanza = 94,
+        Stream = 95
 /*}}}*/
     };
 /*}}}*/
