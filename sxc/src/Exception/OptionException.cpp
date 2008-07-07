@@ -24,14 +24,12 @@
 
 #include <string>
 
+// PACKAGE, VERSION, COPYRIGHT
+#include "../config.h"
 #include "OptionException.h"
 
 /*}}}*/
 
-
-#define PROGRAM "sxc"
-#define VERSION "0.01"
-#define COPYRIGHT "2008 Andreas Waidler, Dennis Felsing"
 
 namespace Exception
 {
@@ -45,7 +43,7 @@ namespace Exception
         switch (_type) {
             case ShowUsage:
                 _description =
-                std::string(PROGRAM) + " " + VERSION + " (C) " + COPYRIGHT;
+                std::string(PACKAGE) + " " + VERSION + " (C) " + COPYRIGHT;
                 break;
             case OptionNotSet:
                 _description =
