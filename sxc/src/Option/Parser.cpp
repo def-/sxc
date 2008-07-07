@@ -68,13 +68,13 @@ namespace Option
             std::vector<std::string>::iterator argument = arguments.begin();
             argument != arguments.end();) {
                 if ("--help" == *argument || "-h" == *argument) {
-                    throw "Show usage.";
+                    throw Exception::OptionException(Exception::ShowUsage);
                 } if ("--" + (*option)->getLongName() == *argument
                 || std::string("-") + (*option)->getShortName() == *argument) {
                     if ((*option)->getRequiresArgument()) {
                         if (argument + 1 == arguments.end())
                             throw Exception::OptionException(
-                                Exception::ArgumentNotSet,
+                                Exception::ValueNotSet,
                                 (*option)->getName());
                         // Get the next argument.
                         argument = arguments.erase(argument);
@@ -89,10 +89,12 @@ namespace Option
                     while (argument->length() > 1
                     && argument->at(0) == '-'
                     && argument->at(1) != '-'
-                    && argument->find((*option)->getShortName()) != std::string::npos) {
+                    && argument->find((*option)->getShortName())
+                       != std::string::npos) {
                         (*option)->setValue("");
                         // Delete the character.
-                        argument->erase(argument->begin() + argument->find(((*option)->getShortName())));
+                        argument->erase(argument->begin()
+                        + argument->find(((*option)->getShortName())));
                     }
                     ++argument;
                 }
@@ -100,7 +102,7 @@ namespace Option
 
             if ((*option)->getIsObligatory() && !(*option)->getIsSet()) {
                 throw Exception::OptionException(
-                    Exception::ArgumentNotSet,
+                    Exception::OptionNotSet,
                     (*option)->getName());
             }
         }/*}}}*/
@@ -123,13 +125,13 @@ namespace Option
 
             if ((*option)->getIsObligatory() && !(*option)->getIsSet())
                 throw Exception::OptionException(
-                    Exception::ArgumentNotSet,
+                    Exception::OptionNotSet,
                     (*option)->getName());
         }/*}}}*/
 
         if (arguments.size())
             throw Exception::OptionException(
-                Exception::ArgumentUnknown,
+                Exception::OptionUnknown,
                 arguments.at(0));
     }/*}}}*/
 

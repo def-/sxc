@@ -42,13 +42,17 @@ namespace Exception
     /// Exception types and return codes.
     enum Type
     {
+        NoError = 0, // No problem occured.
         General = 64,
-        // Program argument exceptions./*{{{*/
-        ArgumentNotSet = 80,
-        ArgumentUnknown = 81,
-        ValueUnspecified = 82,
-        PortInvalid = 83,
-        JidInvalid = 84,
+        // Program option exceptions./*{{{*/
+        ShowUsage = 0,
+        OptionNotSet = 80,
+        OptionSetMultiple = 81,
+        OptionUnknown = 82,
+        ValueNotSet = 83,
+        PortInvalid = 84,
+        JidInvalid = 85,
+        ValueInvalid = 86,
 /*}}}*/
         // File errors./*{{{*/
         // TODO

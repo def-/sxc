@@ -32,6 +32,7 @@
 #include <sstream>
 
 #include "Option.h"
+#include "../Exception/OptionException.h"
 
 /*}}}*/
 
@@ -96,7 +97,8 @@ namespace Option
     template <typename T> void Option<T>::setValue(std::string rawValue)/*{{{*/
     {
         if (_isSet) // Only allow to be set one time.
-            throw "Option set multiple times.";
+            throw Exception::OptionException(
+                Exception::OptionSetMultiple, getName());
 
         doSetValue(rawValue);
 
@@ -112,7 +114,8 @@ namespace Option
 
         if (instream.bad() // Conversion failed
         || !instream.eof())
-            throw "Conversion to correct type failed";
+            throw Exception::OptionException(
+                Exception::ValueInvalid, getName());
     }/*}}}*/
 
     template <typename T> T Option<T>::getValue()/*{{{*/

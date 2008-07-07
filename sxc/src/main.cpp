@@ -1,6 +1,5 @@
 // TODO:
-// - const on methods
-// - 
+// - more consts and references (speed)
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -33,7 +32,6 @@
 #include "Option/Option.h"
 #include "Option/OptionPort.h"
 #include "Control/Control.h"
-#include "Control/Error.h"
 #include "Exception/Exception.h"
 
 /*}}}*/
@@ -50,8 +48,10 @@
 int main(int argc, char *argv[])/*{{{*/
 {
     Option::Parser parser;
-    Option::OptionPort port(&parser, 'p', "port", "port", "0 - 65535, -1 for default");
-    Option::Option<gloox::JID> jid(&parser, ' ', "", "jid", "user@domain[/resource]");
+    Option::OptionPort port(
+        &parser, 'p', "port", "port", "0 - 65535, -1 for default");
+    Option::Option<gloox::JID> jid(
+        &parser, ' ', "", "jid", "user@domain[/resource]");
 
     try {
         parser.parse(argv);
@@ -62,10 +62,11 @@ int main(int argc, char *argv[])/*{{{*/
     }
 
     try {
-        Control::Control::getInstance().initialize(jid.getValue(), port.getValue());
+        Control::Control::getInstance().initialize(
+            jid.getValue(), port.getValue());
         pause(); // Run forever (until a signal is received).
-    } catch (const Control::Error::Type e) {
-        Control::Error(e, argv[0], Control::Error::SeverityCritical);
+    } catch (Exception::Exception &e) {
+        Control::Control::getInstance().handleError(e, true);
     }
 
     return 0;
