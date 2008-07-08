@@ -1,5 +1,7 @@
 // TODO:
 // - more consts and references (speed)
+// - comparisons with (const == var)
+// - remove compiler warnings (-Wall -Wextra)
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client

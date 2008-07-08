@@ -83,6 +83,9 @@ namespace Option
              *
              * Construct a new option object and add it to the parser.
              *
+             * @note This constructor takes a default value, so the option is
+             *       optional.
+             *
              * @param parser The parser the object will be added to.
              * @param shortName A short option name. ('x' for "-x")
              * @param longName A long option name. ("foo" for --foo)
@@ -105,6 +108,9 @@ namespace Option
              * @brief Create a new option.
              *
              * Construct a new option object and add it to the parser.
+             *
+             * @note This constructor takes no default value, so it is
+             *       obligatory.
              *
              * @param parser The parser the object will be added to.
              * @param shortName A short option name. ('x' for "-x")

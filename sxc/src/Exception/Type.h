@@ -53,6 +53,7 @@ namespace Exception
         PortInvalid = 84,
         JidInvalid = 85,
         ValueInvalid = 86,
+        OptionsConflicting = 87,
 /*}}}*/
         // File errors./*{{{*/
         // TODO
