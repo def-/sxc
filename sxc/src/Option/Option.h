@@ -137,17 +137,6 @@ namespace Option
             void setValue(std::string rawValue = "");
 
 /*}}}*/
-            //void doSetValue(std::string rawValue = "");/*{{{*/
-
-            /**
-             * @brief The function doing the real work.
-             *
-             * @param rawValue The raw value as a string.
-             */
-            void doSetValue(std::string rawValue = "");
-
-/*}}}*/
-
             //T getValue();/*{{{*/
 
             /**
@@ -160,6 +149,17 @@ namespace Option
 /*}}}*/
 
         private:
+            //void doSetValue(std::string rawValue = "");/*{{{*/
+
+            /**
+             * @brief The function doing the real work.
+             *
+             * @param rawValue The raw value as a string.
+             */
+            void doSetValue(std::string rawValue = "");
+
+/*}}}*/
+
             //T _value;/*{{{*/
 
             /// The value.

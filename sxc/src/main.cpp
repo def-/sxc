@@ -53,7 +53,7 @@ int main(int argc, char *argv[])/*{{{*/
     Option::OptionPort port(
         &parser, 'p', "port", "port", "0 - 65535, -1 for default");
     Option::Option<gloox::JID> jid(
-        &parser, ' ', "", "jid", "user@domain[/resource]");
+        &parser, ' ', "", "jid, "user@domain[/resource]");
 
     try {
         parser.parse(argv);

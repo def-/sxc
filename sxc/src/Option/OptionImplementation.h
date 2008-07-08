@@ -69,7 +69,7 @@ namespace Option
         variable,
         description,
         true, // All non-booleans require an argument.
-        true) // Has no default value, so it must be set.
+        true) // Has no default value, so it is obligatory.
     {
         parser->addOption(this);
     }/*}}}*/
