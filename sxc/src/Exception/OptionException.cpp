@@ -24,6 +24,8 @@
 
 #include <string>
 
+// PACKAGE, VERSION, COPYRIGHT
+#include "../config.h"
 #include "OptionException.h"
 
 /*}}}*/
@@ -39,26 +41,32 @@ namespace Exception
     void OptionException::createDescription() throw()/*{{{*/
     {
         switch (_type) {
-            case ArgumentNotSet:
-                _description = 
-                "Obligatory argument " + _message + " is not set";
+            case ShowUsage:
+                _description =
+                std::string(PACKAGE) + " " + VERSION + " (C) " + COPYRIGHT;
                 break;
-            case ArgumentUnknown:
-                _description = "Set argument " + _message + " is unknown";
+            case OptionNotSet:
+                _description =
+                "Obligatory option " + _message + " not set";
                 break;
-            case ValueUnspecified:
-                _description = "Argument " + _message + " requires a value";
+            case OptionUnknown:
+                _description = "Unknown option " + _message;
+                break;
+            case ValueNotSet:
+                _description = "Option " + _message + " requires a value";
                 break;
             case PortInvalid:
-                _description = "Set Port " + _message + " is invalid";
+                _description = "Invalid port " + _message;
                 break;
             case JidInvalid:
-                _description = "Set JID " + _message + " is invalid";
+                _description = "Invalid JID " + _message;
+                break;
+            case ValueInvalid:
+                _description = "Invalid value for " + _message;
                 break;
             default:
                 setInvalid();
         }
-        //_description = "Program argument error: " + _message;
     }/*}}}*/
 }
 

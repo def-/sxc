@@ -37,7 +37,7 @@
 #include <gloox/connectionlistener.h>
 
 #include "../Singleton.h"
-#include "Error.h"
+#include "../Exception/Exception.h"
 #include "Roster.h"
 
 /*}}}*/
@@ -197,6 +197,14 @@ namespace Control
              * @return Whether the JID is valid.
              */
             bool removeContract(std::string jid);
+
+/*}}}*/
+
+            //void handleError(const Exception::Exception &e, bool isCritical = false);/*{{{*/
+
+            /**
+             */
+            void handleError(Exception::Exception &e, bool isCritical = false);
 
 /*}}}*/
 

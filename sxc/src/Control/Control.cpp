@@ -75,6 +75,17 @@ namespace Control
         std::cerr << _outputPrefix << text << std::endl;
     }/*}}}*/
 
+    void Control::handleError(/*{{{*/
+        Exception::Exception &e,
+        bool isCritical)
+    {
+        if (isCritical) {
+            printStdErr(e.getDescription());
+            exit(e.getType());
+        }
+        print(e.getDescription());
+    }/*}}}*/
+
     void Control::onConnect()/*{{{*/
     {
         // TODO: print or printStdErr?

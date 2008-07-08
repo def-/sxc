@@ -38,7 +38,28 @@ namespace Exception
 
     void GlooxException::createDescription() throw()/*{{{*/
     {
-        _description = "Gloox error: " + _message;
+        switch (_type) {
+            case Connection:
+                _description = "Connection error: " + _message;
+                break;
+            case Registration:
+                _description = "Registration error: " + _message;
+                break;
+            case PrivacyList:
+                _description = "Privacy list error: " + _message;
+                break;
+            case SessionCreate:
+                _description = "Session establishment error: " + _message;
+                break;
+            case Stanza:
+                _description = "Stanza error: " + _message;
+                break;
+            case Stream:
+                _description = "Stream error: " + _message;
+                break;
+            default:
+                setInvalid();
+        }
     }/*}}}*/
 }
 
