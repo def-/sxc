@@ -1,5 +1,12 @@
 // TODO:
 // - more consts and references (speed)
+<<<<<<< master:sxc/src/main.cpp
+=======
+// - comparisons with (const == var)
+// - remove compiler warnings (-Wall -Wextra)
+// - add test to the building system
+// - write some more tests
+>>>>>>> local:sxc/src/main.cpp
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
