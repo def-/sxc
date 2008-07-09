@@ -23,18 +23,20 @@
 // INCLUDES/*{{{*/
 
 #include <string>
-#include <ifstream>
+#include <fstream>
 #include <pthread.h>
+
+#include <sstream>
 #include <sys/stat.h>
-#include <errno.h>
-#include "File.h"
 #include "InputBase.h"
+#include "../Exception/FileInputException.h"
+#include "../Exception/Errno.h"
 
 /*}}}*/
 
 
 File::InputBase::InputBase()/*{{{*/
-: _threadIsRunning(FALSE)
+: _threadIsRunning(false)
 { }
 
 /*}}}*/
@@ -47,148 +49,129 @@ File::InputBase::~InputBase()/*{{{*/
 void File::InputBase::initialize()/*{{{*/
 {
     // Generate the path string.
-    _path = _createPath();
+    _path = _createFilePath();
 
-    // Check the permissions of the FIFO. Normally, the FIFO should exist with 
+    // Check the FIFO. Normally, the FIFO should exist with 
     // the right permissions, except sxc has not been run before (in this 
     // directory) or someone tampered with the directory structure.
     try {
-        _checkPermissions();
-    } catch (File::FileInputException e) {
+        _validateFile();
+    } catch (Exception::FileInputException e) {
         // If the FIFO is simply missing, try to create it. In any other case 
         // we have encountered an unexpected error and let it bubble up.
-        if (e.getErrorType() != Control::Error::Type::ErrorFileMissing)
+        if (Exception::FileMissing != e.getType())
             throw e;
-        _tryCreate();
+        _createFile();
     }
 
     // Everything went fine; path is okay. Open FIFO.
-    _fifo.open(_path);
+    _fifo.open(_path.c_str());
 }
 
 /*}}}*/
-void File::InputBase::listen(bool blocking = FALSE)/*{{{*/
+void File::InputBase::listen(bool blocking)/*{{{*/
 {
-    _threadIsRunning = TRUE;
-    pthread_create(&_thread, NULL, _pthreadListen, NULL);
-    if (TRUE == blocking)
+    // Prevent application from starting a second thread which would overwrite 
+    // the first one in @ref _thread
+    if (_threadIsRunning)
+        // FIXME
+        return;
+
+    // Set flag to indicate that a thread is running.
+    _threadIsRunning = true;
+    // Start the thread in the background.
+    pthread_create(&_thread, NULL, _listen, this);
+    // Join the thread when this functions should read in a blocking way.
+    if (true == blocking)
         pthread_join(_thread, NULL);
 }
 
 /*}}}*/
 void File::InputBase::read()/*{{{*/
 {
-    std::string input, buffer;
+    // Gets filled with everything that is written until the other end closes 
+    // the pipe.
+    std::string input;
+    // Input is read line by line and put in buffer.
+    std::string buffer;
     while (getline(_fifo, buffer)) {
         input += buffer;
     }
-    _handle(input);
+    _handleInput(input);
 }
 
 /*}}}*/
 void File::InputBase::close()/*{{{*/
 {
-    if (TRUE == _threadIsRunning)
+    if (_threadIsRunning)
         pthread_cancel(_thread);
-        _threadIsRunning = FALSE;
+        _threadIsRunning = false;
     if (_fifo.is_open())
         _fifo.close();
 }
 
 /*}}}*/
-void File::InputBase::_throwErrno(/*{{{*/
-    int errno,
-    Control::Error::Severity severity,
-    std::string origin)
-{
-    std::string message = "Error while setting up FIFO " + _path + ": ";
-    message += origin + ": ";
-
-    switch (errno) {
-    case EEXIST:
-        throw FileInputException(
-            Control::Error::Type::ErrorFileExists,
-            severity,
-            message + "File exists.");
-
-    case ENOENT:
-    case ENOTDIR:
-        throw FileInputException(
-            Control::Error::Type::ErrorInvalidPath,
-            severity,
-            message + "Invalid path.");
-
-    case ELOOP:
-    case ENAMETOOLONG:
-        throw FileInputException(
-            Control::Error::Type::ErrorInvalidPath,
-            severity,
-            message + "Bad name.");
-
-    case EROFS:
-    case EACCES:
-        throw FileInputException(
-            Control::Error::Type::ErrorFileCreationPermission,
-            severity,
-            message + "Permission denied.");
-
-    case ENOMEM:
-        // TODO
-    case ENOSPC:
-        throw FileInputException(
-            Control::Error::Type::ErrorFileOutOfSpace,
-            severity,
-            message + "No space left.");
-
-    default:
-        throw FileInputException(
-            Control::Error::Type::ErrorFilePermission,
-            severity,
-            message + "Unknown error, errno=" + errno);
-    }
-}
-
-/*}}}*/
-void File::InputBase::_tryCreate()/*{{{*/
+void File::InputBase::_createFile()/*{{{*/
 {
     // Try to create FIFO with chmod 600.
     if (0 == mkfifo(_path.c_str(), S_IRUSR | S_IWUSR))
         return;
 
-    // Creation failed, create an exception and throw it.
-    _throwErrno(errno,Control::Error::Severity::SeverityCritical,"_tryCreate()")
+    // Creation of FIFO failed.
+    Exception::Type type = Exception::errnoToType(errno);
+    std::string message  = "Could not create FIFO " + _path;
+    throw Exception::FileInputException(type, message);
 }
 
 /*}}}*/
-void File::InputBase::_checkPermissions()/*{{{*/
+void File::InputBase::_validateFile()/*{{{*/
 {
-    struct stat fileStats;
     // Try to get file stats, needed for analyzing the chmod of the file.
-    if (0 != stat(_path.c_str(), &fileStats)) {
-       ELOOP  Too many symbolic links encountered while traversing the path.
-
-       ENOMEM Out of memory (i.e., kernel memory).
-
-        }
+    struct stat fstat;
+    if (0 != stat(_path.c_str(), &fstat)) {
+        Exception::Type type = Exception::errnoToType(errno);
+        std::string message  = "Could not get FIFO fstat: " + _path;
+        throw Exception::FileInputException(type, message);
     }
 
-    std::cout << std::boolalpha
-              << S_ISFIFO(stats.st_mode) << std::endl
-              << (stats.st_mode & S_IRUSR) << std::endl
-              << (stats.st_mode & S_IWUSR) << std::endl
-              << (stats.st_mode & S_IRGRP) << std::endl
-              << (stats.st_mode & S_IWGRP) << std::endl
-              << (stats.st_mode & S_IROTH) << std::endl
-              << (stats.st_mode & S_IWOTH) << std::endl
-              ;
+    // Is this really a FIFO?
+    if (!S_ISFIFO(fstat.st_mode)) {
+        std::string message  = "Not a FIFO: " + _path;
+        throw Exception::FileInputException(Exception::BadFile, message);
+    }
 
+    // Check for chmod 600:
+    if (0 == fstat.st_mode & S_IRUSR
+    || 0 == fstat.st_mode & S_IWUSR
+    || 0 != fstat.st_mode & S_IRGRP
+    || 0 != fstat.st_mode & S_IWGRP
+    || 0 != fstat.st_mode & S_IROTH
+    || 0 != fstat.st_mode & S_IWOTH) {
+        Exception::Type type = Exception::BadFile;
+        std::stringstream message;
+        message << _path + ": chmod should be 600, found "
+                << fstat.st_mode;
+        throw Exception::FileInputException(Exception::BadFile, message);
+    }
 
+}
 
-
-}/*}}}*/
-void *File::InputBase::_pthreadListen(void *ptr)/*{{{*/
+/*}}}*/
+void *File::InputBase::_listen(void *fifo)/*{{{*/
 {
-    // TODO
-}/*}}}*/
+    InputBase *that = (InputBase *) fifo;
+    do {
+        // read() reads blocking until the other end closes the pipe. This 
+        // loop will always restart read() after it handled some input and 
+        // returned.
+        that->read();
+    } while (true);
+
+    return NULL;
+}
+
+/*}}}*/
+
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+
