@@ -30,7 +30,7 @@
 Exception::Type Exception::errnoToType(int errno)
 {
     // TODO
-    return Type::General;
+    return General;
 }
 
 
