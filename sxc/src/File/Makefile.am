@@ -1,5 +1,5 @@
 INCLUDES = $(DEPS_CFLAGS)
 LIBS = $(DEPS_LIBS)
 
-#noinst_LIBRARIES = libFile.a
-#libFile_a_SOURCES = FileInputException.cpp InputBase.cpp
+noinst_LIBRARIES = libFile.a
+libFile_a_SOURCES = InputBase.cpp
