@@ -69,13 +69,13 @@ namespace File
             /**
              * @brief Initializes the object.
              *
-             * Calls @ref _createFilePath() to set @ref _path. Tries to create the 
-             * FIFO or checks its permissions by calling @ref _tryCreate() or 
-             * @ref _validateFile().
+             * Calls @ref _createFilePath() to set @ref _path. Tries to create 
+             * the FIFO or checks its permissions by calling @ref _tryCreate() 
+             * or @ref _validateFile().
              *
-             * @note This method has to be called before any other method can be
-             *       used! You may want to call it in the constructor of the 
-             *       childs.
+             * @note This method has to be called before any other method can 
+             *       be used! You may want to call it in the constructor of 
+             *       the childs.
              *
              * @warning Do not override this method!
              */
