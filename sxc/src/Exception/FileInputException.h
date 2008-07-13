@@ -25,9 +25,7 @@
 
 // INCLUDES/*{{{*/
 
-#include <string>
 #include "Exception.h"
-#include "Type.h"
 
 /*}}}*/
 
@@ -44,18 +42,11 @@ namespace Exception
     {
         public:
 
+        protected:
+            /// @see Exception::createDescription()
+            virtual void createDescription() throw();
+
         private:
-            // virtual void setMessage(Type type, std::string message) throw();/*{{{*/
-
-            /**
-             * @brief Sets the exception message based on the exception type.
-             * 
-             * @param type The type and error code of the exception.
-             * @param message Message describing the exception.
-             */
-            virtual void setMessage(Type type, std::string message) throw();
-
-/*}}}*/
     };
 }
 
