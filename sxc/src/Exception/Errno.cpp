@@ -27,7 +27,7 @@
 
 /*}}}*/
 
-Exception::Type Exception::errnoToType(int errno)
+Exception::Type Exception::errnoToType(int p_errno)
 {
     // TODO
     return General;

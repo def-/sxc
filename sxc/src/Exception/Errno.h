@@ -41,11 +41,11 @@ namespace Exception
 
     /** Transforms the passed errno into an exception type.
      * 
-     * @param errno The errno that occured and that should be transformed.
+     * @param p_errno The errno that occured and that should be transformed.
      * 
      * @return An Exception::Type that matches the passed errno.
      */
-    Type errnoToType(int errno);
+    Type errnoToType(int p_errno);
 }
 
 #endif // EXCEPTION_ERRNO_H
