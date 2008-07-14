@@ -44,7 +44,7 @@ AR = ar
 ARFLAGS = cru
 libException_a_AR = $(AR) $(ARFLAGS)
 libException_a_LIBADD =
-am_libException_a_OBJECTS = Exception.$(OBJEXT) \
+am_libException_a_OBJECTS = Errno.$(OBJEXT) Exception.$(OBJEXT) \
 	GlooxException.$(OBJEXT) OptionException.$(OBJEXT)
 libException_a_OBJECTS = $(am_libException_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src
@@ -150,7 +150,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = $(DEPS_CFLAGS)
 noinst_LIBRARIES = libException.a
-libException_a_SOURCES = Exception.cpp GlooxException.cpp OptionException.cpp
+libException_a_SOURCES = Errno.cpp Exception.cpp GlooxException.cpp OptionException.cpp
 all: all-am
 
 .SUFFIXES:
@@ -198,6 +198,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Errno.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Exception.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GlooxException.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/OptionException.Po@am__quote@

@@ -54,16 +54,18 @@ namespace Exception
         JidInvalid = 85,
         ValueInvalid = 86,
 /*}}}*/
-        // File errors./*{{{*/
-        // TODO
-/*}}}*/
         // Gloox errors./*{{{*/
         Connection = 90,
         Registration = 91,
         PrivacyList = 92,
         SessionCreate = 93,
         Stanza = 94,
-        Stream = 95
+        Stream = 95,
+/*}}}*/
+        // File errors./*{{{*/
+        // TODO
+        FileMissing = 150,
+        BadFile = 151,
 /*}}}*/
     };
 /*}}}*/

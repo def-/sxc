@@ -18,20 +18,30 @@
  */
 /*}}}*/
 
+// INCLUDES/*{{{*/
+
+#include <sstream>
+
 #include "FileInputException.h"
 
-#include <string>
-#include "Type.h"
+/*}}}*/
 
 
-namespace Exception {
+namespace Exception
+{
+    FileInputException::FileInputException(Type type, std::string &message)/*{{{*/
+    : Exception(type, message)
+    {
+    }/*}}}*/
 
-    void FileInputException::setMessage(Type type, std::string message)
+    void FileInputException::createDescription() throw()/*{{{*/
     {
         // FIXME
-        _message = message;
-    }
-
+        std::stringstream desc;
+        desc << "!!! FIXME: FileInputException { _type = " << _type
+             << ", _message = " << _message << " }";
+        _description = desc.str();
+    }/*}}}*/
 }
 
 

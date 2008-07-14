@@ -42,10 +42,10 @@ CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru
-libFile_a_AR = $(AR) $(ARFLAGS)
-libFile_a_LIBADD =
-am_libFile_a_OBJECTS = Input.$(OBJEXT)
-libFile_a_OBJECTS = $(am_libFile_a_OBJECTS)
+libControlFile_a_AR = $(AR) $(ARFLAGS)
+libControlFile_a_LIBADD =
+am_libControlFile_a_OBJECTS = Input.$(OBJEXT)
+libControlFile_a_OBJECTS = $(am_libControlFile_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -54,8 +54,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(libFile_a_SOURCES)
-DIST_SOURCES = $(libFile_a_SOURCES)
+SOURCES = $(libControlFile_a_SOURCES)
+DIST_SOURCES = $(libControlFile_a_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -148,8 +148,9 @@ target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = $(DEPS_CFLAGS)
-noinst_LIBRARIES = libFile.a
-libFile_a_SOURCES = Input.cpp
+noinst_LIBRARIES = libControlFile.a
+LDADD = ../../File/libFile.a
+libControlFile_a_SOURCES = Input.cpp
 all: all-am
 
 .SUFFIXES:
@@ -186,10 +187,10 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libFile.a: $(libFile_a_OBJECTS) $(libFile_a_DEPENDENCIES) 
-	-rm -f libFile.a
-	$(libFile_a_AR) libFile.a $(libFile_a_OBJECTS) $(libFile_a_LIBADD)
-	$(RANLIB) libFile.a
+libControlFile.a: $(libControlFile_a_OBJECTS) $(libControlFile_a_DEPENDENCIES) 
+	-rm -f libControlFile.a
+	$(libControlFile_a_AR) libControlFile.a $(libControlFile_a_OBJECTS) $(libControlFile_a_LIBADD)
+	$(RANLIB) libControlFile.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

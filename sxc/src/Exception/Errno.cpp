@@ -20,41 +20,21 @@
 
 /* $Id$ */
 
-#ifndef EXCEPTION_FILEINPUTEXCEPTION_H
-#define EXCEPTION_FILEINPUTEXCEPTION_H
-
 // INCLUDES/*{{{*/
 
-#include <string>
-#include "Exception.h"
+#include "Errno.h"
+#include "Type.h"
 
 /*}}}*/
 
-
-namespace Exception
+Exception::Type Exception::errnoToType(int p_errno)
 {
-    /**
-     * @class Exception::FileInputException
-     * @brief Exception class for the input file classes.
-     *
-     * @author Andreas Waidler
-     */
-    class FileInputException : public Exception
-    {
-        public:
-            /// Default constructor, does only call parent constructor.
-            FileInputException(Type type, std::string &message);
-
-        protected:
-            /// @see Exception::createDescription()
-            virtual void createDescription() throw();
-
-        private:
-    };
+    // TODO
+    return General;
 }
 
-#endif // EXCEPTION_FILEINPUTEXCEPTION_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+
 

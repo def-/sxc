@@ -3861,10 +3861,11 @@ pkg_failed=no
 { echo "$as_me:$LINENO: checking for DEPS" >&5
 echo $ECHO_N "checking for DEPS... $ECHO_C" >&6; }
 
-if test -n "$DEPS_CFLAGS"; then
-    pkg_cv_DEPS_CFLAGS="$DEPS_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
+if test -n "$PKG_CONFIG"; then
+    if test -n "$DEPS_CFLAGS"; then
+        pkg_cv_DEPS_CFLAGS="$DEPS_CFLAGS"
+    else
+        if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"gloox >= 0.9\"") >&5
   ($PKG_CONFIG --exists --print-errors "gloox >= 0.9") 2>&5
   ac_status=$?
@@ -3874,13 +3875,15 @@ if test -n "$DEPS_CFLAGS"; then
 else
   pkg_failed=yes
 fi
- else
-    pkg_failed=untried
+    fi
+else
+	pkg_failed=untried
 fi
-if test -n "$DEPS_LIBS"; then
-    pkg_cv_DEPS_LIBS="$DEPS_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
+if test -n "$PKG_CONFIG"; then
+    if test -n "$DEPS_LIBS"; then
+        pkg_cv_DEPS_LIBS="$DEPS_LIBS"
+    else
+        if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"gloox >= 0.9\"") >&5
   ($PKG_CONFIG --exists --print-errors "gloox >= 0.9") 2>&5
   ac_status=$?
@@ -3890,8 +3893,9 @@ if test -n "$DEPS_LIBS"; then
 else
   pkg_failed=yes
 fi
- else
-    pkg_failed=untried
+    fi
+else
+	pkg_failed=untried
 fi
 
 
@@ -3904,9 +3908,9 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        DEPS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "gloox >= 0.9" 2>&1`
+	        DEPS_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "gloox >= 0.9"`
         else
-	        DEPS_PKG_ERRORS=`$PKG_CONFIG --print-errors "gloox >= 0.9" 2>&1`
+	        DEPS_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "gloox >= 0.9"`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$DEPS_PKG_ERRORS" >&5

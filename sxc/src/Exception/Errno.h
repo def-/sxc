@@ -20,40 +20,35 @@
 
 /* $Id$ */
 
-#ifndef EXCEPTION_FILEINPUTEXCEPTION_H
-#define EXCEPTION_FILEINPUTEXCEPTION_H
+/**
+ * @file Errno.h
+ * @author Andreas Waidler
+ * @brief Contains functions for handling the system errno variable.
+ */
+
+#ifndef EXCEPTION_ERRNO_H
+#define EXCEPTION_ERRNO_H
 
 // INCLUDES/*{{{*/
 
-#include <string>
-#include "Exception.h"
+#include "Type.h"
 
 /*}}}*/
 
 
 namespace Exception
 {
-    /**
-     * @class Exception::FileInputException
-     * @brief Exception class for the input file classes.
-     *
-     * @author Andreas Waidler
+
+    /** Transforms the passed errno into an exception type.
+     * 
+     * @param p_errno The errno that occured and that should be transformed.
+     * 
+     * @return An Exception::Type that matches the passed errno.
      */
-    class FileInputException : public Exception
-    {
-        public:
-            /// Default constructor, does only call parent constructor.
-            FileInputException(Type type, std::string &message);
-
-        protected:
-            /// @see Exception::createDescription()
-            virtual void createDescription() throw();
-
-        private:
-    };
+    Type errnoToType(int p_errno);
 }
 
-#endif // EXCEPTION_FILEINPUTEXCEPTION_H
+#endif // EXCEPTION_ERRNO_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
