@@ -25,6 +25,7 @@
 
 // INCLUDES/*{{{*/
 
+#include <string>
 #include "Exception.h"
 
 /*}}}*/
@@ -41,6 +42,8 @@ namespace Exception
     class FileInputException : public Exception
     {
         public:
+            /// Default constructor, does only call parent constructor.
+            FileInputException(Type type, std::string &message);
 
         protected:
             /// @see Exception::createDescription()

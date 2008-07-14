@@ -29,14 +29,19 @@
 
 namespace Exception
 {
-    void FileInputException::createDescription() throw()
+    FileInputException::FileInputException(Type type, std::string &message)/*{{{*/
+    : Exception(type, message)
+    {
+    }/*}}}*/
+
+    void FileInputException::createDescription() throw()/*{{{*/
     {
         // FIXME
         std::stringstream desc;
         desc << "!!! FIXME: FileInputException { _type = " << _type
              << ", _message = " << _message << " }";
         _description = desc.str();
-    }
+    }/*}}}*/
 }
 
 
