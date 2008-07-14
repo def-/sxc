@@ -18,6 +18,8 @@
  */
 /*}}}*/
 
+// FIXME Add lock for read() method - listen() may start even when object is already read()ing
+
 /* $Id$ */
 
 #ifndef FILE_INPUTBASE_H
