@@ -26,11 +26,13 @@
 #include <fstream>
 #include <pthread.h>
 
+#include <errno.h>
 #include <sstream>
 #include <sys/stat.h>
 #include "InputBase.h"
 #include "../Exception/FileInputException.h"
 #include "../Exception/Errno.h"
+#include "../Exception/Type.h"
 
 /*}}}*/
 
@@ -147,10 +149,12 @@ void File::InputBase::_validateFile()/*{{{*/
     || 0 != fstat.st_mode & S_IWGRP
     || 0 != fstat.st_mode & S_IROTH
     || 0 != fstat.st_mode & S_IWOTH) {
-        Exception::Type type = Exception::BadFile;
-        std::stringstream message;
-        message << _path + ": chmod should be 600, found "
-                << fstat.st_mode;
+        // Converts __mode_t st_mode to human-readable string (octal notation):
+        std::stringstream mode;
+        mode << std::oct << fstat.st_mode;
+        // Extract only necessary part (user, group, other) from file mode:
+        std::string message = _path + ": Chmod should be 600, found "
+                            + mode.str().substr(2);
         throw Exception::FileInputException(Exception::BadFile, message);
     }
 

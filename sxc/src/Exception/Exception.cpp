@@ -31,7 +31,7 @@
 
 namespace Exception
 {
-    Exception::Exception(Type type, std::string message) throw()/*{{{*/
+    Exception::Exception(Type type, std::string &message) throw()/*{{{*/
     : _type(type), _message(message), _isDescriptionCreated(false)
     {
     }/*}}}*/

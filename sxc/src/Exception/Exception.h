@@ -52,7 +52,7 @@ namespace Exception
              * @param type The type of the exception.
              * @param message A text describing the exception more verbose.
              */
-            Exception(Type type, std::string message) throw();
+            Exception(Type type, std::string &message) throw();
 
 /*}}}*/
 
