@@ -142,7 +142,7 @@ namespace File
             /// The thread running @ref _listen
             pthread_t _thread;
             /// Indicates whether @ref _thread is running.
-            bool _threadIsRunning;
+            bool _isThreadRunning;
             // virtual std::string _createFilePath() = 0;/*{{{*/
 
             /**

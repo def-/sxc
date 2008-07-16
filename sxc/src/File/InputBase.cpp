@@ -38,8 +38,9 @@
 
 
 File::InputBase::InputBase()/*{{{*/
-: _threadIsRunning(false)
-{ }
+: _isThreadRunning(false)
+{
+}
 
 /*}}}*/
 File::InputBase::~InputBase()/*{{{*/
@@ -75,12 +76,12 @@ void File::InputBase::listen(bool blocking)/*{{{*/
 {
     // Prevent application from starting a second thread which would overwrite 
     // the first one in @ref _thread
-    if (_threadIsRunning)
+    if (_isThreadRunning)
         // FIXME
         return;
 
     // Set flag to indicate that a thread is running.
-    _threadIsRunning = true;
+    _isThreadRunning = true;
     // Start the thread in the background.
     pthread_create(&_thread, NULL, _listen, this);
     // Join the thread when this functions should read in a blocking way.
@@ -105,9 +106,9 @@ void File::InputBase::read()/*{{{*/
 /*}}}*/
 void File::InputBase::close()/*{{{*/
 {
-    if (_threadIsRunning)
+    if (_isThreadRunning)
         pthread_cancel(_thread);
-        _threadIsRunning = false;
+        _isThreadRunning = false;
     if (_fifo.is_open())
         _fifo.close();
 }
