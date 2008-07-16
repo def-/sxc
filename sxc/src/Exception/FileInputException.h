@@ -44,6 +44,8 @@ namespace Exception
         public:
             /// Default constructor, does only call parent constructor.
             FileInputException(Type type, std::string &message);
+            /// Overloaded default constructor, calls parent constructor.
+            FileInputException(Type type, const char *message);
 
         protected:
             /// @see Exception::createDescription()

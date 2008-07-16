@@ -34,6 +34,11 @@ namespace Exception
     {
     }/*}}}*/
 
+    FileInputException::FileInputException(Type type, const char *message)/*{{{*/
+    : Exception(type, message)
+    {
+    }/*}}}*/
+
     void FileInputException::createDescription() throw()/*{{{*/
     {
         // FIXME

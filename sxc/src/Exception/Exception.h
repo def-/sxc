@@ -44,15 +44,27 @@ namespace Exception
     class Exception : public std::exception
     {
         public:
-            //Exception(Type type, std::string message) throw();/*{{{*/
+            //Exception(Type type, std::string &message) throw();/*{{{*/
 
             /**
-             * @brief The constructor.
+             * @brief Default constructor.
              *
-             * @param type The type of the exception.
-             * @param message A text describing the exception more verbose.
+             * @see Exception::Exception(Type, char*)
+             * @param message Reference of a string describing the exception.
              */
             Exception(Type type, std::string &message) throw();
+
+/*}}}*/
+            //Exception(Type type, const char *message) throw();/*{{{*/
+
+            /**
+             * @brief Overloaded constructor.
+             *
+             * @param type The type of the exception.
+             * @param message Pointer to a C style char string describing the
+             *        exception.
+             */
+            Exception(Type type, const char *message) throw();
 
 /*}}}*/
 

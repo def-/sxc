@@ -36,6 +36,12 @@ namespace Exception
     {
     }/*}}}*/
 
+    Exception::Exception(Type type, const char *message) throw()/*{{{*/
+    : _type(type), _isDescriptionCreated(false)
+    {
+        _message = *message;
+    }/*}}}*/
+
     Exception::~Exception() throw()/*{{{*/
     {
     }/*}}}*/
