@@ -139,6 +139,8 @@ namespace File
             std::string _path;
             /// The FIFO from which will be read.
             std::ifstream _fifo;
+            /// Indicates whether @ref _fifo is valid.
+            bool _isFifoValid;
             /// The thread running @ref _listen
             pthread_t _thread;
             /// Indicates whether @ref _thread is running.

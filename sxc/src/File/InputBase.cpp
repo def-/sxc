@@ -38,7 +38,8 @@
 
 
 File::InputBase::InputBase()/*{{{*/
-: _isThreadRunning(false)
+: _isFifoValid(false),
+  _isThreadRunning(false)
 {
 }
 
@@ -92,6 +93,11 @@ void File::InputBase::listen(bool blocking)/*{{{*/
 /*}}}*/
 void File::InputBase::read()/*{{{*/
 {
+    // Refuse to read from an invalid FIFO.
+    if (!_isFifoValid) {
+        throw Exception::FileInputException(Exception::BadFile, "Refusing to read.");
+    }
+
     // Gets filled with everything that is written until the other end closes 
     // the pipe.
     std::string input;
@@ -159,6 +165,7 @@ void File::InputBase::_validateFile()/*{{{*/
         throw Exception::FileInputException(Exception::BadFile, message);
     }
 
+    _isFifoValid = true;
 }
 
 /*}}}*/
