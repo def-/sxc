@@ -1,3 +1,7 @@
+// FIXME Lock for read() method - listen()/read() may start even when object is already reading. this has to be disabled!
+// FIXME close() only if FIFO is open.
+// FIXME maybe split close() to close() and _kill() - _kill() into destructor -- kill MUST NEVER throw/fail.
+// FIXME catch references
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -17,8 +21,6 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*}}}*/
-
-// FIXME Add lock for read() method - listen() may start even when object is already read()ing
 
 /* $Id$ */
 
