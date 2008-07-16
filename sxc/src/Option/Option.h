@@ -168,6 +168,57 @@ namespace Option
 /*}}}*/
     };
 
+    template <> inline Option<bool>::Option(/*{{{*/
+        Parser *parser,
+        char shortName,
+        std::string longName,
+        std::string variable,
+        std::string description,
+        bool defaultValue)
+    : OptionBase(
+        shortName,
+        longName,
+        variable,
+        description,
+        false, // Booleans require no argument.
+        false), // Has an default value, so it must not be set.
+        _value(defaultValue)
+    {
+        parser->addOption(this);
+    }/*}}}*/
+
+    template <> inline Option<bool>::Option(/*{{{*/
+        Parser *parser,
+        char shortName,
+        std::string longName,
+        std::string variable,
+        std::string description)
+    : OptionBase( // To use getName().
+        shortName,
+        longName,
+        variable,
+        description,
+        false,
+        false),
+        _value(false) // Default to false.
+    {
+        parser->addOption(this);
+    }/*}}}*/
+
+    template <> inline void Option<bool>::doSetValue(std::string rawValue)/*{{{*/
+    {
+        _isSet = true;
+        _value = !_value; // Complement the value.
+    }/*}}}*/
+
+    template <> inline void Option<char>::doSetValue(std::string rawValue)/*{{{*/
+    {
+        if (rawValue.length() != 1)
+            throw Exception::OptionException(
+                Exception::ValueInvalid, getName());
+        _value = rawValue.at(0);
+    }/*}}}*/
+
     template <> inline void Option<gloox::JID>::doSetValue(std::string rawValue)/*{{{*/
     {
         if (!_value.setJID(rawValue)
