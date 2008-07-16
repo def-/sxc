@@ -2,10 +2,10 @@
 #include <gloox/jid.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "../Exception/OptionException.h"
-#include "../Option/Parser.h"
-#include "../Option/Option.h"
-#include "../Option/OptionPort.h"
+#include "Exception/OptionException.h"
+#include "Option/Parser.h"
+#include "Option/Option.h"
+#include "Option/OptionPort.h"
 
 class OptionTest : public CppUnit::TestFixture
 {
