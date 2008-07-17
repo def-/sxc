@@ -108,18 +108,6 @@ namespace File
             void listen(bool blocking = false);
 
 /*}}}*/
-            // void close();/*{{{*/
-
-            /**
-             * @brief Closes the FIFO.
-             *
-             * Closes the FIFO and cancles the thread, if running.
-             *
-             * @warning Do not override this method!
-             */
-            void close();
-
-/*}}}*/
 
         protected:
 
@@ -223,6 +211,18 @@ namespace File
              * @see InputBase::_read()
              */
             static void *_listen(void *fifo);
+
+/*}}}*/
+            // void close();/*{{{*/
+
+            /**
+             * @brief Closes the FIFO.
+             *
+             * Closes the FIFO and cancles the thread, if running.
+             *
+             * @warning Do not override this method!
+             */
+            void close();
 
 /*}}}*/
     };
