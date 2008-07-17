@@ -91,7 +91,7 @@ void File::InputBase::listen(bool blocking)/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::read()/*{{{*/
+void File::InputBase::_read()/*{{{*/
 {
     // Refuse to read from an invalid FIFO.
     if (!_isFifoValid) {
@@ -173,10 +173,10 @@ void *File::InputBase::_listen(void *fifo)/*{{{*/
 {
     InputBase *that = (InputBase *) fifo;
     do {
-        // read() reads blocking until the other end closes the pipe. This 
-        // loop will always restart read() after it handled some input and 
+        // _read() reads blocking until the other end closes the pipe. This 
+        // loop will always restart _read() after it handled some input and 
         // returned.
-        that->read();
+        that->_read();
     } while (true);
 
     return NULL;
