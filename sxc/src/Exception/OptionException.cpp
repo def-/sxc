@@ -64,6 +64,9 @@ namespace Exception
             case ValueInvalid:
                 _description = "Invalid value for " + _message;
                 break;
+            case OptionsConflicting:
+                _description = "Option " + _message + " set more than one time";
+                break;
             default:
                 setInvalid();
         }

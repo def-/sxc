@@ -42,6 +42,21 @@ namespace Option
         && option->getShortName() == ' ') {
             _namelessOptions.push_back(option);
         } else {
+            // Check for conflict before adding.
+            for(
+            std::vector<OptionBase *>::iterator availOption = _options.begin();
+            availOption != _options.end();
+            ++availOption) {
+                if ((*availOption)->getShortName() == option->getShortName())
+                    throw Exception::OptionException(
+                        Exception::OptionsConflicting,
+                        "-" + option->getShortName());
+                if ((*availOption)->getLongName() == option->getLongName())
+                    throw Exception::OptionException(
+                        Exception::OptionsConflicting,
+                        "--" + option->getLongName());
+            }
+
             _options.push_back(option);
         }
     }/*}}}*/

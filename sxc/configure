@@ -3970,7 +3970,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/Contact/Makefile src/Control/Makefile src/Control/File/Makefile src/Exception/Makefile src/File/Makefile src/Option/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile src/Contact/Makefile src/Control/Makefile src/Control/File/Makefile src/Exception/Makefile src/File/Makefile src/Option/Makefile src/tests/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -4559,6 +4559,7 @@ do
     "src/Exception/Makefile") CONFIG_FILES="$CONFIG_FILES src/Exception/Makefile" ;;
     "src/File/Makefile") CONFIG_FILES="$CONFIG_FILES src/File/Makefile" ;;
     "src/Option/Makefile") CONFIG_FILES="$CONFIG_FILES src/Option/Makefile" ;;
+    "src/tests/Makefile") CONFIG_FILES="$CONFIG_FILES src/tests/Makefile" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

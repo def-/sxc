@@ -2,7 +2,6 @@
 // - more consts and references (speed)
 // - comparisons with (const == var)
 // - remove compiler warnings (-Wall -Wextra)
-// - add test to the building system
 // - write some more tests
 // LICENSE/*{{{*/
 /*

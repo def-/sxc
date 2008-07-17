@@ -83,6 +83,9 @@ namespace Option
              *
              * Construct a new option object and add it to the parser.
              *
+             * @note This constructor takes a default value, so the option is
+             *       optional.
+             *
              * @param parser The parser the object will be added to.
              * @param shortName A short option name. ('x' for "-x")
              * @param longName A long option name. ("foo" for --foo)
@@ -105,6 +108,9 @@ namespace Option
              * @brief Create a new option.
              *
              * Construct a new option object and add it to the parser.
+             *
+             * @note This constructor takes no default value, so it is
+             *       obligatory.
              *
              * @param parser The parser the object will be added to.
              * @param shortName A short option name. ('x' for "-x")
@@ -131,17 +137,6 @@ namespace Option
             void setValue(std::string rawValue = "");
 
 /*}}}*/
-            //void doSetValue(std::string rawValue = "");/*{{{*/
-
-            /**
-             * @brief The function doing the real work.
-             *
-             * @param rawValue The raw value as a string.
-             */
-            void doSetValue(std::string rawValue = "");
-
-/*}}}*/
-
             //T getValue();/*{{{*/
 
             /**
@@ -154,6 +149,17 @@ namespace Option
 /*}}}*/
 
         private:
+            //void doSetValue(std::string rawValue = "");/*{{{*/
+
+            /**
+             * @brief The function doing the real work.
+             *
+             * @param rawValue The raw value as a string.
+             */
+            void doSetValue(std::string rawValue = "");
+
+/*}}}*/
+
             //T _value;/*{{{*/
 
             /// The value.
@@ -161,6 +167,57 @@ namespace Option
 
 /*}}}*/
     };
+
+    template <> inline Option<bool>::Option(/*{{{*/
+        Parser *parser,
+        char shortName,
+        std::string longName,
+        std::string variable,
+        std::string description,
+        bool defaultValue)
+    : OptionBase(
+        shortName,
+        longName,
+        variable,
+        description,
+        false, // Booleans require no argument.
+        false), // Has an default value, so it must not be set.
+        _value(defaultValue)
+    {
+        parser->addOption(this);
+    }/*}}}*/
+
+    template <> inline Option<bool>::Option(/*{{{*/
+        Parser *parser,
+        char shortName,
+        std::string longName,
+        std::string variable,
+        std::string description)
+    : OptionBase( // To use getName().
+        shortName,
+        longName,
+        variable,
+        description,
+        false,
+        false),
+        _value(false) // Default to false.
+    {
+        parser->addOption(this);
+    }/*}}}*/
+
+    template <> inline void Option<bool>::doSetValue(std::string rawValue)/*{{{*/
+    {
+        _isSet = true;
+        _value = !_value; // Complement the value.
+    }/*}}}*/
+
+    template <> inline void Option<char>::doSetValue(std::string rawValue)/*{{{*/
+    {
+        if (rawValue.length() != 1)
+            throw Exception::OptionException(
+                Exception::ValueInvalid, getName());
+        _value = rawValue.at(0);
+    }/*}}}*/
 
     template <> inline void Option<gloox::JID>::doSetValue(std::string rawValue)/*{{{*/
     {

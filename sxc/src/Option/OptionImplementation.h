@@ -44,26 +44,6 @@ namespace Option
         std::string longName,
         std::string variable,
         std::string description,
-        T defaultValue,
-        bool isObligatory)
-    : OptionBase(
-        shortName,
-        longName,
-        variable,
-        description,
-        true, // All non-booleans require an argument.
-        isObligatory),
-        _value(defaultValue)
-    {
-        parser->addOption(this);
-    }/*}}}*/
-
-    template <typename T> Option<T>::Option(/*{{{*/
-        Parser *parser,
-        char shortName,
-        std::string longName,
-        std::string variable,
-        std::string description,
         T defaultValue)
     : OptionBase(
         shortName,
@@ -89,7 +69,7 @@ namespace Option
         variable,
         description,
         true, // All non-booleans require an argument.
-        true) // Has no default value, so it must be set.
+        true) // Has no default value, so it is obligatory.
     {
         parser->addOption(this);
     }/*}}}*/

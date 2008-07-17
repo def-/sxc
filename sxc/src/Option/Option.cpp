@@ -37,32 +37,6 @@
 
 namespace Option
 {
-    template <> Option<bool>::Option(/*{{{*/
-        Parser *parser,
-        char shortName,
-        std::string longName,
-        std::string variable,
-        std::string description,
-        bool defaultValue,
-        bool isObligatory)
-    : OptionBase(
-        shortName,
-        longName,
-        variable,
-        description,
-        false, // Booleans do not require an argument.
-        false),  // Booleans always are mandatory.
-        _value(false) // Default is false.
-    {
-        parser->addOption(this);
-    }/*}}}*/
-
-    template <> void Option<bool>::doSetValue(std::string rawValue)/*{{{*/
-    {
-        _isSet = true;
-        _value = true;
-        std::cout << "Set: " << getLongName() << std::endl;
-    }/*}}}*/
 }
 
 

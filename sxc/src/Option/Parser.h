@@ -56,7 +56,7 @@ namespace Option
             void addOption(OptionBase *option);
 
 /*}}}*/
-            //void parse(char *argv[]);/*{{{*/
+            //void parse(const char *argv[]);/*{{{*/
 
             /**
              * @brief Parse all options.
