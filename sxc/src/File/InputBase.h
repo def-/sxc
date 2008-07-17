@@ -73,7 +73,7 @@ namespace File
             /**
              * @brief Initializes the object.
              *
-             * Calls @ref _createFilePath() to set @ref _path. Tries to create 
+             * Calls @ref _createPath() to set @ref _path. Tries to create 
              * the FIFO or checks its permissions by calling @ref _tryCreate() 
              * or @ref _validateFile().
              *
@@ -135,7 +135,7 @@ namespace File
             pthread_t _thread;
             /// Indicates whether @ref _thread is running.
             bool _isThreadRunning;
-            // virtual std::string _createFilePath() = 0;/*{{{*/
+            // virtual std::string _createPath() = 0;/*{{{*/
 
             /**
              * @brief Returns the path and file name of the FIFO.
@@ -147,7 +147,7 @@ namespace File
              *
              * @return Path and file name where the FIFO should be placed.
              */
-            virtual std::string _createFilePath() = 0;
+            virtual std::string _createPath() = 0;
 
 /*}}}*/
             // virtual void _handleInput(std::string input) = 0;/*{{{*/
@@ -162,7 +162,7 @@ namespace File
             virtual void _handleInput(std::string input) = 0;
 
 /*}}}*/
-            // void _createFile();/*{{{*/
+            // void _create();/*{{{*/
 
             /** Creates the FIFO.
              *
@@ -170,7 +170,7 @@ namespace File
              *            be created. @c Exception::Type is the result of 
              *            @ref Exception::errnoToType().
              */
-            void _createFile();
+            void _create();
 
 /*}}}*/
             // void _validateFile();/*{{{*/

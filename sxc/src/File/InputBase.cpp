@@ -53,7 +53,7 @@ File::InputBase::~InputBase()/*{{{*/
 void File::InputBase::initialize()/*{{{*/
 {
     // Generate the path string.
-    _path = _createFilePath();
+    _path = _createPath();
 
     // Check the FIFO. Normally, the FIFO should exist with 
     // the right permissions, except sxc has not been run before (in this 
@@ -65,7 +65,7 @@ void File::InputBase::initialize()/*{{{*/
         // we have encountered an unexpected error and let it bubble up.
         if (Exception::FileMissing != e.getType())
             throw e;
-        _createFile();
+        _create();
     }
 
     // Everything went fine; path is okay. Open FIFO.
@@ -120,7 +120,7 @@ void File::InputBase::close()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::_createFile()/*{{{*/
+void File::InputBase::_create()/*{{{*/
 {
     // Try to create FIFO with chmod 600.
     if (0 == mkfifo(_path.c_str(), S_IRUSR | S_IWUSR))
