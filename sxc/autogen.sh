@@ -1,4 +1,5 @@
 #!/bin/sh
-aclocal
-autoconf
+aclocal &&
+autoheader &&
+autoconf &&
 automake -a
