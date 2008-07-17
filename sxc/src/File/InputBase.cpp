@@ -39,6 +39,7 @@
 
 File::InputBase::InputBase()/*{{{*/
 : _isFifoValid(false),
+  _isLocked(false),
   _isThreadRunning(false)
 {
 }
@@ -75,14 +76,13 @@ void File::InputBase::initialize()/*{{{*/
 /*}}}*/
 void File::InputBase::listen(bool blocking)/*{{{*/
 {
-    // Prevent application from starting a second thread which would overwrite 
-    // the first one in @ref _thread
-    if (_isThreadRunning)
+    // Do not start to listen if the FIFO is currently locked. Otherwise we 
+    // could end up handling the input twice.
+    if (_isLocked)
         // FIXME
         return;
 
-    // Set flag to indicate that a thread is running.
-    _isThreadRunning = true;
+    _isLocked = true;
     // Start the thread in the background.
     pthread_create(&_thread, NULL, _listen, this);
     // Join the thread when this functions should read in a blocking way.
@@ -112,11 +112,14 @@ void File::InputBase::_read()/*{{{*/
 /*}}}*/
 void File::InputBase::_close()/*{{{*/
 {
-    if (_isThreadRunning)
+    if (_isThreadRunning) {
         pthread_cancel(_thread);
         _isThreadRunning = false;
-    if (_fifo.is_open())
+    }
+    if (_isLocked) {
         _fifo.close();
+        _isLocked = false;
+    }
 }
 
 /*}}}*/
@@ -172,6 +175,7 @@ void File::InputBase::_validateFile()/*{{{*/
 void *File::InputBase::_listen(void *fifo)/*{{{*/
 {
     InputBase *that = (InputBase *) fifo;
+    that->_isThreadRunning = true;
     do {
         // _read() reads blocking until the other end closes the pipe. This 
         // loop will always restart _read() after it handled some input and 

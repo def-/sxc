@@ -123,6 +123,8 @@ namespace File
             pthread_t _thread;
             /// Indicates whether @ref _thread is running.
             bool _isThreadRunning;
+            /// Indicates whether @ref _read() or @ref listen() are active.
+            bool _isLocked;
             // virtual std::string _createPath() = 0;/*{{{*/
 
             /**
