@@ -1,6 +1,6 @@
 // FIXME Lock for _read() method - listen()/_read() may start even when object is already reading. this has to be disabled!
-// FIXME close() only if FIFO is open.
-// FIXME maybe split close() to close() and _kill() - _kill() into destructor -- kill MUST NEVER throw/fail.
+// FIXME _close() only if FIFO is open.
+// FIXME maybe split _close() to _close() and _kill() - _kill() into destructor -- kill MUST NEVER throw/fail.
 // FIXME catch references
 // LICENSE/*{{{*/
 /*
@@ -92,7 +92,7 @@ namespace File
              * @brief Initiates listening on the FIFO.
              *
              * If @a blocking is set to @c true this method will read blocking,
-             * i.e. it will finish when @ref close() is run. Per default, @a 
+             * i.e. it will finish when @ref _close() is run. Per default, @a 
              * blocking is @c false.
              *
              * This method creates a thread that executes @ref _listen()
@@ -207,13 +207,13 @@ namespace File
              * @param fifo Pointer to object of class InputBase.
              * @return NULL
              * @see InputBase::listen()
-             * @see InputBase::close()
+             * @see InputBase::_close()
              * @see InputBase::_read()
              */
             static void *_listen(void *fifo);
 
 /*}}}*/
-            // void close();/*{{{*/
+            // void _close();/*{{{*/
 
             /**
              * @brief Closes the FIFO.
@@ -222,7 +222,7 @@ namespace File
              *
              * @warning Do not override this method!
              */
-            void close();
+            void _close();
 
 /*}}}*/
     };

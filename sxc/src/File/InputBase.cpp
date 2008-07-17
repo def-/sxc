@@ -46,7 +46,7 @@ File::InputBase::InputBase()/*{{{*/
 /*}}}*/
 File::InputBase::~InputBase()/*{{{*/
 {
-    close();
+    _close();
 }
 
 /*}}}*/
@@ -110,7 +110,7 @@ void File::InputBase::_read()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::close()/*{{{*/
+void File::InputBase::_close()/*{{{*/
 {
     if (_isThreadRunning)
         pthread_cancel(_thread);
