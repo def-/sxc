@@ -67,6 +67,7 @@ namespace Exception
         // TODO
         FileMissing = 150,
         BadFile = 151,
+        FileLocked = 152,
 /*}}}*/
     };
 /*}}}*/
