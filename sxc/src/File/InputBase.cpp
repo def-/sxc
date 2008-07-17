@@ -78,9 +78,11 @@ void File::InputBase::listen(bool blocking)/*{{{*/
 {
     // Do not start to listen if the FIFO is currently locked. Otherwise we 
     // could end up handling the input twice.
-    if (_isLocked)
-        // FIXME
+    if (_isLocked) {
+        std::string message = _path + " already locked.";
+        throw Exception::FileInputException(Exception::FileLocked, message);
         return;
+    }
 
     _isLocked = true;
     // Start the thread in the background.
