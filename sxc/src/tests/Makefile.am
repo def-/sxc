@@ -3,6 +3,8 @@ LIBS = $(DEPS_LIBS)
 
 TESTS = tests
 check_PROGRAMS = tests
+#test_PROGRAMS = tests
+#testdir = ../..
 
 tests_SOURCES = main.cpp OptionTest.h
 tests_LDFLAGS = -lcppunit -ldl

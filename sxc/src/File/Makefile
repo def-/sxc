@@ -49,6 +49,7 @@ AUTOMAKE = ${SHELL} /home/deen/haruka/sxc/sxc/missing --run automake-1.10
 AWK = gawk
 CPPFLAGS = 
 CXX = g++
+CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = 
 CYGPATH_W = echo
@@ -59,7 +60,9 @@ DEPS_LIBS = -L/usr/local/lib -lgloox
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
+EGREP = /bin/grep -E
 EXEEXT = 
+GREP = /bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
