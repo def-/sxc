@@ -108,18 +108,6 @@ namespace File
             void listen(bool blocking = false);
 
 /*}}}*/
-            // void read();/*{{{*/
-
-            /**
-             * @brief Reads the FIFO blocking until the other end is closed.
-             *
-             * Input is handled by calling @ref _handleInput().
-             *
-             * @warning Do not override this method!
-             */
-            void read();
-
-/*}}}*/
             // void close();/*{{{*/
 
             /**
@@ -201,6 +189,18 @@ namespace File
              */
 
             void _validateFile();
+
+/*}}}*/
+            // void read();/*{{{*/
+
+            /**
+             * @brief Reads the FIFO blocking until the other end is closed.
+             *
+             * Input is handled by calling @ref _handleInput().
+             *
+             * @warning Do not override this method!
+             */
+            void read();
 
 /*}}}*/
             // static void *_listen(void *fifo);/*{{{*/
