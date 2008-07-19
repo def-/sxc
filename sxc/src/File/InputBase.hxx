@@ -115,7 +115,7 @@ namespace File
             /// The path including file name where the FIFO is located.
             std::string _path;
             /// The FIFO from which will be read.
-            std::ifstream _fifo;
+            std::fstream _fifo;
             /// Indicates whether @ref _fifo is valid.
             bool _isFifoValid;
             /// The thread running @ref _listen
