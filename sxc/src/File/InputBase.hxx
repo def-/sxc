@@ -124,7 +124,7 @@ namespace File
             bool _isThreadRunning;
             /// Indicates whether @ref _read() or @ref listen() are active.
             bool _isLocked;
-            // virtual std::string _createPath() = 0;/*{{{*/
+            // virtual const std::string &_createPath() const = 0;/*{{{*/
 
             /**
              * @brief Returns the path and file name of the FIFO.
@@ -136,7 +136,7 @@ namespace File
              *
              * @return Path and file name where the FIFO should be placed.
              */
-            virtual std::string _createPath() = 0;
+            virtual const std::string &_createPath() const = 0;
 
 /*}}}*/
             // virtual void _handleInput(std::string input) = 0;/*{{{*/
