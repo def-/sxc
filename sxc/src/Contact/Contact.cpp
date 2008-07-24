@@ -32,14 +32,14 @@
 
 namespace Contact
 {
-    Contact::Contact(gloox::JID jid)/*{{{*/
+    Contact::Contact(const gloox::JID jid)/*{{{*/
     : MessageSession(Control::Control::getInstance().getClient(), jid)
     {
         //_input = new File::Input(jid.bare());
         //_output = new File::Output(jid.bare());
     }/*}}}*/
 
-    void Contact::handleMessage(gloox::Message &msg)/*{{{*/
+    void Contact::handleMessage(const gloox::Message &msg)/*{{{*/
     {
         //_output->write(msg->body());
     }/*}}}*/

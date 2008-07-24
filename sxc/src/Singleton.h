@@ -47,7 +47,8 @@ template <class Type> class Singleton
 {
     public:
         //static Type &getInstance()/*{{{*/
-        /** Get the only instance.
+        /**
+         * @brief Get the only instance.
          *
          * @return An object of Instance, a class inheritting from the real
          *         class.

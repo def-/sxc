@@ -67,7 +67,9 @@ int main(int argc, char *argv[])/*{{{*/
     try {
         Control::Control::getInstance().initialize(
             jid.getValue(), port.getValue());
-        pause(); // Run forever (until a signal is received).
+        // Run forever (until a signal is received), other threads are waiting
+        // for input.
+        pause();
     } catch (Exception::Exception &e) {
         Control::Control::getInstance().handleError(e, true);
     }

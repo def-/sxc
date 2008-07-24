@@ -35,6 +35,8 @@
 #include <gloox/presence.h>
 #include <gloox/client.h>
 #include <gloox/connectionlistener.h>
+#include <gloox/message.h>
+#include <gloox/messagehandler.h>
 
 #include "../Singleton.h"
 #include "../Exception/Exception.h"
@@ -58,9 +60,23 @@ namespace Control
      *       Control::Control::getInstance().print("foobar");
      *       @endcode
      */
-    class Control : public Singleton<Control>, gloox::ConnectionListener
+    class Control : public
+        Singleton<Control>,
+        gloox::ConnectionListener,
+        gloox::MessageHandler
     {
         public:
+            //Control();/*{{{*/
+
+            /**
+             * @brief The constructor
+             *
+             * Initializes the values
+             */
+            Control();
+
+/*}}}*/
+
             //void initialize(const gloox::JID jid, int port = -1);/*{{{*/
 
             /**
@@ -121,7 +137,7 @@ namespace Control
                 const std::string &status=gloox::EmptyString);
 
 /*}}}*/
-            //bool sendMessage(std::string to, std::string message);/*{{{*/
+            //bool sendMessage(std::string to, std::string body) const;/*{{{*/
 
             /**
              * @brief Send a text message to a user.
@@ -130,28 +146,13 @@ namespace Control
              * on the roster or not.
              *
              * @param to A string representing the JID of the recipant.
-             * @param message The message to be transmitted.
+             * @param body The message to be transmitted.
              * @return Whether it was possible to send the message.
              */
-            bool sendMessage(std::string to, std::string message);
+            bool sendMessage(std::string to, std::string body) const;
 
 /*}}}*/
-            //bool receiveMessage(std::string from, std::string message);/*{{{*/
-
-            /**
-             * @brief Redirect an incomming message.
-             *
-             * This function redirects an incomming message to the out-file of
-             * the contact or to the general out-file if he is not on the
-             * roster.
-             *
-             * @param from The sender of the message.
-             * @param message The received message.
-             */
-            void receiveMessage(std::string from, std::string message);
-
-/*}}}*/
-            //bool addContract(/*{{{*/
+            //bool addContact(/*{{{*/
 
             /**
              * @brief Add a contact to the roster
@@ -164,28 +165,29 @@ namespace Control
              *        permission.
              * @return Whether the JID is valid.
              */
-            bool addContract(
+            bool addContact(
                 std::string jid,
-                std::string message = gloox::EmptyString);
+                std::string message = gloox::EmptyString) const;
 
 /*}}}*/
-            //bool acknowledgeAdd(std::string jid);/*{{{*/
+            //bool ackSubscription(std::string jid, bool ack) const;/*{{{*/
 
             /**
-             * @brief Permit a user to see your presence.
+             * @brief Acknowledge or decline a subscription request.
              *
              * When a user adds you to your roster and wants to see your
              * presence, he has to send you a request. This function
-             * acknowledges this request and thereby grants the user to see
-             * your presence.
+             * acknowledges or declines this request and thereby grants the
+             * user to see your presence.
              *
              * @param jid A string representing the JID of the user.
+             * @param ack Whether to acknowledge or to decline.
              * @return Whether the JID is valid.
              */
-            bool acknowledgeAdd(std::string jid);
+            bool ackSubscription(std::string jid, bool ack) const;
 
 /*}}}*/
-            //bool removeContract(std::string jid);/*{{{*/
+            //bool removeContact(std::string jid) const;/*{{{*/
 
             /**
              * @brief Remove a contact from the roster.
@@ -196,19 +198,39 @@ namespace Control
              * @param jid A string representing the JID of the contact.
              * @return Whether the JID is valid.
              */
-            bool removeContract(std::string jid);
+            bool removeContact(std::string jid) const;
 
 /*}}}*/
 
-            //void handleError(const Exception::Exception &e, bool isCritical = false);/*{{{*/
+            //void handleError(const Exception::Exception &e, bool isCritical = false) const;/*{{{*/
 
             /**
              */
-            void handleError(Exception::Exception &e, bool isCritical = false);
+            void handleError(Exception::Exception &e, bool isCritical = false) const;
 
 /*}}}*/
 
-            //int print(std::string text);/*{{{*/
+            //void handleMessage(/*{{{*/
+
+            /**
+             * @brief Handle an incomming message.
+             *
+             * This function redirects an incomming message to the general
+             * out-file for contacts that are not in the roster.
+             *
+             * @note Only messages, whose senders don't have a @ref
+             *       Contact::Contact registered, get to this function.
+             *
+             * @param msg The complete message.
+             * @param session The message session, if available.
+             */
+            void handleMessage(
+                const gloox::Message &msg,
+                gloox::MessageSession *session = 0);
+
+/*}}}*/
+
+            //int print(std::string text) const;/*{{{*/
 
             /**
              * @brief Print a text to the output file.
@@ -218,10 +240,10 @@ namespace Control
              *
              * @param text The raw text to be written to the output file.
              */
-            void print(std::string text);
+            void print(std::string text) const;
 
 /*}}}*/
-            //int printStdErr(std::string text);/*{{{*/
+            //int printStdErr(std::string text) const;/*{{{*/
 
             /**
              * @brief Print a text to stderr.
@@ -235,24 +257,25 @@ namespace Control
              *
              * @param text The raw text to print.
              */
-            void printStdErr(std::string text);
+            void printStdErr(std::string text) const;
 
 /*}}}*/
-            //gloox::ClientBase *getClient();/*{{{*/
+            //gloox::Client *getClient() const;/*{{{*/
 
             /**
+             * @brief Get the client object.
              */
-            gloox::ClientBase *getClient();
+            gloox::Client *getClient() const;
 
 /*}}}*/
 
-            virtual void onConnect();
-            virtual void onDisconnect(gloox::ConnectionError e);
-            virtual void onResourceBind(const std::string &resource) {}
-            virtual void onResourceBindError(const gloox::Error *error) {}
-            virtual void onSessionCreateError(const gloox::Error *error) {}
-            virtual bool onTLSConnect(const gloox::CertInfo &info) {}
-            virtual void onStreamEvent(gloox::StreamEvent event) {}
+            void onConnect();
+            void onDisconnect(gloox::ConnectionError e);
+            void onResourceBind(const std::string &resource) {}
+            void onResourceBindError(const gloox::Error *error) {}
+            void onSessionCreateError(const gloox::Error *error) {}
+            bool onTLSConnect(const gloox::CertInfo &info) {}
+            void onStreamEvent(gloox::StreamEvent event) {}
 
         private:
             //static const std::string _outputPrefix;/*{{{*/
@@ -291,22 +314,22 @@ namespace Control
             gloox::Client *_client;
 
 /*}}}*/
-            //Roster _roster;/*{{{*/
+            //const Roster _roster;/*{{{*/
 
             /// The roster operation listener.
-            Roster *_roster;
+            const Roster *_roster;
 
 /*}}}*/
-            //Control::File::Input _input;/*{{{*/
+            //const Control::File::Input _input;/*{{{*/
 
             /// The input file.
-            //Control::File::Input _input;
+            //const Control::File::Input _input;
 
 /*}}}*/
-            //Control::File::Output _output;/*{{{*/
+            //const Control::File::Output _output;/*{{{*/
 
             /// The output file.
-            //Control::File::Output _output;
+            //const Control::File::Output _output;
 
 /*}}}*/
     };

@@ -20,51 +20,32 @@
 
 /* $Id$ */
 
-
-#ifndef CONTACT_CONTACT_H
-#define CONTACT_CONTACT_H
-
-
 // INCLUDE/*{{{*/
 
-#include <gloox/messagesession.h>
-
-//#include "File/Input.h"
+#include <gloox/gloox.h>
 
 /*}}}*/
 
+//std::string &generateErrorText(/*{{{*/
 
-namespace Contact
-{
-    /**
-     * @class Contact
-     * @author Dennis Felsing
-     * @brief
-     */
-    class Contact : public gloox::MessageSession
-    {
-        public:
-            //Contact(const gloox::JID jid);/*{{{*/
+/**
+ * @brief Generate an error text.
+ *
+ * @param connectionError The connection error.
+ * @param streamError More verbose information about a stream error.
+ * @param streamErrorText An additional information text about the stream
+ *        error.
+ * @param authError More verbose information about an authentication error.
+ * @return The generated text.
+ */
 
-            /**
-             */
-            Contact(const gloox::JID jid);
-
-/*}}}*/
-            //virtual void handleMessage(const gloox::Message &msg);/*{{{*/
-
-            /**
-             */
-            virtual void handleMessage(const gloox::Message &msg);
+std::string &generateErrorText(
+    gloox::ConnectionError connectionError,
+    gloox::StreamError streamError,
+    const std::string &streamErrorText,
+    gloox::AuthenticationError authError);
 
 /*}}}*/
-        private:
-            //File::Input *_input;
-            //File::Output *_output;
 
-    };
-}
-
-#endif // CONTACT_CONTACT_H
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
