@@ -43,14 +43,17 @@ namespace Control
     class Roster : public gloox::RosterManager
     {
         public:
-            Roster(gloox::ClientBase *parent);
+            Roster(gloox::ClientBase *client);
 
-            virtual bool handleIq(const gloox::IQ &iq) {}
-            virtual void handleIqID(const gloox::IQ &iq, int context) {}
-            virtual void handlePresence(const gloox::Presence &presence) {}
-            virtual void handleSubscription(const gloox::Subscription &subscription) {}
-            virtual void handlePrivateXML(const gloox::Tag *xml) {}
-            virtual void handlePrivateXMLResult(const std::string &uid, gloox::PrivateXMLHandler::PrivateXMLResult pxResult) {}
+            virtual bool handleIq(const gloox::IQ &iq);
+            virtual void handleIqID(const gloox::IQ &iq, int context);
+            virtual void handlePresence(const gloox::Presence &presence);
+            virtual void handleSubscription(
+                const gloox::Subscription &subscription);
+            virtual void handlePrivateXML(const gloox::Tag *xml);
+            virtual void handlePrivateXMLResult(
+                const std::string &uid,
+                gloox::PrivateXMLHandler::PrivateXMLResult pxResult);
 
         private:
 

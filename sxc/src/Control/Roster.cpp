@@ -29,8 +29,35 @@
 
 namespace Control
 {
-    Roster::Roster(gloox::ClientBase *parent)/*{{{*/
-    : RosterManager(parent)
+    Roster::Roster(gloox::ClientBase *client)/*{{{*/
+    : RosterManager(client)
+    {
+    }/*}}}*/
+
+    bool Roster::handleIq(const gloox::IQ &iq)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handleIqID(const gloox::IQ &iq, int context)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handlePresence(const gloox::Presence &presence)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handleSubscription(/*{{{*/
+        const gloox::Subscription &subscription)
+    {
+    }/*}}}*/
+
+    void Roster::handlePrivateXML(const gloox::Tag *xml)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handlePrivateXMLResult(/*{{{*/
+        const std::string &uid,
+        gloox::PrivateXMLHandler::PrivateXMLResult pxResult)
     {
     }/*}}}*/
 }
