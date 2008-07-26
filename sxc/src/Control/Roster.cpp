@@ -30,7 +30,8 @@
 namespace Control
 {
     Roster::Roster(gloox::ClientBase *client)/*{{{*/
-    : RosterManager(client)
+    : RosterManager(client),
+      RosterListener()
     {
     }/*}}}*/
 
@@ -58,6 +59,66 @@ namespace Control
     void Roster::handlePrivateXMLResult(/*{{{*/
         const std::string &uid,
         gloox::PrivateXMLHandler::PrivateXMLResult pxResult)
+    {
+    }/*}}}*/
+
+    void Roster::handleItemAdded(const gloox::JID &jid)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handleItemSubscribed(const gloox::JID &jid)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handleItemRemoved(const gloox::JID &jid)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handleItemUpdated(const gloox::JID &jid)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handleItemUnsubscribed(const gloox::JID &jid)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handleRoster(const gloox::Roster &roster)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handleRosterPresence(/*{{{*/
+        const gloox::RosterItem &item,
+        const std::string &resource,
+        gloox::Presence::PresenceType presence,
+        const std::string &msg)
+    {
+    }/*}}}*/
+
+    void Roster::handleSelfPresence(/*{{{*/
+        const gloox::RosterItem &item,
+        const std::string &resource,
+        gloox::Presence::PresenceType presence,
+        const std::string &msg)
+    {
+    }/*}}}*/
+
+    bool Roster::handleSubscriptionRequest(/*{{{*/
+        const gloox::JID &jid,
+        const std::string &msg)
+    {
+    }/*}}}*/
+
+    bool Roster::handleUnsubscriptionRequest(/*{{{*/
+        const gloox::JID &jid,
+        const std::string &msg)
+    {
+    }/*}}}*/
+
+    void Roster::handleNonrosterPresence(const gloox::Presence &presence)/*{{{*/
+    {
+    }/*}}}*/
+
+    void Roster::handleRosterError(const gloox::IQ &iq)/*{{{*/
     {
     }/*}}}*/
 }

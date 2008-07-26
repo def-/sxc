@@ -77,14 +77,15 @@ namespace Control
         if (!_client) {
             _client = new gloox::Client(_jid, _password, _port);
             _client->registerConnectionListener(this);
+            // FIXME: Does this work or do we need an own client class?
+            _client->disableRoster();
             _roster = new Roster(_client);
             // Only establish a connection if there is no client object. (first
             // presence change)
             doConnect = true;
         }
         _client->setPresence(presence, priority, status);
-        // TODO: Is it neccessary to run connect() after every disconnect /
-        // setting offline?
+        // FIXME: Thread or non-blocking?
         if (doConnect) _client->connect();
     }/*}}}*/
 
