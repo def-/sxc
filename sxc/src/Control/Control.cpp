@@ -28,9 +28,9 @@
 #include <gloox/clientbase.h>
 #include <gloox/message.h>
 
-#include "Control.h"
-#include "Roster.h"
-#include "../generateErrorText.h"
+#include <Control/Control.h>
+#include <Control/Roster.h>
+#include <generateErrorText.h>
 
 /*}}}*/
 

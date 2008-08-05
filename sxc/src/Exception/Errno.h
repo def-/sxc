@@ -31,7 +31,7 @@
 
 // INCLUDES/*{{{*/
 
-#include "Type.h"
+#include <Exception/Type.h>
 
 /*}}}*/
 

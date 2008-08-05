@@ -29,9 +29,9 @@
 
 #include <gloox/jid.h>
 
-#include "OptionBase.h"
-#include "Parser.h" 
-#include "../Exception/OptionException.h"
+#include <Option/OptionBase.h>
+#include <Option/Parser.h>
+#include <Exception/OptionException.h>
 
 /*}}}*/
 

@@ -24,8 +24,8 @@
 
 #include <string>
 
-#include "OptionPort.h"
-#include "../Exception/OptionException.h"
+#include <Option/OptionPort.h>
+#include <Exception/OptionException.h>
 
 /*}}}*/
 

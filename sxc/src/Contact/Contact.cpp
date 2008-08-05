@@ -22,27 +22,36 @@
 
 // INCLUDE/*{{{*/
 
+#include <gloox/clientbase.h>
 #include <gloox/messagesession.h>
 
-#include "Contact.h"
-#include "../Control/Control.h"
+#include <Contact/Contact.h>
 
 /*}}}*/
 
 
 namespace Contact
 {
-    Contact::Contact(const gloox::JID jid)/*{{{*/
-    : MessageSession(Control::Control::getInstance().getClient(), jid)
+    Contact::Contact(gloox::ClientBase *client, const gloox::JID jid)/*{{{*/
     {
+        _session = new gloox::MessageSession(client, jid);
+        _session->registerMessageHandler(this);
+
         //_input = new File::Input(jid.bare());
         //_output = new File::Output(jid.bare());
     }/*}}}*/
 
-    void Contact::handleMessage(const gloox::Message &msg)/*{{{*/
-    {
-        //_output->write(msg->body());
-    }/*}}}*/
+    //Contact::~Contact()/*{{{*/
+    //{
+    //    delete _session;
+    //}/*}}}*/
+
+    //void Contact::handleMessage(/*{{{*/
+    //    const gloox::Message &msg,
+    //    gloox::MessageSession *session)
+    //{
+    //    //_output->write(msg->body());
+    //}/*}}}*/
 }
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

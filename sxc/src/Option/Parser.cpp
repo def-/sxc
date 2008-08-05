@@ -26,8 +26,8 @@
 #include <vector>
 #include <iostream>
 
-#include "Parser.h"
-#include "../Exception/OptionException.h"
+#include <Option/Parser.h>
+#include <Exception/OptionException.h>
 
 /*}}}*/
 

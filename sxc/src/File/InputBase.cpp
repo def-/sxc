@@ -29,10 +29,10 @@
 #include <errno.h>
 #include <sstream>
 #include <sys/stat.h>
-#include "InputBase.h"
-#include "../Exception/FileInputException.h"
-#include "../Exception/Errno.h"
-#include "../Exception/Type.h"
+#include <File/InputBase.h>
+#include <Exception/FileInputException.h>
+#include <Exception/Errno.h>
+#include <Exception/Type.h>
 
 /*}}}*/
 

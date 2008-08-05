@@ -1,5 +1,4 @@
-INCLUDES = $(DEPS_CFLAGS)
-LIBS = $(DEPS_LIBS)
+INCLUDES = $(GLOOX_CFLAGS)
 
-noinst_LIBRARIES = libException.a
-libException_a_SOURCES = Errno.cpp Exception.cpp GlooxException.cpp OptionException.cpp
+noinst_LTLIBRARIES = libException.la
+libException_la_SOURCES = Errno.cpp Exception.cpp GlooxException.cpp OptionException.cpp

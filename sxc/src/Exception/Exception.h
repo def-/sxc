@@ -30,7 +30,7 @@
 #include <string>
 #include <exception>
 
-#include "Type.h"
+#include <Exception/Type.h>
 
 /*}}}*/
 

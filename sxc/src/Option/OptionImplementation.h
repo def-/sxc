@@ -31,8 +31,8 @@
 #include <string>
 #include <sstream>
 
-#include "Option.h"
-#include "../Exception/OptionException.h"
+#include <Option/Option.h>
+#include <Exception/OptionException.h>
 
 /*}}}*/
 

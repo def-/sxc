@@ -26,7 +26,7 @@
 // INCLUDES/*{{{*/
 
 #include <string>
-#include "../../File/InputBase.h"
+#include <File/InputBase.h>
 
 /*}}}*/
 

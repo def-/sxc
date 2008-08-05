@@ -1,6 +1,5 @@
-INCLUDES = $(DEPS_CFLAGS)
-LIBS = $(DEPS_LIBS)
+INCLUDES = $(GLOOX_CFLAGS)
 
-noinst_LIBRARIES = libControlFile.a
-LDADD = ../../File/libFile.a
-libControlFile_a_SOURCES = Input.cpp
+noinst_LTLIBRARIES = libControlFile.la
+libControlFile_la_SOURCES = Input.cpp
+libControlFile_la_LIBADD = ../../File/libFile.la

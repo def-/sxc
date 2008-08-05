@@ -24,7 +24,7 @@
 
 #include <string>
 
-#include "GlooxException.h"
+#include <Exception/GlooxException.h>
 
 /*}}}*/
 

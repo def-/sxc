@@ -26,7 +26,7 @@
 // INCLUDES/*{{{*/
 
 #include <string>
-#include "Exception.h"
+#include <Exception/Exception.h>
 
 /*}}}*/
 

@@ -28,6 +28,8 @@
 // INCLUDE/*{{{*/
 
 #include <string>
+#include <map>
+#include <gloox/clientbase.h>
 #include <gloox/rostermanager.h>
 #include <gloox/rosterlistener.h>
 #include <gloox/subscription.h>
@@ -37,13 +39,19 @@
 #include <gloox/presence.h>
 #include <gloox/iq.h>
 
-#include "../Contact/Contact.h"
+#include <Contact/Contact.h>
 
 /*}}}*/
 
-
 namespace Control
 {
+    //typedef std::map<const std::string, Contact::Contact *> contactList;/*{{{*/
+
+    /// A map of JIDs and Contact-objects.
+    typedef std::map<const std::string, Contact::Contact *> contactList;
+
+/*}}}*/
+
     /**
      * @class Roster
      * @author Dennis Felsing
@@ -71,7 +79,20 @@ namespace Control
             virtual void handleItemRemoved(const gloox::JID &jid);
             virtual void handleItemUpdated(const gloox::JID &jid);
             virtual void handleItemUnsubscribed(const gloox::JID &jid);
+            //virtual void handleRoster(const gloox::Roster &roster);/*{{{*/
+
+            /**
+             * @brief This function gets called on the initial push.
+             *
+             * When the connection to the server is established, the server
+             * pushes the current roster and this function gets called. It
+             * creates the client objects for each roster item.
+             *
+             * @param roster The roster from the server.
+             */
             virtual void handleRoster(const gloox::Roster &roster);
+
+/*}}}*/
             virtual void handleRosterPresence(
                 const gloox::RosterItem &item,
                 const std::string &resource,
@@ -93,6 +114,8 @@ namespace Control
             virtual void handleRosterError(const gloox::IQ &iq);
 
         private:
+            gloox::ClientBase *_client;
+            contactList _contacts;
 
     };
 }

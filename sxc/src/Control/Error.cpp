@@ -24,8 +24,8 @@
 
 #include <iostream>
 
-#include "Error.h"
-#include "Control.h"
+#include <Control/Error.h>
+#include <Control/Control.h>
 
 /*}}}*/
 

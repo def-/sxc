@@ -24,8 +24,8 @@
 
 #include <string>
 
-#include "Exception.h"
-#include "Type.h"
+#include <Exception/Exception.h>
+#include <Exception/Type.h>
 
 /*}}}*/
 

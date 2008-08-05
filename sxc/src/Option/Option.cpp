@@ -30,8 +30,8 @@
 #include <sstream>
 #include <gloox/jid.h>
 
-#include "OptionImplementation.h"
-#include "Parser.h"
+#include <Option/OptionImplementation.h>
+#include <Option/Parser.h>
 
 /*}}}*/
 

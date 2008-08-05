@@ -1,5 +1,4 @@
-INCLUDES = $(DEPS_CFLAGS)
-LIBS = $(DEPS_LIBS)
+INCLUDES = $(GLOOX_CFLAGS)
 
-noinst_LIBRARIES = libOption.a
-libOption_a_SOURCES = Option.cpp OptionBase.cpp OptionPort.cpp Parser.cpp
+noinst_LTLIBRARIES = libOption.la
+libOption_la_SOURCES = Option.cpp OptionBase.cpp OptionPort.cpp Parser.cpp

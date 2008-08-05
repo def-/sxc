@@ -22,7 +22,15 @@
 
 // INCLUDE/*{{{*/
 
-#include "Roster.h"
+#include <string>
+#include <map>
+#include <gloox/clientbase.h>
+#include <gloox/jid.h>
+#include <gloox/presence.h>
+#include <gloox/iq.h>
+
+#include <Control/Roster.h>
+#include <Contact/Contact.h>
 
 /*}}}*/
 
@@ -31,7 +39,8 @@ namespace Control
 {
     Roster::Roster(gloox::ClientBase *client)/*{{{*/
     : RosterManager(client),
-      RosterListener()
+      RosterListener(),
+      _client(client)
     {
     }/*}}}*/
 
@@ -84,6 +93,14 @@ namespace Control
 
     void Roster::handleRoster(const gloox::Roster &roster)/*{{{*/
     {
+        for(
+        gloox::Roster::const_iterator entry = roster.begin();
+        entry != roster.end();
+        ++entry) {
+            const gloox::JID jid(entry->first);
+            Contact::Contact contact(_client, jid);
+            //_contacts.insert(make_pair(entry->first, new Contact::Contact(gloox::JID(entry->first))));
+        }
     }/*}}}*/
 
     void Roster::handleRosterPresence(/*{{{*/

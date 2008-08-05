@@ -20,7 +20,7 @@
 
 /* $Id$ */
 
-#include "Input.h"
+#include <Control/File/Input.h>
 
 
 

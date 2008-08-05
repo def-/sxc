@@ -1,5 +1,4 @@
-INCLUDES = $(DEPS_CFLAGS)
-LIBS = $(DEPS_LIBS)
+INCLUDES = $(GLOOX_CFLAGS)
 
-noinst_LIBRARIES = libFile.a
-libFile_a_SOURCES = InputBase.cpp
+noinst_LTLIBRARIES = libFile.la
+libFile_la_SOURCES = InputBase.cpp

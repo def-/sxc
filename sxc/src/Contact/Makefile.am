@@ -1,5 +1,4 @@
-INCLUDES = $(DEPS_CFLAGS)
-LIBS = $(DEPS_LIBS)
+INCLUDES = $(GLOOX_CFLAGS)
 
-noinst_LIBRARIES = libContact.a
-libContact_a_SOURCES = Contact.cpp
+noinst_LTLIBRARIES = libContact.la
+libContact_la_SOURCES = Contact.cpp

@@ -1,12 +1,8 @@
-INCLUDES = $(DEPS_CFLAGS)
-LIBS = $(DEPS_LIBS)
+INCLUDES = $(GLOOX_CFLAGS) $(CPPUNIT_CFLAGS)
+LIBS = $(GLOOX_LIBS) $(CPPUNIT_LIBS)
 
 TESTS = tests
 check_PROGRAMS = tests
-#test_PROGRAMS = tests
-#testdir = ../..
 
-tests_SOURCES = main.cpp OptionTest.h
-tests_LDFLAGS = -lcppunit -ldl
-
-tests_LDADD = ../Contact/libContact.a ../Control/libControl.a ../Exception/libException.a ../Option/libOption.a
+tests_SOURCES = main.cpp OptionTest.cpp
+tests_LDADD = ../Contact/libContact.la ../Control/libControl.la ../Exception/libException.la ../Option/libOption.la

@@ -24,9 +24,11 @@
 
 #include <string>
 
-// PACKAGE, VERSION, COPYRIGHT
-#include "../config.h"
-#include "OptionException.h"
+#include <Exception/OptionException.h>
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 /*}}}*/
 

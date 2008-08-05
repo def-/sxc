@@ -27,9 +27,11 @@
 
 // INCLUDE/*{{{*/
 
+#include <gloox/clientbase.h>
 #include <gloox/messagesession.h>
+#include <gloox/messagehandler.h>
 
-//#include "File/Input.h"
+//#include <Contact/File/Input.h>
 
 /*}}}*/
 
@@ -41,26 +43,32 @@ namespace Contact
      * @author Dennis Felsing
      * @brief
      */
-    class Contact : public gloox::MessageSession
+    class Contact : public gloox::MessageHandler
     {
         public:
-            //Contact(const gloox::JID jid);/*{{{*/
+            //Contact(gloox::ClientBase *client, const gloox::JID jid);/*{{{*/
 
             /**
              */
-            Contact(const gloox::JID jid);
+            Contact(gloox::ClientBase *client, const gloox::JID jid);
 
 /*}}}*/
-            //virtual void handleMessage(const gloox::Message &msg);/*{{{*/
+
+            ~Contact() {}
+
+            //void handleMessage(/*{{{*/
 
             /**
              */
-            virtual void handleMessage(const gloox::Message &msg);
+            void handleMessage(
+                const gloox::Message &msg,
+                gloox::MessageSession *session) {}
 
 /*}}}*/
         private:
             //File::Input *_input;
             //File::Output *_output;
+            gloox::MessageSession *_session;
 
     };
 }

@@ -22,8 +22,8 @@
 
 // INCLUDES/*{{{*/
 
-#include "Errno.h"
-#include "Type.h"
+#include <Exception/Errno.h>
+#include <Exception/Type.h>
 
 /*}}}*/
 

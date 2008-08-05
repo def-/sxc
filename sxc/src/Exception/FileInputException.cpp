@@ -22,7 +22,7 @@
 
 #include <sstream>
 
-#include "FileInputException.h"
+#include <Exception/FileInputException.h>
 
 /*}}}*/
 

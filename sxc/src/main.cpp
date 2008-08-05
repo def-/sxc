@@ -31,11 +31,11 @@
 #include <sstream>
 #include <gloox/jid.h>
 
-#include "Option/Parser.h"
-#include "Option/Option.h"
-#include "Option/OptionPort.h"
-#include "Control/Control.h"
-#include "Exception/Exception.h"
+#include <Option/Parser.h>
+#include <Option/Option.h>
+#include <Option/OptionPort.h>
+#include <Control/Control.h>
+#include <Exception/Exception.h>
 
 /*}}}*/
 

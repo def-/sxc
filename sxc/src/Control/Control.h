@@ -38,9 +38,9 @@
 #include <gloox/message.h>
 #include <gloox/messagehandler.h>
 
-#include "../Singleton.h"
-#include "../Exception/Exception.h"
-#include "Roster.h"
+#include <Singleton.h>
+#include <Exception/Exception.h>
+#include <Control/Roster.h>
 
 /*}}}*/
 
