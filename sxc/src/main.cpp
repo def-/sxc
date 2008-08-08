@@ -40,7 +40,7 @@
 /*}}}*/
 
 /**
- * @file main.cpp
+ * @file src/main.cpp
  * @author Dennis Felsing
  * @brief The starting point of sxc.
  *

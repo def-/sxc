@@ -40,7 +40,8 @@ namespace Control
     Roster::Roster(gloox::ClientBase *client)/*{{{*/
     : RosterManager(client),
       RosterListener(),
-      _client(client)
+      _client(client),
+      _contacts()
     {
     }/*}}}*/
 
@@ -96,10 +97,10 @@ namespace Control
         for(
         gloox::Roster::const_iterator entry = roster.begin();
         entry != roster.end();
-        ++entry) {
-            const gloox::JID jid(entry->first);
-            Contact::Contact contact(_client, jid);
-            //_contacts.insert(make_pair(entry->first, new Contact::Contact(gloox::JID(entry->first))));
+            ++entry) {
+            _contacts.insert(make_pair(
+                entry->first,
+                new Contact::Contact(_client, gloox::JID(entry->first))));
         }
     }/*}}}*/
 

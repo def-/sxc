@@ -52,7 +52,7 @@ namespace Control
      * @author Dennis Felsing
      * @brief The central class connecting and controlling other classes.
      *
-     * This class initializes the sxc's main input and output files, handles
+     * This class initializes sxc's main input and output files, handles
      * input and errors.
      *
      * @note As this class is a singleton you can use it from anywhere.

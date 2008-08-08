@@ -41,17 +41,17 @@ namespace Contact
         //_output = new File::Output(jid.bare());
     }/*}}}*/
 
-    //Contact::~Contact()/*{{{*/
-    //{
-    //    delete _session;
-    //}/*}}}*/
+    Contact::~Contact()/*{{{*/
+    {
+        delete _session;
+    }/*}}}*/
 
-    //void Contact::handleMessage(/*{{{*/
-    //    const gloox::Message &msg,
-    //    gloox::MessageSession *session)
-    //{
-    //    //_output->write(msg->body());
-    //}/*}}}*/
+    void Contact::handleMessage(/*{{{*/
+        const gloox::Message &msg,
+        gloox::MessageSession *session)
+    {
+        //_output->write(msg->body());
+    }/*}}}*/
 }
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

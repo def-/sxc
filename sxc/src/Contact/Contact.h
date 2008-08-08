@@ -54,7 +54,7 @@ namespace Contact
 
 /*}}}*/
 
-            ~Contact() {}
+            ~Contact();
 
             //void handleMessage(/*{{{*/
 
@@ -62,7 +62,7 @@ namespace Contact
              */
             void handleMessage(
                 const gloox::Message &msg,
-                gloox::MessageSession *session) {}
+                gloox::MessageSession *session);
 
 /*}}}*/
         private:
