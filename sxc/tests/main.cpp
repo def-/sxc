@@ -1,6 +1,6 @@
 #include <cppunit/ui/text/TestRunner.h>
 
-#include <tests/OptionTest.h>
+#include <OptionTest.h>
 
 int main(int argc, char **argv)
 {

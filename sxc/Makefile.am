@@ -1,1 +1,4 @@
-SUBDIRS = src
+SUBDIRS = src tests
+
+doxygen:
+	doxygen

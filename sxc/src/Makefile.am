@@ -1,4 +1,4 @@
-SUBDIRS = Exception File Contact Control Option tests
+SUBDIRS = Exception File Contact Control Option
 INCLUDES = $(GLOOX_CFLAGS)
 LIBS = $(GLOOX_LIBS)
 

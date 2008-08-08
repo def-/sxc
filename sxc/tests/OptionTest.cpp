@@ -2,7 +2,7 @@
 #include <gloox/jid.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <tests/OptionTest.h>
+#include <OptionTest.h>
 #include <Exception/OptionException.h>
 #include <Option/Parser.h>
 #include <Option/Option.h>
