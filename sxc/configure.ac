@@ -13,7 +13,7 @@ AC_ARG_ENABLE(
     [debug],
     AC_HELP_STRING(
         [--enable-debug],
-        [enable debugging output to stderr]),
+        [enable debugging output to stderr @<:@default=no@>:@]),
     [debug=${enableval}],
     [debug=no])
 
