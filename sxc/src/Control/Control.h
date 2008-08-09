@@ -44,11 +44,12 @@
 
 /*}}}*/
 
-
+/**
+ * @brief Contains the controller classes.
+ */
 namespace Control
 {
     /**
-     * @class Control::Control
      * @author Dennis Felsing
      * @brief The central class connecting and controlling other classes.
      *

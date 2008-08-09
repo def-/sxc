@@ -30,13 +30,11 @@
 #ifndef CONTROL_FILE_FILE_H
 #define CONTROL_FILE_FILE_H
 
-/**
- * @namespace Control::File
- * @brief Contains the classes for file operations of Control.
- */
-
 namespace Control
 {
+    /**
+     * @brief Contains the classes for file operations of Control.
+     */
     namespace File
     {
         class Input;

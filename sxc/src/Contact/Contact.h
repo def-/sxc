@@ -35,13 +35,17 @@
 
 /*}}}*/
 
-
+/**
+ * @brief Contains the classes for contacts.
+ */
 namespace Contact
 {
     /**
-     * @class Contact
      * @author Dennis Felsing
-     * @brief
+     * @brief A representation of a contact.
+     *
+     * Objects of this class get called when a message for the represented
+     * contact gets in.
      */
     class Contact : public gloox::MessageHandler
     {

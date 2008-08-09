@@ -36,7 +36,6 @@
 namespace Exception
 {
     /**
-     * @class GlooxException
      * @author Dennis Felsing
      * @brief An exception class for gloox errors.
      */

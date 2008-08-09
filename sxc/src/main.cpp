@@ -40,14 +40,25 @@
 /*}}}*/
 
 /**
- * @file src/main.cpp
+ * @mainpage sxc Documentation
+ *
+ * @section contents Contents
+ * @ref desc_sec
+ *
+ * @section desc_sec Description
+ * sxc (pronounced "sexy) is for jabber what ii (irc it / irc improved) is for
+ * IRC: A minimalistic file-based jabber client which runs in the background
+ * and can be controlled with basic command line tools to read from / write
+ * into the files/FIFOs sxc creates.
+ */
+
+/**
  * @author Dennis Felsing
  * @brief The starting point of sxc.
  *
  * Parse the parameters the program was started with and then initialize the
  * @ref Control::Control.
  */
-
 int main(int argc, char *argv[])/*{{{*/
 {
     Option::Parser parser;

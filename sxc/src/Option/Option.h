@@ -35,13 +35,14 @@
 
 /*}}}*/
 
+/**
+ * @brief Contains a flexible option parsing system.
+ */
 namespace Option
 {
-    /*
-     * @class Option
+    /**
      * @author Dennis Felsing
-     * @brief A representation of an program option.
-     *
+     * @brief A representation of a program option.
      */
     template <typename T>
     class Option : public OptionBase

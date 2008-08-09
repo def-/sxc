@@ -23,7 +23,6 @@
 
 
 /**
- * @class Singleton
  * @author Dennis Felsing
  * @brief A singleton base class.
  *

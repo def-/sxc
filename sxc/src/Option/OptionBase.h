@@ -35,11 +35,9 @@
 
 namespace Option
 {
-    /*
-     * @class OptionBase
+    /**
      * @author Dennis Felsing
-     * @brief
-     *
+     * @brief The base class for options.
      */
     class OptionBase
     {

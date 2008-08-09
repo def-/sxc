@@ -37,7 +37,6 @@
 namespace Option
 {
     /**
-     * @class Parser
      * @author Dennis Felsing
      * @brief An option parser
      *

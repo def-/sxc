@@ -36,7 +36,6 @@
 namespace Exception
 {
     /**
-     * @class OptionException
      * @author Dennis Felsing
      * @brief A class for program argument exceptions.
      */

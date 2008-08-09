@@ -39,7 +39,6 @@
 namespace File
 {
     /**
-     * @class File::InputBase
      * @author Andreas Waidler
      * @brief Abstract Base Class handling input (FIFOs).
      *

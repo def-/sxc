@@ -34,6 +34,12 @@
 
 namespace Option
 {
+    /**
+     * @author Dennis Felsing
+     * @brief A class representing an option for a port.
+     *
+     * This class checks whether the value is a valid port.
+     */
     class OptionPort : public Option<int>
     {
         public:

@@ -34,7 +34,6 @@
 namespace Control
 {
     /**
-     * @class Error
      * @author Dennis Felsing
      * @brief A class representing an error.
      *

@@ -36,7 +36,6 @@ namespace Control
     namespace File
     {
         /**
-         * @class Control::File::Input
          * @author Andreas Waidler
          * @brief Main input class for sxc.
          *

@@ -34,7 +34,6 @@
 namespace Exception
 {
     /**
-     * @class Exception::FileInputException
      * @brief Exception class for the input file classes.
      *
      * @author Andreas Waidler

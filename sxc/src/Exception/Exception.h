@@ -34,10 +34,13 @@
 
 /*}}}*/
 
+/**
+ * @brief Contains everything about Exceptions and their handling.
+ */
+
 namespace Exception
 {
     /**
-     * @class Exception
      * @author Dennis Felsing
      * @brief An exception base class.
      */
