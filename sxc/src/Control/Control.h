@@ -48,7 +48,7 @@
 namespace Control
 {
     /**
-     * @class Control
+     * @class Control::Control
      * @author Dennis Felsing
      * @brief The central class connecting and controlling other classes.
      *

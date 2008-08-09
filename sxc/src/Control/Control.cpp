@@ -32,6 +32,14 @@
 #include <Control/Roster.h>
 #include <generateErrorText.h>
 
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#ifdef DEBUG
+# include <sstream>
+#endif
+
 /*}}}*/
 
 
@@ -72,6 +80,46 @@ namespace Control
         int priority,
         const std::string &status)
     {
+        #if DEBUG
+            std::string presenceStr;
+            switch (presence) {
+            case gloox::Presence::Available:
+                presenceStr = "Available";
+                break;
+            case gloox::Presence::Chat:
+                presenceStr = "Chat";
+                break;
+            case gloox::Presence::Away:
+                presenceStr = "Away";
+                break;
+            case gloox::Presence::DND:
+                presenceStr = "DND";
+                break;
+            case gloox::Presence::XA:
+                presenceStr = "XA";
+                break;
+            case gloox::Presence::Unavailable:
+                presenceStr = "Unavailable";
+                break;
+            case gloox::Presence::Probe:
+                presenceStr = "Probe";
+                break;
+            case gloox::Presence::Error:
+                presenceStr = "Error";
+                break;
+            case gloox::Presence::Invalid:
+                presenceStr = "Invalid";
+                break;
+            default:
+                presenceStr = "Unknown";
+            }
+            std::stringstream priorityStr;
+            priorityStr << priority;
+            printStdErr(
+                "Setting the presence to " + presenceStr + " (Priority: " +
+                priorityStr.str() + ", Message: " + status +")");
+        #endif
+
         bool doConnect = false;
 
         if (!_client) {

@@ -8,6 +8,50 @@ AC_DEFINE_UNQUOTED(
 AC_CONFIG_SRCDIR([src/main.cpp])
 AM_CONFIG_HEADER([src/config.h])
 
+# Optional Features
+AC_ARG_ENABLE(
+    [debug],
+    AC_HELP_STRING(
+        [--enable-debug],
+        [enable debugging output to stderr]),
+    [debug=${enableval}],
+    [debug=no])
+
+if test "x${debug}" = xyes; then
+    AC_DEFINE(
+        DEBUG,
+        [1],
+        [Define to 1 to enable debugging output to stderr])
+fi
+
+AC_ARG_ENABLE(
+    [dot-multi-targets],
+    AC_HELP_STRING(
+        [--disable-dot-multi-targets],
+        [disable dot's output to multiple files in one run (make doxygen)
+         @<:@default=use@:>@]),
+    [dot_multi_targets=${withval}],
+    [dot_multi_targets=yes])
+
+# Optional Packages
+AC_ARG_WITH(
+    [dot],
+    AC_HELP_STRING(
+        [--without-dot],
+        [do not use dot for graph generation (make doxygen)
+         @<:@default=use@:>@]),
+    [with_dot=${withval}],
+    [with_dot=yes])
+
+AC_ARG_WITH(
+    [htags],
+    AC_HELP_STRING(
+        [--with-htags],
+        [enable the htags (GNU GLOBAL) source browser (make doxygen)
+         @<:@default=no@:>@]),
+    [with_htags=${withval}],
+    [with_htags=no])
+
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
@@ -27,7 +71,6 @@ if test "x${have_doxygen}" = xno; then
 fi
 
 AC_PATH_PROG([perl_path], [perl], [no])
-AC_SUBST(perl_path)
 if test "x${perl_path}" = xno; then
     echo \
 "-------------------------------------------------
@@ -35,34 +78,6 @@ if test "x${perl_path}" = xno; then
  \"make doxygen\" will not work.
 -------------------------------------------------"
 fi
-
-AC_ARG_WITH(
-    [dot],
-    [dnl
-  --without-dot           disable graph generation using dot (make doxygen)
-                          @<:@default=use@:>@],
-    [with_dot=${withval}],
-    [with_dot=yes])
-AC_SUBST(with_dot)
-
-AC_ARG_WITH(
-    [dot-multi-targets],
-    [dnl
-  --without-dot-multi-targets
-                          disable dot's output to multiple files in one run
-                          (make doxygen) @<:@default=use@:>@],
-    [with_dot_multi_targets=${withval}],
-    [with_dot_multi_targets=yes])
-AC_SUBST(with_dot_multi_targets)
-
-AC_ARG_WITH(
-    [htags],
-    [dnl
-  --with-htags            enable the htags (GNU GLOBAL) source browser
-                          (make doxygen) @<:@default=no@:>@],
-    [with_htags=${withval}],
-    [with_htags=no])
-AC_SUBST(with_htags)
 
 if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
     if test "x${with_dot}" = xyes; then
@@ -74,7 +89,7 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
  \"make doxygen\" will not build powerful graphs.
 -------------------------------------------------"
         else
-            if test "x${with_dot_multi_targets}" = xyes; then
+            if test "x${dot_multi_targets}" = xyes; then
                 AC_MSG_CHECKING([for dot > 1.8.10])
                 dot_version=`dot -V 2>&1 | \
                     sed -e 's/.*version //' | sed -e 's/ .*//'`
@@ -84,9 +99,9 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
                     [gt],
                     [1.8.10],
                     [],
-                    [with_dot_multi_targets=no])
-                AC_MSG_RESULT([$with_dot_multi_targets])
-                if test "x${with_dot_multi_targets}" = xno; then
+                    [dot_multi_targets=no])
+                AC_MSG_RESULT([$dot_multi_targets])
+                if test "x${dot_multi_targets}" = xno; then
                     echo \
 "-------------------------------------------------
  Unable to find dot > 1.8.10.
@@ -98,7 +113,7 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
             fi
         fi
     else
-        with_dot_multi_targets=no
+        dot_multi_targets=no
     fi
 
     if test "x${with_htags}" = xyes; then
@@ -124,7 +139,7 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
     fi
 else
     with_dot=no
-    with_dot_multi_targets=no
+    dot_multi_targets=no
     with_htags=no
 fi
 
@@ -147,8 +162,6 @@ if test "x${have_pthreads}" = xno; then
 fi
 
 PKG_CHECK_MODULES([GLOOX], [gloox >= 0.9], [have_gloox=yes], [have_gloox=no])
-AC_SUBST(GLOOX_CFLAGS)
-AC_SUBST(GLOOX_LIBS)
 if test "x${have_gloox}" = xno; then
     echo \
 "-------------------------------------------------
@@ -163,8 +176,6 @@ PKG_CHECK_MODULES(
     [cppunit >= 1.12.0],
     [have_cppunit=yes],
     [have_cppunit=no])
-AC_SUBST(CPPUNIT_CFLAGS)
-AC_SUBST(CPPUNIT_LIBS)
 if test "x${have_cppunit}" = xno; then
     echo \
 "-------------------------------------------------
@@ -181,6 +192,19 @@ AC_C_INLINE
 # Checks for library functions.
 AC_FUNC_STAT
 AC_CHECK_FUNCS([mkfifo])
+
+# Substs
+AC_SUBST(debug)
+AC_SUBST(dot_multi_targets)
+
+AC_SUBST(perl_path)
+AC_SUBST(with_dot)
+AC_SUBST(with_htags)
+
+AC_SUBST(GLOOX_CFLAGS)
+AC_SUBST(GLOOX_LIBS)
+AC_SUBST(CPPUNIT_CFLAGS)
+AC_SUBST(CPPUNIT_LIBS)
 
 AC_CONFIG_FILES([
     Makefile
@@ -206,11 +230,12 @@ echo \
  Compiler: '${CC} ${CFLAGS} ${CPPFLAGS}'
 
  Package features:
+  debug              : ${debug}
   make doxygen:
    doxygen (needed)  : ${have_doxygen}
    Perl (needed)     : ${perl_path}
    dot               : ${with_dot}
-   dot multi targets : ${with_dot_multi_targets}
+   dot multi targets : ${dot_multi_targets}
    htags             : ${with_htags}
   make check:
    cppunit (needed)  : ${have_cppunit}
