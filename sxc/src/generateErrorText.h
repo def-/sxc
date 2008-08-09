@@ -38,7 +38,6 @@
  * @param authError More verbose information about an authentication error.
  * @return The generated text.
  */
-
 std::string &generateErrorText(
     gloox::ConnectionError connectionError,
     gloox::StreamError streamError,

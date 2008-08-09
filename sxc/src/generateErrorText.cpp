@@ -27,15 +27,6 @@
 
 /*}}}*/
 
-/**
- * @file generateErrorText.cpp
- * @author Dennis Felsing
- * @brief Generate an error text for a connection error.
- *
- * This function generates a verbose connection error text. It gets further
- * information from the client object.
- */
-
 std::string &generateErrorText(/*{{{*/
     gloox::ConnectionError connectionError,
     gloox::StreamError streamError,
