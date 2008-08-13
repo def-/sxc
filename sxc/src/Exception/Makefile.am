@@ -1,4 +1,4 @@
 INCLUDES = $(GLOOX_CFLAGS)
 
 noinst_LTLIBRARIES = libException.la
-libException_la_SOURCES = Errno.cpp Exception.cpp GlooxException.cpp OptionException.cpp
+libException_la_SOURCES = Errno.cxx Exception.cxx GlooxException.cxx OptionException.cxx

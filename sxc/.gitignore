@@ -24,8 +24,8 @@ nohup.out
 *.a
 *.la
 .deps
-config.h
-config.h.in
+config.hxx
+config.hxx.in
 stamp-h1
 src/sxc
 tests/tests

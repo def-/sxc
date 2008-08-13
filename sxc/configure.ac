@@ -5,8 +5,8 @@ AC_DEFINE_UNQUOTED(
     ["2008 Andreas Waidler, Dennis Felsing"],
     [Copyright information.])
 
-AC_CONFIG_SRCDIR([src/main.cpp])
-AM_CONFIG_HEADER([src/config.h])
+AC_CONFIG_SRCDIR([src/main.cxx])
+AM_CONFIG_HEADER([src/config.hxx])
 
 # Optional Features
 AC_ARG_ENABLE(
