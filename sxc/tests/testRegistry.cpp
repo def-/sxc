@@ -1,6 +1,6 @@
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <OptionTest.h>
+#include <Option/OptionTest.h>
 
 // Registering all unit tests here, to make them easier to disable and enable.
 

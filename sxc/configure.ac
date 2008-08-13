@@ -217,6 +217,7 @@ AC_CONFIG_FILES([
     src/File/Makefile
     src/Option/Makefile
     tests/Makefile
+    tests/Option/Makefile
 ])
 
 AC_OUTPUT
