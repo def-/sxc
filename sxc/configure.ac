@@ -60,6 +60,8 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
+AC_PROG_AWK
+AC_PROG_SED
 
 AC_CHECK_PROG([have_doxygen], [doxygen], [yes], [no])
 if test "x${have_doxygen}" = xno; then
@@ -90,7 +92,6 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
 -------------------------------------------------"
         else
             if test "x${dot_multi_targets}" = xyes; then
-                AC_MSG_CHECKING([for dot > 1.8.10])
                 dot_version=`dot -V 2>&1 | \
                     sed -e 's/.*version //' | sed -e 's/ .*//'`
                 # Requires AX_COMPARE_VERSION from the Autoconf Macro Archive
@@ -100,6 +101,7 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
                     [1.8.10],
                     [],
                     [dot_multi_targets=no])
+                AC_MSG_CHECKING([for dot > 1.8.10])
                 AC_MSG_RESULT([$dot_multi_targets])
                 if test "x${dot_multi_targets}" = xno; then
                     echo \
@@ -161,11 +163,11 @@ if test "x${have_pthreads}" = xno; then
     (exit 1); exit 1
 fi
 
-PKG_CHECK_MODULES([GLOOX], [gloox >= 0.9], [have_gloox=yes], [have_gloox=no])
+PKG_CHECK_MODULES([GLOOX], [gloox >= 1.0], [have_gloox=yes], [have_gloox=no])
 if test "x${have_gloox}" = xno; then
     echo \
 "-------------------------------------------------
- Unable to find gloox >= 0.9. Stopping
+ Unable to find gloox >= 1.0. Stopping
  Check \"config.log\" for more information.
 -------------------------------------------------"
     (exit 1); exit 1
