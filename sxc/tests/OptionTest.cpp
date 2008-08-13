@@ -8,8 +8,6 @@
 #include <Option/Option.h>
 #include <Option/OptionPort.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(OptionTest);
-
 void OptionTest::setUp()/*{{{*/
 {
     _parser = new Option::Parser;
