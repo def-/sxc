@@ -9,54 +9,20 @@
 
 class OptionTest : public CppUnit::TestFixture
 {
+    CPPUNIT_TEST_SUITE(OptionTest);
+        CPPUNIT_TEST(testCorrectParsing);
+        CPPUNIT_TEST(testMissingObligatoryOption);
+        CPPUNIT_TEST(testValueNotSet);
+        CPPUNIT_TEST(testOptionSetMultipleTimes);
+        CPPUNIT_TEST(testUnknownLongOption);
+        CPPUNIT_TEST(testUnknownShortOption);
+        CPPUNIT_TEST(testConflictingShortName);
+        CPPUNIT_TEST(testConflictingLongName);
+        CPPUNIT_TEST(testJids);
+        CPPUNIT_TEST(testConvertType);
+    CPPUNIT_TEST_SUITE_END();
+
     public:
-        static CppUnit::Test *suite()
-        {
-            CppUnit::TestSuite *suite = new CppUnit::TestSuite("Option");
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "Correct option parsing",
-                &OptionTest::testCorrectParsing));
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "Option parsing without an obligatory option",
-                &OptionTest::testMissingObligatoryOption));
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "Option parsing with an option without the value set",
-                &OptionTest::testValueNotSet));
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "Option parsing with one option set multiple times",
-                &OptionTest::testOptionSetMultipleTimes));
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "Option parsing with an unknown long option",
-                &OptionTest::testUnknownLongOption));
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "Option parsing with an unknown short option",
-                &OptionTest::testUnknownShortOption));
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "Conflicting short name",
-                &OptionTest::testConflictingShortName));
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "Conflicting long name",
-                &OptionTest::testConflictingLongName));
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "JIDs",
-                &OptionTest::testJids));
-
-            suite->addTest(new CppUnit::TestCaller<OptionTest>(
-                "Type conversion",
-                &OptionTest::testConvertType));
-
-            return suite;
-        }
-
         void setUp();
         void tearDown();
 
