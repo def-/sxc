@@ -26,19 +26,20 @@
 
 /*}}}*/
 
-
 namespace Exception
 {
     FileInputException::FileInputException(Type type, std::string &message)/*{{{*/
     : Exception(type, message)
     {
-    }/*}}}*/
+    }
 
+/*}}}*/
     FileInputException::FileInputException(Type type, const char *message)/*{{{*/
     : Exception(type, message)
     {
-    }/*}}}*/
+    }
 
+/*}}}*/
     void FileInputException::createDescription() throw()/*{{{*/
     {
         // FIXME
@@ -46,7 +47,9 @@ namespace Exception
         desc << "!!! FIXME: FileInputException { _type = " << _type
              << ", _message = " << _message << " }";
         _description = desc.str();
-    }/*}}}*/
+    }
+
+/*}}}*/
 }
 
 

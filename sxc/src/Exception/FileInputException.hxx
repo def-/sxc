@@ -18,8 +18,6 @@
  */
 /*}}}*/
 
-/* $Id$ */
-
 #ifndef EXCEPTION_FILEINPUTEXCEPTION_HXX
 #define EXCEPTION_FILEINPUTEXCEPTION_HXX
 
@@ -35,7 +33,6 @@ namespace Exception
 {
     /**
      * @brief Exception class for the input file classes.
-     *
      * @author Andreas Waidler
      */
     class FileInputException : public Exception
@@ -51,10 +48,12 @@ namespace Exception
             virtual void createDescription() throw();
 
         private:
+
     };
 }
 
 #endif // EXCEPTION_FILEINPUTEXCEPTION_HXX
+
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
