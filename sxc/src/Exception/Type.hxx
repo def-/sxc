@@ -63,9 +63,13 @@ namespace Exception
 /*}}}*/
         // File errors./*{{{*/
         // TODO
-        FileMissing = 150,
-        BadFile = 151,
-        FileLocked = 152,
+        FileMissing  = 150,
+        FileExists   /* = @ */,
+        FileLocked   /* = @ */,
+        BadPath      /* = @ */,
+        BadFile      /* = @ */,
+        AccessDenied /* = @ */,
+        WriteFailed  /* = @ */,
 /*}}}*/
     };
 /*}}}*/
