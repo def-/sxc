@@ -21,8 +21,8 @@
 /* $Id$ */
 
 
-#ifndef OPTION_OPTIONIMPLEMENTATION_HXX
-#define OPTION_OPTIONIMPLEMENTATION_HXX
+#ifndef OPTION_OPTION_IXX
+#define OPTION_OPTION_IXX
 
 
 // INCLUDE/*{{{*/
@@ -105,6 +105,6 @@ namespace Option
 }
 
 
-#endif // OPTION_OPTIONIMPLEMENTATION_HXX
+#endif // OPTION_OPTION_IXX
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
