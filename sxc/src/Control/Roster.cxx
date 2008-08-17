@@ -95,18 +95,18 @@ namespace Control
 
     void Roster::handleRoster(const gloox::Roster &roster)/*{{{*/
     {
-        #if DEBUG
+#       if DEBUG
             Control::Control::getInstance().printStdErr(
                 "Initial roster received from the server.");
-        #endif
+#       endif
         for(
         gloox::Roster::const_iterator entry = roster.begin();
         entry != roster.end();
             ++entry) {
-            #if DEBUG
+#           if DEBUG
                 Control::Control::getInstance().printStdErr(
                     "Adding contact " + entry->first + " to the roster";)
-            #endif
+#           endif
             _contacts.insert(make_pair(
                 entry->first,
                 new Contact::Contact(_client, gloox::JID(entry->first))));

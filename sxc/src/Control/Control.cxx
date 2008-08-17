@@ -80,7 +80,7 @@ namespace Control
         int priority,
         const std::string &status)
     {
-        #if DEBUG
+#       if DEBUG
             std::string presenceStr;
             switch (presence) {
             case gloox::Presence::Available:
@@ -118,7 +118,7 @@ namespace Control
             printStdErr(
                 "Setting the presence to " + presenceStr + " (Priority: " +
                 priorityStr.str() + ", Message: " + status +")");
-        #endif
+#       endif
 
         bool doConnect = false;
 
@@ -215,9 +215,9 @@ namespace Control
 
     inline void Control::onConnect()/*{{{*/
     {
-        #if DEBUG
+#       if DEBUG
             printStdErr("Connection established.");
-        #endif
+#       endif
     }/*}}}*/
 
     void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
