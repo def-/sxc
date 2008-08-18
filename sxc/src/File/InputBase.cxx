@@ -65,10 +65,10 @@ void File::InputBase::open(bool createIfMissing)/*{{{*/
 {
     try {
         // Open that FIFO only if it is valid.
-        validateFile();
+        validate();
     } catch (Exception::FileInputException e) {
         // Something failed. If createIfMissing is true, check whether
-        // validateFile() failed because the file was missing.
+        // validate() failed because the file was missing.
         if (false == createIfMissing || Exception::FileMissing != e.getType())
             throw e;
         create();
@@ -146,7 +146,7 @@ void File::InputBase::create()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::validateFile()/*{{{*/
+void File::InputBase::validate()/*{{{*/
 {
     // Try to get file stats, needed for analyzing the chmod of the file.
     struct stat fstat;

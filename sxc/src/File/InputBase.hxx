@@ -71,7 +71,7 @@ namespace File
              *
              * Calls @ref _createPath() to set @ref _path. Tries to create 
              * the FIFO or checks its permissions by calling @ref _tryCreate() 
-             * or @ref validateFile().
+             * or @ref validate().
              *
              * @note This method has to be called before any other method can 
              *       be used! You may want to call it in the constructor of 
@@ -122,7 +122,7 @@ namespace File
             /**
              * @brief Opens the FIFO.
              *
-             * Wraps around @ref validateFile(), @ref create() and @c
+             * Wraps around @ref validate(), @ref create() and @c
              * fstream::open().
              *
              * If @a createIfMissing is set to @c true, this method calls
@@ -130,8 +130,8 @@ namespace File
              * the @ref Type of @ref Exception::FileMissing.
              * 
              * @param createIfMissing Whether FIFO should be created or not.
-             * @exception FileInputException If @ref validateFile() fails.
-             * @see InputBase::validateFile()
+             * @exception FileInputException If @ref validate() fails.
+             * @see InputBase::validate()
              * @see InputBase::create()
              */
             void open(bool createIfMissing = false);
@@ -149,7 +149,7 @@ namespace File
             void close();
 
 /*}}}*/
-            // void validateFile();/*{{{*/
+            // void validate();/*{{{*/
 
             /**
              * @brief Checks the FIFO for validity and throws an exception if 
@@ -166,7 +166,7 @@ namespace File
              * @exception Exception::FileInputException When file is invalid.
              */
 
-            void validateFile();
+            void validate();
 
 /*}}}*/
 
