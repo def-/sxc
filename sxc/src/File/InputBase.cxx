@@ -48,7 +48,7 @@ File::InputBase::InputBase()/*{{{*/
 /*}}}*/
 File::InputBase::~InputBase()/*{{{*/
 {
-    _close();
+    close();
 }
 
 /*}}}*/
@@ -113,7 +113,7 @@ void File::InputBase::_read()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::_close()/*{{{*/
+void File::InputBase::close()/*{{{*/
 {
     if (_isThreadRunning) {
         pthread_kill(_thread, SIGINT);
