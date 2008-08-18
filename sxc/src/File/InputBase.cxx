@@ -67,7 +67,7 @@ void File::InputBase::initialize()/*{{{*/
         // we have encountered an unexpected error and let it bubble up.
         if (Exception::FileMissing != e.getType())
             throw e;
-        _create();
+        create();
     }
 
     // Everything went fine; path is okay. Open FIFO.
@@ -126,7 +126,7 @@ void File::InputBase::close()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::_create()/*{{{*/
+void File::InputBase::create()/*{{{*/
 {
     // Try to create FIFO with chmod 600.
     if (0 == mkfifo(_path.c_str(), S_IRUSR | S_IWUSR))

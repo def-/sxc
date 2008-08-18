@@ -74,7 +74,7 @@ namespace File
              *
              * Calls @ref _createPath() to set @ref _path. Tries to create 
              * the FIFO or checks its permissions by calling @ref _tryCreate() 
-             * or @ref _validateFile().
+             * or @ref validateFile().
              *
              * @note This method has to be called before any other method can 
              *       be used! You may want to call it in the constructor of 
@@ -109,7 +109,7 @@ namespace File
 /*}}}*/
 
         protected:
-            // void _create();/*{{{*/
+            // void create();/*{{{*/
 
             /** Creates the FIFO.
              *
@@ -117,7 +117,7 @@ namespace File
              *            be created. @c Exception::Type is the result of 
              *            @ref Exception::errnoToType().
              */
-            void _create();
+            void create();
 
 /*}}}*/
             // void close();/*{{{*/
@@ -132,7 +132,7 @@ namespace File
             void close();
 
 /*}}}*/
-            // void _validateFile();/*{{{*/
+            // void validateFile();/*{{{*/
 
             /**
              * @brief Checks the FIFO for validity and throws an exception if 
@@ -147,7 +147,7 @@ namespace File
              *            converted to Type by @ref Exception::errnoToType().
              */
 
-            void _validateFile();
+            void validateFile();
 
 /*}}}*/
 
