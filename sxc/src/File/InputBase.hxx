@@ -142,9 +142,11 @@ namespace File
              * Additionally, the FIFO must @b not be readable or writable for
              * other users. (chmod 600).
              *
+             * Normally, the FIFO should exist with the right permissions,
+             * except sxc has not been run before (in this directory) or someone
+             * tampered with the directory structure.
+             *
              * @exception Exception::FileInputException When file is invalid.
-             *            @ref Exception::Type will be @ref BadFile or @c errno
-             *            converted to Type by @ref Exception::errnoToType().
              */
 
             void validateFile();
