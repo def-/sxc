@@ -61,12 +61,14 @@ void File::InputBase::initialize()/*{{{*/
 /*}}}*/
 void File::InputBase::open(bool createIfMissing)/*{{{*/
 {
+    if (_fifo.is_open)
+        return;
+
     try {
-        // Open that FIFO only if it is valid.
         validate();
     } catch (Exception::FileInputException e) {
-        // Something failed. If createIfMissing is true, check whether
-        // validate() failed because the file was missing.
+        // validate() failed. If createIfMissing is true, check whether it was
+        // because the file is missing.
         if (false == createIfMissing || Exception::FileMissing != e.getType())
             throw e;
         create();
