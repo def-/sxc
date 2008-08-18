@@ -61,7 +61,7 @@ void File::InputBase::initialize()/*{{{*/
     // the right permissions, except sxc has not been run before (in this 
     // directory) or someone tampered with the directory structure.
     try {
-        _validateFile();
+        validateFile();
     } catch (Exception::FileInputException e) {
         // If the FIFO is simply missing, try to create it. In any other case 
         // we have encountered an unexpected error and let it bubble up.
@@ -139,7 +139,7 @@ void File::InputBase::_create()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::_validateFile()/*{{{*/
+void File::InputBase::validateFile()/*{{{*/
 {
     // Try to get file stats, needed for analyzing the chmod of the file.
     struct stat fstat;
