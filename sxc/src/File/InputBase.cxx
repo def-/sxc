@@ -25,6 +25,7 @@
 #include <string>
 #include <fstream>
 #include <pthread.h>
+#include <signal.h>
 
 #include <errno.h>
 #include <sstream>
@@ -47,7 +48,7 @@ File::InputBase::InputBase()/*{{{*/
 /*}}}*/
 File::InputBase::~InputBase()/*{{{*/
 {
-    _close();
+    close();
 }
 
 /*}}}*/
@@ -60,13 +61,13 @@ void File::InputBase::initialize()/*{{{*/
     // the right permissions, except sxc has not been run before (in this 
     // directory) or someone tampered with the directory structure.
     try {
-        _validateFile();
+        validateFile();
     } catch (Exception::FileInputException e) {
         // If the FIFO is simply missing, try to create it. In any other case 
         // we have encountered an unexpected error and let it bubble up.
         if (Exception::FileMissing != e.getType())
             throw e;
-        _create();
+        create();
     }
 
     // Everything went fine; path is okay. Open FIFO.
@@ -112,20 +113,22 @@ void File::InputBase::_read()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::_close()/*{{{*/
+void File::InputBase::close()/*{{{*/
 {
     if (_isThreadRunning) {
-        pthread_cancel(_thread);
+        pthread_kill(_thread, SIGINT);
         _isThreadRunning = false;
     }
-    if (_isLocked) {
+    if (_fifo.is_open()) {
         _fifo.close();
+    }
+    if (_isLocked) {
         _isLocked = false;
     }
 }
 
 /*}}}*/
-void File::InputBase::_create()/*{{{*/
+void File::InputBase::create()/*{{{*/
 {
     // Try to create FIFO with chmod 600.
     if (0 == mkfifo(_path.c_str(), S_IRUSR | S_IWUSR))
@@ -138,7 +141,7 @@ void File::InputBase::_create()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::_validateFile()/*{{{*/
+void File::InputBase::validateFile()/*{{{*/
 {
     // Try to get file stats, needed for analyzing the chmod of the file.
     struct stat fstat;

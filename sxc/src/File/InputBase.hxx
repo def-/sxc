@@ -1,6 +1,6 @@
 // FIXME Lock for _read() method - listen()/_read() may start even when object is already reading. this has to be disabled!
-// FIXME _close() only if FIFO is open.
-// FIXME maybe split _close() to _close() and _kill() - _kill() into destructor -- kill MUST NEVER throw/fail.
+// FIXME close() only if FIFO is open.
+// FIXME maybe split close() to close() and _kill() - _kill() into destructor -- kill MUST NEVER throw/fail.
 // FIXME catch references
 // LICENSE/*{{{*/
 /*
@@ -74,7 +74,7 @@ namespace File
              *
              * Calls @ref _createPath() to set @ref _path. Tries to create 
              * the FIFO or checks its permissions by calling @ref _tryCreate() 
-             * or @ref _validateFile().
+             * or @ref validateFile().
              *
              * @note This method has to be called before any other method can 
              *       be used! You may want to call it in the constructor of 
@@ -91,7 +91,7 @@ namespace File
              * @brief Initiates listening on the FIFO.
              *
              * If @a blocking is set to @c true this method will read blocking,
-             * i.e. it will finish when @ref _close() is run. Per default, @a 
+             * i.e. it will finish when @ref close() is run. Per default, @a 
              * blocking is @c false.
              *
              * This method creates a thread that executes @ref _listen()
@@ -109,49 +109,7 @@ namespace File
 /*}}}*/
 
         protected:
-
-
-        private:
-            /// The path including file name where the FIFO is located.
-            std::string _path;
-            /// The FIFO from which will be read.
-            std::ifstream _fifo;
-            /// Indicates whether @ref _fifo is valid.
-            bool _isFifoValid;
-            /// The thread running @ref _listen
-            pthread_t _thread;
-            /// Indicates whether @ref _thread is running.
-            bool _isThreadRunning;
-            /// Indicates whether @ref _read() or @ref listen() are active.
-            bool _isLocked;
-            // virtual std::string _createPath() = 0;/*{{{*/
-
-            /**
-             * @brief Returns the path and file name of the FIFO.
-             *
-             * Called by @ref initialize() which stores the result in @ref _path
-             * which is used throughout the class in the other methods.
-             *
-             * @note Pure virtual.
-             *
-             * @return Path and file name where the FIFO should be placed.
-             */
-            virtual std::string _createPath() = 0;
-
-/*}}}*/
-            // virtual void _handleInput(std::string input) = 0;/*{{{*/
-
-            /**
-             * @brief Handles input that has been written into the FIFO.
-             *
-             * @note Pure virtual.
-             *
-             * @param input Something that has been written into the FIFO.
-             */
-            virtual void _handleInput(std::string input) = 0;
-
-/*}}}*/
-            // void _create();/*{{{*/
+            // void create();/*{{{*/
 
             /** Creates the FIFO.
              *
@@ -159,10 +117,22 @@ namespace File
              *            be created. @c Exception::Type is the result of 
              *            @ref Exception::errnoToType().
              */
-            void _create();
+            void create();
 
 /*}}}*/
-            // void _validateFile();/*{{{*/
+            // void close();/*{{{*/
+
+            /**
+             * @brief Closes the FIFO.
+             *
+             * Closes the FIFO and cancles the thread, if running.
+             *
+             * @warning Do not override this method!
+             */
+            void close();
+
+/*}}}*/
+            // void validateFile();/*{{{*/
 
             /**
              * @brief Checks the FIFO for validity and throws an exception if 
@@ -177,7 +147,48 @@ namespace File
              *            converted to Type by @ref Exception::errnoToType().
              */
 
-            void _validateFile();
+            void validateFile();
+
+/*}}}*/
+
+        private:
+            /// The path including file name where the FIFO is located.
+            std::string _path;
+            /// The FIFO from which will be read.
+            std::fstream _fifo;
+            /// Indicates whether @ref _fifo is valid.
+            bool _isFifoValid;
+            /// The thread running @ref _listen
+            pthread_t _thread;
+            /// Indicates whether @ref _thread is running.
+            bool _isThreadRunning;
+            /// Indicates whether @ref _read() or @ref listen() are active.
+            bool _isLocked;
+            // virtual const std::string &_createPath() const = 0;/*{{{*/
+
+            /**
+             * @brief Returns the path and file name of the FIFO.
+             *
+             * Called by @ref initialize() which stores the result in @ref _path
+             * which is used throughout the class in the other methods.
+             *
+             * @note Pure virtual.
+             *
+             * @return Path and file name where the FIFO should be placed.
+             */
+            virtual const std::string &_createPath() const = 0;
+
+/*}}}*/
+            // virtual void _handleInput(std::string input) = 0;/*{{{*/
+
+            /**
+             * @brief Handles input that has been written into the FIFO.
+             *
+             * @note Pure virtual.
+             *
+             * @param input Something that has been written into the FIFO.
+             */
+            virtual void _handleInput(std::string input) = 0;
 
 /*}}}*/
             // void _read();/*{{{*/
@@ -208,22 +219,10 @@ namespace File
              * @param fifo Pointer to object of class InputBase.
              * @return NULL
              * @see InputBase::listen()
-             * @see InputBase::_close()
+             * @see InputBase::close()
              * @see InputBase::_read()
              */
             static void *_listen(void *fifo);
-
-/*}}}*/
-            // void _close();/*{{{*/
-
-            /**
-             * @brief Closes the FIFO.
-             *
-             * Closes the FIFO and cancles the thread, if running.
-             *
-             * @warning Do not override this method!
-             */
-            void _close();
 
 /*}}}*/
     };
