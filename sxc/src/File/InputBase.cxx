@@ -119,8 +119,10 @@ void File::InputBase::close()/*{{{*/
         pthread_kill(_thread, SIGINT);
         _isThreadRunning = false;
     }
-    if (_isLocked) {
+    if (_fifo.is_open()) {
         _fifo.close();
+    }
+    if (_isLocked) {
         _isLocked = false;
     }
 }
