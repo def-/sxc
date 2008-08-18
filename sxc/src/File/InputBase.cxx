@@ -25,6 +25,7 @@
 #include <string>
 #include <fstream>
 #include <pthread.h>
+#include <signal.h>
 
 #include <errno.h>
 #include <sstream>
@@ -115,7 +116,7 @@ void File::InputBase::_read()/*{{{*/
 void File::InputBase::_close()/*{{{*/
 {
     if (_isThreadRunning) {
-        pthread_cancel(_thread);
+        pthread_kill(_thread, SIGINT);
         _isThreadRunning = false;
     }
     if (_isLocked) {
