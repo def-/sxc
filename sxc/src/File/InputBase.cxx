@@ -54,24 +54,29 @@ File::InputBase::~InputBase()/*{{{*/
 /*}}}*/
 void File::InputBase::initialize()/*{{{*/
 {
-    // Generate the path string.
+    // Initialize the path where the FIFO should be located.
     _path = _createPath();
 
-    // Check the FIFO. Normally, the FIFO should exist with 
-    // the right permissions, except sxc has not been run before (in this 
-    // directory) or someone tampered with the directory structure.
+    open(true);
+}
+
+/*}}}*/
+void File::InputBase::open(bool createIfMissing)/*{{{*/
+{
     try {
+        // Open that FIFO only if it is valid.
         validateFile();
     } catch (Exception::FileInputException e) {
-        // If the FIFO is simply missing, try to create it. In any other case 
-        // we have encountered an unexpected error and let it bubble up.
-        if (Exception::FileMissing != e.getType())
+        // Something failed. If createIfMissing is true, check whether
+        // validateFile() failed because the file was missing.
+        if (false == createIfMissing || Exception::FileMissing != e.getType())
             throw e;
         create();
     }
 
-    // Everything went fine; path is okay. Open FIFO.
     _fifo.open(_path.c_str());
+    if (!_fifo.is_open())
+        throw Exception::FileInputException(Exception::OpenFailed, "unexpected");
 }
 
 /*}}}*/

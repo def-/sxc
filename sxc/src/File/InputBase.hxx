@@ -120,6 +120,26 @@ namespace File
             void create();
 
 /*}}}*/
+            // void open(bool createIfMissing = false);/*{{{*/
+
+            /**
+             * @brief Opens the FIFO.
+             *
+             * Wraps around @ref validateFile(), @ref create() and @c
+             * fstream::open().
+             *
+             * If @a createIfMissing is set to @c true, this method calls
+             * @ref create() instead of throwing an @ref FileInputException with
+             * the @ref Type of @ref Exception::FileMissing.
+             * 
+             * @param createIfMissing Whether FIFO should be created or not.
+             * @exception FileInputException If @ref validateFile() fails.
+             * @see InputBase::validateFile()
+             * @see InputBase::create()
+             */
+            void open(bool createIfMissing = false);
+
+/*}}}*/
             // void close();/*{{{*/
 
             /**
