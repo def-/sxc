@@ -1,6 +1,3 @@
-// FIXME Lock for _read() method - listen()/_read() may start even when object is already reading. this has to be disabled!
-// FIXME close() only if FIFO is open.
-// FIXME maybe split close() to close() and _kill() - _kill() into destructor -- kill MUST NEVER throw/fail.
 // FIXME catch references
 // LICENSE/*{{{*/
 /*
