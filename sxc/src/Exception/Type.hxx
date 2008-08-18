@@ -69,7 +69,10 @@ namespace Exception
         BadPath      /* = @ */,
         BadFile      /* = @ */,
         AccessDenied /* = @ */,
+        OpenFailed   /* = @ */,
         WriteFailed  /* = @ */,
+        ReadFailed   /* = @ */,
+        CloseFailed  /* = @ */,
 /*}}}*/
     };
 /*}}}*/
