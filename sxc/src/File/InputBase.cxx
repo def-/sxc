@@ -61,7 +61,7 @@ void File::InputBase::initialize()/*{{{*/
 /*}}}*/
 void File::InputBase::open(bool createIfMissing)/*{{{*/
 {
-    if (_fifo.is_open)
+    if (_fifo.is_open())
         return;
 
     try {
@@ -89,8 +89,10 @@ void File::InputBase::listen(bool blocking)/*{{{*/
         throw Exception::FileInputException(Exception::FileLocked, message);
         return;
     }
-
     _isLocked = true;
+
+    open();
+
     // Start the thread in the background.
     pthread_create(&_thread, NULL, _listen, this);
     // Join the thread when this functions should read in a blocking way.
