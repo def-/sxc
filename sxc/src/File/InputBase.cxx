@@ -56,8 +56,6 @@ void File::InputBase::initialize()/*{{{*/
 {
     // Initialize the path where the FIFO should be located.
     _path = _createPath();
-
-    open(true);
 }
 
 /*}}}*/
