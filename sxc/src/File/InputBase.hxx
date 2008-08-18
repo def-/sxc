@@ -109,7 +109,47 @@ namespace File
 /*}}}*/
 
         protected:
+            // void _create();/*{{{*/
 
+            /** Creates the FIFO.
+             *
+             * @exception Exception::FileInputException When the file could not
+             *            be created. @c Exception::Type is the result of 
+             *            @ref Exception::errnoToType().
+             */
+            void _create();
+
+/*}}}*/
+            // void close();/*{{{*/
+
+            /**
+             * @brief Closes the FIFO.
+             *
+             * Closes the FIFO and cancles the thread, if running.
+             *
+             * @warning Do not override this method!
+             */
+            void close();
+
+/*}}}*/
+            // void _validateFile();/*{{{*/
+
+            /**
+             * @brief Checks the FIFO for validity and throws an exception if 
+             *        something is not like expected. 
+             *
+             * The FIFOs owner-uid has to be the one who runs this program. 
+             * Additionally, the FIFO must @b not be readable or writable for
+             * other users. (chmod 600).
+             *
+             * @exception Exception::FileInputException When file is invalid.
+             *            @ref Exception::Type will be @ref BadFile or @c errno
+             *            converted to Type by @ref Exception::errnoToType().
+             */
+
+            void _validateFile();
+
+/*}}}*/
 
         private:
             /// The path including file name where the FIFO is located.
@@ -151,35 +191,6 @@ namespace File
             virtual void _handleInput(std::string input) = 0;
 
 /*}}}*/
-            // void _create();/*{{{*/
-
-            /** Creates the FIFO.
-             *
-             * @exception Exception::FileInputException When the file could not
-             *            be created. @c Exception::Type is the result of 
-             *            @ref Exception::errnoToType().
-             */
-            void _create();
-
-/*}}}*/
-            // void _validateFile();/*{{{*/
-
-            /**
-             * @brief Checks the FIFO for validity and throws an exception if 
-             *        something is not like expected. 
-             *
-             * The FIFOs owner-uid has to be the one who runs this program. 
-             * Additionally, the FIFO must @b not be readable or writable for
-             * other users. (chmod 600).
-             *
-             * @exception Exception::FileInputException When file is invalid.
-             *            @ref Exception::Type will be @ref BadFile or @c errno
-             *            converted to Type by @ref Exception::errnoToType().
-             */
-
-            void _validateFile();
-
-/*}}}*/
             // void _read();/*{{{*/
 
             /**
@@ -212,18 +223,6 @@ namespace File
              * @see InputBase::_read()
              */
             static void *_listen(void *fifo);
-
-/*}}}*/
-            // void close();/*{{{*/
-
-            /**
-             * @brief Closes the FIFO.
-             *
-             * Closes the FIFO and cancles the thread, if running.
-             *
-             * @warning Do not override this method!
-             */
-            void close();
 
 /*}}}*/
     };
