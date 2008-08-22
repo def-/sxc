@@ -20,7 +20,6 @@
 
 // INCLUDES/*{{{*/
 
-#include <iostream>
 #include <string>
 
 #include "InputDummy.hxx"
