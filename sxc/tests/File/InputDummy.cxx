@@ -18,21 +18,39 @@
  */
 /*}}}*/
 
-/* $Id$ */
+// INCLUDES/*{{{*/
 
-// INCLUDE/*{{{*/
+#include <string>
 
-#include <cppunit/extensions/HelperMacros.h>
-
-#include <Option/OptionTest.hxx>
-#include <File/TestInputDummy.hxx>
+#include "InputDummy.hxx"
 
 /*}}}*/
 
-// Registering all unit tests here, to make them easier to disable and enable.
+InputDummy::InputDummy(std::string filename)/*{{{*/
+: _filename(filename)
+{
+}
 
-CPPUNIT_TEST_SUITE_REGISTRATION(OptionTest);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestInputDummy);
+/*}}}*/
+const std::string &InputDummy::_createPath() const/*{{{*/
+{
+    return _filename;
+}
+
+/*}}}*/
+const std::string &InputDummy::getLastInput() const/*{{{*/
+{
+    return _lastInput;
+}
+
+/*}}}*/
+void InputDummy::_handleInput(std::string input)/*{{{*/
+{
+    _lastInput = input;
+}
+
+/*}}}*/
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+

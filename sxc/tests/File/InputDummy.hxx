@@ -18,21 +18,45 @@
  */
 /*}}}*/
 
-/* $Id$ */
+#ifndef INPUTDUMMY_H
+#define INPUTDUMMY_H
 
-// INCLUDE/*{{{*/
+// INCLUDES/*{{{*/
 
-#include <cppunit/extensions/HelperMacros.h>
-
-#include <Option/OptionTest.hxx>
-#include <File/TestInputDummy.hxx>
+#include <string>
+#include <File/InputBase.hxx>
 
 /*}}}*/
 
-// Registering all unit tests here, to make them easier to disable and enable.
 
-CPPUNIT_TEST_SUITE_REGISTRATION(OptionTest);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestInputDummy);
+/**
+ * @class InputDummy
+ * @brief Dummy implementation if the ABC File::InputBase.
+ * @author Andreas Waidler
+ *
+ * Inherits from the abstract base class File::InputBase and definines the 
+ * abstract methods as "dummy" ones that do no "real" work but are optimized for
+ * unit tests.
+ */
+class InputDummy : public File::InputBase
+{
+    friend class TestInputDummy;
+
+    public:
+        InputDummy(std::string filename);
+        const std::string &getLastInput() const;
+
+    protected:
+
+    private:
+        std::string _filename;
+        std::string _lastInput;
+        const std::string &_createPath() const;
+        void _handleInput(std::string);
+};
+
+#endif // INPUTDUMMY_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+
