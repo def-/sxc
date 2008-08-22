@@ -115,7 +115,7 @@ namespace Control
             }
             std::stringstream priorityStr;
             priorityStr << priority;
-            printStdErr(
+            printLog(
                 "Setting the presence to " + presenceStr + " (Priority: " +
                 priorityStr.str() + ", Message: " + status +")");
 #       endif
@@ -202,6 +202,11 @@ namespace Control
         std::cerr << _outputPrefix << text << std::endl;
     }/*}}}*/
 
+    void Control::printLog(std::string text) const/*{{{*/
+    {
+        std::clog << _outputPrefix << text << std::endl;
+    }/*}}}*/
+
     void Control::handleError(/*{{{*/
         Exception::Exception &e,
         bool isCritical) const
@@ -216,7 +221,7 @@ namespace Control
     inline void Control::onConnect()/*{{{*/
     {
 #       if DEBUG
-            printStdErr("Connection established.");
+            printLog("Connection established.");
 #       endif
     }/*}}}*/
 

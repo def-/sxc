@@ -261,6 +261,19 @@ namespace Control
             void printStdErr(std::string text) const;
 
 /*}}}*/
+            //int printLog(std::string text) const;/*{{{*/
+
+            /**
+             * @brief Print a logging text.
+             *
+             * Format a raw text and print it using clog. This usually goes to
+             * stderr.
+             *
+             * @param text The raw text to print.
+             */
+            void printLog(std::string text) const;
+
+/*}}}*/
             //gloox::Client *getClient() const;/*{{{*/
 
             /**

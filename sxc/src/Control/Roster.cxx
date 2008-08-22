@@ -96,7 +96,7 @@ namespace Control
     void Roster::handleRoster(const gloox::Roster &roster)/*{{{*/
     {
 #       if DEBUG
-            Control::Control::getInstance().printStdErr(
+            Control::Control::getInstance().printLog(
                 "Initial roster received from the server.");
 #       endif
         for(
@@ -104,7 +104,7 @@ namespace Control
         entry != roster.end();
             ++entry) {
 #           if DEBUG
-                Control::Control::getInstance().printStdErr(
+                Control::Control::getInstance().printLog(
                     "Adding contact " + entry->first + " to the roster";)
 #           endif
             _contacts.insert(make_pair(
