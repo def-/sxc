@@ -18,8 +18,6 @@
  */
 /*}}}*/
 
-/* $Id$ */
-
 // INCLUDES/*{{{*/
 
 #include <string>
@@ -27,7 +25,7 @@
 #include <pthread.h>
 #include <signal.h>
 
-#include <errno.h>
+#include <cerrno>
 #include <sstream>
 #include <sys/stat.h>
 #include <File/InputBase.hxx>
@@ -37,11 +35,10 @@
 
 /*}}}*/
 
-
 File::InputBase::InputBase()/*{{{*/
 : _isFifoValid(false),
-  _isLocked(false),
-  _isThreadRunning(false)
+  _isListening(false),
+  _mustClose(false)
 {
 }
 
@@ -52,85 +49,20 @@ File::InputBase::~InputBase()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::initialize()/*{{{*/
+void File::InputBase::initialize(bool notPhysical)/*{{{*/
 {
-    // Initialize the path where the FIFO should be located.
     _path = _createPath();
-}
 
-/*}}}*/
-void File::InputBase::open(bool createIfMissing)/*{{{*/
-{
-    if (_fifo.is_open())
-        return;
-
-    try {
-        validate();
-    } catch (Exception::FileInputException e) {
-        // validate() failed. If createIfMissing is true, check whether it was
-        // because the file is missing.
-        if (false == createIfMissing || Exception::FileMissing != e.getType())
-            throw e;
-        create();
-    }
-
-    _fifo.open(_path.c_str());
-    if (!_fifo.is_open())
-        throw Exception::FileInputException(Exception::OpenFailed, "unexpected");
-}
-
-/*}}}*/
-void File::InputBase::listen(bool blocking)/*{{{*/
-{
-    // Do not start to listen if the FIFO is currently locked. Otherwise we 
-    // could end up handling the input twice.
-    if (_isLocked) {
-        std::string message = _path + " already locked.";
-        throw Exception::FileInputException(Exception::FileLocked, message);
-        return;
-    }
-    _isLocked = true;
-
-    open();
-
-    // Start the thread in the background.
-    pthread_create(&_thread, NULL, _listen, this);
-    // Join the thread when this functions should read in a blocking way.
-    if (true == blocking)
-        pthread_join(_thread, NULL);
-}
-
-/*}}}*/
-void File::InputBase::_read()/*{{{*/
-{
-    // Refuse to read from an invalid FIFO.
-    if (!_isFifoValid) {
-        throw Exception::FileInputException(Exception::BadFile, "Refusing to read.");
-    }
-
-    // Gets filled with everything that is written until the other end closes 
-    // the pipe.
-    std::string input;
-    // Input is read line by line and put in buffer.
-    std::string buffer;
-    while (getline(_fifo, buffer)) {
-        input += buffer;
-    }
-    _handleInput(input);
-}
-
-/*}}}*/
-void File::InputBase::close()/*{{{*/
-{
-    if (_isThreadRunning) {
-        pthread_kill(_thread, SIGINT);
-        _isThreadRunning = false;
-    }
-    if (_fifo.is_open()) {
-        _fifo.close();
-    }
-    if (_isLocked) {
-        _isLocked = false;
+    if (!notPhysical) {
+        try {
+            validate();
+        } catch (Exception::FileInputException &e) {
+            // If the file is missing, create it. Anything else means that someone
+            // tampered with the file.
+            if (Exception::FileMissing != e.getType())
+                throw e;
+            create();
+        }
     }
 }
 
@@ -184,16 +116,70 @@ void File::InputBase::validate()/*{{{*/
 }
 
 /*}}}*/
+void File::InputBase::read()/*{{{*/
+{
+    _fifo.open(_path.c_str());
+
+    // See docblock of close().
+    if (_mustClose)
+        return;
+
+    std::string lineBuffer;
+    std::string input; // Filled with lineBuffer until other end closes the pipe
+    while (getline(_fifo, lineBuffer)) {
+        input += lineBuffer;
+    }
+
+    _handleInput(input);
+
+    _fifo.close();
+}
+
+/*}}}*/
+void File::InputBase::listen(bool blocking)/*{{{*/
+{
+    // Prevent input from being handled twice:
+    if (_isListening) {
+        std::string message = "Already listening on " + _path;
+        throw Exception::FileInputException(Exception::FileLocked, message);
+    }
+    _isListening = true;
+
+    // Start the thread in the background.
+    pthread_create(&_thread, NULL, _listen, this);
+    // Join the thread when this functions should read in a blocking way.
+    if (true == blocking)
+        pthread_join(_thread, NULL);
+}
+
+/*}}}*/
+void File::InputBase::close()/*{{{*/
+{
+    if (_isListening) {
+        _mustClose = true;
+        // Open an close FIFO in order to unblock subthread.
+        std::ofstream out(_path.c_str());
+        out.close();
+        pthread_join(_thread, NULL);
+    }
+
+    _mustClose   = false;
+    _isListening = false;
+}
+
+/*}}}*/
 void *File::InputBase::_listen(void *fifo)/*{{{*/
 {
+    // FIXME: Add exception handling.
     InputBase *that = (InputBase *) fifo;
-    that->_isThreadRunning = true;
     do {
-        // _read() reads blocking until the other end closes the pipe. This 
-        // loop will always restart _read() after it handled some input and 
+        // read() reads blocking until the other end closes the pipe. This 
+        // loop will always restart read() after it handled some input and 
         // returned.
-        that->_read();
-    } while (true);
+        that->read();
+    } while (!that->_mustClose);
+
+    that->_isListening = false;
 
     return NULL;
 }

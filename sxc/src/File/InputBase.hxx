@@ -1,4 +1,3 @@
-// FIXME catch references
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -64,7 +63,7 @@ namespace File
             virtual ~InputBase();
 
 /*}}}*/
-            // void initialize();/*{{{*/
+            // void initialize(bool notPhysical = false);/*{{{*/
 
             /**
              * @brief Initializes the object.
@@ -78,8 +77,10 @@ namespace File
              *       the childs.
              *
              * @warning Do not override this method!
+             * @param notPhysical Disable validation or creation of the physical
+             *        file, just initialize this virtual object.
              */
-            void initialize();
+            void initialize(bool notPhysical = false);
 
 /*}}}*/
             // void listen(bool blocking = false);/*{{{*/
@@ -104,6 +105,27 @@ namespace File
             void listen(bool blocking = false);
 
 /*}}}*/
+            // void close();/*{{{*/
+
+            /**
+             * @brief Closes the FIFO.
+             *
+             * Sets a flag and opens and closes the FIFO. Then, @c
+             * pthread_join() will be called to enter the thread which listens
+             * on it.
+             *
+             * That thread does always check the flag and terminate cleanly if
+             * it is set. @c close() has to open and close the FIFO
+             * because the method open() of the FIFO blocks until the other end
+             * opens and closes the pipe.
+             *
+             * The thread should terminate very quickly after @c close() has
+             * been called, which makes @c pthread_join() return. Then, @c
+             * close() does some cleanups.
+             */
+            void close();
+
+/*}}}*/
 
         protected:
             // void create();/*{{{*/
@@ -115,38 +137,6 @@ namespace File
              *            @ref Exception::errnoToType().
              */
             void create();
-
-/*}}}*/
-            // void open(bool createIfMissing = false);/*{{{*/
-
-            /**
-             * @brief Opens the FIFO.
-             *
-             * Wraps around @ref validate(), @ref create() and @c
-             * fstream::open().
-             *
-             * If @a createIfMissing is set to @c true, this method calls
-             * @ref create() instead of throwing an @ref FileInputException with
-             * the @ref Type of @ref Exception::FileMissing.
-             * 
-             * @param createIfMissing Whether FIFO should be created or not.
-             * @exception FileInputException If @ref validate() fails.
-             * @see InputBase::validate()
-             * @see InputBase::create()
-             */
-            void open(bool createIfMissing = false);
-
-/*}}}*/
-            // void close();/*{{{*/
-
-            /**
-             * @brief Closes the FIFO.
-             *
-             * Closes the FIFO and cancles the thread, if running.
-             *
-             * @warning Do not override this method!
-             */
-            void close();
 
 /*}}}*/
             // void validate();/*{{{*/
@@ -169,20 +159,31 @@ namespace File
             void validate();
 
 /*}}}*/
+            // void read();/*{{{*/
+
+            /**
+             * @brief Reads the FIFO blocking until the other end is closed.
+             *
+             * Input is handled by calling @ref _handleInput() which will always
+             * be called unless @ref _mustClose is set to @c true.
+             */
+            void read();
+
+/*}}}*/
 
         private:
             /// The path including file name where the FIFO is located.
             std::string _path;
             /// The FIFO from which will be read.
-            std::fstream _fifo;
+            std::ifstream _fifo;
             /// Indicates whether @ref _fifo is valid.
             bool _isFifoValid;
             /// The thread running @ref _listen
             pthread_t _thread;
-            /// Indicates whether @ref _thread is running.
-            bool _isThreadRunning;
-            /// Indicates whether @ref _read() or @ref listen() are active.
-            bool _isLocked;
+            /// Indicates whether @ref listen() is active.
+            bool _isListening;
+            /// Indicates whether the thread running @ref _listen must terminate
+            bool _mustClose;
             // virtual const std::string &_createPath() const = 0;/*{{{*/
 
             /**
@@ -210,36 +211,24 @@ namespace File
             virtual void _handleInput(std::string input) = 0;
 
 /*}}}*/
-            // void _read();/*{{{*/
-
-            /**
-             * @brief Reads the FIFO blocking until the other end is closed.
-             *
-             * Input is handled by calling @ref _handleInput().
-             *
-             * @warning Do not override this method!
-             */
-            void _read();
-
-/*}}}*/
             // static void *_listen(void *fifo);/*{{{*/
 
             /**
              * @brief Listens blocking on the passed FIFO.
              *
-             * Runs an infinite loop on @ref _read() of the object @a fifo.
+             * Runs an infinite loop on @ref read() of the object @a fifo.
              *
              * @warning Should only be called by a pthread created in @ref 
-             *          listen. This method will never stop by itsself, thus
-             *          its thread has to be canceled.
+             *          listen. This method terminates only if @ref _mustClose
+             *          is true and the blocking call to @ref read() finishes.
              * @warning The parameter @a fifo should not be anything other than
-             *          a this-pointer.
+             *          a pointer to an object of InputBase or derivates.
              *
-             * @param fifo Pointer to object of class InputBase.
+             * @param fifo Pointer to object of InputBase or childs.
              * @return NULL
              * @see InputBase::listen()
              * @see InputBase::close()
-             * @see InputBase::_read()
+             * @see InputBase::read()
              */
             static void *_listen(void *fifo);
 
