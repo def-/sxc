@@ -53,19 +53,19 @@ namespace SomeNamespace
         // on the laft hand side.
         if ("a" == argC)
             std::cout << "bbb";
-        
-        switch (argB) {
-		case 1:
-			std::cout << "foo";
-			// FALL THROUGH
-			
-		case 2:
-			std::cout << "bar" << std::endl;
-			break;
 
-		default:
-			std::cout << "nothing" << std::endl;
-			break;
+        switch (argB) {
+        case 1:
+            std::cout << "foo";
+            // FALL THROUGH
+
+        case 2:
+            std::cout << "bar" << std::endl;
+            break;
+
+        default:
+            std::cout << "nothing" << std::endl;
+            break;
         }
 
     }
