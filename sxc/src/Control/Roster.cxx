@@ -32,6 +32,7 @@
 #include <Control/Roster.hxx>
 #include <Control/Control.hxx>
 #include <Contact/Contact.hxx>
+#include <print.hxx>
 
 /*}}}*/
 
@@ -96,16 +97,14 @@ namespace Control
     void Roster::handleRoster(const gloox::Roster &roster)/*{{{*/
     {
 #       if DEBUG
-            Control::Control::getInstance().printLog(
-                "Initial roster received from the server.");
+            printLog("Initial roster received from the server.");
 #       endif
         for(
         gloox::Roster::const_iterator entry = roster.begin();
         entry != roster.end();
             ++entry) {
 #           if DEBUG
-                Control::Control::getInstance().printLog(
-                    "Adding contact " + entry->first + " to the roster";)
+                printLog("Adding contact " + entry->first + " to the roster");
 #           endif
             _contacts.insert(make_pair(
                 entry->first,

@@ -58,7 +58,7 @@ namespace Control
      *
      * @note As this class is a singleton you can use it from anywhere.
      *       @code
-     *       Control::Control::getInstance().print("foobar");
+     *       Control::Control::get().print("foobar");
      *       @endcode
      */
     class Control : public
