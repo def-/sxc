@@ -31,12 +31,14 @@
 // INCLUDE/*{{{*/
 
 #include <string>
+
 #include <gloox/jid.h>
 #include <gloox/presence.h>
 #include <gloox/client.h>
 #include <gloox/connectionlistener.h>
 #include <gloox/message.h>
 #include <gloox/messagehandler.h>
+#include <gloox/error.h>
 
 #include <Singleton.hxx>
 #include <Exception/Exception.hxx>
@@ -206,6 +208,11 @@ namespace Control
             //void handleError(const Exception::Exception &e, bool isCritical = false) const;/*{{{*/
 
             /**
+             * @brief Handle an error that happened inside sxc.
+             *
+             * @param e The @ref Exception object that contains more information.
+             * @param isCritical Whether sxc cannot run anymore because of this
+             *        error and has to be closed.
              */
             void handleError(Exception::Exception &e, bool isCritical = false) const;
 
@@ -253,13 +260,84 @@ namespace Control
 
 /*}}}*/
 
+            //void onConnect();/*{{{*/
+
+            /**
+             * @brief This function is called after a connect.
+             */
             void onConnect();
+
+/*}}}*/
+            //void onDisconnect(gloox::ConnectionError e);/*{{{*/
+
+            /**
+             * @brief This function is called after a disconnect.
+             *
+             * Handle the error.
+             *
+             * @param e The error which caused the disconnect.
+             */
             void onDisconnect(gloox::ConnectionError e);
-            void onResourceBind(const std::string &resource) {}
-            void onResourceBindError(const gloox::Error *error) {}
-            void onSessionCreateError(const gloox::Error *error) {}
-            bool onTLSConnect(const gloox::CertInfo &info) {}
-            void onStreamEvent(gloox::StreamEvent event) {}
+
+/*}}}*/
+            //void onResourceBind(const std::string &resource);/*{{{*/
+
+            /**
+             * @brief This function is called on a resource bind.
+             *
+             * @param resource The resource string.
+             */
+            void onResourceBind(const std::string &resource);
+
+/*}}}*/
+            //void onResourceBindError(const gloox::Error *error);/*{{{*/
+
+            /**
+             * @brief An error occured when trying to bind a resouce.
+             *
+             * @param error A pointer to an Error object that contains more
+             *        information. May be 0.
+             */
+            void onResourceBindError(const gloox::Error *error);
+
+/*}}}*/
+            //void onSessionCreateError(const gloox::Error *error);/*{{{*/
+
+            /**
+             * @brief Is called on errors in establishing a session.
+             *
+             * @param error A pointer to an Error object that contains more
+             *        information. May be 0.
+             */
+            void onSessionCreateError(const gloox::Error *error);
+
+/*}}}*/
+            //bool onTLSConnect(const gloox::CertInfo &info);/*{{{*/
+
+            /**
+             * @brief This function is called when the connection was secured.
+             *
+             * @note Returning false terminates the connection.
+             *
+             * @param info Comprehensive information on the certificate.
+             * @return Whether credentials are accepted.
+             */
+            bool onTLSConnect(const gloox::CertInfo &info);
+
+/*}}}*/
+            //void onStreamEvent(gloox::StreamEvent event);/*{{{*/
+
+            /**
+             * @brief This function is called for certain stream events.
+             *
+             * Notifications are purely informational. Not all StreamEvents
+             * will necessarily be emitted for a given connection.
+             *
+             * @param event A stream event.
+             */
+            void onStreamEvent(gloox::StreamEvent event);
+
+/*}}}*/
 
         private:
             //gloox::JID _jid;/*{{{*/
@@ -306,6 +384,8 @@ namespace Control
 /*}}}*/
     };
 }
+
+#include <Control/Control.ixx>
 
 #endif // CONTROL_CONTROL_HXX
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

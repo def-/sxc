@@ -22,6 +22,8 @@
 
 // INCLUDE/*{{{*/
 
+#include <string>
+
 #include <gloox/jid.h>
 #include <gloox/presence.h>
 #include <gloox/clientbase.h>
@@ -205,7 +207,12 @@ namespace Control
         print(e.getDescription());
     }/*}}}*/
 
-    inline void Control::onConnect()/*{{{*/
+    gloox::Client *Control::getClient() const/*{{{*/
+    {
+        return _client;
+    }/*}}}*/
+
+    void Control::onConnect()/*{{{*/
     {
 #       if DEBUG
             printLog("Connection established.");
@@ -223,9 +230,9 @@ namespace Control
             print(text);
     }/*}}}*/
 
-    gloox::Client *Control::getClient() const/*{{{*/
+    bool Control::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
     {
-        return _client;
+        return true;
     }/*}}}*/
 }
 
