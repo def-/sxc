@@ -47,7 +47,7 @@ namespace Option
 
     void OptionBase::setValue(std::string rawValue)/*{{{*/
     {
-        std::cout << "Wrong one, FUCK!" << std::endl;
+        // Doing nothing, as this method should never be called.
     }/*}}}*/
 
     char OptionBase::getShortName()/*{{{*/

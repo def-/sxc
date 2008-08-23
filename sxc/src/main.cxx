@@ -36,6 +36,7 @@
 #include <Option/OptionPort.hxx>
 #include <Control/Control.hxx>
 #include <Exception/Exception.hxx>
+#include <print.hxx>
 
 /*}}}*/
 
@@ -70,7 +71,7 @@ int main(int argc, char *argv[])/*{{{*/
     try {
         parser.parse(argv);
     } catch (Exception::Exception &e) {
-        std::cout << e.getDescription() << std::endl;
+        printErr(e.getDescription());
         parser.showUsage();
         return e.getType();
     }

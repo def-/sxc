@@ -22,7 +22,6 @@
 
 // INCLUDE/*{{{*/
 
-#include <iostream>
 #include <gloox/jid.h>
 #include <gloox/presence.h>
 #include <gloox/clientbase.h>
@@ -31,6 +30,7 @@
 #include <Control/Control.hxx>
 #include <Control/Roster.hxx>
 #include <generateErrorText.hxx>
+#include <print.hxx>
 
 #ifdef HAVE_CONFIG_H
 #   include <config.hxx>
@@ -45,9 +45,6 @@
 
 namespace Control
 {
-    const std::string Control::_outputPrefix = "sxc: ";
-    const std::string Control::_connectionPrefix = "sxc: ";
-
     Control::Control()/*{{{*/
     : _client(NULL),
       _roster(NULL)
@@ -197,22 +194,12 @@ namespace Control
         //_output->write(text);
     }/*}}}*/
 
-    void Control::printStdErr(std::string text) const/*{{{*/
-    {
-        std::cerr << _outputPrefix << text << std::endl;
-    }/*}}}*/
-
-    void Control::printLog(std::string text) const/*{{{*/
-    {
-        std::clog << _outputPrefix << text << std::endl;
-    }/*}}}*/
-
     void Control::handleError(/*{{{*/
         Exception::Exception &e,
         bool isCritical) const
     {
         if (isCritical) {
-            printStdErr(e.getDescription());
+            printErr(e.getDescription());
             exit(e.getType());
         }
         print(e.getDescription());
@@ -233,7 +220,7 @@ namespace Control
             _client->streamErrorText(),
             _client->authError());
         if (!text.empty())
-            print(_connectionPrefix + text);
+            print(text);
     }/*}}}*/
 
     gloox::Client *Control::getClient() const/*{{{*/

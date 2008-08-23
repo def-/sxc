@@ -22,37 +22,29 @@
 
 // INCLUDE/*{{{*/
 
-#include <gloox/gloox.h>
+#include <print.hxx>
+
+#include <iostream>
 
 /*}}}*/
 
+//const std::string _outputPrefix;/*{{{*/
 
-#ifndef GENERATEERRORTEXT_HXX
-#define GENERATEERRORTEXT_HXX
+/// The text printed before every output using @ref printErr() and @ref printLog().
+const std::string _outputPrefix = "sxc: ";
 
-
-//std::string &generateErrorText(/*{{{*/
-
-/**
- * @author Dennis Felsing
- * @brief Generate an error text.
- *
- * @param connectionError The connection error.
- * @param streamError More verbose information about a stream error.
- * @param streamErrorText An additional information text about the stream
- *        error.
- * @param authError More verbose information about an authentication error.
- * @return The generated text.
- */
-std::string &generateErrorText(
-    gloox::ConnectionError connectionError,
-    gloox::StreamError streamError,
-    const std::string &streamErrorText,
-    gloox::AuthenticationError authError);
 
 /*}}}*/
 
+void printErr(std::string text)/*{{{*/
+{
+    std::cerr << _outputPrefix << text << std::endl;
+}/*}}}*/
 
-#endif // GENERATEERRORTEXT_HXX
+void printLog(std::string text)/*{{{*/
+{
+    std::clog << _outputPrefix << text << std::endl;
+}/*}}}*/
+
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

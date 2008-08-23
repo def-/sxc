@@ -31,8 +31,6 @@
 
 /*}}}*/
 
-#include <iostream>
-
 namespace Option
 {
     /**

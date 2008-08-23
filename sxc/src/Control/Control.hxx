@@ -244,36 +244,6 @@ namespace Control
             void print(std::string text) const;
 
 /*}}}*/
-            //int printStdErr(std::string text) const;/*{{{*/
-
-            /**
-             * @brief Print a text to stderr.
-             *
-             * Format a raw text and print it to stderr.
-             *
-             * @note As sxc normally communicates using its own files, this
-             *       method should only be used on critical errors, for example
-             *       when you can't write to the output file or before the
-             *       output file has been initialized.
-             *
-             * @param text The raw text to print.
-             */
-            void printStdErr(std::string text) const;
-
-/*}}}*/
-            //int printLog(std::string text) const;/*{{{*/
-
-            /**
-             * @brief Print a logging text.
-             *
-             * Format a raw text and print it using clog. This usually goes to
-             * stderr.
-             *
-             * @param text The raw text to print.
-             */
-            void printLog(std::string text) const;
-
-/*}}}*/
             //gloox::Client *getClient() const;/*{{{*/
 
             /**
@@ -292,18 +262,6 @@ namespace Control
             void onStreamEvent(gloox::StreamEvent event) {}
 
         private:
-            //static const std::string _outputPrefix;/*{{{*/
-
-            /// The text printed before every output using @ref printStdErr().
-            static const std::string _outputPrefix;
-
-/*}}}*/
-            //static const std::string _connectionPrefix;/*{{{*/
-
-            /// The text printed before every output about the connection.
-            static const std::string _connectionPrefix;
-
-/*}}}*/
             //gloox::JID _jid;/*{{{*/
 
             /// The JID, stored to initialize the Client with.

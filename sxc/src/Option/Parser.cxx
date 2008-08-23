@@ -24,10 +24,10 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
 
 #include <Option/Parser.hxx>
 #include <Exception/OptionException.hxx>
+#include <print.hxx>
 
 /*}}}*/
 
@@ -179,7 +179,7 @@ namespace Option
         std::vector<std::string>::iterator line = out.begin();
         line != out.end();
         ++line) {
-            std::cerr << *line << std::endl;
+            printErr(*line);
         }/*}}}*/
     }/*}}}*/
 
