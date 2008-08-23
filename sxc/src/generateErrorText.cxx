@@ -33,7 +33,7 @@ std::string &generateErrorText(/*{{{*/
     const std::string &streamErrorText,
     gloox::AuthenticationError authError)
 {
-    std::string text;
+    static std::string text;
 
     switch (connectionError) {
     case gloox::ConnNoError:
@@ -269,6 +269,7 @@ std::string &generateErrorText(/*{{{*/
     default:
         text = "An unknown error occured.";
     }
+    return text;
 }/*}}}*/
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
