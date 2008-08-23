@@ -49,6 +49,7 @@ namespace Control
 
     bool Roster::handleIq(const gloox::IQ &iq)/*{{{*/
     {
+        return true;
     }/*}}}*/
 
     void Roster::handleIqID(const gloox::IQ &iq, int context)/*{{{*/
@@ -132,12 +133,16 @@ namespace Control
         const gloox::JID &jid,
         const std::string &msg)
     {
+        // TODO
+        return true;
     }/*}}}*/
 
     bool Roster::handleUnsubscriptionRequest(/*{{{*/
         const gloox::JID &jid,
         const std::string &msg)
     {
+        // TODO
+        return true;
     }/*}}}*/
 
     void Roster::handleNonrosterPresence(const gloox::Presence &presence)/*{{{*/

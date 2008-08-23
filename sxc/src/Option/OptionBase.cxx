@@ -35,13 +35,13 @@ namespace Option
         std::string description,
         bool requiresArgument,
         bool isObligatory)
-    : _shortName(shortName),
+    : _isSet(false),
+      _shortName(shortName),
       _longName(longName),
       _variable(variable),
       _description(description),
       _requiresArgument(requiresArgument),
-      _isObligatory(isObligatory),
-      _isSet(false)
+      _isObligatory(isObligatory)
     {
     }/*}}}*/
 

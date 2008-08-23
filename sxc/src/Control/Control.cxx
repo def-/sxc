@@ -134,6 +134,9 @@ namespace Control
         _client->setPresence(presence, priority, status);
         // FIXME: Thread or non-blocking?
         if (doConnect) _client->connect();
+
+        // TODO: Return false
+        return true;
     }/*}}}*/
 
     bool Control::sendMessage(std::string to, std::string body) const/*{{{*/
@@ -178,6 +181,7 @@ namespace Control
         gloox::JID jidJid(jid); // FIXME: Check for valid jid?
         // FIXME
         //_roster->ackSubscriptionRequest(jid, ack);
+        return true;
     }/*}}}*/
 
     bool removeContact(std::string jid)/*{{{*/
