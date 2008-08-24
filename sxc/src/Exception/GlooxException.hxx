@@ -42,7 +42,7 @@ namespace Exception
     class GlooxException : public Exception
     {
         public:
-            //GlooxException(Type type, std::string message)/*{{{*/
+            //GlooxException(Type type, std::string message);/*{{{*/
 
             /**
              * @brief Create a gloox exception object.
@@ -53,7 +53,7 @@ namespace Exception
             GlooxException(Type type, std::string message);
 
 /*}}}*/
-            //void createDescription() throw()/*{{{*/
+            //void createDescription() throw();/*{{{*/
 
             /**
              * @brief Create the description text.

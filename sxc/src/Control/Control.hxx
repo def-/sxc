@@ -1,6 +1,3 @@
-// TODO: Add some Message Handler (or something like that) for messages from
-//       users not in the contact list.
-
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -80,7 +77,7 @@ namespace Control
 
 /*}}}*/
 
-            //void initialize(const gloox::JID jid, int port = -1);/*{{{*/
+            //void initialize(const gloox::JID jid, int port=-1);/*{{{*/
 
             /**
              * @brief Save the JID and the port and initialize the control
@@ -99,7 +96,7 @@ namespace Control
              * @param newPort The port on the server to connect to. -1 to use
              *        the default one.
              */
-            void initialize(const gloox::JID newJid, int newPort = -1);
+            void initialize(const gloox::JID newJid, int newPort=-1);
 
 /*}}}*/
 
@@ -120,7 +117,7 @@ namespace Control
             bool setPassword(std::string newPassword);
 
 /*}}}*/
-            //bool setPresence(/*{{{*/
+            //bool setPresence(presence, priority, status=EmptyString);/*{{{*/
 
             /**
              * @brief Set the presence.
@@ -136,7 +133,7 @@ namespace Control
              */
             bool setPresence(
                 gloox::Presence::PresenceType presence,
-                int priority = 0,
+                int priority=0,
                 const std::string &status=gloox::EmptyString);
 
 /*}}}*/
@@ -155,7 +152,7 @@ namespace Control
             bool sendMessage(std::string to, std::string body) const;
 
 /*}}}*/
-            //bool addContact(/*{{{*/
+            //bool addContact(string jid, string message=EmptyString)/*{{{*/
 
             /**
              * @brief Add a contact to the roster
@@ -170,7 +167,7 @@ namespace Control
              */
             bool addContact(
                 std::string jid,
-                std::string message = gloox::EmptyString) const;
+                std::string message=gloox::EmptyString) const;
 
 /*}}}*/
             //bool ackSubscription(std::string jid, bool ack) const;/*{{{*/
@@ -205,20 +202,23 @@ namespace Control
 
 /*}}}*/
 
-            //void handleError(const Exception::Exception &e, bool isCritical = false) const;/*{{{*/
+            //void handleError(Exception &e, isCritical=false) const;/*{{{*/
 
             /**
              * @brief Handle an error that happened inside sxc.
              *
-             * @param e The @ref Exception object that contains more information.
+             * @param e The @ref Exception object that contains more
+             *        information.
              * @param isCritical Whether sxc cannot run anymore because of this
              *        error and has to be closed.
              */
-            void handleError(Exception::Exception &e, bool isCritical = false) const;
+            void handleError(
+                Exception::Exception &e,
+                bool isCritical=false) const;
 
 /*}}}*/
 
-            //void handleMessage(/*{{{*/
+            //void handleMessage(Message &msg, session=0);/*{{{*/
 
             /**
              * @brief Handle an incomming message.
@@ -234,7 +234,7 @@ namespace Control
              */
             void handleMessage(
                 const gloox::Message &msg,
-                gloox::MessageSession *session = 0);
+                gloox::MessageSession *session=0);
 
 /*}}}*/
 

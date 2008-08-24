@@ -65,14 +65,14 @@ namespace Option
 
 /*}}}*/
 
-            //virtual void setValue(std::string rawValue = "");/*{{{*/
+            //virtual void setValue(std::string rawValue="");/*{{{*/
 
             /**
              * @brief Set the value. Implement this in the derived class.
              *
              * @param rawValue The raw value as a string.
              */
-            virtual void setValue(std::string rawValue = "");
+            virtual void setValue(std::string rawValue="");
 
 /*}}}*/
 

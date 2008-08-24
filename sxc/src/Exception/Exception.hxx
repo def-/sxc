@@ -71,7 +71,7 @@ namespace Exception
 
 /*}}}*/
 
-            //virtual ~Exception() throw() {}/*{{{*/
+            //virtual ~Exception() throw();/*{{{*/
 
             /**
              * @brief The destructor.

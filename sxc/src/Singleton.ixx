@@ -22,37 +22,16 @@
 
 // INCLUDE/*{{{*/
 
-#include <gloox/gloox.h>
 
 /*}}}*/
 
 
-#ifndef GENERATEERRORTEXT_HXX
-#define GENERATEERRORTEXT_HXX
+template <class T> T &Singleton<T>::get()/*{{{*/
+{
+    static Instance instance;
+    return instance;
+}/*}}}*/
 
 
-//string &generateErrorText(connectionE, streamE, streamEText, authE);/*{{{*/
-
-/**
- * @author Dennis Felsing
- * @brief Generate an error text.
- *
- * @param connectionError The connection error.
- * @param streamError More verbose information about a stream error.
- * @param streamErrorText An additional information text about the stream
- *        error.
- * @param authError More verbose information about an authentication error.
- * @return The generated text.
- */
-std::string &generateErrorText(
-    gloox::ConnectionError connectionError,
-    gloox::StreamError streamError,
-    const std::string &streamErrorText,
-    gloox::AuthenticationError authError);
-
-/*}}}*/
-
-
-#endif // GENERATEERRORTEXT_HXX
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

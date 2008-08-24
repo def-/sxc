@@ -42,7 +42,7 @@ namespace Exception
     class OptionException : public Exception
     {
         public:
-            //OptionException(Type type, std::string message = "")/*{{{*/
+            //OptionException(Type type, std::string message="");/*{{{*/
 
             /**
              * @brief Create a gloox exception object.
@@ -50,10 +50,10 @@ namespace Exception
              * @param type The type of the exception.
              * @param message A text describing the exception more verbose.
              */
-            OptionException(Type type, std::string message = "");
+            OptionException(Type type, std::string message="");
 
 /*}}}*/
-            //void createDescription() throw()/*{{{*/
+            //void createDescription() throw();/*{{{*/
 
             /**
              * @brief Create the description text.
