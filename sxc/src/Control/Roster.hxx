@@ -65,23 +65,23 @@ namespace Control
             Roster(gloox::ClientBase *client);
 
             // Reimplemented from gloox::RosterManager.
-            virtual bool handleIq(const gloox::IQ &iq);
-            virtual void handleIqID(const gloox::IQ &iq, int context);
-            virtual void handlePresence(const gloox::Presence &presence);
-            virtual void handleSubscription(
+            bool handleIq(const gloox::IQ &iq);
+            void handleIqID(const gloox::IQ &iq, int context);
+            void handlePresence(const gloox::Presence &presence);
+            void handleSubscription(
                 const gloox::Subscription &subscription);
-            virtual void handlePrivateXML(const gloox::Tag *xml);
-            virtual void handlePrivateXMLResult(
+            void handlePrivateXML(const gloox::Tag *xml);
+            void handlePrivateXMLResult(
                 const std::string &uid,
                 gloox::PrivateXMLHandler::PrivateXMLResult pxResult);
 
             // Reimplemented from gloox::RosterListener
-            virtual void handleItemAdded(const gloox::JID &jid);
-            virtual void handleItemSubscribed(const gloox::JID &jid);
-            virtual void handleItemRemoved(const gloox::JID &jid);
-            virtual void handleItemUpdated(const gloox::JID &jid);
-            virtual void handleItemUnsubscribed(const gloox::JID &jid);
-            //virtual void handleRoster(const gloox::Roster &roster);/*{{{*/
+            void handleItemAdded(const gloox::JID &jid);
+            void handleItemSubscribed(const gloox::JID &jid);
+            void handleItemRemoved(const gloox::JID &jid);
+            void handleItemUpdated(const gloox::JID &jid);
+            void handleItemUnsubscribed(const gloox::JID &jid);
+            //void handleRoster(const gloox::Roster &roster);/*{{{*/
 
             /**
              * @brief This function gets called on the initial push.
@@ -92,28 +92,28 @@ namespace Control
              *
              * @param roster The roster from the server.
              */
-            virtual void handleRoster(const gloox::Roster &roster);
+            void handleRoster(const gloox::Roster &roster);
 
 /*}}}*/
-            virtual void handleRosterPresence(
+            void handleRosterPresence(
                 const gloox::RosterItem &item,
                 const std::string &resource,
                 gloox::Presence::PresenceType presence,
                 const std::string &msg);
-            virtual void handleSelfPresence(
+            void handleSelfPresence(
                 const gloox::RosterItem &item,
                 const std::string &resource,
                 gloox::Presence::PresenceType presence,
                 const std::string &msg);
-            virtual bool handleSubscriptionRequest(
+            bool handleSubscriptionRequest(
                 const gloox::JID &jid,
                 const std::string &msg);
-            virtual bool handleUnsubscriptionRequest(
+            bool handleUnsubscriptionRequest(
                 const gloox::JID &jid,
                 const std::string &msg);
-            virtual void handleNonrosterPresence(
+            void handleNonrosterPresence(
                 const gloox::Presence &presence);
-            virtual void handleRosterError(const gloox::IQ &iq);
+            void handleRosterError(const gloox::IQ &iq);
 
         private:
             gloox::ClientBase *_client;
