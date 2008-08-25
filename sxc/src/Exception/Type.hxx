@@ -63,17 +63,22 @@ namespace Exception
 /*}}}*/
         // File errors./*{{{*/
         // TODO
-        FileMissing  = 150,
-        FileExists   /* = @ */,
-        FileLocked   /* = @ */,
-        BadPath      /* = @ */,
-        BadFile      /* = @ */,
-        AccessDenied /* = @ */,
-        OpenFailed   /* = @ */,
-        WriteFailed  /* = @ */,
-        ReadFailed   /* = @ */,
-        CloseFailed  /* = @ */,
+        FileMissing    = 150,
+        FileExists     /* = @ */,
+        FileLocked     /* = @ */,
+        BadPath        /* = @ */,
+        BadFile        /* = @ */,
+        AccessDenied   /* = @ */,
+        OpenFailed     /* = @ */,
+        WriteFailed    /* = @ */,
+        ReadFailed     /* = @ */,
+        CloseFailed    /* = @ */,
+        NoCommand      /* = @ */,
+        InvalidCommand /* = @ */,
 /*}}}*/
+        // Generic errors:
+        InvalidUsage = 200,
+
     };
 /*}}}*/
 }
