@@ -104,7 +104,7 @@ namespace SomeNamespace
             bool doSomething(std::string someString, int someNumber);
 
 /*}}}*/
-            // void doSomethingWithManyArguments(/*{{{*/
+            // void doSomethingWithManyArguments(argA, argB, argC, argD);/*{{{*/
 
             /**
              * @brief Does something with many arguments.

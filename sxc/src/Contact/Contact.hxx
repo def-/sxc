@@ -53,14 +53,21 @@ namespace Contact
             //Contact(gloox::ClientBase *client, const gloox::JID jid);/*{{{*/
 
             /**
+             * @brief Initialise the contact.
              */
             Contact(gloox::ClientBase *client, const gloox::JID jid);
 
 /*}}}*/
+            //~Contact();/*{{{*/
 
+            /**
+             * @brief Destroy the contact.
+             */
             ~Contact();
 
-            //void handleMessage(/*{{{*/
+/*}}}*/
+
+            //void handleMessage(Message msg, MessageSession session);/*{{{*/
 
             /**
              */

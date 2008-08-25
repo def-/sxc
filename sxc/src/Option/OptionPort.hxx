@@ -27,10 +27,9 @@
 
 // INCLUDE/*{{{*/
 
-#include <Option/Option.ixx>
+#include <Option/Option.hxx>
 
 /*}}}*/
-
 
 namespace Option
 {
@@ -43,7 +42,7 @@ namespace Option
     class OptionPort : public Option<int>
     {
         public:
-            //OptionPort(/*{{{*/
+            //OptionPort(parser, short, long, variable, description);/*{{{*/
 
             /**
              * @brief Create a new port option.
@@ -64,6 +63,7 @@ namespace Option
                 std::string description);
 
 /*}}}*/
+
             //void setValue(std::string rawValue);/*{{{*/
 
             /**

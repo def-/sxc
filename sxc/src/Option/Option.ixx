@@ -31,7 +31,6 @@
 #include <string>
 #include <sstream>
 
-#include <Option/Option.hxx>
 #include <Exception/OptionException.hxx>
 
 /*}}}*/
@@ -56,7 +55,6 @@ namespace Option
     {
         parser->addOption(this);
     }/*}}}*/
-
     template <typename T> Option<T>::Option(/*{{{*/
         Parser *parser,
         char shortName,
@@ -73,6 +71,23 @@ namespace Option
     {
         parser->addOption(this);
     }/*}}}*/
+    template <> inline Option<bool>::Option(/*{{{*/
+        Parser *parser,
+        char shortName,
+        std::string longName,
+        std::string variable,
+        std::string description)
+    : OptionBase( // To use getName().
+        shortName,
+        longName,
+        variable,
+        description,
+        false,
+        false),
+        _value(false) // Default to false.
+    {
+        parser->addOption(this);
+    }/*}}}*/
 
     template <typename T> void Option<T>::setValue(std::string rawValue)/*{{{*/
     {
@@ -84,7 +99,6 @@ namespace Option
 
         _isSet = true;
     }/*}}}*/
-
     template <typename T> void Option<T>::doSetValue(std::string rawValue)/*{{{*/
     {
         std::istringstream instream;
@@ -97,7 +111,27 @@ namespace Option
             throw Exception::OptionException(
                 Exception::ValueInvalid, getName());
     }/*}}}*/
-
+    template <> inline void Option<bool>::doSetValue(std::string rawValue)/*{{{*/
+    {
+        _isSet = true;
+        _value = !_value; // Complement the value.
+    }/*}}}*/
+    template <> inline void Option<char>::doSetValue(std::string rawValue)/*{{{*/
+    {
+        if (rawValue.length() != 1)
+            throw Exception::OptionException(
+                Exception::ValueInvalid, getName());
+        _value = rawValue.at(0);
+    }/*}}}*/
+    template <> inline void Option<gloox::JID>::doSetValue(std::string rawValue)/*{{{*/
+    {
+        if (!_value.setJID(rawValue)
+        || _value.username().empty()
+        || _value.server().empty())
+            throw Exception::OptionException(
+                Exception::JidInvalid,
+                _value.full());
+    }/*}}}*/
     template <typename T> T Option<T>::getValue()/*{{{*/
     {
         return _value;

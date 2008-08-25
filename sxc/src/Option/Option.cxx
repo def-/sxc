@@ -30,7 +30,6 @@
 #include <sstream>
 #include <gloox/jid.h>
 
-#include <Option/Option.ixx>
 #include <Option/Parser.hxx>
 
 /*}}}*/

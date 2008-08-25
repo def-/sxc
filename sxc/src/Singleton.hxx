@@ -42,35 +42,34 @@
  * Example::getInstance().doSomething();
  * @endcode
  */
-template <class Type> class Singleton
+template <class T> class Singleton
 {
     public:
-        //static Type &get()/*{{{*/
+        //static T &get();/*{{{*/
         /**
          * @brief Get the only instance.
          *
          * @return An object of Instance, a class inheritting from the real
          *         class.
          */
-        static Type &get()
-        {
-            static Instance instance;
-            return instance;
-        }
+        static T &get();
 
 /*}}}*/
 
     private:
-        // class Instance : public Type {};/*{{{*/
+        // class Instance : public T/*{{{*/
         /**
-         * A class inheritting from the class that is intended to be a
-         * singleton.
+         * @brief A class inheritting from the class that is intended to be a
+         *        singleton.
          */
-        class Instance : public Type {};
+        class Instance : public T
+        {
+        };
 
 /*}}}*/
 };
 
+#include <Singleton.ixx>
 
 #endif // SINGLETON_HXX
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

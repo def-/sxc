@@ -80,8 +80,36 @@ namespace Option
 /*}}}*/
 
         private:
+            //std::string getUsageShort(OptionBase option);/*{{{*/
+
+            /**
+             * @brief Get the short usage information about an option.
+             *
+             * This function formats a string to print it in the first line of
+             * the program usage.
+             *
+             * @param option The option to format.
+             *
+             * @return The string to be printed.
+             */
             std::string getUsageShort(OptionBase option);
+
+/*}}}*/
+            //std::string getUsageLine(OptionBase option);/*{{{*/
+
+            /**
+             * @brief Get the long usage information about an option.
+             *
+             * This function returns a whole line to inform the user about a
+             * program option more verbosely than @ref getUsageShort().
+             *
+             * @param option The option to format.
+             *
+             * @return The string to be printed.
+             */
             std::string getUsageLine(OptionBase option);
+
+/*}}}*/
 
             //std::vector<OptionBase *> _options;/*{{{*/
 
