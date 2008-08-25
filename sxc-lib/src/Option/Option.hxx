@@ -27,8 +27,6 @@
 
 // INCLUDE/*{{{*/
 
-#include <gloox/jid.h>
-
 #include <Option/OptionBase.hxx>
 #include <Option/Parser.hxx>
 #include <Exception/OptionException.hxx>

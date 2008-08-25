@@ -31,6 +31,8 @@
 #include <string>
 #include <sstream>
 
+#include <gloox/jid.h>
+
 #include <Exception/OptionException.hxx>
 
 /*}}}*/

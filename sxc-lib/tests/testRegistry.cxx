@@ -20,26 +20,19 @@
 
 /* $Id$ */
 
-
-#ifndef OPTION_OPTION_CPP
-#define OPTION_OPTION_CPP
-
-
 // INCLUDE/*{{{*/
 
-#include <sstream>
-#include <gloox/jid.h>
+#include <cppunit/extensions/HelperMacros.h>
 
-#include <Option/Parser.hxx>
+#include <Option/OptionTest.hxx>
+#include <File/TestInputDummy.hxx>
 
 /*}}}*/
 
-namespace Option
-{
-}
+// Registering all unit tests here, to make them easier to disable and enable.
 
-
-#endif //OPTION_OPTION_CPP
+CPPUNIT_TEST_SUITE_REGISTRATION(OptionTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestInputDummy);
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
