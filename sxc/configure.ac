@@ -163,6 +163,16 @@ if test "x${have_pthreads}" = xno; then
     (exit 1); exit 1
 fi
 
+PKG_CHECK_MODULES([LIBSXC], [libsxc], [have_libsxc=yes], [have_libsxc=no])
+if test "x${have_libsxc}" = xno; then
+    echo \
+"-------------------------------------------------
+ Unable to find libsxc. Stopping
+ Check \"config.log\" for more information.
+-------------------------------------------------"
+    (exit 1); exit 1
+fi
+
 PKG_CHECK_MODULES([GLOOX], [gloox >= 1.0], [have_gloox=yes], [have_gloox=no])
 if test "x${have_gloox}" = xno; then
     echo \
@@ -217,9 +227,7 @@ AC_CONFIG_FILES([
     src/Control/File/Makefile
     src/Exception/Makefile
     src/File/Makefile
-    src/Option/Makefile
     tests/Makefile
-    tests/Option/Makefile
     tests/File/Makefile
 ])
 

@@ -206,6 +206,7 @@ AC_CONFIG_FILES([
     include/Option/Makefile
     tests/Makefile
     tests/Option/Makefile
+    ${PACKAGE}.pc
 ])
 
 AC_OUTPUT
