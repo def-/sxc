@@ -22,6 +22,8 @@
 
 // INCLUDE/*{{{*/
 
+#include <string>
+
 #include <Option/OptionBase.hxx>
 
 /*}}}*/

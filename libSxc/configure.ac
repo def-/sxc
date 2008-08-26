@@ -1,4 +1,5 @@
-AC_INIT([sxc-lib], [0.0-prealpha], [sxc team])
+AC_INIT([libsxc], [0.0-prealpha], [sxc team])
+AC_PREREQ(2.50)
 AM_INIT_AUTOMAKE
 AC_DEFINE_UNQUOTED(
     COPYRIGHT,
@@ -200,6 +201,9 @@ AC_CONFIG_FILES([
     src/Makefile
     src/Exception/Makefile
     src/Option/Makefile
+    include/Makefile
+    include/Exception/Makefile
+    include/Option/Makefile
     tests/Makefile
     tests/Option/Makefile
 ])
