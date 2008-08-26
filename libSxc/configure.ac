@@ -1,6 +1,6 @@
 AC_INIT([libsxc], [0.0-prealpha], [sxc team])
 AC_PREREQ(2.50)
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wall -Werror])
 AC_DEFINE_UNQUOTED(
     COPYRIGHT,
     ["2008 Andreas Waidler, Dennis Felsing"],

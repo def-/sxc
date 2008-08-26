@@ -1,5 +1,5 @@
 SUBDIRS = Exception Option
-INCLUDES = $(GLOOX_CFLAGS)
+AM_CPPFLAGS = $(GLOOX_CFLAGS)
 LIBS = $(GLOOX_LIBS)
 
 lib_LTLIBRARIES = libsxc.la

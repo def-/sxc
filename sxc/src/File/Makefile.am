@@ -1,4 +1,4 @@
-INCLUDES = $(GLOOX_CFLAGS)
+AM_CPPFLAGS = $(GLOOX_CFLAGS)
 
 noinst_LTLIBRARIES = libFile.la
 libFile_la_LDFLAGS = -pthread

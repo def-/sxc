@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir)/include $(GLOOX_CFLAGS) $(CPPUNIT_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir)/include $(GLOOX_CFLAGS) $(CPPUNIT_CFLAGS)
 LIBS = $(GLOOX_LIBS) $(CPPUNIT_LIBS)
 
 noinst_LTLIBRARIES = libOption.la

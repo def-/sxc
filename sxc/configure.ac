@@ -1,5 +1,5 @@
 AC_INIT([sxc], [0.0-prealpha], [sxc team])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wall -Werror])
 AC_DEFINE_UNQUOTED(
     COPYRIGHT,
     ["2008 Andreas Waidler, Dennis Felsing"],

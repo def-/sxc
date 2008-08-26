@@ -1,4 +1,2 @@
 installdir = $(includedir)/$(PACKAGE)/Option
-install_HEADERS = Option.hxx OptionBase.hxx OptionPort.hxx Parser.hxx
-#libSxcdir = $(includedir)/$(PACKAGE)/Option
-#libSxc_HEADERS = Option.hxx OptionBase.hxx OptionPort.hxx Parser.hxx
+install_HEADERS = Option.hxx Option.ixx OptionBase.hxx OptionPort.hxx Parser.hxx

@@ -1,5 +1,5 @@
 SUBDIRS = Exception File Contact Control Option
-INCLUDES = $(GLOOX_CFLAGS)
+AM_CPPFLAGS = $(GLOOX_CFLAGS)
 LIBS = $(GLOOX_LIBS)
 
 noinst_LTLIBRARIES = libSrc.la
