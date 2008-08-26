@@ -24,7 +24,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <Option/OptionTest.hxx>
+#include <libsxc/Option/OptionTest.hxx>
 
 /*}}}*/
 

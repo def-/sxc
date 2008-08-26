@@ -27,7 +27,7 @@
 
 // INCLUDE/*{{{*/
 
-#include <Option/Option.hxx>
+#include <libsxc/Option/Option.hxx>
 
 /*}}}*/
 

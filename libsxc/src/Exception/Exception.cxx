@@ -24,8 +24,8 @@
 
 #include <string>
 
-#include <Exception/Exception.hxx>
-#include <Exception/Type.hxx>
+#include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Exception/Type.hxx>
 
 /*}}}*/
 

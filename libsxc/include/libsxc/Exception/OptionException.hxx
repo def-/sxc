@@ -21,15 +21,15 @@
 /* $Id$ */
 
 
-#ifndef EXCEPTION_GLOOXEXCEPTION_HXX
-#define EXCEPTION_GLOOXEXCEPTION_HXX
+#ifndef EXCEPTION_OPTIONEXCEPTION_HXX
+#define EXCEPTION_OPTIONEXCEPTION_HXX
 
 
 // INCLUDE/*{{{*/
 
 #include <string>
 
-#include <Exception/Exception.hxx>
+#include <libsxc/Exception/Exception.hxx>
 
 /*}}}*/
 
@@ -37,12 +37,12 @@ namespace Exception
 {
     /**
      * @author Dennis Felsing
-     * @brief An exception class for gloox errors.
+     * @brief A class for program argument exceptions.
      */
-    class GlooxException : public Exception
+    class OptionException : public Exception
     {
         public:
-            //GlooxException(Type type, std::string message);/*{{{*/
+            //OptionException(Type type, std::string message="");/*{{{*/
 
             /**
              * @brief Create a gloox exception object.
@@ -50,7 +50,7 @@ namespace Exception
              * @param type The type of the exception.
              * @param message A text describing the exception more verbose.
              */
-            GlooxException(Type type, std::string message);
+            OptionException(Type type, std::string message="");
 
 /*}}}*/
             //void createDescription() throw();/*{{{*/

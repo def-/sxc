@@ -27,10 +27,10 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include <OptionTest.hxx>
-#include <Exception/OptionException.hxx>
-#include <Option/Parser.hxx>
-#include <Option/Option.hxx>
-#include <Option/OptionPort.hxx>
+#include <libsxc/Exception/OptionException.hxx>
+#include <libsxc/Option/Parser.hxx>
+#include <libsxc/Option/Option.hxx>
+#include <libsxc/Option/OptionPort.hxx>
 
 /*}}}*/
 

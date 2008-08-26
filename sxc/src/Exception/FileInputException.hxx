@@ -24,7 +24,7 @@
 // INCLUDES/*{{{*/
 
 #include <string>
-#include <Exception/Exception.hxx>
+#include <libsxc/Exception/Exception.hxx>
 
 /*}}}*/
 

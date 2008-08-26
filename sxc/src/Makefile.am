@@ -1,6 +1,6 @@
 SUBDIRS = Exception File Contact Control
-AM_CPPFLAGS = $(GLOOX_CFLAGS)
-LIBS = $(GLOOX_LIBS)
+AM_CPPFLAGS = $(GLOOX_CFLAGS) $(LIBSXC_CFLAGS)
+LIBS = $(GLOOX_LIBS) $(LIBSXC_LIBS)
 
 noinst_LTLIBRARIES = libSrc.la
 libSrc_la_SOURCES = print.cxx generateErrorText.cxx

@@ -30,7 +30,7 @@
 #include <string>
 #include <exception>
 
-#include <Exception/Type.hxx>
+#include <libsxc/Exception/Type.hxx>
 
 /*}}}*/
 

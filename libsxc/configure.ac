@@ -202,8 +202,9 @@ AC_CONFIG_FILES([
     src/Exception/Makefile
     src/Option/Makefile
     include/Makefile
-    include/Exception/Makefile
-    include/Option/Makefile
+    include/libsxc/Makefile
+    include/libsxc/Exception/Makefile
+    include/libsxc/Option/Makefile
     tests/Makefile
     tests/Option/Makefile
     ${PACKAGE}.pc

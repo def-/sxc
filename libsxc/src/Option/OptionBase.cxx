@@ -24,7 +24,7 @@
 
 #include <string>
 
-#include <Option/OptionBase.hxx>
+#include <libsxc/Option/OptionBase.hxx>
 
 /*}}}*/
 

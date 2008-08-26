@@ -31,11 +31,12 @@
 #include <sstream>
 #include <gloox/jid.h>
 
-#include <Option/Parser.hxx>
-#include <Option/Option.hxx>
-#include <Option/OptionPort.hxx>
+#include <libsxc/Option/Parser.hxx>
+#include <libsxc/Option/Option.hxx>
+#include <libsxc/Option/OptionPort.hxx>
+#include <libsxc/Exception/Exception.hxx>
+
 #include <Control/Control.hxx>
-#include <Exception/Exception.hxx>
 #include <print.hxx>
 
 /*}}}*/
@@ -72,7 +73,7 @@ int main(int argc, char *argv[])/*{{{*/
         parser.parse(argv);
     } catch (Exception::Exception &e) {
         printErr(e.getDescription());
-        parser.showUsage();
+        parser.getUsage(); // FIXME to print!
         return e.getType();
     }
 

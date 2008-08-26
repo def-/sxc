@@ -27,9 +27,9 @@
 
 // INCLUDE/*{{{*/
 
-#include <Option/OptionBase.hxx>
-#include <Option/Parser.hxx>
-#include <Exception/OptionException.hxx>
+#include <libsxc/Option/OptionBase.hxx>
+#include <libsxc/Option/Parser.hxx>
+#include <libsxc/Exception/OptionException.hxx>
 
 /*}}}*/
 
@@ -169,7 +169,7 @@ namespace Option
 }
 
 
-#include <Option/Option.ixx>
+#include <libsxc/Option/Option.ixx>
 
 #endif // OPTION_OPTION_HXX
 

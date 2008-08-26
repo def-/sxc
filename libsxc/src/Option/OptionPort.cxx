@@ -24,8 +24,8 @@
 
 #include <string>
 
-#include <Option/OptionPort.hxx>
-#include <Exception/OptionException.hxx>
+#include <libsxc/Option/OptionPort.hxx>
+#include <libsxc/Exception/OptionException.hxx>
 
 /*}}}*/
 

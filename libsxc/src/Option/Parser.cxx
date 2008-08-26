@@ -25,8 +25,8 @@
 #include <string>
 #include <vector>
 
-#include <Option/Parser.hxx>
-#include <Exception/OptionException.hxx>
+#include <libsxc/Option/Parser.hxx>
+#include <libsxc/Exception/OptionException.hxx>
 
 /*}}}*/
 

@@ -24,7 +24,7 @@
 
 #include <string>
 
-#include <Exception/GlooxException.hxx>
+#include <libsxc/Exception/GlooxException.hxx>
 
 /*}}}*/
 

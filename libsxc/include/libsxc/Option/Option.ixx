@@ -33,7 +33,7 @@
 
 #include <gloox/jid.h>
 
-#include <Exception/OptionException.hxx>
+#include <libsxc/Exception/OptionException.hxx>
 
 /*}}}*/
 

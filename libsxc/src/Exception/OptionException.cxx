@@ -24,7 +24,7 @@
 
 #include <string>
 
-#include <Exception/OptionException.hxx>
+#include <libsxc/Exception/OptionException.hxx>
 
 #ifdef HAVE_CONFIG_H
 #   include <config.hxx>
