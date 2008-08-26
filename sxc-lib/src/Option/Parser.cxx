@@ -27,7 +27,6 @@
 
 #include <Option/Parser.hxx>
 #include <Exception/OptionException.hxx>
-#include <print.hxx>
 
 /*}}}*/
 
@@ -150,7 +149,7 @@ namespace Option
                 arguments.at(0));
     }/*}}}*/
 
-    void Parser::showUsage()/*{{{*/
+    std::vector<std::string> Parser::getUsage()/*{{{*/
     {
         std::vector<std::string> out;
 
@@ -174,13 +173,15 @@ namespace Option
             out.push_back(getUsageLine(**option));
         }/*}}}*/
 
+        return out;
+
         // Output lines./*{{{*/
-        for (
-        std::vector<std::string>::iterator line = out.begin();
-        line != out.end();
-        ++line) {
-            printErr(*line);
-        }/*}}}*/
+        //for (
+        //std::vector<std::string>::iterator line = out.begin();
+        //line != out.end();
+        //++line) {
+        //    printErr(*line);
+        //}/*}}}*/
     }/*}}}*/
 
     std::string Parser::getUsageShort(OptionBase option)/*{{{*/

@@ -68,14 +68,14 @@ namespace Option
             void parse(char *argv[]);
 
 /*}}}*/
-            //void showUsage();/*{{{*/
+            //std::vector<std::string> getUsage();/*{{{*/
 
             /**
              * @brief Show the usage.
              *
              * Output to stderr how to use the program.
              */
-            void showUsage();
+            std::vector<std::string> getUsage();
 
 /*}}}*/
 
