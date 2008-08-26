@@ -31,7 +31,7 @@
 
 // INCLUDES/*{{{*/
 
-#include <Exception/Type.hxx>
+#include <libsxc/Exception/Type.hxx>
 
 /*}}}*/
 
@@ -49,7 +49,7 @@ namespace Exception
      * @param p_errno The errno that occured and that should be transformed.
      * @return An Exception::Type that matches the passed errno.
      */
-    Type errnoToType(int p_errno);
+    libsxc::Exception::Type errnoToType(int p_errno);
 }
 
 #endif // EXCEPTION_ERRNO_HXX

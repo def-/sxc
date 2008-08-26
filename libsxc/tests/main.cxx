@@ -27,7 +27,7 @@
 
 /*}}}*/
 
-int main(int argc, char **argv)
+int main(int argc, char **argv)/*{{{*/
 {
     CppUnit::Test *suite =
         CppUnit::TestFactoryRegistry::getRegistry().makeTest();
@@ -36,6 +36,7 @@ int main(int argc, char **argv)
     runner.addTest(suite);
 
     return !runner.run();
-}
+}/*}}}*/
+
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

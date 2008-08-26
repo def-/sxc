@@ -22,19 +22,26 @@
 
 #include <sstream>
 
+#include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Exception/Type.hxx>
+
 #include <Exception/FileInputException.hxx>
 
 /*}}}*/
 
 namespace Exception
 {
-    FileInputException::FileInputException(Type type, std::string &message)/*{{{*/
+    FileInputException::FileInputException(/*{{{*/
+        libsxc::Exception::Type type,
+        std::string &message)
     : Exception(type, message)
     {
     }
 
 /*}}}*/
-    FileInputException::FileInputException(Type type, const char *message)/*{{{*/
+    FileInputException::FileInputException(/*{{{*/
+        libsxc::Exception::Type type,
+        const char *message)
     : Exception(type, message)
     {
     }

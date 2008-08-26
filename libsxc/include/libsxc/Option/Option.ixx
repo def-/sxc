@@ -37,109 +37,116 @@
 
 /*}}}*/
 
-namespace Option
+namespace libsxc
 {
-    template <typename T> Option<T>::Option(/*{{{*/
-        Parser *parser,
-        char shortName,
-        std::string longName,
-        std::string variable,
-        std::string description,
-        T defaultValue)
-    : OptionBase(
-        shortName,
-        longName,
-        variable,
-        description,
-        true, // All non-booleans require an argument.
-        false), // Has an default value, so it must not be set.
-        _value(defaultValue)
+    namespace Option
     {
-        parser->addOption(this);
-    }/*}}}*/
-    template <typename T> Option<T>::Option(/*{{{*/
-        Parser *parser,
-        char shortName,
-        std::string longName,
-        std::string variable,
-        std::string description)
-    : OptionBase(
-        shortName,
-        longName,
-        variable,
-        description,
-        true, // All non-booleans require an argument.
-        true) // Has no default value, so it is obligatory.
-    {
-        parser->addOption(this);
-    }/*}}}*/
-    template <> inline Option<bool>::Option(/*{{{*/
-        Parser *parser,
-        char shortName,
-        std::string longName,
-        std::string variable,
-        std::string description)
-    : OptionBase( // To use getName().
-        shortName,
-        longName,
-        variable,
-        description,
-        false,
-        false),
-        _value(false) // Default to false.
-    {
-        parser->addOption(this);
-    }/*}}}*/
+        template <typename T> Option<T>::Option(/*{{{*/
+            Parser *parser,
+            char shortName,
+            std::string longName,
+            std::string variable,
+            std::string description,
+            T defaultValue)
+        : OptionBase(
+            shortName,
+            longName,
+            variable,
+            description,
+            true, // All non-booleans require an argument.
+            false), // Has an default value, so it must not be set.
+            _value(defaultValue)
+        {
+            parser->addOption(this);
+        }/*}}}*/
+        template <typename T> Option<T>::Option(/*{{{*/
+            Parser *parser,
+            char shortName,
+            std::string longName,
+            std::string variable,
+            std::string description)
+        : OptionBase(
+            shortName,
+            longName,
+            variable,
+            description,
+            true, // All non-booleans require an argument.
+            true) // Has no default value, so it is obligatory.
+        {
+            parser->addOption(this);
+        }/*}}}*/
+        template <> inline Option<bool>::Option(/*{{{*/
+            Parser *parser,
+            char shortName,
+            std::string longName,
+            std::string variable,
+            std::string description)
+        : OptionBase( // To use getName().
+            shortName,
+            longName,
+            variable,
+            description,
+            false,
+            false),
+            _value(false) // Default to false.
+        {
+            parser->addOption(this);
+        }/*}}}*/
 
-    template <typename T> void Option<T>::setValue(std::string rawValue)/*{{{*/
-    {
-        if (_isSet) // Only allow to be set one time.
-            throw Exception::OptionException(
-                Exception::OptionSetMultiple, getName());
+        template <typename T> void Option<T>::setValue(/*{{{*/
+            std::string rawValue)
+        {
+            if (_isSet) // Only allow to be set one time.
+                throw Exception::OptionException(
+                    Exception::OptionSetMultiple, getName());
 
-        doSetValue(rawValue);
+            doSetValue(rawValue);
 
-        _isSet = true;
-    }/*}}}*/
-    template <typename T> void Option<T>::doSetValue(std::string rawValue)/*{{{*/
-    {
-        std::istringstream instream;
+            _isSet = true;
+        }/*}}}*/
+        template <typename T> void Option<T>::doSetValue(/*{{{*/
+            std::string rawValue)
+        {
+            std::istringstream instream;
 
-        instream.str(rawValue);
-        instream >> _value;
+            instream.str(rawValue);
+            instream >> _value;
 
-        if (instream.bad() // Conversion failed
-        || !instream.eof())
-            throw Exception::OptionException(
-                Exception::ValueInvalid, getName());
-    }/*}}}*/
-    template <> inline void Option<bool>::doSetValue(std::string rawValue)/*{{{*/
-    {
-        _isSet = true;
-        _value = !_value; // Complement the value.
-    }/*}}}*/
-    template <> inline void Option<char>::doSetValue(std::string rawValue)/*{{{*/
-    {
-        if (rawValue.length() != 1)
-            throw Exception::OptionException(
-                Exception::ValueInvalid, getName());
-        _value = rawValue.at(0);
-    }/*}}}*/
-    template <> inline void Option<gloox::JID>::doSetValue(std::string rawValue)/*{{{*/
-    {
-        if (!_value.setJID(rawValue)
-        || _value.username().empty()
-        || _value.server().empty())
-            throw Exception::OptionException(
-                Exception::JidInvalid,
-                _value.full());
-    }/*}}}*/
-    template <typename T> T Option<T>::getValue()/*{{{*/
-    {
-        return _value;
-    }/*}}}*/
+            if (instream.bad() // Conversion failed
+            || !instream.eof())
+                throw Exception::OptionException(
+                    Exception::ValueInvalid, getName());
+        }/*}}}*/
+        template <> inline void Option<bool>::doSetValue(/*{{{*/
+            std::string rawValue)
+        {
+            _isSet = true;
+            _value = !_value; // Complement the value.
+        }/*}}}*/
+        template <> inline void Option<char>::doSetValue(/*{{{*/
+            std::string rawValue)
+        {
+            if (rawValue.length() != 1)
+                throw Exception::OptionException(
+                    Exception::ValueInvalid, getName());
+            _value = rawValue.at(0);
+        }/*}}}*/
+        template <> inline void Option<gloox::JID>::doSetValue(/*{{{*/
+            std::string rawValue)
+        {
+            if (!_value.setJID(rawValue)
+            || _value.username().empty()
+            || _value.server().empty())
+                throw Exception::OptionException(
+                    Exception::JidInvalid,
+                    _value.full());
+        }/*}}}*/
+        template <typename T> T Option<T>::getValue()/*{{{*/
+        {
+            return _value;
+        }/*}}}*/
+    }
 }
-
 
 #endif // OPTION_OPTION_IXX
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

@@ -22,42 +22,43 @@
 
 #include <errno.h>
 
+#include <libsxc/Exception/Type.hxx>
+
 #include <Exception/Errno.hxx>
-#include <Exception/Type.hxx>
 
 /*}}}*/
 
 namespace Exception
 {
-    Type errnoToType(int p_errno)
+    libsxc::Exception::Type errnoToType(int p_errno)
     {
-        Type result = General;
+        libsxc::Exception::Type result = libsxc::Exception::General;
 
         switch (p_errno) {
         case EACCES:
-            result = AccessDenied;
+            result = libsxc::Exception::AccessDenied;
             break;
 
         case EEXIST:
-            result = FileExists;
+            result = libsxc::Exception::FileExists;
             break;
 
         case ENOENT:
-            result = FileMissing;
+            result = libsxc::Exception::FileMissing;
             break;
 
         case ELOOP:
         case ENOTDIR:
-            result = BadPath;
+            result = libsxc::Exception::BadPath;
             break;
 
         case ENAMETOOLONG:
-            result = BadFile;
+            result = libsxc::Exception::BadFile;
             break;
 
         case ENOSPC:
         case EROFS:
-            result = WriteFailed;
+            result = libsxc::Exception::WriteFailed;
             break;
         // The following ones should not be needed but may be passed as
         // parameter and could be handled in future versions:

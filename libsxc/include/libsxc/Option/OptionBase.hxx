@@ -31,178 +31,183 @@
 
 /*}}}*/
 
-namespace Option
+namespace libsxc
 {
-    /**
-     * @author Dennis Felsing
-     * @brief The base class for options.
-     */
-    class OptionBase
+    namespace Option
     {
-        public:
-            //OptionBase(/*{{{*/
+        /**
+         * @author Dennis Felsing
+         * @brief The base class for options.
+         */
+        class OptionBase
+        {
+            public:
+                //OptionBase(/*{{{*/
 
-            /**
-             * @brief Create a new option base.
-             *
-             * Construct a new option base object.
-             *
-             * @param shortName A short option name. ('x' for "-x")
-             * @param longName A long option name. ("foo" for --foo)
-             * @param variable How to call the variable in the usage output.
-             * @param description A description of the option.
-             * @param requiresArgument Whether this option needs an argument.
-             *        Normally only booleans don't need one.
-             * @param isObligatory Whether the option has to be set.
-             */
-            OptionBase(
-                char shortName,
-                std::string longName,
-                std::string variable,
-                std::string description,
-                bool requiresArgument,
-                bool isObligatory);
+                /**
+                 * @brief Create a new option base.
+                 *
+                 * Construct a new option base object.
+                 *
+                 * @param shortName A short option name. ('x' for "-x")
+                 * @param longName A long option name. ("foo" for --foo)
+                 * @param variable How to call the variable in the usage
+                 *        output.
+                 * @param description A description of the option.
+                 * @param requiresArgument Whether this option needs an
+                 *        argument. Normally only booleans don't need one.
+                 * @param isObligatory Whether the option has to be set.
+                 */
+                OptionBase(
+                    char shortName,
+                    std::string longName,
+                    std::string variable,
+                    std::string description,
+                    bool requiresArgument,
+                    bool isObligatory);
 
-/*}}}*/
+    /*}}}*/
 
-            //virtual void setValue(std::string rawValue="");/*{{{*/
+                //virtual void setValue(std::string rawValue="");/*{{{*/
 
-            /**
-             * @brief Set the value. Implement this in the derived class.
-             *
-             * @param rawValue The raw value as a string.
-             */
-            virtual void setValue(std::string rawValue="");
+                /**
+                 * @brief Set the value. Implement this in the derived class.
+                 *
+                 * @param rawValue The raw value as a string.
+                 */
+                virtual void setValue(std::string rawValue="");
 
-/*}}}*/
+    /*}}}*/
 
-            //char getShortName();/*{{{*/
+                //char getShortName();/*{{{*/
 
-            /**
-             * @brief Get the short name.
-             *
-             * @return The short name.
-             */
-            char getShortName();
+                /**
+                 * @brief Get the short name.
+                 *
+                 * @return The short name.
+                 */
+                char getShortName();
 
-/*}}}*/
-            //std::string getLongName();/*{{{*/
+    /*}}}*/
+                //std::string getLongName();/*{{{*/
 
-            /**
-             * @brief Get the long name.
-             *
-             * @return The long name.
-             */
-            std::string getLongName();
+                /**
+                 * @brief Get the long name.
+                 *
+                 * @return The long name.
+                 */
+                std::string getLongName();
 
-/*}}}*/
-            //std::string getName();/*{{{*/
+    /*}}}*/
+                //std::string getName();/*{{{*/
 
-            /**
-             * @brief Get the long name, or if not specified the short name.
-             *
-             * @return The name.
-             */
-            std::string getName();
+                /**
+                 * @brief Get the long name, or if not specified the short
+                 *        name.
+                 *
+                 * @return The name.
+                 */
+                std::string getName();
 
-/*}}}*/
-            //std::string getVariable();/*{{{*/
+    /*}}}*/
+                //std::string getVariable();/*{{{*/
 
-            /**
-             * @brief Get the variable name.
-             *
-             * @return The variable name.
-             */
-            std::string getVariable();
+                /**
+                 * @brief Get the variable name.
+                 *
+                 * @return The variable name.
+                 */
+                std::string getVariable();
 
-/*}}}*/
-            //std::string getDescription();/*{{{*/
+    /*}}}*/
+                //std::string getDescription();/*{{{*/
 
-            /**
-             * @brief Get the description.
-             *
-             * @return The description.
-             */
-            std::string getDescription();
+                /**
+                 * @brief Get the description.
+                 *
+                 * @return The description.
+                 */
+                std::string getDescription();
 
-/*}}}*/
-            //bool getRequiresArgument();/*{{{*/
+    /*}}}*/
+                //bool getRequiresArgument();/*{{{*/
 
-            /**
-             * @brief Get whether an argument is required.
-             *
-             * @return Whether an argument is required.
-             */
-            bool getRequiresArgument();
+                /**
+                 * @brief Get whether an argument is required.
+                 *
+                 * @return Whether an argument is required.
+                 */
+                bool getRequiresArgument();
 
-/*}}}*/
-            //bool getIsObligatory();/*{{{*/
+    /*}}}*/
+                //bool getIsObligatory();/*{{{*/
 
-            /**
-             * @brief Get whether the option is obligatory.
-             *
-             * @return Whether the option is obligatory.
-             */
-            bool getIsObligatory();
+                /**
+                 * @brief Get whether the option is obligatory.
+                 *
+                 * @return Whether the option is obligatory.
+                 */
+                bool getIsObligatory();
 
-/*}}}*/
-            //bool getIsSet();/*{{{*/
+    /*}}}*/
+                //bool getIsSet();/*{{{*/
 
-            /**
-             * @brief Get whether the option has already been set.
-             *
-             * @return Whether the option has already been set.
-             */
-            bool getIsSet();
+                /**
+                 * @brief Get whether the option has already been set.
+                 *
+                 * @return Whether the option has already been set.
+                 */
+                bool getIsSet();
 
-/*}}}*/
+    /*}}}*/
 
-        protected:
-            //bool _isSet;/*{{{*/
+            protected:
+                //bool _isSet;/*{{{*/
 
-            /// Whether the option has already been set.
-            bool _isSet;
+                /// Whether the option has already been set.
+                bool _isSet;
 
-/*}}}*/
+    /*}}}*/
 
-        private:
-            //char _shortName;/*{{{*/
+            private:
+                //char _shortName;/*{{{*/
 
-            /// The short name.
-            char _shortName;
+                /// The short name.
+                char _shortName;
 
-/*}}}*/
-            //std::string _longName;/*{{{*/
+    /*}}}*/
+                //std::string _longName;/*{{{*/
 
-            /// The long name.
-            std::string _longName;
+                /// The long name.
+                std::string _longName;
 
-/*}}}*/
-            //std::string _variable;/*{{{*/
+    /*}}}*/
+                //std::string _variable;/*{{{*/
 
-            /// The variable name.
-            std::string _variable;
+                /// The variable name.
+                std::string _variable;
 
-/*}}}*/
-            //std::string _description;/*{{{*/
+    /*}}}*/
+                //std::string _description;/*{{{*/
 
-            /// The description.
-            std::string _description;
+                /// The description.
+                std::string _description;
 
-/*}}}*/
-            //bool _requiresArgument;/*{{{*/
+    /*}}}*/
+                //bool _requiresArgument;/*{{{*/
 
-            /// Whether an argument is required.
-            bool _requiresArgument;
+                /// Whether an argument is required.
+                bool _requiresArgument;
 
-/*}}}*/
-            //bool _isObligatory;/*{{{*/
+    /*}}}*/
+                //bool _isObligatory;/*{{{*/
 
-            /// Whether the option is obligatory.
-            bool _isObligatory;
+                /// Whether the option is obligatory.
+                bool _isObligatory;
 
-/*}}}*/
-    };
+    /*}}}*/
+        };
+    }
 }
 
 

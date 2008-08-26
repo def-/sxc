@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: @PACKAGE@
+Description: A library for sxc and sxc-tools
+Version: @VERSION@
+Libs: -L${libdir} -lsxc
+Cflags: -I${includedir}

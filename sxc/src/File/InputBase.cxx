@@ -25,13 +25,14 @@
 #include <pthread.h>
 #include <signal.h>
 
+#include <libsxc/Exception/Type.hxx>
+
 #include <cerrno>
 #include <sstream>
 #include <sys/stat.h>
 #include <File/InputBase.hxx>
 #include <Exception/FileInputException.hxx>
 #include <Exception/Errno.hxx>
-#include <Exception/Type.hxx>
 
 /*}}}*/
 
@@ -57,9 +58,9 @@ void File::InputBase::initialize(bool notPhysical)/*{{{*/
         try {
             validate();
         } catch (Exception::FileInputException &e) {
-            // If the file is missing, create it. Anything else means that someone
-            // tampered with the file.
-            if (Exception::FileMissing != e.getType())
+            // If the file is missing, create it. Anything else means that
+            // someone tampered with the file.
+            if (libsxc::Exception::FileMissing != e.getType())
                 throw e;
             create();
         }
@@ -74,7 +75,7 @@ void File::InputBase::create()/*{{{*/
         return;
 
     // Creation of FIFO failed.
-    Exception::Type type = Exception::errnoToType(errno);
+    libsxc::Exception::Type type = Exception::errnoToType(errno);
     std::string message  = "Could not create FIFO " + _path;
     throw Exception::FileInputException(type, message);
 }
@@ -85,7 +86,7 @@ void File::InputBase::validate()/*{{{*/
     // Try to get file stats, needed for analyzing the chmod of the file.
     struct stat fstat;
     if (0 != stat(_path.c_str(), &fstat)) {
-        Exception::Type type = Exception::errnoToType(errno);
+        libsxc::Exception::Type type = Exception::errnoToType(errno);
         std::string message  = "Could not get FIFO fstat: " + _path;
         throw Exception::FileInputException(type, message);
     }
@@ -93,7 +94,9 @@ void File::InputBase::validate()/*{{{*/
     // Is this really a FIFO?
     if (!S_ISFIFO(fstat.st_mode)) {
         std::string message  = "Not a FIFO: " + _path;
-        throw Exception::FileInputException(Exception::BadFile, message);
+        throw Exception::FileInputException(
+            libsxc::Exception::BadFile,
+            message);
     }
 
     // Check for chmod 600:
@@ -109,7 +112,9 @@ void File::InputBase::validate()/*{{{*/
         // Extract only necessary part (user, group, other) from file mode:
         std::string message = _path + ": Chmod should be 600, found "
                             + mode.str().substr(2);
-        throw Exception::FileInputException(Exception::BadFile, message);
+        throw Exception::FileInputException(
+            libsxc::Exception::BadFile,
+            message);
     }
 
     _isFifoValid = true;
@@ -141,7 +146,9 @@ void File::InputBase::listen(bool blocking)/*{{{*/
     // Prevent input from being handled twice:
     if (_isListening) {
         std::string message = "Already listening on " + _path;
-        throw Exception::FileInputException(Exception::FileLocked, message);
+        throw Exception::FileInputException(
+            libsxc::Exception::FileLocked,
+            message);
     }
     _isListening = true;
 

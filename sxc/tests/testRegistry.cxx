@@ -24,14 +24,12 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <Option/OptionTest.hxx>
 #include <File/TestInputDummy.hxx>
 
 /*}}}*/
 
 // Registering all unit tests here, to make them easier to disable and enable.
 
-CPPUNIT_TEST_SUITE_REGISTRATION(OptionTest);
 CPPUNIT_TEST_SUITE_REGISTRATION(TestInputDummy);
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

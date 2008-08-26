@@ -29,60 +29,62 @@
 
 /*}}}*/
 
-/**
- * @author Dennis Felsing
- * @brief An enum for all exception types and their exit codes.
- */
-namespace Exception
+namespace libsxc
 {
-    //enum Type/*{{{*/
-
-    /// Exception types and return codes.
-    enum Type
+    namespace Exception
     {
-        NoError = 0, // No problem occured.
-        General = 64,
-        // Program option exceptions./*{{{*/
-        ShowUsage = 0,
-        OptionNotSet = 80,
-        OptionSetMultiple = 81,
-        OptionUnknown = 82,
-        ValueNotSet = 83,
-        PortInvalid = 84,
-        JidInvalid = 85,
-        ValueInvalid = 86,
-        OptionsConflicting = 87,
-/*}}}*/
-        // Gloox errors./*{{{*/
-        Connection = 90,
-        Registration = 91,
-        PrivacyList = 92,
-        SessionCreate = 93,
-        Stanza = 94,
-        Stream = 95,
-/*}}}*/
-        // File errors./*{{{*/
-        // TODO
-        FileMissing    = 150,
-        FileExists     /* = @ */,
-        FileLocked     /* = @ */,
-        BadPath        /* = @ */,
-        BadFile        /* = @ */,
-        AccessDenied   /* = @ */,
-        OpenFailed     /* = @ */,
-        WriteFailed    /* = @ */,
-        ReadFailed     /* = @ */,
-        CloseFailed    /* = @ */,
-        NoCommand      /* = @ */,
-        InvalidCommand /* = @ */,
-/*}}}*/
-        // Generic errors:
-        InvalidUsage = 200,
+        /**
+         * @author Dennis Felsing
+         * @brief An enum for all exception types and their exit codes.
+         */
+        //enum Type/*{{{*/
 
-    };
-/*}}}*/
+        /// Exception types and return codes.
+        enum Type
+        {
+            NoError = 0, // No problem occured.
+            General = 64,
+            // Program option exceptions./*{{{*/
+            ShowUsage = 0,
+            OptionNotSet = 80,
+            OptionSetMultiple = 81,
+            OptionUnknown = 82,
+            ValueNotSet = 83,
+            PortInvalid = 84,
+            JidInvalid = 85,
+            ValueInvalid = 86,
+            OptionsConflicting = 87,
+    /*}}}*/
+            // Gloox errors./*{{{*/
+            Connection = 90,
+            Registration = 91,
+            PrivacyList = 92,
+            SessionCreate = 93,
+            Stanza = 94,
+            Stream = 95,
+    /*}}}*/
+            // File errors./*{{{*/
+            // TODO
+            FileMissing    = 150,
+            FileExists     /* = @ */,
+            FileLocked     /* = @ */,
+            BadPath        /* = @ */,
+            BadFile        /* = @ */,
+            AccessDenied   /* = @ */,
+            OpenFailed     /* = @ */,
+            WriteFailed    /* = @ */,
+            ReadFailed     /* = @ */,
+            CloseFailed    /* = @ */,
+            NoCommand      /* = @ */,
+            InvalidCommand /* = @ */,
+    /*}}}*/
+            // Generic errors:
+            InvalidUsage = 200,
+
+        };
+    /*}}}*/
+    }
 }
-
 
 #endif // EXCEPTION_TYPE_HXX
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

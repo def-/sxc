@@ -24,13 +24,16 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <libsxc/Option/OptionTest.hxx>
+#include <Option/OptionTest.hxx>
 
 /*}}}*/
 
 // Registering all unit tests here, to make them easier to disable and enable.
 
-CPPUNIT_TEST_SUITE_REGISTRATION(OptionTest);
+namespace libsxc
+{
+    CPPUNIT_TEST_SUITE_REGISTRATION(OptionTest);
+}
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

@@ -28,73 +28,76 @@
 
 /*}}}*/
 
-namespace Option
+namespace libsxc
 {
-    OptionBase::OptionBase(/*{{{*/
-        char shortName,
-        std::string longName,
-        std::string variable,
-        std::string description,
-        bool requiresArgument,
-        bool isObligatory)
-    : _isSet(false),
-      _shortName(shortName),
-      _longName(longName),
-      _variable(variable),
-      _description(description),
-      _requiresArgument(requiresArgument),
-      _isObligatory(isObligatory)
+    namespace Option
     {
-    }/*}}}*/
+        OptionBase::OptionBase(/*{{{*/
+            char shortName,
+            std::string longName,
+            std::string variable,
+            std::string description,
+            bool requiresArgument,
+            bool isObligatory)
+        : _isSet(false),
+          _shortName(shortName),
+          _longName(longName),
+          _variable(variable),
+          _description(description),
+          _requiresArgument(requiresArgument),
+          _isObligatory(isObligatory)
+        {
+        }/*}}}*/
 
-    void OptionBase::setValue(std::string rawValue)/*{{{*/
-    {
-        // Doing nothing, as this method should never be called.
-    }/*}}}*/
+        void OptionBase::setValue(std::string rawValue)/*{{{*/
+        {
+            // Doing nothing, as this method should never be called.
+        }/*}}}*/
 
-    char OptionBase::getShortName()/*{{{*/
-    {
-        return _shortName;
-    }/*}}}*/
+        char OptionBase::getShortName()/*{{{*/
+        {
+            return _shortName;
+        }/*}}}*/
 
-    std::string OptionBase::getLongName()/*{{{*/
-    {
-        return _longName;
-    }/*}}}*/
+        std::string OptionBase::getLongName()/*{{{*/
+        {
+            return _longName;
+        }/*}}}*/
 
-    std::string OptionBase::getName()/*{{{*/
-    {
-        if ("" != _longName)
-            return "--" + _longName;
-        else if (' ' != _shortName)
-            return "-" + _shortName;
-        return _variable;
-    }/*}}}*/
+        std::string OptionBase::getName()/*{{{*/
+        {
+            if ("" != _longName)
+                return "--" + _longName;
+            else if (' ' != _shortName)
+                return "-" + _shortName;
+            return _variable;
+        }/*}}}*/
 
-    std::string OptionBase::getVariable()/*{{{*/
-    {
-        return _variable;
-    }/*}}}*/
+        std::string OptionBase::getVariable()/*{{{*/
+        {
+            return _variable;
+        }/*}}}*/
 
-    std::string OptionBase::getDescription()/*{{{*/
-    {
-        return _description;
-    }/*}}}*/
+        std::string OptionBase::getDescription()/*{{{*/
+        {
+            return _description;
+        }/*}}}*/
 
-    bool OptionBase::getRequiresArgument()/*{{{*/
-    {
-        return _requiresArgument;
-    }/*}}}*/
+        bool OptionBase::getRequiresArgument()/*{{{*/
+        {
+            return _requiresArgument;
+        }/*}}}*/
 
-    bool OptionBase::getIsObligatory()/*{{{*/
-    {
-        return _isObligatory;
-    }/*}}}*/
+        bool OptionBase::getIsObligatory()/*{{{*/
+        {
+            return _isObligatory;
+        }/*}}}*/
 
-    bool OptionBase::getIsSet()/*{{{*/
-    {
-        return _isSet;
-    }/*}}}*/
+        bool OptionBase::getIsSet()/*{{{*/
+        {
+            return _isSet;
+        }/*}}}*/
+    }
 }
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

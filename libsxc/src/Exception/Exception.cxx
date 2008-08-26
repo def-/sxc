@@ -29,51 +29,54 @@
 
 /*}}}*/
 
-namespace Exception
+namespace libsxc
 {
-    Exception::Exception(Type type, std::string &message) throw()/*{{{*/
-    : _type(type), _message(message), _isDescriptionCreated(false)
+    namespace Exception
     {
-    }/*}}}*/
+        Exception::Exception(Type type, std::string &message) throw()/*{{{*/
+        : _type(type), _message(message), _isDescriptionCreated(false)
+        {
+        }/*}}}*/
 
-    Exception::Exception(Type type, const char *message) throw()/*{{{*/
-    : _type(type), _isDescriptionCreated(false)
-    {
-        _message = *message;
-    }/*}}}*/
+        Exception::Exception(Type type, const char *message) throw()/*{{{*/
+        : _type(type), _isDescriptionCreated(false)
+        {
+            _message = *message;
+        }/*}}}*/
 
-    Exception::~Exception() throw()/*{{{*/
-    {
-    }/*}}}*/
+        Exception::~Exception() throw()/*{{{*/
+        {
+        }/*}}}*/
 
-    const std::string &Exception::getMessage() const throw()/*{{{*/
-    {
-        return _message;
-    }/*}}}*/
+        const std::string &Exception::getMessage() const throw()/*{{{*/
+        {
+            return _message;
+        }/*}}}*/
 
-    const std::string &Exception::getDescription() throw()/*{{{*/
-    {
-        if (!_isDescriptionCreated) {
-            createDescription();
-            _isDescriptionCreated = true;
-        }
-        return _description;
-    }/*}}}*/
+        const std::string &Exception::getDescription() throw()/*{{{*/
+        {
+            if (!_isDescriptionCreated) {
+                createDescription();
+                _isDescriptionCreated = true;
+            }
+            return _description;
+        }/*}}}*/
 
-    void Exception::setInvalid() throw()/*{{{*/
-    {
-        _description = "Invalid exception type.";
-    }/*}}}*/
+        void Exception::setInvalid() throw()/*{{{*/
+        {
+            _description = "Invalid exception type.";
+        }/*}}}*/
 
-    Type Exception::getType() const throw()/*{{{*/
-    {
-        return _type;
-    }/*}}}*/
+        Type Exception::getType() const throw()/*{{{*/
+        {
+            return _type;
+        }/*}}}*/
 
-    const char *Exception::what() const throw()/*{{{*/
-    {
-        return getMessage().c_str();
-    }/*}}}*/
+        const char *Exception::what() const throw()/*{{{*/
+        {
+            return getMessage().c_str();
+        }/*}}}*/
+    }
 }
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

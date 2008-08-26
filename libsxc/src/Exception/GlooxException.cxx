@@ -29,38 +29,41 @@
 /*}}}*/
 
 
-namespace Exception
+namespace libsxc
 {
-    GlooxException::GlooxException(Type type, std::string message)/*{{{*/
-    : Exception(type, message)
+    namespace Exception
     {
-    }/*}}}*/
+        GlooxException::GlooxException(Type type, std::string message)/*{{{*/
+        : Exception(type, message)
+        {
+        }/*}}}*/
 
-    void GlooxException::createDescription() throw()/*{{{*/
-    {
-        switch (_type) {
-            case Connection:
-                _description = "Connection error: " + _message;
-                break;
-            case Registration:
-                _description = "Registration error: " + _message;
-                break;
-            case PrivacyList:
-                _description = "Privacy list error: " + _message;
-                break;
-            case SessionCreate:
-                _description = "Session establishment error: " + _message;
-                break;
-            case Stanza:
-                _description = "Stanza error: " + _message;
-                break;
-            case Stream:
-                _description = "Stream error: " + _message;
-                break;
-            default:
-                setInvalid();
-        }
-    }/*}}}*/
+        void GlooxException::createDescription() throw()/*{{{*/
+        {
+            switch (_type) {
+                case Connection:
+                    _description = "Connection error: " + _message;
+                    break;
+                case Registration:
+                    _description = "Registration error: " + _message;
+                    break;
+                case PrivacyList:
+                    _description = "Privacy list error: " + _message;
+                    break;
+                case SessionCreate:
+                    _description = "Session establishment error: " + _message;
+                    break;
+                case Stanza:
+                    _description = "Stanza error: " + _message;
+                    break;
+                case Stream:
+                    _description = "Stream error: " + _message;
+                    break;
+                default:
+                    setInvalid();
+            }
+        }/*}}}*/
+    }
 }
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

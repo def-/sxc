@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libsxc
+Description: A library for sxc and sxc-tools
+Version: 0.0-prealpha
+Libs: -L${libdir} -lsxc
+Cflags: -I${includedir}

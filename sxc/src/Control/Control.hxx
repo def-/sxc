@@ -37,8 +37,9 @@
 #include <gloox/messagehandler.h>
 #include <gloox/error.h>
 
+#include <libsxc/Exception/Exception.hxx>
+
 #include <Singleton.hxx>
-#include <Exception/Exception.hxx>
 #include <Control/Roster.hxx>
 
 /*}}}*/
@@ -213,7 +214,7 @@ namespace Control
              *        error and has to be closed.
              */
             void handleError(
-                Exception::Exception &e,
+                libsxc::Exception::Exception &e,
                 bool isCritical=false) const;
 
 /*}}}*/

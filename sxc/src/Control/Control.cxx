@@ -29,6 +29,8 @@
 #include <gloox/clientbase.h>
 #include <gloox/message.h>
 
+#include <libsxc/Exception/Exception.hxx>
+
 #include <Control/Control.hxx>
 #include <Control/Roster.hxx>
 #include <generateErrorText.hxx>
@@ -201,7 +203,7 @@ namespace Control
     }/*}}}*/
 
     void Control::handleError(/*{{{*/
-        Exception::Exception &e,
+        libsxc::Exception::Exception &e,
         bool isCritical) const
     {
         if (isCritical) {

@@ -63,15 +63,15 @@
  */
 int main(int argc, char *argv[])/*{{{*/
 {
-    Option::Parser parser;
-    Option::OptionPort port(
+    libsxc::Option::Parser parser;
+    libsxc::Option::OptionPort port(
         &parser, 'p', "port", "port", "0 - 65535, -1 for default");
-    Option::Option<gloox::JID> jid(
+    libsxc::Option::Option<gloox::JID> jid(
         &parser, ' ', "", "jid", "user@domain[/resource]");
 
     try {
         parser.parse(argv);
-    } catch (Exception::Exception &e) {
+    } catch (libsxc::Exception::Exception &e) {
         printErr(e.getDescription());
         parser.getUsage(); // FIXME to print!
         return e.getType();
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])/*{{{*/
         // Run forever (until a signal is received), other threads are waiting
         // for input.
         pause();
-    } catch (Exception::Exception &e) {
+    } catch (libsxc::Exception::Exception &e) {
         Control::Control::get().handleError(e, true);
     }
 

@@ -31,52 +31,56 @@
 
 /*}}}*/
 
-namespace Option
+namespace libsxc
 {
-    /**
-     * @author Dennis Felsing
-     * @brief A class representing an option for a port.
-     *
-     * This class checks whether the value is a valid port.
-     */
-    class OptionPort : public Option<int>
+    namespace Option
     {
-        public:
-            //OptionPort(parser, short, long, variable, description);/*{{{*/
+        /**
+         * @author Dennis Felsing
+         * @brief A class representing an option for a port.
+         *
+         * This class checks whether the value is a valid port.
+         */
+        class OptionPort : public Option<int>
+        {
+            public:
+                //OptionPort(parser, short, long, variable, description);/*{{{*/
 
-            /**
-             * @brief Create a new port option.
-             *
-             * Construct a new port option object and add it to the parser.
-             *
-             * @param parser The parser the object will be added to.
-             * @param shortName A short option name. ('x' for "-x")
-             * @param longName A long option name. ("foo" for --foo)
-             * @param variable How to call the variable in the usage output.
-             * @param description A description of the option.
-             */
-            OptionPort(
-                Parser *parser,
-                char shortName,
-                std::string longName,
-                std::string variable,
-                std::string description);
+                /**
+                 * @brief Create a new port option.
+                 *
+                 * Construct a new port option object and add it to the parser.
+                 *
+                 * @param parser The parser the object will be added to.
+                 * @param shortName A short option name. ('x' for "-x")
+                 * @param longName A long option name. ("foo" for --foo)
+                 * @param variable How to call the variable in the usage output.
+                 * @param description A description of the option.
+                 */
+                OptionPort(
+                    Parser *parser,
+                    char shortName,
+                    std::string longName,
+                    std::string variable,
+                    std::string description);
 
-/*}}}*/
+    /*}}}*/
 
-            //void setValue(std::string rawValue);/*{{{*/
+                //void setValue(std::string rawValue);/*{{{*/
 
-            /**
-             * @brief Set the value.
-             *
-             * Set the port to the string given and check whether it is valid.
-             *
-             * @param rawValue The raw value as a string.
-             */
-            void setValue(std::string rawValue);
+                /**
+                 * @brief Set the value.
+                 *
+                 * Set the port to the string given and check whether it is
+                 * valid.
+                 *
+                 * @param rawValue The raw value as a string.
+                 */
+                void setValue(std::string rawValue);
 
-/*}}}*/
-    };
+    /*}}}*/
+        };
+    }
 }
 
 

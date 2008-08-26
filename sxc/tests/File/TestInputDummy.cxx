@@ -26,8 +26,9 @@
 #include <string>
 #include <fstream>
 
+#include <libsxc/Exception/Type.hxx>
+
 #include <Exception/FileInputException.hxx>
-#include <Exception/Type.hxx>
 #include "TestInputDummy.hxx"
 
 /*}}}*/
@@ -102,7 +103,7 @@ void TestInputDummy::failCreateExist()/*{{{*/
         CPPUNIT_FAIL("Non-FIFO file has been overwritten.");
     } catch (Exception::FileInputException &e) {
         // The above call to create() should have thrown an exception
-        CPPUNIT_ASSERT_EQUAL(Exception::FileExists, e.getType());
+        CPPUNIT_ASSERT_EQUAL(libsxc::Exception::FileExists, e.getType());
         std::cout << "ok" << std::endl;
     } catch (std::exception &e) {
         std::cout << "fail" << std::endl;
@@ -150,7 +151,7 @@ void TestInputDummy::testValidateMissing()/*{{{*/
     } catch (Exception::FileInputException &e) {
         // The above call to validate() should have been thrown an exception
         // with type FileMissing.
-        CPPUNIT_ASSERT_EQUAL(Exception::FileMissing, e.getType());
+        CPPUNIT_ASSERT_EQUAL(libsxc::Exception::FileMissing, e.getType());
         std::cout << "ok" << std::endl;
     } catch (std::exception &e) {
         std::cout << "fail" << std::endl;
@@ -178,7 +179,7 @@ void TestInputDummy::testValidateBad()/*{{{*/
     } catch (Exception::FileInputException &e) {
         // The above call to validate() should have been thrown an exception
         // with type BadFile.
-        CPPUNIT_ASSERT_EQUAL(Exception::BadFile, e.getType());
+        CPPUNIT_ASSERT_EQUAL(libsxc::Exception::BadFile, e.getType());
         std::cout << "ok" << std::endl;
     } catch (std::exception &e) {
         std::cout << "fail" << std::endl;
