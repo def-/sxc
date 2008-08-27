@@ -10,6 +10,7 @@ AC_CONFIG_SRCDIR([src/main.cxx])
 AM_CONFIG_HEADER([src/config.hxx])
 
 # Optional Features
+# debug#{{{
 AC_ARG_ENABLE(
     [debug],
     AC_HELP_STRING(
@@ -24,7 +25,8 @@ if test "x${debug}" = xyes; then
         [1],
         [Define to 1 to enable debugging output to stderr])
 fi
-
+#}}}
+# dot-multi-targets#{{{
 AC_ARG_ENABLE(
     [dot-multi-targets],
     AC_HELP_STRING(
@@ -33,8 +35,10 @@ AC_ARG_ENABLE(
          @<:@default=use@:>@]),
     [dot_multi_targets=${withval}],
     [dot_multi_targets=yes])
+#}}}
 
 # Optional Packages
+# dot#{{{
 AC_ARG_WITH(
     [dot],
     AC_HELP_STRING(
@@ -43,7 +47,8 @@ AC_ARG_WITH(
          @<:@default=use@:>@]),
     [with_dot=${withval}],
     [with_dot=yes])
-
+#}}}
+# htags#{{{
 AC_ARG_WITH(
     [htags],
     AC_HELP_STRING(
@@ -52,8 +57,10 @@ AC_ARG_WITH(
          @<:@default=no@:>@]),
     [with_htags=${withval}],
     [with_htags=no])
+#}}}
 
 # Checks for programs.
+# AC_PROG_*#{{{
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_CPP
@@ -64,7 +71,8 @@ AC_PROG_LIBTOOL
 AC_PROG_RANLIB
 AC_PROG_AWK
 AC_PROG_SED
-
+#}}}
+# doxygen#{{{
 AC_CHECK_PROG([have_doxygen], [doxygen], [yes], [no])
 if test "x${have_doxygen}" = xno; then
     echo \
@@ -73,7 +81,8 @@ if test "x${have_doxygen}" = xno; then
  \"make doxygen\" will not work.
 -------------------------------------------------"
 fi
-
+#}}}
+# perl#{{{
 AC_PATH_PROG([perl_path], [perl], [no])
 if test "x${perl_path}" = xno; then
     echo \
@@ -82,8 +91,9 @@ if test "x${perl_path}" = xno; then
  \"make doxygen\" will not work.
 -------------------------------------------------"
 fi
-
+#}}}
 if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
+    # dot#{{{
     if test "x${with_dot}" = xyes; then
         AC_CHECK_PROG([with_dot], [dot], [yes], [no])
         if test "x${with_dot}" = xno; then
@@ -119,7 +129,8 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
     else
         dot_multi_targets=no
     fi
-
+#}}}
+    # htags#{{{
     if test "x${with_htags}" = xyes; then
         AC_MSG_CHECKING([for htags >= 4.8.6])
         htags_version=`htags --version |
@@ -141,6 +152,7 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
 -------------------------------------------------"
         fi
     fi
+#}}}
 else
     with_dot=no
     dot_multi_targets=no
@@ -155,6 +167,7 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS([pthread.h], [have_pthreads=yes], [have_pthreads=no])
 
 # Checks for libraries.
+# pthread#{{{
 AC_SEARCH_LIBS([pthread_create], [pthread], [], [have_pthreads=no])
 if test "x${have_pthreads}" = xno; then
     echo \
@@ -164,7 +177,8 @@ if test "x${have_pthreads}" = xno; then
 -------------------------------------------------"
     (exit 1); exit 1
 fi
-
+#}}}
+# libsxc#{{{
 PKG_CHECK_MODULES([LIBSXC], [libsxc], [have_libsxc=yes], [have_libsxc=no])
 if test "x${have_libsxc}" = xno; then
     echo \
@@ -174,7 +188,8 @@ if test "x${have_libsxc}" = xno; then
 -------------------------------------------------"
     (exit 1); exit 1
 fi
-
+#}}}
+# gloox#{{{
 PKG_CHECK_MODULES([GLOOX], [gloox >= 1.0], [have_gloox=yes], [have_gloox=no])
 if test "x${have_gloox}" = xno; then
     echo \
@@ -184,7 +199,8 @@ if test "x${have_gloox}" = xno; then
 -------------------------------------------------"
     (exit 1); exit 1
 fi
-
+#}}}
+# cppunit#{{{
 PKG_CHECK_MODULES(
     [CPPUNIT],
     [cppunit >= 1.12.0],
@@ -197,6 +213,7 @@ if test "x${have_cppunit}" = xno; then
  \"make check\" will not work.
 -------------------------------------------------"
 fi
+#}}}
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
@@ -207,7 +224,7 @@ AC_C_INLINE
 AC_FUNC_STAT
 AC_CHECK_FUNCS([mkfifo])
 
-# Substs
+# Substs#{{{
 AC_SUBST(debug)
 AC_SUBST(dot_multi_targets)
 
@@ -221,8 +238,9 @@ AC_SUBST(GLOOX_CFLAGS)
 AC_SUBST(GLOOX_LIBS)
 AC_SUBST(CPPUNIT_CFLAGS)
 AC_SUBST(CPPUNIT_LIBS)
+#}}}
 
-AC_CONFIG_FILES([
+AC_CONFIG_FILES([#{{{
     Makefile
     Doxyfile
     src/Makefile
@@ -233,9 +251,9 @@ AC_CONFIG_FILES([
     src/File/Makefile
     tests/Makefile
     tests/File/Makefile
-])
+])#}}}
 
-AC_OUTPUT
+AC_OUTPUT#{{{
 
 echo \
 "-------------------------------------------------
@@ -265,3 +283,4 @@ echo \
   uninstall          - uninstall everything
 
 -------------------------------------------------"
+#}}}
