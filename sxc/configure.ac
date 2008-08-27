@@ -240,7 +240,8 @@ AC_SUBST(CPPUNIT_CFLAGS)
 AC_SUBST(CPPUNIT_LIBS)
 #}}}
 
-AC_CONFIG_FILES([#{{{
+#AC_CONFIG_FILES([#{{{
+AC_CONFIG_FILES([
     Makefile
     Doxyfile
     src/Makefile
@@ -257,11 +258,11 @@ AC_OUTPUT#{{{
 
 echo \
 "-------------------------------------------------
-
+${srcdir}
  ${PACKAGE_NAME} ${PACKAGE_VERSION}
 
  Prefix: '${prefix}'.
- Compiler: '${CC} ${CFLAGS} ${CPPFLAGS}'
+ Compiler: '${CXX} ${CXXFLAGS} ${CPPFLAGS}'
 
  Package features:
   debug              : ${debug}

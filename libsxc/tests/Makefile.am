@@ -1,9 +1,8 @@
 SUBDIRS = Option
-AM_CPPFLAGS = $(CPPUNIT_CFLAGS)
-LIBS = $(CPPUNIT_LIBS)
-
-TESTS = tests
 check_PROGRAMS = tests
 
-tests_SOURCES = main.cxx testRegistry.cxx
+TESTS = tests
+tests_CPPFLAGS = $(CPPUNIT_CFLAGS)
+tests_CXXFLAGS = $(CPPUNIT_LIBS)
 tests_LDADD = $(top_srcdir)/tests/Option/libOption.la
+tests_SOURCES = main.cxx testRegistry.cxx
