@@ -9,6 +9,7 @@ AC_DEFINE_UNQUOTED(
 AC_CONFIG_SRCDIR([src/main.cxx])
 AM_CONFIG_HEADER([src/config.hxx])
 
+
 # Optional Features
 # debug#{{{
 AC_ARG_ENABLE(
@@ -24,6 +25,13 @@ if test "x${debug}" = xyes; then
         DEBUG,
         [1],
         [Define to 1 to enable debugging output to stderr])
+    if test "x${enable_cxxflags_setting}" = xyes; then
+        CXXFLAGS="-g -O2" # Debugging information for gdb.
+    fi
+else
+    if test "x${enable_cxxflags_setting}" = xyes; then
+        CXXFLAGS="-O2"
+    fi
 fi
 #}}}
 # dot-multi-targets#{{{

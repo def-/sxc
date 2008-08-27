@@ -9,6 +9,16 @@ AC_DEFINE_UNQUOTED(
 AC_CONFIG_SRCDIR([sxc-register/src/main.cxx])
 AC_CONFIG_HEADER([config.hxx])
 
+# cxxflags#{{{
+AC_MSG_CHECKING([whether configure should try to set CXXFLAGS])
+if test "x${CXXFLAGS+set}" = xset; then
+    enable_cxxflags_setting=no
+else
+    enable_cxxflags_setting=yes
+fi
+AC_MSG_RESULT($enable_cxxflags_setting)
+#}}}
+
 # Optional Features
 # debug#{{{
 AC_ARG_ENABLE(
@@ -24,6 +34,13 @@ if test "x${debug}" = xyes; then
         DEBUG,
         [1],
         [Define to 1 to enable debugging output to stderr])
+    if test "x${enable_cxxflags_setting}" = xyes; then
+        CXXFLAGS="-g -O2" # Debugging information for gdb.
+    fi
+else
+    if test "x${enable_cxxflags_setting}" = xyes; then
+        CXXFLAGS="-O2"
+    fi
 fi
 #}}}
 # dot-multi-targets#{{{
