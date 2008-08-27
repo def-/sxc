@@ -181,14 +181,6 @@ namespace libsxc
             }/*}}}*/
 
             return out;
-
-            // Output lines./*{{{*/
-            //for (
-            //std::vector<std::string>::iterator line = out.begin();
-            //line != out.end();
-            //++line) {
-            //    printErr(*line);
-            //}/*}}}*/
         }/*}}}*/
 
         std::string Parser::getUsageShort(OptionBase option)/*{{{*/
