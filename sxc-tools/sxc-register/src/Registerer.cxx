@@ -36,7 +36,7 @@
 #include <string.h> // strerror()
 #include <errno.h> // errno
 
-#include "Registerer.h"
+#include <Registerer.hxx>
 
 /*}}}*/
 

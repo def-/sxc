@@ -20,6 +20,14 @@
 
 // INCLUDES/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+#   include <config.hxx>
+#endif
+
+#include <cerrno>
+#include <sstream>
+#include <sys/stat.h>
+
 #include <string>
 #include <fstream>
 #include <pthread.h>
@@ -27,12 +35,10 @@
 
 #include <libsxc/Exception/Type.hxx>
 
-#include <cerrno>
-#include <sstream>
-#include <sys/stat.h>
 #include <File/InputBase.hxx>
 #include <Exception/FileInputException.hxx>
 #include <Exception/Errno.hxx>
+#include <print.hxx>
 
 /*}}}*/
 
@@ -152,11 +158,24 @@ void File::InputBase::listen(bool blocking)/*{{{*/
     }
     _isListening = true;
 
+#ifdef DEBUG
+    printLog("Creating thread.");
+#endif
+
     // Start the thread in the background.
-    pthread_create(&_thread, NULL, _listen, this);
+    pthread_create(&_thread, NULL, _listen, (void*)this);
+
+#ifdef DEBUG
+    printLog("Thread created.");
+#endif
+
     // Join the thread when this functions should read in a blocking way.
     if (true == blocking)
         pthread_join(_thread, NULL);
+
+#ifdef DEBUG
+    printLog("listen() ends here.");
+#endif
 }
 
 /*}}}*/
@@ -175,8 +194,11 @@ void File::InputBase::close()/*{{{*/
 }
 
 /*}}}*/
-void *File::InputBase::_listen(void *fifo)/*{{{*/
+void *File::_listen(void *fifo)
 {
+#ifdef DEBUG
+    printLog("Thread running.");
+#endif
     // FIXME: Add exception handling.
     InputBase *that = (InputBase *) fifo;
     do {
@@ -186,7 +208,9 @@ void *File::InputBase::_listen(void *fifo)/*{{{*/
         that->read();
     } while (!that->_mustClose);
 
-    that->_isListening = false;
+#ifdef DEBUG
+    printLog("Thread terminating.");
+#endif
 
     return NULL;
 }

@@ -33,8 +33,8 @@
 
 #include <gloox/jid.h>
 
-#include "Registerer.h"
-#include "Error.h"
+#include <Registerer.hxx>
+#include <Error.hxx>
 
 /*}}}*/
 
