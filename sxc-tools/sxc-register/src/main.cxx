@@ -2,9 +2,7 @@
  * TODO:
  * - Make the registration work with additional information (stdin or
  *   parameters)
- * - Parameter for Port
- * - General class for sxc-tools (and maybe sxc too?) for parameter parsing,
- *   output, ...
+ * - How about ['sexy] exceptions?
  */
 
 // LICENSE/*{{{*/
@@ -33,8 +31,13 @@
 
 #include <gloox/jid.h>
 
+#include <libsxc/Option/Parser.hxx>
+#include <libsxc/Option/Option.hxx>
+#include <libsxc/Option/OptionPort.hxx>
+#include <libsxc/Exception/Exception.hxx>
+
 #include <Registerer.hxx>
-#include <Error.hxx>
+#include <print.hxx>
 
 /*}}}*/
 
@@ -50,14 +53,25 @@
 
 int main(int argc, char *argv[])/*{{{*/
 {
-    if (argc != 2)
-        return ErrorParametersInvalid;
+    libsxc::Option::Parser parser;
+    libsxc::Option::OptionPort port(
+        &parser, 'p', "port", "port", "0 - 65535, -1 for default");
+    libsxc::Option::Option<gloox::JID> jid(
+        &parser, ' ', "", "jid", "user@domain[/resource]");
 
-    gloox::JID jid(argv[1]);
+    try {
+        parser.parse(argv);
+    } catch (libsxc::Exception::Exception &e) {
+        printErr(e.getDescription());
 
-    if (jid.username().empty())
-        return ErrorJidInvalid;
+        std::vector<std::string> usage = parser.getUsage();
+        for_each(usage.begin(), usage.end(), printErr);
+
+        return e.getType();
+    }
 
     Registerer registrator;
-    registrator.start(jid);
+    registrator.start(jid.getValue());
+
+    return 0;
 }/*}}}*/

@@ -36,6 +36,7 @@
 #include <string.h> // strerror()
 #include <errno.h> // errno
 
+#include <print.hxx>
 #include <Registerer.hxx>
 
 /*}}}*/
@@ -104,7 +105,7 @@ const std::string Registerer::enterPassword(bool retype)/*{{{*/
         // Restore the terminal state.
         tcsetattr(fileno(stdin), TCSANOW, &savedTermState);
 
-        print("Entering password failed.");
+        printErr("Entering password failed.");
         exit(1);
     }
 
@@ -182,7 +183,7 @@ void Registerer::onDisconnect(gloox::ConnectionError e)/*{{{*/
     }
 
     if (!text.empty())
-        print(connectionPrefix + text);
+        printErr(connectionPrefix + text);
 }/*}}}*/
 
 void Registerer::handleRegistrationFields(/*{{{*/
@@ -287,13 +288,8 @@ void Registerer::handleRegistrationResult(/*{{{*/
     }
 
     if (!text.empty())
-        print(registrationPrefix + text);
+        printErr(registrationPrefix + text);
 
     client->disconnect();
     exit(result); // Exit the program.
-}/*}}}*/
-
-void Registerer::print(std::string text)/*{{{*/
-{
-    std::cerr << prefix << text << std::endl;
 }/*}}}*/
