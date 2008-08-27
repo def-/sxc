@@ -27,7 +27,7 @@ nohup.out
 config.hxx
 config.hxx.in
 stamp-h1
-src/sxc
+sxc-register/src/sxc-register
 tests/tests
 doc/
 *~
