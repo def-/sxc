@@ -9,6 +9,15 @@ AC_DEFINE_UNQUOTED(
 AC_CONFIG_SRCDIR([src/main.cxx])
 AM_CONFIG_HEADER([src/config.hxx])
 
+# cxxflags#{{{
+AC_MSG_CHECKING([whether configure should try to set CXXFLAGS])
+if test "x${CXXFLAGS+set}" = xset; then
+    enable_cxxflags_setting=no
+else
+    enable_cxxflags_setting=yes
+fi
+AC_MSG_RESULT($enable_cxxflags_setting)
+#}}}
 
 # Optional Features
 # debug#{{{
