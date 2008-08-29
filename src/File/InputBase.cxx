@@ -194,7 +194,7 @@ void File::InputBase::close()/*{{{*/
 }
 
 /*}}}*/
-void *File::_listen(void *fifo)
+void *File::InputBase::_listen(void *fifo)/*{{{*/
 {
 #ifdef DEBUG
     printLog("Thread running.");
@@ -219,4 +219,3 @@ void *File::_listen(void *fifo)
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
-

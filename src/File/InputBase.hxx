@@ -34,27 +34,6 @@
 
 namespace File
 {
-            // static void *_listen(void fifo);/{{{
-
-            /**
-             * @brief Listens blocking on the passed FIFO.
-             *
-             * Runs an infinite loop on @ref read() of the object @a fifo.
-             *
-             * @warning Should only be called by a pthread created in @ref 
-             *          listen. This method terminates only if @ref _mustClose
-             *          is true and the blocking call to @ref read() finishes.
-             * @warning The parameter @a fifo should not be anything other than
-             *          a pointer to an object of InputBase or derivates.
-             *
-             * @param fifo Pointer to object of InputBase or childs.
-             * @return NULL
-             * @see InputBase::listen()
-             * @see InputBase::close()
-             * @see InputBase::read()
-             */
-            void *_listen(void *fifo);
-
     /**
      * @author Andreas Waidler
      * @brief Abstract Base Class handling input (FIFOs).
@@ -66,7 +45,6 @@ namespace File
      */
     class InputBase
     {
-            friend void *_listen(void *fifo);
         public:
             // InputBase();/*{{{*/
 
@@ -233,6 +211,26 @@ namespace File
             virtual void _handleInput(std::string input) = 0;
 
 /*}}}*/
+            // static void *_listen(void fifo);/*{{{*/
+
+            /**
+             * @brief Listens blocking on the passed FIFO.
+             *
+             * Runs an infinite loop on @ref read() of the object @a fifo.
+             *
+             * @warning Should only be called by a pthread created in @ref 
+             *          listen. This method terminates only if @ref _mustClose
+             *          is true and the blocking call to @ref read() finishes.
+             * @warning The parameter @a fifo should not be anything other than
+             *          a pointer to an object of InputBase or derivates.
+             *
+             * @param fifo Pointer to object of InputBase or childs.
+             * @return NULL
+             * @see InputBase::listen()
+             * @see InputBase::close()
+             * @see InputBase::read()
+             */
+            static void *_listen(void *fifo);
 
 /*}}}*/
     };
