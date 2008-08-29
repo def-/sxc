@@ -20,6 +20,12 @@
 
 // INCLUDES/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+#   include <config.hxx>
+#endif
+#include <print.hxx>
+
+#include <sstream>
 #include <string>
 #include <deque>
 #include <map>
@@ -78,11 +84,15 @@ namespace CommandParser
         // Contains all parameters that have not yet been sliced.
         std::string paramsLeft = _parameters;
 
-        // FIXME re-enable this for DEBUG
-        // std::cout << "entering parser loop for \"" << _command << "\", using "
-        //           << it->second.first + (short) it->second.second
-        //           << " cycles. \n";
-
+#ifdef DEBUG
+        {
+            std::stringstream msg;
+            msg << "entering parser loop for \""  + _command + "\", using "
+                << ( it->second.first + (short) it->second.second )
+                << " cycles.\n";
+            printLog(msg.str());
+        }
+#endif
         // Stops when the mandatory amount of parameters has been
         // handled.
         for (unsigned short i = 1;
@@ -91,11 +101,11 @@ namespace CommandParser
             // Find end of current parameter:
             delimiter = paramsLeft.find(' ');
             if (std::string::npos == delimiter) {
-                // FIXME re-enable this for DEBUG
-                // std::cout << "Not found in \"" << paramsLeft << "\"\n";
-
+#ifdef DEBUG
+                printLog("Not found in \"" + paramsLeft + "\"\n");
+#endif
                 // Delimiter not found -> only one parameter left.
-                if (i == it->second.first) // No problem, the last one was optional.
+                if (i == it->second.first) // No problem, last one was optional.
                     break;
                 std::string msg = _command; // FIXME: Exceptions have to take const parameters!
                 // FIXME: Use InvalidParameters below
@@ -105,19 +115,20 @@ namespace CommandParser
             // Extract the parameter and push it into the container.
             _parsed.push_back(paramsLeft.substr(0, (int)delimiter));
 
-            // FIXME re-enable this for DEBUG
-            // std::cout << paramsLeft << '\n';
-            // std::cout << _parsed.back() << '~';
-
+#ifdef DEBUG
+            printLog(paramsLeft + '\n' + _parsed.back() + '~');
+#endif
             // Remove parameter from the list of parameters left.
             paramsLeft = paramsLeft.substr((int)delimiter + 1);
 
-            // FIXME re-enable this for DEBUG
-            // std::cout << paramsLeft << "\n----next cycle----\n";
+#ifdef DEBUG
+            printLog(paramsLeft + "\n----next cycle----\n");
+#endif
         }
+#ifdef DEBUG
+        printLog("Out of loop, appending the last one.\n" + paramsLeft + '~');
+#endif
         _parsed.push_back(paramsLeft);
-        // FIXME re-enable this for DEBUG
-        // std::cout << _parsed.back() << '~';
 
         _isParsed = true;
     }
