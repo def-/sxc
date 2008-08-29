@@ -135,7 +135,7 @@ namespace CommandParser
             return _commandName;
 
         std::string msg = _command; // FIXME: Exceptions have to take const parameters!
-        throw Exception::InputException(libsxc::Exception::InvalidCommand, msg);
+        throw Exception::InputException(libsxc::Exception::InvalidUsage, msg);
     }
 
 /*}}}*/
@@ -145,7 +145,7 @@ namespace CommandParser
             return _parameters;
 
         std::string msg = _command; // FIXME: Exceptions have to take const parameters!
-        throw Exception::InputException(libsxc::Exception::InvalidCommand, msg);
+        throw Exception::InputException(libsxc::Exception::InvalidUsage, msg);
     }
 
 /*}}}*/
