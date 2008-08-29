@@ -262,12 +262,14 @@ AC_CONFIG_FILES([
     Makefile
     Doxyfile
     src/Makefile
+    src/CommandParser/Makefile
     src/Contact/Makefile
     src/Control/Makefile
     src/Control/File/Makefile
     src/Exception/Makefile
     src/File/Makefile
     tests/Makefile
+    tests/CommandParser/Makefile
     tests/File/Makefile
 ])#}}}
 

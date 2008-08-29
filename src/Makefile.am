@@ -1,4 +1,4 @@
-SUBDIRS = Exception File Contact Control
+SUBDIRS = Exception CommandParser File Contact Control
 
 noinst_LTLIBRARIES = libSrc.la
 libSrc_la_CPPFLAGS = $(GLOOX_CFLAGS)
@@ -11,5 +11,6 @@ sxc_LDADD =\
     Contact/libContact.la\
     Control/libControl.la\
     Exception/libException.la\
+    CommandParser/libCommandParser.la\
     libSrc.la
 sxc_SOURCES = main.cxx

@@ -18,8 +18,6 @@
  */
 /*}}}*/
 
-/* $Id$ */
-
 #ifndef FILE_INPUTBASE_HXX
 #define FILE_INPUTBASE_HXX
 
@@ -108,7 +106,7 @@ namespace File
             // void close();/*{{{*/
 
             /**
-             * @brief Closes the FIFO.
+             * @brief Closes the FIFO physically, terminates @ref listen();
              *
              * Sets a flag and opens and closes the FIFO. Then, @c
              * pthread_join() will be called to enter the thread which listens
@@ -130,7 +128,10 @@ namespace File
         protected:
             // void create();/*{{{*/
 
-            /** Creates the FIFO.
+            /**
+             * @brief Creates the FIFO physically.
+             *
+             * Throws an exception even if the file is already existing.
              *
              * @exception Exception::FileInputException When the file could not
              *            be created. @c Exception::Type is the result of 
@@ -211,7 +212,7 @@ namespace File
             virtual void _handleInput(std::string input) = 0;
 
 /*}}}*/
-            // static void *_listen(void fifo);/*{{{*/
+            // static void *_listen(void *fifo);/*{{{*/
 
             /**
              * @brief Listens blocking on the passed FIFO.

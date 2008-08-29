@@ -18,43 +18,43 @@
  */
 /*}}}*/
 
-#ifndef INPUTDUMMY_H
-#define INPUTDUMMY_H
+#ifndef COMMANDPARSERDUMMY_H
+#define COMMANDPARSERDUMMY_H
 
 // INCLUDES/*{{{*/
 
 #include <string>
-#include <File/InputBase.hxx>
+#include <CommandParser/AbcCommandParser.hxx>
 
 /*}}}*/
 
+using CommandParser::param;
+using CommandParser::command;
+using CommandParser::commandMap;
+
 /**
- * @class InputDummy
- * @brief Dummy implementation of the ABC File::AbcInput
+ * @class CommandParserDummy
+ * @brief Dummy implementation of the ABC CommandParser::AbcCommandParser
  * @author Andreas Waidler
  *
- * Inherits from the abstract base class File::InputBase and definines the 
- * abstract methods as "dummy" ones that do no "real" work but are optimized for
- * unit tests.
+ * Inherits from the abstract base class @ref CommandParser::AbcCommandParser and
+ * definines the abstract methods as "dummy" ones that do no "real" work but are
+ * optimized for unit tests.
  */
-class InputDummy : public File::InputBase
+class CommandParserDummy : public CommandParser::AbcCommandParser
 {
-    friend class TestInput;
 
     public:
-        InputDummy(std::string filename);
-        const std::string &getLastInput() const;
+        CommandParserDummy(std::string input);
+        ~CommandParserDummy();
 
     protected:
 
     private:
-        std::string _filename;
-        std::string _lastInput;
-        const std::string &_createPath() const;
-        void _handleInput(std::string);
+        commandMap _createCommands() const;
 };
 
-#endif // INPUTDUMMY_H
+#endif // COMMANDPARSERDUMMY_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

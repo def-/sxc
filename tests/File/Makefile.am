@@ -1,7 +1,5 @@
 noinst_LTLIBRARIES = libFile.la
-libFile_la_CPPFLAGS = $(GLOOX_CFLAGS) $(CPPUNIT_CFLAGS)
-libFile_la_CXXFLAGS = $(GLOOX_LIBS) $(CPPUNIT_LIBS)
-libFile_la_LIBADD =\
-    @top_srcdir@/src/Exception/libException.la\
-    @top_srcdir@/src/File/libFile.la
-libFile_la_SOURCES = InputDummy.cxx TestInputDummy.cxx
+libFile_la_CPPFLAGS = $(CPPUNIT_CFLAGS) $(GLOOX_CFLAGS)
+libFile_la_CXXFLAGS = $(CPPUNIT_LIBS) $(GLOOX_LIBS)
+libFile_la_SOURCES = InputDummy.cxx TestInput.cxx
+libFile_la_LIBADD  = @top_srcdir@/src/Exception/libException.la @top_srcdir@/src/File/libFile.la

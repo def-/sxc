@@ -24,13 +24,15 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <File/TestInputDummy.hxx>
+#include <File/TestInput.hxx>
+#include <CommandParser/TestCommandParser.hxx>
 
 /*}}}*/
 
 // Registering all unit tests here, to make them easier to disable and enable.
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestInputDummy);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestInput);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestCommandParser);
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

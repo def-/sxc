@@ -33,11 +33,10 @@
 #include <pthread.h>
 #include <signal.h>
 
-#include <libsxc/Exception/Type.hxx>
-
 #include <File/InputBase.hxx>
 #include <Exception/FileInputException.hxx>
 #include <Exception/Errno.hxx>
+#include <libsxc/Exception/Type.hxx>
 #include <print.hxx>
 
 /*}}}*/
@@ -65,8 +64,8 @@ void File::InputBase::initialize(bool notPhysical)/*{{{*/
         try {
             validate();
         } catch (Exception::FileInputException &e) {
-            // If the file is missing, create it. Anything else means that
-            // someone tampered with the file.
+            // If the file is missing, create it. Anything else means that someone
+            // tampered with the file.
             if (libsxc::Exception::FileMissing != e.getType())
                 throw e;
             create();
@@ -101,9 +100,7 @@ void File::InputBase::validate()/*{{{*/
     // Is this really a FIFO?
     if (!S_ISFIFO(fstat.st_mode)) {
         std::string message  = "Not a FIFO: " + _path;
-        throw Exception::FileInputException(
-            libsxc::Exception::BadFile,
-            message);
+        throw Exception::FileInputException(libsxc::Exception::BadFile, message);
     }
 
     // Check for chmod 600:
@@ -119,9 +116,7 @@ void File::InputBase::validate()/*{{{*/
         // Extract only necessary part (user, group, other) from file mode:
         std::string message = _path + ": Chmod should be 600, found "
                             + mode.str().substr(2);
-        throw Exception::FileInputException(
-            libsxc::Exception::BadFile,
-            message);
+        throw Exception::FileInputException(libsxc::Exception::BadFile, message);
     }
 
     _isFifoValid = true;
@@ -153,9 +148,7 @@ void File::InputBase::listen(bool blocking)/*{{{*/
     // Prevent input from being handled twice:
     if (_isListening) {
         std::string message = "Already listening on " + _path;
-        throw Exception::FileInputException(
-            libsxc::Exception::FileLocked,
-            message);
+        throw Exception::FileInputException(libsxc::Exception::FileLocked, message);
     }
     _isListening = true;
 
@@ -220,3 +213,4 @@ void *File::InputBase::_listen(void *fifo)/*{{{*/
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+
