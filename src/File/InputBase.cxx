@@ -52,7 +52,8 @@ File::InputBase::InputBase()/*{{{*/
 /*}}}*/
 File::InputBase::~InputBase()/*{{{*/
 {
-    close();
+    if (_isListening)
+        close();
 }
 
 /*}}}*/
