@@ -122,7 +122,6 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
             if test "x${dot_multi_targets}" = xyes; then
                 dot_version=`dot -V 2>&1 | \
                     sed -e 's/.*version //' | sed -e 's/ .*//'`
-                # Requires AX_COMPARE_VERSION from the Autoconf Macro Archive
                 AX_COMPARE_VERSION(
                     [$dot_version],
                     [gt],
@@ -151,7 +150,6 @@ if test "x${have_doxygen}" = xyes -a "x${perl_path}" != xno; then
         AC_MSG_CHECKING([for htags >= 4.8.6])
         htags_version=`htags --version |
             sed -ne 1p | sed -e 's/.* //'`
-        # Requires AX_COMPARE_VERSION from the Autoconf Macro Archive
         AX_COMPARE_VERSION(
             [$htags_version],
             [ge],
