@@ -18,8 +18,8 @@
  */
 /*}}}*/
 
-#ifndef TESTINPUTDUMMY_H
-#define TESTINPUTDUMMY_H
+#ifndef TESTINPUT_H
+#define TESTINPUT_H
 
 // INCLUDES/*{{{*/
 
@@ -73,7 +73,7 @@ class TestInput : public CppUnit::TestFixture
         InputDummy *_inputDummy;
 };
 
-#endif // TESTINPUTDUMMY_H
+#endif // TESTINPUT_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
