@@ -28,13 +28,13 @@
 
 namespace Exception
 {
-    InputException::InputException(Type type, std::string &message)/*{{{*/
+    InputException::InputException(libsxc::Exception::Type type, std::string &message)/*{{{*/
     : Exception(type, message)
     {
     }
 
 /*}}}*/
-    InputException::InputException(Type type, const char *message)/*{{{*/
+    InputException::InputException(libsxc::Exception::Type type, const char *message)/*{{{*/
     : Exception(type, message)
     {
     }

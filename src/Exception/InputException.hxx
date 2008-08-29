@@ -24,7 +24,7 @@
 // INCLUDES/*{{{*/
 
 #include <string>
-#include <Exception/Exception.hxx>
+#include <libsxc/Exception/Exception.hxx>
 
 /*}}}*/
 
@@ -37,13 +37,13 @@ namespace Exception
      *
      * @see File::InputParser
      */
-    class InputException : public Exception
+    class InputException : public libsxc::Exception::Exception
     {
         public:
             /// Default constructor, does only call parent constructor.
-            InputException(Type type, std::string &message);
+            InputException(libsxc::Exception::Type type, std::string &message);
             /// Overloaded default constructor, calls parent constructor.
-            InputException(Type type, const char *message);
+            InputException(libsxc::Exception::Type type, const char *message);
 
         protected:
             /// @see Exception::createDescription()
