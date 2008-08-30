@@ -200,7 +200,7 @@ namespace File
             virtual const std::string &_createPath() const = 0;
 
 /*}}}*/
-            // virtual void _handleInput(std::string input) = 0;/*{{{*/
+            // virtual void _handleInput(const std::string &input) = 0;/*{{{*/
 
             /**
              * @brief Handles input that has been written into the FIFO.
@@ -209,7 +209,7 @@ namespace File
              *
              * @param input Something that has been written into the FIFO.
              */
-            virtual void _handleInput(std::string input) = 0;
+            virtual void _handleInput(const std::string &input) = 0;
 
 /*}}}*/
             // static void *_listen(void *fifo);/*{{{*/
