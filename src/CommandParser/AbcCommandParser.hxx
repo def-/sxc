@@ -225,10 +225,10 @@ namespace CommandParser
             static commandMap _commands;
 
 /*}}}*/
-            // const std::string &_command;/*{{{*/
+            // std::string _command;/*{{{*/
 
             /// The command to parse which has been passed to the constructor.
-            const std::string &_command;
+            std::string _command;
 
 /*}}}*/
             // std::string _commandName;/*{{{*/
