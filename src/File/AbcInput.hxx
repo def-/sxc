@@ -18,8 +18,8 @@
  */
 /*}}}*/
 
-#ifndef FILE_INPUTBASE_HXX
-#define FILE_INPUTBASE_HXX
+#ifndef FILE_ABCINPUT_HXX
+#define FILE_ABCINPUT_HXX
 
 // INCLUDES/*{{{*/
 
@@ -37,20 +37,19 @@ namespace File
      * @brief Abstract Base Class handling input (FIFOs).
      *
      * Handles creation and checking of, listening (non-blocking) on and reading
-     * (blocking) off FIFOs.
-     * Contains pure virtual methods that will define the location of the FIFO 
-     * and how the input is handled.
+     * (blocking) off FIFOs. Contains pure virtual methods that will define the
+     * location of the FIFO and how the input is handled.
      */
-    class InputBase
+    class AbcInput
     {
         public:
-            // InputBase();/*{{{*/
+            // AbcInput();/*{{{*/
 
             /// Constructor, initializes private variables with default values.
-            InputBase();
+            AbcInput();
 
 /*}}}*/
-            // virtual ~InputBase();/*{{{*/
+            // virtual ~AbcInput();/*{{{*/
 
             /**
              * @brief Destructor, frees resources and cleans up.
@@ -58,7 +57,7 @@ namespace File
              * Takes care of a clean termination of the thread if running. 
              * Closes the FIFO if open.
              */
-            virtual ~InputBase();
+            virtual ~AbcInput();
 
 /*}}}*/
             // void initialize(bool notPhysical = false);/*{{{*/
@@ -68,7 +67,7 @@ namespace File
              *
              * Calls @ref _createPath() to set @ref _path. Tries to create 
              * the FIFO or checks its permissions by calling @ref _tryCreate() 
-             * or @ref validate().
+             * or @ref _validate().
              *
              * @note This method has to be called before any other method can 
              *       be used! You may want to call it in the constructor of 
@@ -126,7 +125,7 @@ namespace File
 /*}}}*/
 
         protected:
-            // void create();/*{{{*/
+            // void _create();/*{{{*/
 
             /**
              * @brief Creates the FIFO physically.
@@ -137,10 +136,10 @@ namespace File
              *            be created. @c Exception::Type is the result of 
              *            @ref Exception::errnoToType().
              */
-            void create();
+            void _create();
 
 /*}}}*/
-            // void validate();/*{{{*/
+            // void _validate();/*{{{*/
 
             /**
              * @brief Checks the FIFO for validity and throws an exception if 
@@ -157,10 +156,10 @@ namespace File
              * @exception Exception::FileInputException When file is invalid.
              */
 
-            void validate();
+            void _validate();
 
 /*}}}*/
-            // void read();/*{{{*/
+            // void _read();/*{{{*/
 
             /**
              * @brief Reads the FIFO blocking until the other end is closed.
@@ -168,7 +167,7 @@ namespace File
              * Input is handled by calling @ref _handleInput() which will always
              * be called unless @ref _mustClose is set to @c true.
              */
-            void read();
+            void _read();
 
 /*}}}*/
 
@@ -217,19 +216,19 @@ namespace File
             /**
              * @brief Listens blocking on the passed FIFO.
              *
-             * Runs an infinite loop on @ref read() of the object @a fifo.
+             * Runs an infinite loop on @ref _read() of the object @a fifo.
              *
              * @warning Should only be called by a pthread created in @ref 
              *          listen. This method terminates only if @ref _mustClose
-             *          is true and the blocking call to @ref read() finishes.
+             *          is true and the blocking call to @ref _read() finishes.
              * @warning The parameter @a fifo should not be anything other than
-             *          a pointer to an object of InputBase or derivates.
+             *          a pointer to an object of AbcInput or derivates.
              *
-             * @param fifo Pointer to object of InputBase or childs.
+             * @param fifo Pointer to object of AbcInput or childs.
              * @return NULL
-             * @see InputBase::listen()
-             * @see InputBase::close()
-             * @see InputBase::read()
+             * @see AbcInput::listen()
+             * @see AbcInput::close()
+             * @see AbcInput::_read()
              */
             static void *_listen(void *fifo);
 
@@ -237,7 +236,7 @@ namespace File
     };
 }
 
-#endif // FILE_INPUTBASE_HXX
+#endif // FILE_ABCINPUT_HXX
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

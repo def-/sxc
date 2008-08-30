@@ -24,7 +24,7 @@
 // INCLUDES/*{{{*/
 
 #include <string>
-#include <File/InputBase.hxx>
+#include <File/AbcInput.hxx>
 
 /*}}}*/
 
@@ -33,11 +33,11 @@
  * @brief Dummy implementation of the ABC File::AbcInput
  * @author Andreas Waidler
  *
- * Inherits from the abstract base class File::InputBase and definines the 
+ * Inherits from the abstract base class File::AbcInput and definines the 
  * abstract methods as "dummy" ones that do no "real" work but are optimized for
  * unit tests.
  */
-class InputDummy : public File::InputBase
+class InputDummy : public File::AbcInput
 {
     friend class TestInput;
 
