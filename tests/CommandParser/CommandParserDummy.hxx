@@ -24,6 +24,7 @@
 // INCLUDES/*{{{*/
 
 #include <string>
+#include <list>
 #include <CommandParser/AbcCommandParser.hxx>
 
 /*}}}*/
@@ -37,15 +38,15 @@ using CommandParser::commandMap;
  * @brief Dummy implementation of the ABC CommandParser::AbcCommandParser
  * @author Andreas Waidler
  *
- * Inherits from the abstract base class @ref CommandParser::AbcCommandParser and
- * definines the abstract methods as "dummy" ones that do no "real" work but are
- * optimized for unit tests.
+ * Inherits from the abstract base class @ref CommandParser::AbcCommandParser
+ * and definines the abstract methods as "dummy" ones that do no "real" work but
+ * are optimized for unit tests.
  */
 class CommandParserDummy : public CommandParser::AbcCommandParser
 {
 
     public:
-        CommandParserDummy(std::string input);
+        CommandParserDummy(const std::string &command);
         ~CommandParserDummy();
 
     protected:
@@ -53,6 +54,11 @@ class CommandParserDummy : public CommandParser::AbcCommandParser
     private:
         commandMap _createCommands() const;
 };
+
+// For the various test classes
+typedef std::list<CommandParserDummy> parserList;
+typedef std::list<std::string> commandList;
+
 
 #endif // COMMANDPARSERDUMMY_H
 

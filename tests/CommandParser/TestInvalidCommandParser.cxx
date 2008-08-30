@@ -32,12 +32,12 @@
 #include <cppunit/Exception.h>
 #include <Exception/InputException.hxx>
 #include <libsxc/Exception/Type.hxx>
-#include "TestCommandParser.hxx"
+#include "TestInvalidCommandParser.hxx"
 #include "CommandParserDummy.hxx"
 
 /*}}}*/
 
-TestCommandParser::TestCommandParser()/*{{{*/
+TestInvalidCommandParser::TestInvalidCommandParser()/*{{{*/
 {
     /* These specifications have been set in CommandParserDummy:
     it = map.insert(it, command("one", param(1, false)));
@@ -50,21 +50,22 @@ TestCommandParser::TestCommandParser()/*{{{*/
     it = map.insert(it, command("4++", param(4, true)));
     */
 
-    // Some valid commands.
-    // Each command is followed by the arguments how they should be split.
-    _commands.push_back(":one foo bar"); // "foo bar"
-    _commands.push_back(":1++ foo bar"); // foo, bar
-    _commands.push_back(":two foo bar"); // foo, bar
-    _commands.push_back(":2++ foo bar"); // foo, bar
-    _commands.push_back(":thr foo bar rab oof"); // foo, bar, "rab oof"
-    _commands.push_back(":3++ foo bar rab oof"); // foo, bar, rab, oof
-    _commands.push_back(":fou foo bar rab oof"); // foo, bar, rab, oof
-    _commands.push_back(":4++ foo bar rab oof foobar raboof");
-    // foo, bar, rab, oof, "foobar raboof"
+    // Some invalid commands.
+    _commands.push_back(":foo");
+    _commands.push_back(":bar");
+    _commands.push_back(":foo bar");
+    _commands.push_back(":f o o b a r");
+    _commands.push_back(":");
+
+    // Some commands that have an invalid amount of parameters.
+    _commands.push_back(":two");
+    _commands.push_back(":fou one");
+    _commands.push_back(":fou one two");
+    _commands.push_back(":fou one two three");
 }
 
 /*}}}*/
-void TestCommandParser::setUp()/*{{{*/
+void TestInvalidCommandParser::setUp()/*{{{*/
 {
     commandList::iterator it = _commands.begin();
     for ( ; it != _commands.end(); ++it) {
@@ -73,13 +74,13 @@ void TestCommandParser::setUp()/*{{{*/
 }
 
 /*}}}*/
-void TestCommandParser::tearDown()/*{{{*/
+void TestInvalidCommandParser::tearDown()/*{{{*/
 {
     _parsers.clear();
 }
 
 /*}}}*/
-void TestCommandParser::testParse()/*{{{*/
+void TestInvalidCommandParser::testParse()/*{{{*/
 {
     parserList::iterator it = _parsers.begin();
     for ( ; it != _parsers.end(); ++it) {
@@ -88,7 +89,7 @@ void TestCommandParser::testParse()/*{{{*/
 }
 
 /*}}}*/
-void TestCommandParser::testGetName()/*{{{*/
+void TestInvalidCommandParser::testGetName()/*{{{*/
 {
     parserList::iterator it = _parsers.begin();
     for ( ; it != _parsers.end(); ++it) {
@@ -101,7 +102,7 @@ void TestCommandParser::testGetName()/*{{{*/
 }
 
 /*}}}*/
-void TestCommandParser::testGetParameterString()/*{{{*/
+void TestInvalidCommandParser::testGetParameterString()/*{{{*/
 {
     parserList::iterator it = _parsers.begin();
     for ( ; it != _parsers.end(); ++it) {
@@ -122,7 +123,7 @@ void TestCommandParser::testGetParameterString()/*{{{*/
 }
 
 /*}}}*/
-void TestCommandParser::testGetParsed()/*{{{*/
+void TestInvalidCommandParser::testGetParsed()/*{{{*/
 {
     parserList::iterator it = _parsers.begin();
     for ( ; it != _parsers.end(); ++it) {

@@ -26,7 +26,7 @@
 
 /*}}}*/
 
-InputDummy::InputDummy(std::string filename)/*{{{*/
+InputDummy::InputDummy(const std::string &filename)/*{{{*/
 : _filename(filename)
 {
 }
@@ -44,7 +44,7 @@ const std::string &InputDummy::getLastInput() const/*{{{*/
 }
 
 /*}}}*/
-void InputDummy::_handleInput(std::string input)/*{{{*/
+void InputDummy::_handleInput(const std::string &input)/*{{{*/
 {
     _lastInput = input;
 }

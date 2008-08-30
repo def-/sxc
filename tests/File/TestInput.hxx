@@ -24,9 +24,8 @@
 // INCLUDES/*{{{*/
 
 #include <string>
-
+#include <Exception/FileInputException.hxx>
 #include <cppunit/extensions/HelperMacros.h>
-
 #include "InputDummy.hxx"
 
 /*}}}*/
@@ -40,11 +39,12 @@ class TestInput : public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE(TestInput);
         CPPUNIT_TEST(testCreate);
-        CPPUNIT_TEST(failCreateExist);
+        CPPUNIT_TEST_EXCEPTION(exceptCreateExist, Exception::FileInputException);
         CPPUNIT_TEST(testValidate);
-        CPPUNIT_TEST(testValidateMissing);
-        CPPUNIT_TEST(testValidateBad);
+        CPPUNIT_TEST_EXCEPTION(exceptValidateMissing, Exception::FileInputException);
+        CPPUNIT_TEST_EXCEPTION(exceptValidateBad, Exception::FileInputException);
         CPPUNIT_TEST(testClose);
+        CPPUNIT_TEST(testListen);
         CPPUNIT_TEST(testListenClose);
         CPPUNIT_TEST(testWrite);
     CPPUNIT_TEST_SUITE_END();
@@ -57,13 +57,14 @@ class TestInput : public CppUnit::TestFixture
 
         // Protected methods of InputBase:
         void testCreate();
-        void failCreateExist();
+        void exceptCreateExist();
         void testValidate();
-        void testValidateMissing();
-        void testValidateBad();
+        void exceptValidateMissing();
+        void exceptValidateBad();
         void testClose();
 
         // Public interface of InputBase or InputDummy:
+        void testListen();
         void testListenClose();
         void testWrite();
 

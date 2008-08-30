@@ -18,14 +18,14 @@
  */
 /*}}}*/
 
-/* $Id$ */
-
 // INCLUDE/*{{{*/
 
 #include <cppunit/extensions/HelperMacros.h>
 
 #include <File/TestInput.hxx>
 #include <CommandParser/TestCommandParser.hxx>
+#include <CommandParser/TestNoCommandParser.hxx>
+#include <CommandParser/TestInvalidCommandParser.hxx>
 
 /*}}}*/
 
@@ -33,6 +33,8 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestInput);
 CPPUNIT_TEST_SUITE_REGISTRATION(TestCommandParser);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestNoCommandParser);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestInvalidCommandParser);
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

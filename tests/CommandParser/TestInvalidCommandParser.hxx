@@ -18,36 +18,37 @@
  */
 /*}}}*/
 
-#ifndef TESTCOMMANDPARSER_H
-#define TESTCOMMANDPARSER_H
+#ifndef TESTINVALIDCOMMANDPARSER_H
+#define TESTINVALIDCOMMANDPARSER_H
 
 // INCLUDES/*{{{*/
 
 #include <cppunit/extensions/HelperMacros.h>
 #include <list>
 #include "CommandParserDummy.hxx"
+#include <Exception/InputException.hxx>
 
 /*}}}*/
 
 /**
- * @class TestCommandParser
+ * @class TestInvalidCommandParser
  * @brief Testsuite for the CommandParser::AbcCommandParser class.
  * @author Andreas Waidler
  *
  * Uses an object of the dummy child class CommandParserDummy to test
  * AbcCommandParser for functionality.
  */
-class TestCommandParser : public CppUnit::TestFixture
+class TestInvalidCommandParser : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE(TestCommandParser);
-        CPPUNIT_TEST(testParse);
-        CPPUNIT_TEST(testGetName);
-        CPPUNIT_TEST(testGetParameterString);
-        CPPUNIT_TEST(testGetParsed);
+    CPPUNIT_TEST_SUITE(TestInvalidCommandParser);
+        CPPUNIT_TEST_EXCEPTION(testParse, Exception::InputException);
+        CPPUNIT_TEST_EXCEPTION(testGetName, Exception::InputException);
+        CPPUNIT_TEST_EXCEPTION(testGetParameterString, Exception::InputException);
+        CPPUNIT_TEST_EXCEPTION(testGetParsed, Exception::InputException);
     CPPUNIT_TEST_SUITE_END();
 
     public:
-        TestCommandParser();
+        TestInvalidCommandParser();
 
         void setUp();
         void tearDown();
@@ -65,7 +66,7 @@ class TestCommandParser : public CppUnit::TestFixture
         commandList _commands;
 };
 
-#endif // TESTCOMMANDPARSER_H
+#endif // TESTINVALIDCOMMANDPARSER_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

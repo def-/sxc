@@ -20,20 +20,32 @@
 
 // INCLUDES/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+#   include <config.hxx>
+#endif
+#include <print.hxx>
+#include <iostream>
+
 #include <string>
 #include <CommandParser/AbcCommandParser.hxx>
 #include "CommandParserDummy.hxx"
 
 /*}}}*/
 
-CommandParserDummy::CommandParserDummy(std::string input)/*{{{*/
-: AbcCommandParser(input)
+CommandParserDummy::CommandParserDummy(const std::string &command)/*{{{*/
+: AbcCommandParser(command)
 {
+//#ifdef DEBUG
+//    std::clog << "CommandParserDummy(" << command << ")" << std::endl;
+//#endif
 }
 
 /*}}}*/
 CommandParserDummy::~CommandParserDummy()/*{{{*/
 {
+//#ifdef DEBUG
+//    std::clog << "~CommandParserDummy()" << std::endl;
+//#endif
 }
 
 /*}}}*/

@@ -42,7 +42,7 @@ class InputDummy : public File::InputBase
     friend class TestInput;
 
     public:
-        InputDummy(std::string filename);
+        InputDummy(const std::string &filename);
         const std::string &getLastInput() const;
 
     protected:
@@ -51,7 +51,7 @@ class InputDummy : public File::InputBase
         std::string _filename;
         std::string _lastInput;
         const std::string &_createPath() const;
-        void _handleInput(std::string);
+        void _handleInput(const std::string&);
 };
 
 #endif // INPUTDUMMY_H

@@ -32,12 +32,12 @@
 #include <cppunit/Exception.h>
 #include <Exception/InputException.hxx>
 #include <libsxc/Exception/Type.hxx>
-#include "TestCommandParser.hxx"
+#include "TestNoCommandParser.hxx"
 #include "CommandParserDummy.hxx"
 
 /*}}}*/
 
-TestCommandParser::TestCommandParser()/*{{{*/
+TestNoCommandParser::TestNoCommandParser()/*{{{*/
 {
     /* These specifications have been set in CommandParserDummy:
     it = map.insert(it, command("one", param(1, false)));
@@ -50,21 +50,15 @@ TestCommandParser::TestCommandParser()/*{{{*/
     it = map.insert(it, command("4++", param(4, true)));
     */
 
-    // Some valid commands.
-    // Each command is followed by the arguments how they should be split.
-    _commands.push_back(":one foo bar"); // "foo bar"
-    _commands.push_back(":1++ foo bar"); // foo, bar
-    _commands.push_back(":two foo bar"); // foo, bar
-    _commands.push_back(":2++ foo bar"); // foo, bar
-    _commands.push_back(":thr foo bar rab oof"); // foo, bar, "rab oof"
-    _commands.push_back(":3++ foo bar rab oof"); // foo, bar, rab, oof
-    _commands.push_back(":fou foo bar rab oof"); // foo, bar, rab, oof
-    _commands.push_back(":4++ foo bar rab oof foobar raboof");
-    // foo, bar, rab, oof, "foobar raboof"
+    // Some lines that are no commands at all.
+    _commands.push_back("This is not a command.");
+    _commands.push_back("!This neither!.");
+    _commands.push_back(" :add user@example.org Leading whitespace!");
+    _commands.push_back("/foo no command");
 }
 
 /*}}}*/
-void TestCommandParser::setUp()/*{{{*/
+void TestNoCommandParser::setUp()/*{{{*/
 {
     commandList::iterator it = _commands.begin();
     for ( ; it != _commands.end(); ++it) {
@@ -73,13 +67,13 @@ void TestCommandParser::setUp()/*{{{*/
 }
 
 /*}}}*/
-void TestCommandParser::tearDown()/*{{{*/
+void TestNoCommandParser::tearDown()/*{{{*/
 {
     _parsers.clear();
 }
 
 /*}}}*/
-void TestCommandParser::testParse()/*{{{*/
+void TestNoCommandParser::testParse()/*{{{*/
 {
     parserList::iterator it = _parsers.begin();
     for ( ; it != _parsers.end(); ++it) {
@@ -88,7 +82,7 @@ void TestCommandParser::testParse()/*{{{*/
 }
 
 /*}}}*/
-void TestCommandParser::testGetName()/*{{{*/
+void TestNoCommandParser::testGetName()/*{{{*/
 {
     parserList::iterator it = _parsers.begin();
     for ( ; it != _parsers.end(); ++it) {
@@ -101,7 +95,7 @@ void TestCommandParser::testGetName()/*{{{*/
 }
 
 /*}}}*/
-void TestCommandParser::testGetParameterString()/*{{{*/
+void TestNoCommandParser::testGetParameterString()/*{{{*/
 {
     parserList::iterator it = _parsers.begin();
     for ( ; it != _parsers.end(); ++it) {
@@ -122,7 +116,7 @@ void TestCommandParser::testGetParameterString()/*{{{*/
 }
 
 /*}}}*/
-void TestCommandParser::testGetParsed()/*{{{*/
+void TestNoCommandParser::testGetParsed()/*{{{*/
 {
     parserList::iterator it = _parsers.begin();
     for ( ; it != _parsers.end(); ++it) {

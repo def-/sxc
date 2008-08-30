@@ -18,24 +18,36 @@
  */
 /*}}}*/
 
-/* $Id$ */
-
 // INCLUDE/*{{{*/
 
-#include <cppunit/ui/text/TestRunner.h>
+#include <iostream>
+
+#include <cppunit/TestResult.h>
+#include <cppunit/TestResultCollector.h>
+#include <cppunit/BriefTestProgressListener.h>
+#include <cppunit/TextOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
+#include <cppunit/TestRunner.h>
 
 /*}}}*/
 
 int main(int argc, char **argv)
 {
-    CppUnit::Test *suite =
-        CppUnit::TestFactoryRegistry::getRegistry().makeTest();
-    CppUnit::TextUi::TestRunner runner;
+    CppUnit::TestResult controller;
+    CppUnit::TestResultCollector result;
+    CppUnit::BriefTestProgressListener progress;
+    controller.addListener(&result);
+    controller.addListener(&progress);
 
-    runner.addTest(suite);
+    CppUnit::TextOutputter outputter(&result, std::clog);
 
-    return !runner.run();
+    CppUnit::TestRunner runner;
+    runner.addTest(CppUnit::TestFactoryRegistry::getRegistry().makeTest());
+    runner.run(controller);
+
+    outputter.write();
+
+    return result.wasSuccessful() ? 0 : 1;
 }
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
