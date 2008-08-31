@@ -33,7 +33,7 @@
 #include <pthread.h>
 #include <signal.h>
 
-#include <File/InputBase.hxx>
+#include <File/AbcInput.hxx>
 #include <Exception/FileInputException.hxx>
 #include <Exception/Errno.hxx>
 #include <libsxc/Exception/Type.hxx>
@@ -41,7 +41,7 @@
 
 /*}}}*/
 
-File::InputBase::InputBase()/*{{{*/
+File::AbcInput::AbcInput()/*{{{*/
 : _isFifoValid(false),
   _isListening(false),
   _mustClose(false)
@@ -49,32 +49,32 @@ File::InputBase::InputBase()/*{{{*/
 }
 
 /*}}}*/
-File::InputBase::~InputBase()/*{{{*/
+File::AbcInput::~AbcInput()/*{{{*/
 {
     if (_isListening)
         close();
 }
 
 /*}}}*/
-void File::InputBase::initialize(bool notPhysical)/*{{{*/
+void File::AbcInput::initialize(bool notPhysical)/*{{{*/
 {
     _path = _createPath();
 
     if (!notPhysical) {
         try {
-            validate();
+            _validate();
         } catch (Exception::FileInputException &e) {
             // If the file is missing, create it. Anything else means that someone
             // tampered with the file.
             if (libsxc::Exception::FileMissing != e.getType())
                 throw e;
-            create();
+            _create();
         }
     }
 }
 
 /*}}}*/
-void File::InputBase::create()/*{{{*/
+void File::AbcInput::_create()/*{{{*/
 {
     // Try to create FIFO with chmod 600.
     if (0 == mkfifo(_path.c_str(), S_IRUSR | S_IWUSR))
@@ -87,7 +87,7 @@ void File::InputBase::create()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::validate()/*{{{*/
+void File::AbcInput::_validate()/*{{{*/
 {
     // Try to get file stats, needed for analyzing the chmod of the file.
     struct stat fstat;
@@ -123,7 +123,7 @@ void File::InputBase::validate()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::read()/*{{{*/
+void File::AbcInput::_read()/*{{{*/
 {
     _fifo.open(_path.c_str());
 
@@ -143,7 +143,7 @@ void File::InputBase::read()/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::listen(bool blocking)/*{{{*/
+void File::AbcInput::listen(bool blocking)/*{{{*/
 {
     // Prevent input from being handled twice:
     if (_isListening) {
@@ -173,7 +173,7 @@ void File::InputBase::listen(bool blocking)/*{{{*/
 }
 
 /*}}}*/
-void File::InputBase::close()/*{{{*/
+void File::AbcInput::close()/*{{{*/
 {
     if (_isListening) {
         _mustClose = true;
@@ -188,18 +188,18 @@ void File::InputBase::close()/*{{{*/
 }
 
 /*}}}*/
-void *File::InputBase::_listen(void *fifo)/*{{{*/
+void *File::AbcInput::_listen(void *fifo)/*{{{*/
 {
 #ifdef DEBUG
     printLog("Thread running.");
 #endif
     // FIXME: Add exception handling.
-    InputBase *that = (InputBase *) fifo;
+    AbcInput *that = (AbcInput *) fifo;
     do {
-        // read() reads blocking until the other end closes the pipe. This 
-        // loop will always restart read() after it handled some input and 
+        // _read() reads blocking until the other end closes the pipe. This 
+        // loop will always restart _read() after it handled some input and 
         // returned.
-        that->read();
+        that->_read();
     } while (!that->_mustClose);
 
 #ifdef DEBUG

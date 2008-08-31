@@ -18,12 +18,65 @@
  */
 /*}}}*/
 
-/* $Id$ */
+// INCLUDES/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+#   include <config.hxx>
+#endif
+
+#include <deque>
+#include <string>
+#include <exception>
+
+#include <print.hxx>
+#include <Control/Control.hxx>
 #include <Control/File/Input.hxx>
+#include <Control/Command/Command.hxx>
+#include <Exception/InputException.hxx>
+#include <libsxc/Exception/Exception.hxx>
 
+/*}}}*/
 
+namespace Control
+{
+    namespace File
+    {
+        Input::Input(const std::string &accountName)/*{{{*/
+        : _accountName(accountName)
+        {
+            initialize();
+        }
+
+        /*}}}*/
+        std::string Input::_createPath()/*{{{*/
+        {
+            return _accountName + "/in";
+        }
+
+        /*}}}*/
+        void Input::_handleInput(const std::string &input)/*{{{*/
+        {
+            Control control = Control::get();
+            try {
+                Command::Command command(input);
+                command.execute();
+            } catch (Exception::InputException &e) {
+                // Just an invalid input, nothing serious.
+                control.handleError(e);
+            } catch (libsxc::Exception::Exception &e) {
+                // This may be something more serious.
+                // TODO: Fix handleError() to make use of stderr
+                control.handleError(e);
+            } catch (std::exception &e) {
+                // This is *really* unexpected.
+                printErr(e.what());
+                control.print(e.what());
+            }
+        }
+
+        /*}}}*/
+    }
+}
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
-

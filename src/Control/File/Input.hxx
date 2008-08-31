@@ -18,72 +18,73 @@
  */
 /*}}}*/
 
-/* $Id$ */
-
 #ifndef CONTROL_FILE_INPUT_HXX
 #define CONTROL_FILE_INPUT_HXX
 
 // INCLUDES/*{{{*/
 
 #include <string>
-#include <File/InputBase.hxx>
+#include <File/AbcInput.hxx>
 
 /*}}}*/
-
 
 namespace Control
 {
     namespace File
     {
         /**
-         * @author Andreas Waidler
          * @brief Main input class for sxc.
          *
          * Creates the file <JID>/in which handles commands for sxc and 
          * communication with the server.
+         *
+         * @author Andreas Waidler
          */
-        class Input : public ::File::InputBase
+        class Input : public ::File::AbcInput
         {
             public:
-                // Input(std::string accountName);/*{{{*/
+                // Input(const std::string &accountName);/*{{{*/
 
                 /**
                  * @brief Initializes the object.
                  *
                  * @param accountName Name of the Jabber account.
                  */
-                Input(std::string accountName);
+                Input(const std::string &accountName);
 
-    /*}}}*/
+/*}}}*/
 
             protected:
 
 
             private:
                 /// The account name, i.e. user@jabber.example.org
-                std::string _account;
+                std::string _accountName;
                 // std::string _createPath();/*{{{*/
 
                 /**
                  * @brief Returns the path and file name of the FIFO.
                  *
-                 * @see File::InputBase#_createPath()
+                 * @see File::AbcInput#_createPath()
                  *
                  * @return The path created is $accountName/in
                  */
                 std::string _createPath();
 
-    /*}}}*/
-                // void _handle(std::string input);/*{{{*/
+/*}}}*/
+                // void _handle(const std::string &input);/*{{{*/
 
                 /**
                  * @brief Handles input that has been written into the FIFO.
                  *
+                 * For a list of valid commands see @ref
+                 * Control::Command::Command.
+                 *
                  * @param input Something that has been written into the FIFO.
                  */
-                void _handle(std::string input);
+                void _handleInput(const std::string &input);
 
-    /*}}}*/
+/*}}}*/
         };
     }
 }
@@ -92,4 +93,3 @@ namespace Control
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
-

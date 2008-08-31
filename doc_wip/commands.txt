@@ -1,7 +1,22 @@
-/pgp keyId passphrase
-/add jid [message]
-/ack user
-/del jid
-/set online|away|offline|invisible|not-available[|...]
-/msg jid text
-/pwd password
+Control:
+
+:ack <jid>
+:add <jid> [<message>]
+:del <jid>
+:msg <jid> <text>
+:pgp enc|dec|sig|chk <command>
+:pwd <password>
+:set online|away|offline|invisible|not-available|do-not-disturb [<message>]
+:sub <jid> [<message>]
+:usc <jid>
+
+Contact:
+
+:ack
+:add
+:del
+:msg <text>
+:pgp key <keyId>
+:pgp on|off
+:sub
+:usc

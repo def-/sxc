@@ -52,43 +52,43 @@ void TestInput::tearDown()/*{{{*/
 /*}}}*/
 void TestInput::testCreate()/*{{{*/
 {
-    _inputDummy->create();
+    _inputDummy->_create();
 }
 
 /*}}}*/
 void TestInput::exceptCreateExist()/*{{{*/
 {
-    // Create a file in the place where create() wants to store the fifo.
+    // Create a file in the place where _create() wants to store the fifo.
     std::ofstream badFile(TestInput::fifoPath.c_str(), std::ios::out);
     // This should fail — or the missplaced file has been overwritten.
-    _inputDummy->create();
+    _inputDummy->_create();
 }
 
 /*}}}*/
 void TestInput::testValidate()/*{{{*/
 {
-    _inputDummy->create();
-    _inputDummy->validate();
+    _inputDummy->_create();
+    _inputDummy->_validate();
 }
 
 /*}}}*/
 void TestInput::exceptValidateMissing()/*{{{*/
 {
     // _inputDummy has been initialized with noPhysical=true, which means that
-    // initialize() should have not created the physical file. create() has not
+    // initialize() should have not created the physical file. _create() has not
     // been called manually. FIFO should be missing, this should fail and throw
     // an exception.
-    _inputDummy->validate();
+    _inputDummy->_validate();
 }
 
 /*}}}*/
 void TestInput::exceptValidateBad()/*{{{*/
 {
-    // Create a non-fifo file to let validate() fail with BadFile.
+    // Create a non-fifo file to let _validate() fail with BadFile.
     std::filebuf fake;
     fake.open(TestInput::fifoPath.c_str(), std::ios::out);
     // This should fail and throw an exception.
-    _inputDummy->validate();
+    _inputDummy->_validate();
 }
 
 /*}}}*/
@@ -100,7 +100,7 @@ void TestInput::testClose()/*{{{*/
 /*}}}*/
 void TestInput::testListen()/*{{{*/
 {
-    _inputDummy->create();
+    _inputDummy->_create();
     _inputDummy->listen();
     sleep(1);
 }
@@ -108,7 +108,7 @@ void TestInput::testListen()/*{{{*/
 /*}}}*/
 void TestInput::testListenClose()/*{{{*/
 {
-    _inputDummy->create();
+    _inputDummy->_create();
     _inputDummy->listen();
     sleep(1);
     _inputDummy->close();
@@ -117,7 +117,7 @@ void TestInput::testListenClose()/*{{{*/
 /*}}}*/
 void TestInput::testWrite()/*{{{*/
 {
-    _inputDummy->create();
+    _inputDummy->_create();
     _inputDummy->listen();
 
     const std::string testInput = "foobar";
