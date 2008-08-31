@@ -32,7 +32,7 @@ InputDummy::InputDummy(const std::string &filename)/*{{{*/
 }
 
 /*}}}*/
-const std::string &InputDummy::_createPath() const/*{{{*/
+std::string InputDummy::_createPath() const/*{{{*/
 {
     return _filename;
 }

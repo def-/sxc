@@ -50,7 +50,7 @@ class InputDummy : public File::AbcInput
     private:
         std::string _filename;
         std::string _lastInput;
-        const std::string &_createPath() const;
+        std::string _createPath() const;
         void _handleInput(const std::string&);
 };
 

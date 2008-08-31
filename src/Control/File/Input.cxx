@@ -48,7 +48,7 @@ namespace Control
         }
 
         /*}}}*/
-        const std::string &Input::_createPath()/*{{{*/
+        std::string Input::_createPath()/*{{{*/
         {
             return _accountName + "/in";
         }

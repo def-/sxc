@@ -184,7 +184,7 @@ namespace File
             bool _isListening;
             /// Indicates whether the thread running @ref _listen must terminate
             bool _mustClose;
-            // virtual const std::string &_createPath() const = 0;/*{{{*/
+            // virtual std::string _createPath() const = 0;/*{{{*/
 
             /**
              * @brief Returns the path and file name of the FIFO.
@@ -196,7 +196,7 @@ namespace File
              *
              * @return Path and file name where the FIFO should be placed.
              */
-            virtual const std::string &_createPath() const = 0;
+            virtual std::string _createPath() const = 0;
 
 /*}}}*/
             // virtual void _handleInput(const std::string &input) = 0;/*{{{*/
