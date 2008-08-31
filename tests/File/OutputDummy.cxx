@@ -18,25 +18,31 @@
  */
 /*}}}*/
 
-// INCLUDE/*{{{*/
+// INCLUDES/*{{{*/
 
-#include <cppunit/extensions/HelperMacros.h>
-
-#include <File/TestInput.hxx>
-#include <File/TestOutput.hxx>
-#include <CommandParser/TestCommandParser.hxx>
-#include <CommandParser/TestNoCommandParser.hxx>
-#include <CommandParser/TestInvalidCommandParser.hxx>
+#include <string>
+#include "OutputDummy.hxx"
 
 /*}}}*/
 
-// Registering all unit tests here, to make them easier to disable and enable.
+OutputDummy::OutputDummy(const std::string &filename)/*{{{*/
+: _filename(filename)
+{
+}
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestInput);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestOutput);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestCommandParser);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestNoCommandParser);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestInvalidCommandParser);
+/*}}}*/
+std::string OutputDummy::_createPath() const/*{{{*/
+{
+    return _filename;
+}
+
+/*}}}*/
+std::string OutputDummy::_format(const std::string &output) const/*{{{*/
+{
+    return "UNITTEST: " + output;
+}
+
+/*}}}*/
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
