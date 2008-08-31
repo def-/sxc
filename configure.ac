@@ -274,7 +274,7 @@ AC_OUTPUT#{{{
 
 echo \
 "-------------------------------------------------
-${srcdir}
+
  ${PACKAGE_NAME} ${PACKAGE_VERSION}
 
  Prefix: '${prefix}'.
