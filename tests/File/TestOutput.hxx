@@ -18,25 +18,48 @@
  */
 /*}}}*/
 
-// INCLUDE/*{{{*/
+#ifndef TESTOUTPUT_H
+#define TESTOUTPUT_H
 
+// INCLUDES/*{{{*/
+
+#include <string>
 #include <cppunit/extensions/HelperMacros.h>
-
-#include <File/TestInput.hxx>
-#include <File/TestOutput.hxx>
-#include <CommandParser/TestCommandParser.hxx>
-#include <CommandParser/TestNoCommandParser.hxx>
-#include <CommandParser/TestInvalidCommandParser.hxx>
+#include "OutputDummy.hxx"
 
 /*}}}*/
 
-// Registering all unit tests here, to make them easier to disable and enable.
+/**
+ * @class TestOutput
+ * @brief Testsuite for the File::OutputDummy class.
+ * @author Andreas Waidler
+ */
+class TestOutput : public CppUnit::TestFixture
+{
+    CPPUNIT_TEST_SUITE(TestOutput);
+        CPPUNIT_TEST(testOpen);
+        CPPUNIT_TEST(testClose);
+        CPPUNIT_TEST(testWrite);
+    CPPUNIT_TEST_SUITE_END();
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestInput);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestOutput);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestCommandParser);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestNoCommandParser);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestInvalidCommandParser);
+    public:
+        static const std::string path;
+
+        void setUp();
+        void tearDown();
+
+        // Public interface of OutputBase or OutputDummy:
+        void testOpen();
+        void testWrite();
+        void testClose();
+
+    protected:
+
+    private:
+        OutputDummy *_output;
+};
+
+#endif // TESTOUTPUT_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
