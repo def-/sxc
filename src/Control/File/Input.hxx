@@ -28,7 +28,6 @@
 
 /*}}}*/
 
-
 namespace Control
 {
     namespace File
@@ -44,24 +43,24 @@ namespace Control
         class Input : public ::File::AbcInput
         {
             public:
-                // Input(std::string accountName);/*{{{*/
+                // Input(const std::string &accountName);/*{{{*/
 
                 /**
                  * @brief Initializes the object.
                  *
                  * @param accountName Name of the Jabber account.
                  */
-                Input(std::string accountName);
+                Input(const std::string &accountName);
 
-    /*}}}*/
+/*}}}*/
 
             protected:
 
 
             private:
                 /// The account name, i.e. user@jabber.example.org
-                std::string _account;
-                // std::string _createPath();/*{{{*/
+                std::string _accountName;
+                // const std::string &_createPath();/*{{{*/
 
                 /**
                  * @brief Returns the path and file name of the FIFO.
@@ -70,19 +69,22 @@ namespace Control
                  *
                  * @return The path created is $accountName/in
                  */
-                std::string _createPath();
+                const std::string &_createPath();
 
-    /*}}}*/
-                // void _handle(std::string input);/*{{{*/
+/*}}}*/
+                // void _handle(const std::string &input);/*{{{*/
 
                 /**
                  * @brief Handles input that has been written into the FIFO.
                  *
+                 * For a list of valid commands see @ref
+                 * Control::Command::Command.
+                 *
                  * @param input Something that has been written into the FIFO.
                  */
-                void _handle(std::string input);
+                void _handleInput(const std::string &input);
 
-    /*}}}*/
+/*}}}*/
         };
     }
 }
