@@ -2,7 +2,7 @@ Control:
 
 :ack <jid>
 :add <jid> [<message>]
-:del <jid>
+:del <jid> [<message>]
 :msg <jid> <text>
 :pgp enc|dec|sig|chk <command>
 :pwd <password>
