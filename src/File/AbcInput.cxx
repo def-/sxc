@@ -130,15 +130,36 @@ void File::AbcInput::_read()/*{{{*/
 {
     _fifo.open(_path.c_str());
 
-    // See docblock of close().
     if (_mustClose)
         return;
 
-    std::string lineBuffer;
-    std::string input; // Filled with lineBuffer until other end closes the pipe
-    while (getline(_fifo, lineBuffer)) {
-        input += lineBuffer;
+    std::string buffer;
+    std::string input;
+    bool isFirstLine = true;
+    while (!_fifo.eof()) {
+        getline(_fifo, buffer);
+        if (_fifo.eof() && buffer.empty()) {
+#ifdef DEBUG
+            std::string msg = "AbcInput::_read() (while): ";
+            msg.append("EOF, empty buffer. Not appending trailing newline.");
+            printLog(msg);
+#endif
+            break;
+        }
+        if (isFirstLine) {
+            isFirstLine = false;
+        } else {
+            input += '\n';
+        }
+        input.append(buffer);
+#ifdef DEBUG
+        printLog("AbcInput::_read(): Read '" + buffer + "'.");
+        printLog("AbcInput::_read(): Input is now: '" + input + "'.");
+#endif
     }
+#ifdef DEBUG
+    printLog("AbcInput::_read(): EOF. Input was: '" + input + "'.");
+#endif
 
     _handleInput(input);
 
