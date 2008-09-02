@@ -1,14 +1,18 @@
 Control:
 
 :ack <jid>
-:add <jid> [<message>]
-:del <jid> [<message>]
+:add <jid>
+:del <jid>
 :msg <jid> <text>
 :pgp enc|dec|sig|chk <command>
 :pwd <password>
-:set online|away|offline|invisible|not-available|do-not-disturb [<message>]
+# Priority at the beginning as it would be indistinguishable from the message.
+:set [<priority>] available|chat|away|busy|xaway|invisible [<message>]
+:set offline
+# Implies ":add"
 :sub <jid> [<message>]
-:usc <jid>
+# Implies ":del"
+:usc <jid> [<message>]
 
 Contact:
 
@@ -18,5 +22,5 @@ Contact:
 :msg <text>
 :pgp key <keyId>
 :pgp on|off
-:sub
-:usc
+:sub [<message>]
+:usc [<message>]
