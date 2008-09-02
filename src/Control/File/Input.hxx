@@ -58,27 +58,33 @@ namespace Control
 
 
             private:
+                // std::string _accountName;/*{{{*/
+
                 /// The account name, i.e. user@jabber.example.org
                 std::string _accountName;
+
+/*}}}*/
                 // std::string _createPath() const;/*{{{*/
 
                 /**
                  * @brief Returns the path and file name of the FIFO.
                  *
-                 * @see File::AbcInput#_createPath()
+                 * @see File::AbcInput::_createPath()
                  *
-                 * @return The path created is $accountName/in
+                 * @return "$accountName/in"
                  */
                 std::string _createPath() const;
 
 /*}}}*/
-                // void _handle(const std::string &input);/*{{{*/
+                // void _handleInput(const std::string &input);/*{{{*/
 
                 /**
                  * @brief Handles input that has been written into the FIFO.
                  *
                  * For a list of valid commands see @ref
-                 * Control::Command::Command.
+                 * Control::Command::Command. The main work will be done by an
+                 * instance of that class, this method provides just the
+                 * exception handling and creates that object.
                  *
                  * @param input Something that has been written into the FIFO.
                  */
