@@ -60,7 +60,7 @@ namespace Control
             private:
                 /// The account name, i.e. user@jabber.example.org
                 std::string _accountName;
-                // std::string _createPath();/*{{{*/
+                // std::string _createPath() const;/*{{{*/
 
                 /**
                  * @brief Returns the path and file name of the FIFO.
@@ -69,7 +69,7 @@ namespace Control
                  *
                  * @return The path created is $accountName/in
                  */
-                std::string _createPath();
+                std::string _createPath() const;
 
 /*}}}*/
                 // void _handle(const std::string &input);/*{{{*/
