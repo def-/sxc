@@ -20,6 +20,11 @@
 
 // INCLUDES/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+#   include <config.hxx>
+#   include <print.hxx>
+#endif
+
 #include <string>
 
 #include "InputDummy.hxx"
@@ -46,6 +51,9 @@ const std::string &InputDummy::getLastInput() const/*{{{*/
 /*}}}*/
 void InputDummy::_handleInput(const std::string &input)/*{{{*/
 {
+#ifdef DEBUG
+    printLog("INPUT: " + input);
+#endif
     _lastInput = input;
 }
 
