@@ -31,61 +31,53 @@
 #include <File/AbcOutput.hxx>
 
 /*}}}*/
+
 namespace File
 {
-    AbcOutput::AbcOutput()
+    AbcOutput::AbcOutput()/*{{{*/
     {
     }
 
-
-    AbcOutput::~AbcOutput()
+/*}}}*/
+    AbcOutput::~AbcOutput()/*{{{*/
     {
         if (isOpen())
             close();
     }
 
-
-    void AbcOutput::initialize()
+/*}}}*/
+    void AbcOutput::initialize()/*{{{*/
     {
         _path = _createPath();
         _file.exceptions(std::ofstream::badbit | std::ofstream::failbit);
     }
 
-
-    void AbcOutput::write(std::string text)
+/*}}}*/
+    void AbcOutput::write(std::string text)/*{{{*/
     {
-        // bool tmpOpen = false;
-        // if (!isOpen()) {
-            // true;
-            // open();
-        // }
         _file << _format(text) << std::flush;
-        // if (tmpOpen)
-            // close();
     }
 
-
-    void AbcOutput::open()
+/*}}}*/
+    void AbcOutput::open()/*{{{*/
     {
         _file.open(_path.c_str());
     }
 
-
-    void AbcOutput::close()
+/*}}}*/
+    void AbcOutput::close()/*{{{*/
     {
-        // TODO: Exception when not open?
         _file.close();
     }
 
-
-    bool AbcOutput::isOpen()
+/*}}}*/
+    bool AbcOutput::isOpen() const/*{{{*/
     {
         return _file.is_open();
     }
 
-
+/*}}}*/
 }
-
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
