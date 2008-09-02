@@ -18,25 +18,41 @@
  */
 /*}}}*/
 
-// INCLUDE/*{{{*/
+#ifndef OUTPUTDUMMY_H
+#define OUTPUTDUMMY_H
 
-#include <cppunit/extensions/HelperMacros.h>
+// INCLUDES/*{{{*/
 
-#include <File/TestInput.hxx>
-#include <File/TestOutput.hxx>
-#include <CommandParser/TestCommandParser.hxx>
-#include <CommandParser/TestNoCommandParser.hxx>
-#include <CommandParser/TestInvalidCommandParser.hxx>
+#include <string>
+#include <File/AbcOutput.hxx>
 
 /*}}}*/
 
-// Registering all unit tests here, to make them easier to disable and enable.
+/**
+ * @class OutputDummy
+ * @brief Dummy implementation of the ABC File::AbcOutput
+ * @author Andreas Waidler
+ *
+ * Inherits from the abstract base class File::AbcOutput and definines the 
+ * abstract methods as "dummy" ones that do no "real" work but are optimized for
+ * unit tests.
+ */
+class OutputDummy : public File::AbcOutput
+{
+    // friend class TestOutput;
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestInput);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestOutput);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestCommandParser);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestNoCommandParser);
-CPPUNIT_TEST_SUITE_REGISTRATION(TestInvalidCommandParser);
+    public:
+        OutputDummy(const std::string &filename);
+
+    protected:
+
+    private:
+        std::string _filename;
+        std::string _createPath() const;
+        std::string _format(const std::string &output) const;
+};
+
+#endif // OUTPUTDUMMY_H
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
