@@ -50,36 +50,35 @@ namespace File
 /*}}}*/
             // virtual ~AbcInput();/*{{{*/
 
-            /**
-             * @brief Destructor, frees resources and cleans up.
-             *
-             * Takes care of a clean termination of the thread if running. 
-             * Closes the FIFO if open.
-             */
+            /// Closes FIFO and subthread if open/running.
             virtual ~AbcInput();
 
 /*}}}*/
-            // void initialize(bool notPhysical = false);/*{{{*/
+            // void initialize(bool notPhysical=false);/*{{{*/
 
             /**
-             * @brief Initializes the object.
+             * @brief Does a more high-level initialization of the object.
+             *
+             * Apart from the constructor which does only a low-level
+             * initialization, this method does a more high-level one, including
+             * calls to abstract methods which cannot be called in the
+             * constructor.
              *
              * Calls @ref _createPath() to set @ref _path. Tries to create 
              * the FIFO or checks its permissions by calling @ref _tryCreate() 
              * or @ref _validate().
              *
-             * @note This method has to be called before any other method can 
-             *       be used! You may want to call it in the constructor of 
-             *       the childs.
+             * @note This method has to be called before any other method can be
+             *       used. You may want to call it in the constructor of child
+             *       classes.
              *
-             * @warning Do not override this method!
              * @param notPhysical Disable validation or creation of the physical
-             *        file, just initialize this virtual object.
+             *        file, just initialize this object.
              */
-            void initialize(bool notPhysical = false);
+            void initialize(bool notPhysical=false);
 
 /*}}}*/
-            // void listen(bool blocking = false);/*{{{*/
+            // void listen(bool blocking=false);/*{{{*/
 
             /**
              * @brief Initiates listening on the FIFO.
@@ -89,14 +88,11 @@ namespace File
              * blocking is @c false.
              *
              * This method creates a thread that executes @ref _listen()
-             * which will run in the background. If @a blocking is true @c 
-             * pthread_join() is called which causes this method to wait until 
+             * which will run in the background. If @a blocking is true @c
+             * pthread_join() is called which causes this method to wait until
              * the thread terminates.
              *
-             * @warning Do not override this method!
-             *
-             * @param blocking Specifies whether this method should listen 
-             * blocking or non-blocking.
+             * @param blocking Whether to listen blocking or non-blocking.
              */
             void listen(bool blocking = false);
 
@@ -129,11 +125,9 @@ namespace File
             /**
              * @brief Creates the FIFO physically.
              *
-             * Throws an exception even if the file is already existing.
-             *
-             * @exception Exception::FileInputException When the file could not
-             *            be created. @c Exception::Type is the result of 
-             *            @ref Exception::errnoToType().
+             * @exception FileInputException If mkfifo() fails. @c
+             *            Exception::Type is set to @ref
+             *            Exception::errnoToType().
              */
             void _create();
 
@@ -141,16 +135,20 @@ namespace File
             // void _validate();/*{{{*/
 
             /**
-             * @brief Checks the FIFO for validity and throws an exception if 
-             *        something is not like expected. 
+             * @brief Checks whether FIFO is valid.
              *
-             * The FIFOs owner-uid has to be the one who runs this program. 
-             * Additionally, the FIFO must @b not be readable or writable for
-             * other users. (chmod 600).
+             * "Valid" means:
+             * @li file owner uid == sxc uid
+             * @li readable and writable for only the owner
              *
-             * Normally, the FIFO should exist with the right permissions,
-             * except sxc has not been run before (in this directory) or someone
-             * tampered with the directory structure.
+             * If any of this assertions fails, the FIFO is invalid. Normally,
+             * the FIFO should exist and be valid, except sxc has not been run
+             * before (in this directory) or someone tampered with the directory
+             * structure.
+             *
+             * @c Exception::Type is set to the appropriate error, so
+             * a Exception::FileMissing can be caught, and the FIFO can be
+             * created by calling @ref _create().
              *
              * @exception Exception::FileInputException When file is invalid.
              */
@@ -161,10 +159,17 @@ namespace File
             // void _read();/*{{{*/
 
             /**
-             * @brief Reads the FIFO blocking until the other end is closed.
+             * @brief Reads blocking from the FIFO.
              *
-             * Input is handled by calling @ref _handleInput() which will always
-             * be called unless @ref _mustClose is set to @c true.
+             * Stops reading when the other end closes the pipe. Then, all input
+             * will be passed to @ref _handleInput().
+             *
+             * Before calling @ref _handleInput(), @ref _mustClose will be
+             * checked. This method will return if it is true.
+             *
+             * @note The only way to stop this method is to "unblock" the call
+             *       to open(). This can be done by opening and closing the
+             *       other end of the named pipe.
              */
             void _read();
 
@@ -214,8 +219,6 @@ namespace File
              * Called by @ref initialize() which stores the result in @ref _path
              * which is used throughout the class in the other methods.
              *
-             * @note Pure virtual.
-             *
              * @return Path and file name where the FIFO should be placed.
              */
             virtual std::string _createPath() const = 0;
@@ -225,8 +228,6 @@ namespace File
 
             /**
              * @brief Handles input that has been written into the FIFO.
-             *
-             * @note Pure virtual.
              *
              * @param input Something that has been written into the FIFO.
              */
@@ -240,9 +241,12 @@ namespace File
              *
              * Runs an infinite loop on @ref _read() of the object @a fifo.
              *
+             * @note This method terminates only if @ref _mustClose is true and
+             *       the blocking call to @ref _read() finishes.
+             *
              * @warning Should only be called by a pthread created in @ref 
-             *          listen. This method terminates only if @ref _mustClose
-             *          is true and the blocking call to @ref _read() finishes.
+             *          listen.
+             *
              * @warning The parameter @a fifo should not be anything other than
              *          a pointer to an object of AbcInput or derivates.
              *
