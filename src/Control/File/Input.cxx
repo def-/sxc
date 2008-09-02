@@ -54,7 +54,7 @@ namespace Control
         }
 
         /*}}}*/
-        void Input::_handleInput(const std::string &input)/*{{{*/
+        void Input::_handleInput(const std::string &input) const/*{{{*/
         {
             Control control = Control::get();
             try {

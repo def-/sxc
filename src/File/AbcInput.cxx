@@ -22,6 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #   include <config.hxx>
+#   include <print.hxx>
 #endif
 
 #include <cerrno>
@@ -37,7 +38,6 @@
 #include <Exception/FileInputException.hxx>
 #include <Exception/Errno.hxx>
 #include <libsxc/Exception/Type.hxx>
-#include <print.hxx>
 
 /*}}}*/
 
@@ -104,12 +104,15 @@ void File::AbcInput::_validate()/*{{{*/
     }
 
     // Check for chmod 600:
-    if (0 == fstat.st_mode & S_IRUSR
-    || 0 == fstat.st_mode & S_IWUSR
-    || 0 != fstat.st_mode & S_IRGRP
-    || 0 != fstat.st_mode & S_IWGRP
-    || 0 != fstat.st_mode & S_IROTH
-    || 0 != fstat.st_mode & S_IWOTH) {
+    // if (0 == fstat.st_mode & S_IRUSR
+    // || 0 == fstat.st_mode & S_IWUSR
+    // || 0 != fstat.st_mode & S_IRGRP
+    // || 0 != fstat.st_mode & S_IWGRP
+    // || 0 != fstat.st_mode & S_IROTH
+    // || 0 != fstat.st_mode & S_IWOTH) {
+    if (fstat.st_mode
+    &  (S_IRUSR | S_IWUSR | ~S_IRGRP | ~S_IWGRP | ~S_IROTH | ~S_IWOTH)
+    == (S_IRUSR | S_IWUSR | ~S_IRGRP | ~S_IWGRP | ~S_IROTH | ~S_IWOTH)) {
         // Converts __mode_t st_mode to human-readable string (octal notation):
         std::stringstream mode;
         mode << std::oct << fstat.st_mode;
@@ -127,15 +130,36 @@ void File::AbcInput::_read()/*{{{*/
 {
     _fifo.open(_path.c_str());
 
-    // See docblock of close().
     if (_mustClose)
         return;
 
-    std::string lineBuffer;
-    std::string input; // Filled with lineBuffer until other end closes the pipe
-    while (getline(_fifo, lineBuffer)) {
-        input += lineBuffer;
+    std::string buffer;
+    std::string input;
+    bool isFirstLine = true;
+    while (!_fifo.eof()) {
+        getline(_fifo, buffer);
+        if (_fifo.eof() && buffer.empty()) {
+#ifdef DEBUG
+            std::string msg = "AbcInput::_read() (while): ";
+            msg.append("EOF, empty buffer. Not appending trailing newline.");
+            printLog(msg);
+#endif
+            break;
+        }
+        if (isFirstLine) {
+            isFirstLine = false;
+        } else {
+            input += '\n';
+        }
+        input.append(buffer);
+#ifdef DEBUG
+        printLog("AbcInput::_read(): Read '" + buffer + "'.");
+        printLog("AbcInput::_read(): Input is now: '" + input + "'.");
+#endif
     }
+#ifdef DEBUG
+    printLog("AbcInput::_read(): EOF. Input was: '" + input + "'.");
+#endif
 
     _handleInput(input);
 
@@ -213,4 +237,3 @@ void *File::AbcInput::_listen(void *fifo)/*{{{*/
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
-

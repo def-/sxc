@@ -48,7 +48,7 @@ namespace Control
 /*}}}*/
                 // ~Command();/*{{{*/
 
-                /// Destructor, does no work currently.
+                /// Destructor, has nothing to do currently.
                 ~Command();
 
 /*}}}*/
@@ -64,9 +64,13 @@ namespace Control
                  *
                  * @note Exception handling has to be done by the caller.
                  *
-                 * @exception InputException(InvalidCommand) If a check fails.
+                 * @exception InputException(InvalidCommand) A check failed.
                  * @exception libsxc::Exception::Exception Childs of this basic
-                 *            exception may be thrown by invoked method.
+                 *            exception may be thrown by invoked methods.
+                 * @exception std::out_of_range Accessing an element of returned
+                 *            by @ref getParsed() that does not exist. This
+                 *            would be a bug in this class (or its parent).
+                 * @exception std::exception This should usually not happen.
                  */
                 void execute();
 
@@ -81,7 +85,7 @@ namespace Control
                  * @brief Creates a container holding all possible commands.
                  *
                  * @return All valid commands and the specification of their
-                 *         parameters
+                 *         parameters.
                  */
                 CommandParser::commandMap _createCommands() const;
 
