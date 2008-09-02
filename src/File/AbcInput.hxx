@@ -29,7 +29,6 @@
 
 /*}}}*/
 
-
 namespace File
 {
     /**
@@ -172,18 +171,41 @@ namespace File
 /*}}}*/
 
         private:
+            // std::string _path;/*{{{*/
+
             /// The path including file name where the FIFO is located.
             std::string _path;
+
+/*}}}*/
+            // std::ifstream _fifo;/*{{{*/
+
             /// The FIFO from which will be read.
             std::ifstream _fifo;
+
+/*}}}*/
+            // bool _isFifoValid;/*{{{*/
+
             /// Indicates whether @ref _fifo is valid.
             bool _isFifoValid;
+
+/*}}}*/
+            // pthread_t _thread;/*{{{*/
+
             /// The thread running @ref _listen
             pthread_t _thread;
+
+/*}}}*/
+            // bool _isListening;/*{{{*/
             /// Indicates whether @ref listen() is active.
             bool _isListening;
+
+/*}}}*/
+            // bool _mustClose;/*{{{*/
+
             /// Indicates whether the thread running @ref _listen must terminate
             bool _mustClose;
+
+/*}}}*/
             // virtual std::string _createPath() const = 0;/*{{{*/
 
             /**
