@@ -87,15 +87,19 @@ namespace Control
 
             Roster &roster = _control.getRoster();
 
-            if ("ack" == name) {
+            if ("ack" == name) {/*{{{*/
                 roster.acknowledgeSubscription(parsed.at(1));
-            } else if ("add" == name) {
+/*}}}*/
+            } else if ("add" == name) {/*{{{*/
                 roster.addContact(parsed.at(1));
-            } else if ("del" == name) {
+/*}}}*/
+            } else if ("del" == name) {/*{{{*/
                 roster.removeContact(parsed.at(1));
-            } else if ("msg" == name) {
+/*}}}*/
+            } else if ("msg" == name) {/*{{{*/
                 _control.sendMessage(parsed.at(1), parsed.at(2));
-            } else if ("pgp" == name) {
+/*}}}*/
+            } else if ("pgp" == name) {/*{{{*/
                 const std::string action = parsed.at(1);
                 if ("chk" == action) {
                 } else if ("dec" == action) {
@@ -111,9 +115,11 @@ namespace Control
                 // FIXME add pgp
                 throw Exception::InputException(
                     libsxc::Exception::General, "Unimplemented.");
-            } else if ("pwd" == name) {
+/*}}}*/
+            } else if ("pwd" == name) {/*{{{*/
                 _control.setPassphrase(parsed.at(1));
-            } else if ("set" == name) {
+/*}}}*/
+            } else if ("set" == name) {/*{{{*/
                 gloox::Presence::PresenceType presence;
                 if ("available" == parsed.at(1)) {
                     presence = gloox::Presence::Available;
@@ -143,7 +149,8 @@ namespace Control
                     _control.setPresence(presence);
                 else
                     _control.setPresence(presence, parsed.at(2));
-            } else if ("pri" == name) {
+/*}}}*/
+            } else if ("pri" == name) {/*{{{*/
                 int priority;
 
                 std::istringstream ss;
@@ -161,14 +168,18 @@ namespace Control
                 }
 
                 _control.setPriority(priority);
-            } else if ("sub" == name) {
+/*}}}*/
+            } else if ("sub" == name) {/*{{{*/
                 roster.subscribe(parsed.at(1), parsed.at(2));
-            } else if ("usc" == name) {
+/*}}}*/
+            } else if ("usc" == name) {/*{{{*/
                 roster.unsubscribe(parsed.at(1), parsed.at(2));
-            } else {
+/*}}}*/
+            } else {/*{{{*/
                 libsxc::Exception::Type t = libsxc::Exception::InvalidCommand;
                 std::string message = "Unknown name: " + name;
                 throw Exception::InputException(t, message);
+/*}}}*/
             }
         }
 
