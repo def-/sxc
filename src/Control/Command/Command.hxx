@@ -26,6 +26,7 @@
 #include <string>
 
 #include <CommandParser/AbcCommandParser.hxx>
+#include <Control/Control.hxx>
 
 /*}}}*/
 
@@ -36,14 +37,15 @@ namespace Control
         class Command : CommandParser::AbcCommandParser
         {
             public:
-                // Command(const std::string &command);/*{{{*/
+                // Command(Control &control, const std::string &command);/*{{{*/
 
                 /**
                  * @brief Default constructor, calls parent constructor.
                  *
+                 * @param control The control object to use to execute commands.
                  * @param command A command to be parsed.
                  */
-                Command(const std::string &command);
+                Command(Control &control, const std::string &command);
 
 /*}}}*/
                 // ~Command();/*{{{*/
@@ -88,6 +90,12 @@ namespace Control
                  *         parameters.
                  */
                 CommandParser::commandMap _createCommands() const;
+
+/*}}}*/
+
+                //Control &_control;/*{{{*/
+                /// The control object.
+                Control &_control;
 
 /*}}}*/
         };

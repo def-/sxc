@@ -35,7 +35,8 @@ if test "x${debug}" = xyes; then
         [1],
         [Define to 1 to enable debugging output to stderr])
     if test "x${enable_cxxflags_setting}" = xyes; then
-        CXXFLAGS="-g -O2" # Debugging information for gdb.
+        # Debugging information for gdb and warnings.
+        CXXFLAGS="-g -O2 -Wall -Wextra"
     fi
 else
     if test "x${enable_cxxflags_setting}" = xyes; then
@@ -203,6 +204,17 @@ if test "x${have_libsxc}" = xno; then
     (exit 1); exit 1
 fi
 #}}}
+# sigc++#{{{
+PKG_CHECK_MODULES([SIGC], [sigc++-2.0], [have_sigc=yes], [have_sigc=no])
+if test "x${have_sigc}" = xno; then
+    echo \
+"-------------------------------------------------
+ Unable to find sigc++-2.0. Stopping
+ Check \"config.log\" for more information.
+-------------------------------------------------"
+    (exit 1); exit 1
+fi
+#}}}
 # gloox#{{{
 PKG_CHECK_MODULES([GLOOX], [gloox >= 1.0], [have_gloox=yes], [have_gloox=no])
 if test "x${have_gloox}" = xno; then
@@ -233,6 +245,8 @@ fi
 AC_HEADER_STDBOOL
 AC_C_CONST
 AC_C_INLINE
+AC_TYPE_SIGNAL
+AC_TYPE_SIZE_T
 
 # Checks for library functions.
 AC_FUNC_STAT
@@ -248,6 +262,8 @@ AC_SUBST(with_htags)
 
 AC_SUBST(LIBSXC_CFLAGS)
 AC_SUBST(LIBSXC_LIBS)
+AC_SUBST(SIGC_CFLAGS)
+AC_SUBST(SIGC_LIBS)
 AC_SUBST(GLOOX_CFLAGS)
 AC_SUBST(GLOOX_LIBS)
 AC_SUBST(CPPUNIT_CFLAGS)
