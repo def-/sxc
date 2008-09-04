@@ -29,6 +29,8 @@
 #include <gloox/presence.h>
 #include <gloox/iq.h>
 
+#include <libsxc/Exception/GlooxException.hxx>
+
 #include <Control/Roster.hxx>
 #include <Control/Control.hxx>
 #include <Contact/Contact.hxx>
@@ -39,62 +41,78 @@
 
 namespace Control
 {
-    Roster::Roster(gloox::ClientBase *client)/*{{{*/
-    : RosterManager(client),
-      RosterListener(),
+    Roster::Roster(gloox::Client &client)/*{{{*/
+    : RosterListener(),
       _client(client),
       _contacts()
     {
     }/*}}}*/
 
-    bool Roster::handleIq(const gloox::IQ &iq)/*{{{*/
+    void Roster::addContact(const std::string &rawJid) const/*{{{*/
     {
-        return true;
+        _checkClient();
+        const gloox::JID &jid = _generateJid(rawJid);
+
+#       ifdef DEBUG
+            printLog("Add " + rawJid + " to the roster.");
+#       endif
+
+        const gloox::StringList groups;
+        _client.rosterManager()->add(jid, jid.bare(), groups);
+    }/*}}}*/
+    void Roster::removeContact(const std::string &rawJid) const/*{{{*/
+    {
+        _checkClient();
+        const gloox::JID &jid = _generateJid(rawJid);
+
+#       ifdef DEBUG
+            printLog("Remove " + rawJid + " from the roster.");
+#       endif
+
+        _client.rosterManager()->remove(jid);
     }/*}}}*/
 
-    void Roster::handleIqID(const gloox::IQ &iq, int context)/*{{{*/
+    void Roster::subscribe(/*{{{*/
+        const std::string &rawJid,
+        const std::string &message) const
+    {
+        _checkClient();
+        const gloox::JID &jid = _generateJid(rawJid);
+
+#       ifdef DEBUG
+            printLog("Sending subscription request to " + rawJid);
+#       endif
+
+        _client.rosterManager()->remove(jid);
+    }/*}}}*/
+    void Roster::unsubscribe(/*{{{*/
+        const std::string &rawJid,
+        const std::string &message) const
     {
     }/*}}}*/
 
-    void Roster::handlePresence(const gloox::Presence &presence)/*{{{*/
+    void Roster::acknowledgeSubscription(const std::string &rawJid) const/*{{{*/
     {
     }/*}}}*/
-
-    void Roster::handleSubscription(/*{{{*/
-        const gloox::Subscription &subscription)
-    {
-    }/*}}}*/
-
-    void Roster::handlePrivateXML(const gloox::Tag *xml)/*{{{*/
-    {
-    }/*}}}*/
-
-    void Roster::handlePrivateXMLResult(/*{{{*/
-        const std::string &uid,
-        gloox::PrivateXMLHandler::PrivateXMLResult pxResult)
+    void Roster::declineSubscription(const std::string &rawJid) const/*{{{*/
     {
     }/*}}}*/
 
     void Roster::handleItemAdded(const gloox::JID &jid)/*{{{*/
     {
     }/*}}}*/
-
     void Roster::handleItemSubscribed(const gloox::JID &jid)/*{{{*/
     {
     }/*}}}*/
-
     void Roster::handleItemRemoved(const gloox::JID &jid)/*{{{*/
     {
     }/*}}}*/
-
     void Roster::handleItemUpdated(const gloox::JID &jid)/*{{{*/
     {
     }/*}}}*/
-
     void Roster::handleItemUnsubscribed(const gloox::JID &jid)/*{{{*/
     {
     }/*}}}*/
-
     void Roster::handleRoster(const gloox::Roster &roster)/*{{{*/
     {
 #       if DEBUG
@@ -109,10 +127,9 @@ namespace Control
 #           endif
             _contacts.insert(make_pair(
                 entry->first,
-                new Contact::Contact(_client, gloox::JID(entry->first))));
+                new Contact::Contact(&_client, gloox::JID(entry->first))));
         }
     }/*}}}*/
-
     void Roster::handleRosterPresence(/*{{{*/
         const gloox::RosterItem &item,
         const std::string &resource,
@@ -120,7 +137,6 @@ namespace Control
         const std::string &msg)
     {
     }/*}}}*/
-
     void Roster::handleSelfPresence(/*{{{*/
         const gloox::RosterItem &item,
         const std::string &resource,
@@ -128,7 +144,6 @@ namespace Control
         const std::string &msg)
     {
     }/*}}}*/
-
     bool Roster::handleSubscriptionRequest(/*{{{*/
         const gloox::JID &jid,
         const std::string &msg)
@@ -136,7 +151,6 @@ namespace Control
         // TODO
         return true;
     }/*}}}*/
-
     bool Roster::handleUnsubscriptionRequest(/*{{{*/
         const gloox::JID &jid,
         const std::string &msg)
@@ -144,13 +158,28 @@ namespace Control
         // TODO
         return true;
     }/*}}}*/
-
     void Roster::handleNonrosterPresence(const gloox::Presence &presence)/*{{{*/
     {
     }/*}}}*/
-
     void Roster::handleRosterError(const gloox::IQ &iq)/*{{{*/
     {
+    }/*}}}*/
+
+    void Roster::_checkClient() const/*{{{*/
+    {
+        if (! gloox::StateConnected == _client.state())
+            throw libsxc::Exception::GlooxException(
+                libsxc::Exception::InvalidUsage,
+                "Connection ist not established.");
+    }/*}}}*/
+    const gloox::JID &Roster::_generateJid(const std::string &raw) const/*{{{*/
+    {
+        static const gloox::JID jid(raw);
+        if (jid.full() == gloox::EmptyString)
+            throw libsxc::Exception::GlooxException(
+                libsxc::Exception::JidInvalid,
+                "Invalid JID: " + raw);
+        return jid;
     }/*}}}*/
 }
 

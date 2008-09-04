@@ -33,10 +33,16 @@ namespace Control
 {
     inline void Control::onResourceBind(const std::string &resource)/*{{{*/
     {
+#       if DEBUG
+            printLog("Bind resouce: \"" + resource + "\".");
+#       endif
     }/*}}}*/
 
     inline void Control::onResourceBindError(const gloox::Error *error)/*{{{*/
     {
+#       if DEBUG
+            printLog("Resource bind error.");
+#       endif
     }/*}}}*/
 
     inline void Control::onSessionCreateError(const gloox::Error *error)/*{{{*/

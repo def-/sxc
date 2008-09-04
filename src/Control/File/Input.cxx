@@ -56,22 +56,23 @@ namespace Control
         /*}}}*/
         void Input::_handleInput(const std::string &input)/*{{{*/
         {
-            Control control = Control::get();
-            try {
-                Command::Command command(input);
-                command.execute();
-            } catch (Exception::InputException &e) {
-                // Just an invalid input, nothing serious.
-                control.handleError(e);
-            } catch (libsxc::Exception::Exception &e) {
-                // This may be something more serious.
-                // TODO: Fix handleError() to make use of stderr
-                control.handleError(e);
-            } catch (std::exception &e) {
-                // This is *really* unexpected.
-                printErr(e.what());
-                control.print(e.what());
-            }
+            // FIXME HARD!
+            //Control control = Control::get();
+            //try {
+            //    Command::Command command(input);
+            //    command.execute();
+            //} catch (Exception::InputException &e) {
+            //    // Just an invalid input, nothing serious.
+            //    control.handleError(e);
+            //} catch (libsxc::Exception::Exception &e) {
+            //    // This may be something more serious.
+            //    // TODO: Fix handleError() to make use of stderr
+            //    control.handleError(e);
+            //} catch (std::exception &e) {
+            //    // This is *really* unexpected.
+            //    printErr(e.what());
+            //    control.print(e.what());
+            //}
         }
 
         /*}}}*/

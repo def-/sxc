@@ -39,7 +39,13 @@
 #include <Control/Control.hxx>
 #include <print.hxx>
 
+#ifdef HAVE_CONFIG_H
+#   include <config.hxx>
+#endif
+
 /*}}}*/
+
+#include <gloox/presence.h>
 
 /**
  * @mainpage sxc Documentation
@@ -66,13 +72,24 @@ int main(int argc, char *argv[])/*{{{*/
     libsxc::Option::Parser parser;
     libsxc::Option::OptionPort port(
         &parser, 'p', "port", "port", "0 - 65535, -1 for default");
+    libsxc::Option::Option<std::string> name(
+        &parser, 'n', "name", "name",
+        std::string("Name (default: ") + PACKAGE + ")", PACKAGE);
+    libsxc::Option::Option<std::string> version(
+        &parser, 'v', "version", "version",
+        std::string("Version (default: ") + VERSION + ")", VERSION);
     libsxc::Option::Option<gloox::JID> jid(
         &parser, ' ', "", "jid", "user@domain[/resource]");
 
     try {
         parser.parse(argv);
     } catch (libsxc::Exception::Exception &e) {
-        printErr(e.getDescription());
+        const std::string &description = e.getDescription();
+        if (description == "")
+            printErr(
+                std::string(PACKAGE) + " " + VERSION + " (C) " + COPYRIGHT);
+        else
+            printErr(description);
 
         std::vector<std::string> usage = parser.getUsage();
         for_each(usage.begin(), usage.end(), printErr);
@@ -80,14 +97,14 @@ int main(int argc, char *argv[])/*{{{*/
         return e.getType();
     }
 
-    try {
-        Control::Control::get().initialize(jid.getValue(), port.getValue());
-        // Run forever (until a signal is received), other threads are waiting
-        // for input.
-        pause();
-    } catch (libsxc::Exception::Exception &e) {
-        Control::Control::get().handleError(e, true);
-    }
+    Control::Control control(
+        jid.getValue(),
+        port.getValue(),
+        name.getValue(),
+        version.getValue());
+    //control.setPassphrase("test");
+    //control.setPresence(gloox::Presence::Available);
+    pause();
 
     return 0;
 }/*}}}*/

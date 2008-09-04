@@ -29,7 +29,7 @@
 
 #include <string>
 #include <map>
-#include <gloox/clientbase.h>
+#include <gloox/client.h>
 #include <gloox/rostermanager.h>
 #include <gloox/rosterlistener.h>
 #include <gloox/subscription.h>
@@ -58,88 +58,102 @@ namespace Control
      *
      * This class handles all changes to the roster from and to the server.
      */
-    // TODO: RosterManager not neccessary?
-    class Roster : public gloox::RosterManager, gloox::RosterListener
+    class Roster : public gloox::RosterListener
     {
         public:
-            //Roster(gloox::ClientBase *client);/*{{{*/
+            //Roster(gloox::Client &client);/*{{{*/
 
             /**
              * @brief Initialise the roster and register with the client.
              *
              * @param client The client class to register with.
              */
-            Roster(gloox::ClientBase *client);
+            Roster(gloox::Client &client);
 
 /*}}}*/
 
-            // Reimplemented from gloox::RosterManager.
-            //bool handleIq(const gloox::IQ &iq);/*{{{*/
+            //void addContact(const std::string &rawJid) const;/*{{{*/
 
             /**
-             * @brief Notification about incoming IQs.
+             * @brief Add contact to the roster.
              *
-             * @param iq The complete IQ stanza.
+             * @note This method does not send a subscription request, use @ref
+             *       subscribe() if you want to see the contact's status.
+             *
+             * @param rawJid The JID to add to the roster.
              */
-            bool handleIq(const gloox::IQ &iq);
+            void addContact(const std::string &rawJid) const;
 
 /*}}}*/
-            //void handleIqID(const gloox::IQ &iq, int context);/*{{{*/
+            //void removeContact(const std::string &rawJid) const;/*{{{*/
 
             /**
-             * @brief Notification about incoming IQs with a specific id.
+             * @brief Remove a contact from the roster.
              *
-             * @note Only IQ stanzas of type 'result or 'error' can arrive
-             *       here.
+             * @note This function unsubscribes implicetely.
              *
-             * @param iq The complete IQ stanza.
-             * @param context A value to restore context.
+             * @param rawJid The JID of the contact to remove.
              */
-            void handleIqID(const gloox::IQ &iq, int context);
+            void removeContact(const std::string &rawJid) const;
 
 /*}}}*/
-            //void handlePresence(const gloox::Presence &presence);/*{{{*/
+
+            //void subscribe(string &rawJid, &message=EmptyString) const;/*{{{*/
 
             /**
-             * @biref Incoming presence notifications.
+             * @brief Send a subscription request.
              *
-             * @presence The complete stanza.
+             * This method sends a request to the contact asking for permission
+             * to be updated on presence changes. Compliant servers add the
+             * contact to the roster automatically, so there is no need to call
+             * @ref addContact().
+             *
+             * @param rawJid The JID to subscribe to for presence updates.
+             * @param message The message to send along.
              */
-            void handlePresence(const gloox::Presence &presence);
+            void subscribe(
+                const std::string &rawJid,
+                const std::string &message=gloox::EmptyString) const;
 
 /*}}}*/
-            //void handleSubscription(const Subscription subscription);/*{{{*/
+            //void unsubscribe(string &rawJid, &message=Empty) const;/*{{{*/
 
             /**
-             * @brief Notification about incoming subscriptions and requests.
+             * @brief Unsubscribe from a contact.
              *
-             * @param subscription The complete stanza.
+             * This method sends an unsubscription request to the contact. So
+             * the contact will no longer receive presence updates from you.
+             *
+             * @param rawJid The JID to unsubscribe from.
+             * @param message The message to send along.
              */
-            void handleSubscription(const gloox::Subscription &subscription);
+            void unsubscribe(
+                const std::string &rawJid,
+                const std::string &message=gloox::EmptyString) const;
 
 /*}}}*/
-            //void handlePrivateXML(const gloox::Tag *xml);/*{{{*/
+
+            //void acknowledgeSubscription(const string &rawJid) const;/*{{{*/
 
             /**
-             * @brief Receive private XML that was requested earlier.
+             * @brief Acknowlodge a subscription request.
              *
-             * @param xml The private xml, i.e. the first child of the <query>
-             *        tag. May be 0. You should not delete the object.
+             * This method adds the user to the list of contacts to send
+             * presence updates to.
+             *
+             * @param rawJid The JID.
              */
-            void handlePrivateXML(const gloox::Tag *xml);
+            void acknowledgeSubscription(const std::string &rawJid) const;
 
 /*}}}*/
-            //void handlePrivateXMLResult(string uid, pxResult);/*{{{*/
+            //void declineSubscription(const std::string &rawJid) const;/*{{{*/
 
             /**
-             * @brief Notification about the result of a 'store' or 'request'.
+             * @brief Decline a subscription request.
              *
-             * @param uid The ID of the query.
-             * @param pxResult The result of the operation.
+             * @param rawJid The JID.
              */
-            void handlePrivateXMLResult(
-                const std::string &uid,
-                gloox::PrivateXMLHandler::PrivateXMLResult pxResult);
+            void declineSubscription(const std::string &rawJid) const;
 
 /*}}}*/
 
@@ -321,9 +335,20 @@ namespace Control
 /*}}}*/
 
         private:
-            //gloox::ClientBase *_client;/*{{{*/
+            //void _checkClient() const;/*{{{*/
+            /// Check if there is a client. Throw an exception if not.
+            void _checkClient() const;
+
+/*}}}*/
+            //const gloox::JID &_generateJid(const string &raw) const;/*{{{*/
+            /// Generate a jid from a raw string. Throw exception on error.
+            const gloox::JID &_generateJid(const std::string &raw) const;
+
+/*}}}*/
+
+            //gloox::Client &_client;/*{{{*/
             /// The client object this roster is bound to.
-            gloox::ClientBase *_client;
+            gloox::Client &_client;
 
 /*}}}*/
             //contactList _contacts;/*{{{*/

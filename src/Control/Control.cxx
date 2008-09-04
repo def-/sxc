@@ -23,11 +23,14 @@
 // INCLUDE/*{{{*/
 
 #include <string>
+#include <pthread.h>
 
 #include <gloox/jid.h>
 #include <gloox/presence.h>
 #include <gloox/clientbase.h>
 #include <gloox/message.h>
+#include <gloox/disco.h>
+#include <gloox/error.h>
 
 #include <libsxc/Exception/Exception.hxx>
 
@@ -46,42 +49,65 @@
 
 /*}}}*/
 
+#include <iostream>
 
 namespace Control
 {
-    Control::Control()/*{{{*/
-    : _client(NULL),
-      _roster(NULL)
+    Control::Control(/*{{{*/
+        const gloox::JID &jid,
+        int port,
+        const std::string &name,
+        const std::string &version)
+    : _client(jid, "", port), // Fill in the passphrase later.
+      _roster(_client)
     // FIXME
-    //  _input(NULL),
-    //  _output(NULL)
+    //  _output(this, jid.bare()),
+    //  _input(this, jid.bare())
     {
+        _client.registerConnectionListener(this);
+
+        // Up to this point there were two roster managers registered with the
+        // client, but gloox is capable of handling this.
+        _client.disableRoster();
+
+        // "console" is not exactly what sxc is, but "pc" is described as a
+        // full-featured GUI.
+        const std::string category = "client";
+        const std::string type = "console";
+#       if DEBUG
+            printLog(
+                "Set identity: (category: \"" + category + "\", type: \"" +
+                type + "\", name: \"" + name + "\").");
+#       endif
+        _client.disco()->setIdentity(category, type, name);
+#       if DEBUG
+            printLog(
+                "Set version: (name: \"" + name + "\", version: \"" +
+                version + "\").");
+#       endif
+        _client.disco()->setVersion(name, version);
+    }/*}}}*/
+    Control::~Control()/*{{{*/
+    {
+#       if DEBUG
+            printLog("Destructing Control::Control");
+#       endif
+        _client.disconnect();
     }/*}}}*/
 
-    void Control::initialize(const gloox::JID newJid, int newPort)/*{{{*/
+    void Control::setPassphrase(const std::string &pass)/*{{{*/
     {
-        _jid = newJid;
-        _port = newPort;
-
-        // FIXME
-        //_output = File::Output(this, jid.bare());
-        //_input = File::Input(this, jid.bare());
+#       if DEBUG
+            printLog("Set passphrase: \"" + pass + "\".");
+#       endif
+        _client.setPassword(pass);
     }/*}}}*/
-
-    bool Control::setPassword(std::string newPassword)/*{{{*/
-    {
-        if (_password.empty()) // Empty passwords not allowed in XMPP.
-            return false;
-        _password = newPassword;
-        return true;
-    }/*}}}*/
-
-    bool Control::setPresence(/*{{{*/
+    void Control::setPresence(/*{{{*/
         gloox::Presence::PresenceType presence,
         int priority,
         const std::string &status)
     {
-#       if DEBUG
+#       if DEBUG/*{{{*/
             std::string presenceStr;
             switch (presence) {
             case gloox::Presence::Available:
@@ -114,92 +140,40 @@ namespace Control
             default:
                 presenceStr = "Unknown";
             }
-            std::stringstream priorityStr;
-            priorityStr << priority;
-            printLog(
-                "Setting the presence to " + presenceStr + " (Priority: " +
-                priorityStr.str() + ", Message: " + status +")");
-#       endif
+            std::stringstream text;
+            text << "Set presence: (\"" << presenceStr << "\" (" << presence << "), priority: " << priority << ", message: \"" << status << "\").";;
+            printLog(text.str());
+#       endif/*}}}*/
 
-        bool doConnect = false;
+        _client.setPresence(presence, priority, status);
 
-        if (!_client) {
-            _client = new gloox::Client(_jid, _password, _port);
-            _client->registerConnectionListener(this);
-            // FIXME: Does this work or do we need an own client class?
-            _client->disableRoster();
-            _roster = new Roster(_client);
-            // Only establish a connection if there is no client object. (first
-            // presence change)
-            doConnect = true;
+        // Don't connect if already connected or connecting.
+        if (gloox::StateDisconnected == _client.state()) {
+            pthread_create(&_thread, NULL, _run, (void*)this);
         }
-        _client->setPresence(presence, priority, status);
-        // FIXME: Thread or non-blocking?
-        if (doConnect) _client->connect();
-
-        // TODO: Return false
-        return true;
     }/*}}}*/
-
-    bool Control::sendMessage(std::string to, std::string body) const/*{{{*/
+    void Control::setPresence(/*{{{*/
+        gloox::Presence::PresenceType presence,
+        const std::string &status)
     {
-        if (!_client)
-            return false;
-        gloox::JID toJid(to); // FIXME: Check for valid jid?
-        gloox::Message message(
-            gloox::Message::Normal, // or gloox::Chat?
-            toJid,
-            body);
-        _client->send(message);
-        return true;
+        setPresence(presence, _client.priority(), status);
     }/*}}}*/
-
+    void Control::sendMessage(/*{{{*/
+        const gloox::JID &to,
+        const std::string &body)
+    {
+        gloox::Message message(
+            gloox::Message::Normal, // Not Chat.
+            to,
+            body);
+        _client.send(message);
+    }/*}}}*/
     void Control::handleMessage(/*{{{*/
         const gloox::Message &msg,
         gloox::MessageSession *session)
     {
         // FIXME
         //print(session->target()->full() + ": " + msg.body());
-    }/*}}}*/
-
-    bool addContact(/*{{{*/
-        std::string jid,
-        std::string message = gloox::EmptyString)
-    {
-        //if (!_roster)
-        //    return false;
-        gloox::JID jidJid(jid); // FIXME: Check for valid jid?
-        // FIXME: Implement groups?
-        gloox::StringList groups;
-        // FIXME
-        //_roster->add(jidJid, jid, groups);
-        return true;
-    }/*}}}*/
-
-    bool ackSubscription(std::string jid, bool ack)/*{{{*/
-    {
-        //if (!_roster)
-        //    return false;
-        gloox::JID jidJid(jid); // FIXME: Check for valid jid?
-        // FIXME
-        //_roster->ackSubscriptionRequest(jid, ack);
-        return true;
-    }/*}}}*/
-
-    bool removeContact(std::string jid)/*{{{*/
-    {
-        //if (!_roster)
-        //    return false;
-        gloox::JID jidJid(jid); // FIXME: Check for valid jid?
-        //_roster->remove(jidJid);
-        // FIXME
-        return true;
-    }/*}}}*/
-
-    void Control::print(std::string text) const/*{{{*/
-    {
-        // FIXME
-        //_output->write(text);
     }/*}}}*/
 
     void Control::handleError(/*{{{*/
@@ -213,9 +187,15 @@ namespace Control
         print(e.getDescription());
     }/*}}}*/
 
-    gloox::Client *Control::getClient() const/*{{{*/
+    void Control::print(std::string text) const/*{{{*/
     {
-        return _client;
+        // FIXME
+        //_output->write(text);
+    }/*}}}*/
+
+    Roster &Control::getRoster()/*{{{*/
+    {
+        return _roster;
     }/*}}}*/
 
     void Control::onConnect()/*{{{*/
@@ -224,21 +204,40 @@ namespace Control
             printLog("Connection established.");
 #       endif
     }/*}}}*/
-
     void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
     {
-        std::string text = generateErrorText(
+        std::string text = "Disconnected: " + generateErrorText(
             e,
-            _client->streamError(),
-            _client->streamErrorText(),
-            _client->authError());
+            _client.streamError(),
+            _client.streamErrorText(),
+            _client.authError());
         if (!text.empty())
             print(text);
+#       if DEBUG
+            printLog(text);
+#       endif
+        //FIXME: Decide whether to reconnect and restart _run or not.
     }/*}}}*/
-
     bool Control::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
     {
+#       if DEBUG
+            printLog("Acknowledge TLS certificate.");
+#       endif
         return true;
+    }/*}}}*/
+
+    void *Control::_run(void *rawThat)/*{{{*/
+    {
+#       if DEBUG
+            printLog("Start socket receiving thread.");
+#       endif
+
+        Control *that = (Control *) rawThat;
+        that->_client.connect(); // Blocking.
+
+#       if DEBUG
+            printLog("End socket receiving thread.");
+#       endif
     }/*}}}*/
 }
 

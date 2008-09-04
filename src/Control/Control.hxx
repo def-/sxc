@@ -39,7 +39,6 @@
 
 #include <libsxc/Exception/Exception.hxx>
 
-#include <Singleton.hxx>
 #include <Control/Roster.hxx>
 
 /*}}}*/
@@ -55,53 +54,47 @@ namespace Control
      *
      * This class initializes sxc's main input and output files, handles
      * input and errors.
-     *
-     * @note As this class is a singleton you can use it from anywhere.
-     *       @code
-     *       Control::Control::get().print("foobar");
-     *       @endcode
      */
     class Control : public
-        Singleton<Control>,
         gloox::ConnectionListener,
         gloox::MessageHandler
     {
         public:
-            //Control();/*{{{*/
+            //Control(JID &jid, int port, string &name, string &version);/*{{{*/
 
             /**
-             * @brief The constructor
-             *
-             * Initializes the values
-             */
-            Control();
-
-/*}}}*/
-
-            //void initialize(const gloox::JID jid, int port=-1);/*{{{*/
-
-            /**
-             * @brief Save the JID and the port and initialize the control
-             *        files.
+             * @brief The constructor.
              *
              * Create new instances of @ref File::Input, and @ref File::Output.
              * Also save the parameters to be able to use them when connecting
-             * to the server on a call to @ref setPresence().
-             *
-             * @note Does not connect to the server, see @ref _setPresence()
-             *       for that.
+             * to the server on a call to @ref setPresence(). Create a client,
+             * but don't connect to the server.
              *
              * @warning The parameters won't be checked for validity.
              *
-             * @param newJid A valid JID.
-             * @param newPort The port on the server to connect to. -1 to use
+             * @param jid A valid JID.
+             * @param port The port on the server to connect to. -1 to use
              *        the default one.
+             * @param name The name to announce.
+             * @param version The version to announce.
              */
-            void initialize(const gloox::JID newJid, int newPort=-1);
+            Control(
+                const gloox::JID &jid,
+                int port,
+                const std::string &name,
+                const std::string &version);
+
+/*}}}*/
+            //~Control();/*{{{*/
+
+            /**
+             * @brief The destructor.
+             */
+            ~Control();
 
 /*}}}*/
 
-            //bool setPassword(std::string newPassword);/*{{{*/
+            //void setPassphrase(const std::string &pass);/*{{{*/
 
             /**
              * @brief Set the password to a given string.
@@ -115,30 +108,42 @@ namespace Control
              * @return True when not connected to the server or when the server
              *         accepts the new password, else false.
              */
-            bool setPassword(std::string newPassword);
+            void setPassphrase(const std::string &pass);
 
 /*}}}*/
-            //bool setPresence(presence, priority, status=EmptyString);/*{{{*/
+            //bool setPresence(presence, priority, status=Empty);/*{{{*/
 
             /**
              * @brief Set the presence.
              *
-             * Set the user's presence and immediately send it out. Create the
-             * @ref gloox::Client first if not existing, but password provided.
+             * Set the user's presence and immediately send it out.
              *
-             * @param presence The presence type. @ref
-             *        gloox::Presence::PresenceType
+             * @param presence The presence type
              * @param priority The priority ranging from -128 to 127.
              * @param status A message describing the status.
-             * @return Whether it was possible to set the presence.
              */
-            bool setPresence(
+            void setPresence(
                 gloox::Presence::PresenceType presence,
-                int priority=0,
+                int priority,
                 const std::string &status=gloox::EmptyString);
 
 /*}}}*/
-            //bool sendMessage(std::string to, std::string body) const;/*{{{*/
+            //bool setPresence(presence, string status=EmptyString);/*{{{*/
+
+            /**
+             * @brief Set the presence.
+             *
+             * This method does not alter the priority.
+             *
+             * @param presence The presence type.
+             * @param status A message describing the status.
+             */
+            void setPresence(
+                gloox::Presence::PresenceType presence,
+                const std::string &status=gloox::EmptyString);
+
+/*}}}*/
+            //void sendMessage(const gloox::JID &to, const string &body);/*{{{*/
 
             /**
              * @brief Send a text message to a user.
@@ -146,79 +151,16 @@ namespace Control
              * This function sends a given message to a recipant, whether he is
              * on the roster or not.
              *
-             * @param to A string representing the JID of the recipant.
+             * @note This message sends a "normal", not a "chat" message. Use
+             *       @ref Contact::Contact for "chat" messages.
+             *
+             * @param to The JID of the recipant.
              * @param body The message to be transmitted.
              * @return Whether it was possible to send the message.
              */
-            bool sendMessage(std::string to, std::string body) const;
+            void sendMessage(const gloox::JID &to, const std::string &body);
 
 /*}}}*/
-            //bool addContact(string jid, string message=EmptyString)/*{{{*/
-
-            /**
-             * @brief Add a contact to the roster
-             *
-             * This function adds a contact to the roster and optionally sends
-             * him a message to ask for the permission to see his presence.
-             *
-             * @param jid The JID to add to the roster.
-             * @param message The message to send to the JID to ask for
-             *        permission.
-             * @return Whether the JID is valid.
-             */
-            bool addContact(
-                std::string jid,
-                std::string message=gloox::EmptyString) const;
-
-/*}}}*/
-            //bool ackSubscription(std::string jid, bool ack) const;/*{{{*/
-
-            /**
-             * @brief Acknowledge or decline a subscription request.
-             *
-             * When a user adds you to your roster and wants to see your
-             * presence, he has to send you a request. This function
-             * acknowledges or declines this request and thereby grants the
-             * user to see your presence.
-             *
-             * @param jid A string representing the JID of the user.
-             * @param ack Whether to acknowledge or to decline.
-             * @return Whether the JID is valid.
-             */
-            bool ackSubscription(std::string jid, bool ack) const;
-
-/*}}}*/
-            //bool removeContact(std::string jid) const;/*{{{*/
-
-            /**
-             * @brief Remove a contact from the roster.
-             *
-             * This function removes a contact from the roster and disallows
-             * him to see your presence.
-             *
-             * @param jid A string representing the JID of the contact.
-             * @return Whether the JID is valid.
-             */
-            bool removeContact(std::string jid) const;
-
-/*}}}*/
-
-            //void handleError(Exception &e, isCritical=false) const;/*{{{*/
-
-            /**
-             * @brief Handle an error that happened inside sxc.
-             *
-             * @param e The @ref Exception object that contains more
-             *        information.
-             * @param isCritical Whether sxc cannot run anymore because of this
-             *        error and has to be closed.
-             */
-            void handleError(
-                libsxc::Exception::Exception &e,
-                bool isCritical=false) const;
-
-/*}}}*/
-
             //void handleMessage(Message &msg, session=0);/*{{{*/
 
             /**
@@ -239,6 +181,22 @@ namespace Control
 
 /*}}}*/
 
+            //void handleError(Exception &e, isCritical=false) const;/*{{{*/
+
+            /**
+             * @brief Handle an error that happened inside sxc.
+             *
+             * @param e The @ref Exception object that contains more
+             *        information.
+             * @param isCritical Whether sxc cannot run anymore because of this
+             *        error and has to be closed.
+             */
+            void handleError(
+                libsxc::Exception::Exception &e,
+                bool isCritical=false) const;
+
+/*}}}*/
+
             //int print(std::string text) const;/*{{{*/
 
             /**
@@ -252,12 +210,13 @@ namespace Control
             void print(std::string text) const;
 
 /*}}}*/
-            //gloox::Client *getClient() const;/*{{{*/
+
+            //Roster &getRoster();/*{{{*/
 
             /**
-             * @brief Get the client object.
+             * @brief Get a reference to the roster manager.
              */
-            gloox::Client *getClient() const;
+            Roster &getRoster();
 
 /*}}}*/
 
@@ -279,6 +238,19 @@ namespace Control
              * @param e The error which caused the disconnect.
              */
             void onDisconnect(gloox::ConnectionError e);
+
+/*}}}*/
+            //bool onTLSConnect(const gloox::CertInfo &info);/*{{{*/
+
+            /**
+             * @brief This function is called when the connection was secured.
+             *
+             * @note Returning false terminates the connection.
+             *
+             * @param info Comprehensive information on the certificate.
+             * @return Whether credentials are accepted.
+             */
+            bool onTLSConnect(const gloox::CertInfo &info);
 
 /*}}}*/
             //void onResourceBind(const std::string &resource);/*{{{*/
@@ -313,19 +285,6 @@ namespace Control
             void onSessionCreateError(const gloox::Error *error);
 
 /*}}}*/
-            //bool onTLSConnect(const gloox::CertInfo &info);/*{{{*/
-
-            /**
-             * @brief This function is called when the connection was secured.
-             *
-             * @note Returning false terminates the connection.
-             *
-             * @param info Comprehensive information on the certificate.
-             * @return Whether credentials are accepted.
-             */
-            bool onTLSConnect(const gloox::CertInfo &info);
-
-/*}}}*/
             //void onStreamEvent(gloox::StreamEvent event);/*{{{*/
 
             /**
@@ -341,46 +300,45 @@ namespace Control
 /*}}}*/
 
         private:
-            //gloox::JID _jid;/*{{{*/
+            //static void *_run(void *rawThat);/*{{{*/
 
-            /// The JID, stored to initialize the Client with.
-            gloox::JID _jid;
-
-/*}}}*/
-            //int _port;/*{{{*/
-
-            /// The server's port, stored to initialize the Client with.
-            int _port;
-
-/*}}}*/
-            //std::string _password;/*{{{*/
-
-            /// The password of the JID.
-            std::string _password;
+            /**
+             * @brief Receive socket updates.
+             *
+             * This function receives data from the socket. It runs until the
+             * connection is closed.
+             *
+             * @param rawThat Pointer to this. Isn't pthread great?
+             */
+            static void *_run(void *rawThat);
 
 /*}}}*/
+
+            pthread_t _thread;
+
             //gloox::Client _client;/*{{{*/
 
             /// The XMPP client.
-            gloox::Client *_client;
+            gloox::Client _client;
 
 /*}}}*/
-            //const Roster _roster;/*{{{*/
+            //Roster _roster;/*{{{*/
 
             /// The roster operation listener.
-            const Roster *_roster;
+            Roster _roster;
 
 /*}}}*/
-            //const Control::File::Input _input;/*{{{*/
+
+            //const File::Input _input;/*{{{*/
 
             /// The input file.
-            //const Control::File::Input _input;
+            //const File::Input _input;
 
 /*}}}*/
-            //const Control::File::Output _output;/*{{{*/
+            //const File::Output _output;/*{{{*/
 
             /// The output file.
-            //const Control::File::Output _output;
+            //const File::Output _output;
 
 /*}}}*/
     };

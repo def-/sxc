@@ -29,10 +29,11 @@
 #include <deque>
 #include <map>
 
-#include <Control/Control.hxx>
 #include <Control/Command/Command.hxx>
 #include <Exception/InputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
+#include <Control/Control.hxx>
+#include <Control/Roster.hxx>
 
 /*}}}*/
 
@@ -44,8 +45,9 @@ namespace Control
 {
     namespace Command
     {
-        Command::Command(const std::string &command)/*{{{*/
-        : AbcCommandParser(command)
+        Command::Command(Control &control, const std::string &command)/*{{{*/
+        : AbcCommandParser(command),
+          _control(control)
         {
         }
 
@@ -80,20 +82,17 @@ namespace Control
             const std::deque<std::string> parsed = getParsed();
             const std::string name = parsed.at(0);
 
-            Control control = Control::get();
+            Roster roster = _control.getRoster();
 
             if ("ack" == name) {
-                control.ackSubscription(parsed.at(1), true);
+                roster.acknowledgeSubscription(parsed.at(1));
             } else if ("add" == name) {
                 // TODO Can be optimized.
-                if (3 == parsed.size())
-                    control.addContact(parsed.at(1), parsed.at(2));
-                else
-                    control.addContact(parsed.at(1));
+                roster.addContact(parsed.at(1));
             } else if ("del" == name) {
-                control.removeContact(parsed.at(1));
+                roster.removeContact(parsed.at(1));
             } else if ("msg" == name) {
-                control.sendMessage(parsed.at(1), parsed.at(2));
+                _control.sendMessage(parsed.at(1), parsed.at(2));
             } else if ("pgp" == name) {
                 const std::string action = parsed.at(1);
                 // FIXME add pgp
@@ -111,17 +110,17 @@ namespace Control
                 // FIXME add pgp
                 throw Exception::InputException(libsxc::Exception::General, "Unimplemented.");
             } else if ("pwd" == name) {
-                control.setPassword(parsed.at(1));
+                _control.setPassphrase(parsed.at(1));
             } else if ("set" == name) {
-                // FIXME change Control:setPresence to not expect priority
-                // control.setPresence(
-                throw Exception::InputException(libsxc::Exception::General, "Unimplemented.");
+                // FIXME
+                //if (3 == parsed.size())
+                //    _control.setPresence(parsed.at(1), parsed.at(2));
+                //else
+                //    _control.setPresence(parsed.at(1), parsed.at(2), parsed.at(3));
             } else if ("sub" == name) {
-                // FIXME: Control should get a method getRoster()
-                throw Exception::InputException(libsxc::Exception::General, "Unimplemented.");
+                roster.subscribe(parsed.at(1), parsed.at(2));
             } else if ("usc" == name) {
-                // FIXME: Control should get a method getRoster()
-                throw Exception::InputException(libsxc::Exception::General, "Unimplemented.");
+                roster.unsubscribe(parsed.at(1), parsed.at(2));
             } else {
                 libsxc::Exception::Type t = libsxc::Exception::InvalidCommand;
                 std::string message = "Unknown name: " + name;
