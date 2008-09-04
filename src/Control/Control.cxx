@@ -238,6 +238,8 @@ namespace Control
 #       if DEBUG
             printLog("End socket receiving thread.");
 #       endif
+
+        return (void *) NULL;
     }/*}}}*/
 }
 
