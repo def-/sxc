@@ -6,9 +6,9 @@ Control:
 :msg <jid> <text>
 :pgp enc|dec|sig|chk <command>
 :pwd <password>
-# Priority at the beginning as it would be indistinguishable from the message.
-:set [<priority>] available|chat|away|busy|xaway|invisible [<message>]
+:set available|chat|away|busy|xaway|invisible [<message>]
 :set offline
+:pri <priority>
 # Implies ":add"
 :sub <jid> [<message>]
 # Implies ":del"
