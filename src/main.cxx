@@ -82,11 +82,11 @@ int main(int argc, char *argv[])/*{{{*/
     libsxc::Option::OptionPort port(
         &parser, 'p', "port", "port", "0 - 65535, -1 for default");
     libsxc::Option::Option<std::string> name(
-        &parser, 'n', "name", "name",
-        std::string("Name (default: ") + PACKAGE + ")", PACKAGE);
+        &parser, ' ', "iqname", "name",
+        std::string("Name to announce (default: ") + PACKAGE + ")", PACKAGE);
     libsxc::Option::Option<std::string> version(
-        &parser, 'v', "version", "version",
-        std::string("Version (default: ") + VERSION + ")", VERSION);
+        &parser, ' ', "iqversion", "version",
+        std::string("Version to announce (default: ") + VERSION + ")", VERSION);
     libsxc::Option::Option<gloox::JID> jid(
         &parser, ' ', "", "jid", "user@domain[/resource]");
 
