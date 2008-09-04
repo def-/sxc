@@ -28,7 +28,10 @@
 // INCLUDE/*{{{*/
 
 #include <string>
-#include <sstream>
+
+#include <sys/signal.h>
+#include <sigc++/adaptors/bind.h>
+
 #include <gloox/jid.h>
 
 #include <libsxc/Option/Parser.hxx>
@@ -37,6 +40,7 @@
 #include <libsxc/Exception/Exception.hxx>
 
 #include <Control/Control.hxx>
+#include <SignalHandler.hxx>
 #include <print.hxx>
 
 #ifdef HAVE_CONFIG_H
@@ -46,6 +50,7 @@
 /*}}}*/
 
 #include <gloox/presence.h>
+#include <iostream>
 
 /**
  * @mainpage sxc Documentation
@@ -59,6 +64,10 @@
  * and can be controlled with basic command line tools to read from / write
  * into the files/FIFOs sxc creates.
  */
+
+void dummy()
+{
+}
 
 /**
  * @author Dennis Felsing
@@ -97,6 +106,8 @@ int main(int argc, char *argv[])/*{{{*/
         return e.getType();
     }
 
+    SignalHandler::setHandler(SIGINT, sigc::ptr_fun(&dummy));
+
     Control::Control control(
         jid.getValue(),
         port.getValue(),
@@ -104,7 +115,7 @@ int main(int argc, char *argv[])/*{{{*/
         version.getValue());
     //control.setPassphrase("test");
     //control.setPresence(gloox::Presence::Available);
-    pause();
+    pause(); // Wait until a signal is received and its handler returns.
 
     return 0;
 }/*}}}*/
