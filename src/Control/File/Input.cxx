@@ -41,38 +41,37 @@ namespace Control
 {
     namespace File
     {
-        Input::Input(const std::string &accountName)/*{{{*/
-        : _accountName(accountName)
+        Input::Input(Control &control, const std::string &accountName)/*{{{*/
+        : _control(control),
+          _accountName(accountName)
         {
             initialize();
         }
 
         /*}}}*/
-        std::string Input::_createPath()/*{{{*/
+        std::string Input::_createPath() const/*{{{*/
         {
             return _accountName + "/in";
         }
 
         /*}}}*/
-        void Input::_handleInput(const std::string &input) const/*{{{*/
+        void Input::_handleInput(const std::string &input)/*{{{*/
         {
-            // FIXME HARD!
-            //Control control = Control::get();
-            //try {
-            //    Command::Command command(input);
-            //    command.execute();
-            //} catch (Exception::InputException &e) {
-            //    // Just an invalid input, nothing serious.
-            //    control.handleError(e);
-            //} catch (libsxc::Exception::Exception &e) {
-            //    // This may be something more serious.
-            //    // TODO: Fix handleError() to make use of stderr
-            //    control.handleError(e);
-            //} catch (std::exception &e) {
-            //    // This is *really* unexpected.
-            //    printErr(e.what());
-            //    control.print(e.what());
-            //}
+            try {
+                Command::Command command(_control, input);
+                command.execute();
+            } catch (Exception::InputException &e) {
+                // Just an invalid input, nothing serious.
+                _control.handleError(e);
+            } catch (libsxc::Exception::Exception &e) {
+                // This may be something more serious.
+                // TODO: Fix handleError() to make use of stderr
+                _control.handleError(e);
+            } catch (std::exception &e) {
+                // This is *really* unexpected.
+                printErr(e.what());
+                _control.print(e.what());
+            }
         }
 
         /*}}}*/

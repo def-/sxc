@@ -36,6 +36,7 @@
 
 #include <Control/Control.hxx>
 #include <Control/Roster.hxx>
+#include <Control/File/Input.hxx>
 #include <generateErrorText.hxx>
 #include <print.hxx>
 
@@ -59,10 +60,10 @@ namespace Control
         const std::string &name,
         const std::string &version)
     : _client(jid, "", port), // Fill in the passphrase later.
-      _roster(_client)
+      _roster(_client),
     // FIXME
     //  _output(this, jid.bare()),
-    //  _input(this, jid.bare())
+      _input(*this, jid.bare())
     {
         _client.registerConnectionListener(this);
 

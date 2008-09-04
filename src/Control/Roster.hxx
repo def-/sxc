@@ -72,7 +72,7 @@ namespace Control
 
 /*}}}*/
 
-            //void addContact(const std::string &rawJid) const;/*{{{*/
+            //void addContact(const gloox::JID &jid) const;/*{{{*/
 
             /**
              * @brief Add contact to the roster.
@@ -80,25 +80,25 @@ namespace Control
              * @note This method does not send a subscription request, use @ref
              *       subscribe() if you want to see the contact's status.
              *
-             * @param rawJid The JID to add to the roster.
+             * @param jid The JID to add to the roster.
              */
-            void addContact(const std::string &rawJid) const;
+            void addContact(const gloox::JID &jid) const;
 
 /*}}}*/
-            //void removeContact(const std::string &rawJid) const;/*{{{*/
+            //void removeContact(const gloox::JID &jid) const;/*{{{*/
 
             /**
              * @brief Remove a contact from the roster.
              *
              * @note This function unsubscribes implicetely.
              *
-             * @param rawJid The JID of the contact to remove.
+             * @param jid The JID of the contact to remove.
              */
-            void removeContact(const std::string &rawJid) const;
+            void removeContact(const gloox::JID &jid) const;
 
 /*}}}*/
 
-            //void subscribe(string &rawJid, &message=EmptyString) const;/*{{{*/
+            //void subscribe(const JID &jid, &message=EmptyString) const;/*{{{*/
 
             /**
              * @brief Send a subscription request.
@@ -108,15 +108,15 @@ namespace Control
              * contact to the roster automatically, so there is no need to call
              * @ref addContact().
              *
-             * @param rawJid The JID to subscribe to for presence updates.
+             * @param jid The JID to subscribe to for presence updates.
              * @param message The message to send along.
              */
             void subscribe(
-                const std::string &rawJid,
+                const gloox::JID &jid,
                 const std::string &message=gloox::EmptyString) const;
 
 /*}}}*/
-            //void unsubscribe(string &rawJid, &message=Empty) const;/*{{{*/
+            //void unsubscribe(const JID &jid, &message=Empty) const;/*{{{*/
 
             /**
              * @brief Unsubscribe from a contact.
@@ -124,16 +124,16 @@ namespace Control
              * This method sends an unsubscription request to the contact. So
              * the contact will no longer receive presence updates from you.
              *
-             * @param rawJid The JID to unsubscribe from.
+             * @param jid The JID to unsubscribe from.
              * @param message The message to send along.
              */
             void unsubscribe(
-                const std::string &rawJid,
+                const gloox::JID &jid,
                 const std::string &message=gloox::EmptyString) const;
 
 /*}}}*/
 
-            //void acknowledgeSubscription(const string &rawJid) const;/*{{{*/
+            //void acknowledgeSubscription(const gloox::JID &jid) const;/*{{{*/
 
             /**
              * @brief Acknowlodge a subscription request.
@@ -141,19 +141,19 @@ namespace Control
              * This method adds the user to the list of contacts to send
              * presence updates to.
              *
-             * @param rawJid The JID.
+             * @param jid The JID.
              */
-            void acknowledgeSubscription(const std::string &rawJid) const;
+            void acknowledgeSubscription(const gloox::JID &jid) const;
 
 /*}}}*/
-            //void declineSubscription(const std::string &rawJid) const;/*{{{*/
+            //void declineSubscription(const gloox::JID &jid) const;/*{{{*/
 
             /**
              * @brief Decline a subscription request.
              *
-             * @param rawJid The JID.
+             * @param jid The JID.
              */
-            void declineSubscription(const std::string &rawJid) const;
+            void declineSubscription(const gloox::JID &jid) const;
 
 /*}}}*/
 

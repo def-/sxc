@@ -82,7 +82,7 @@ namespace Control
             const std::deque<std::string> parsed = getParsed();
             const std::string name = parsed.at(0);
 
-            Roster roster = _control.getRoster();
+            Roster &roster = _control.getRoster();
 
             if ("ack" == name) {
                 roster.acknowledgeSubscription(parsed.at(1));
@@ -108,7 +108,8 @@ namespace Control
                     throw Exception::InputException(type, message);
                 }
                 // FIXME add pgp
-                throw Exception::InputException(libsxc::Exception::General, "Unimplemented.");
+                throw Exception::InputException(
+                    libsxc::Exception::General, "Unimplemented.");
             } else if ("pwd" == name) {
                 _control.setPassphrase(parsed.at(1));
             } else if ("set" == name) {

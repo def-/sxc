@@ -115,6 +115,7 @@ int main(int argc, char *argv[])/*{{{*/
         version.getValue());
     //control.setPassphrase("test");
     //control.setPresence(gloox::Presence::Available);
+    //control.getRoster().addContact("folibar@boo");
     pause(); // Wait until a signal is received and its handler returns.
 
     return 0;

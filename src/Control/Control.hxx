@@ -40,6 +40,7 @@
 #include <libsxc/Exception/Exception.hxx>
 
 #include <Control/Roster.hxx>
+#include <Control/File/Input.hxx>
 
 /*}}}*/
 
@@ -332,7 +333,7 @@ namespace Control
             //const File::Input _input;/*{{{*/
 
             /// The input file.
-            //const File::Input _input;
+            const File::Input _input;
 
 /*}}}*/
             //const File::Output _output;/*{{{*/

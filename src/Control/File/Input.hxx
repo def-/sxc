@@ -24,12 +24,16 @@
 // INCLUDES/*{{{*/
 
 #include <string>
+
 #include <File/AbcInput.hxx>
+#include <Control/Control.hxx>
 
 /*}}}*/
 
 namespace Control
 {
+    class Control;
+
     namespace File
     {
         /**
@@ -43,14 +47,15 @@ namespace Control
         class Input : public ::File::AbcInput
         {
             public:
-                // Input(const std::string &accountName);/*{{{*/
+                // Input(Control &control, const string &accountName);/*{{{*/
 
                 /**
                  * @brief Initializes the object.
                  *
+                 * @param control The Control object.
                  * @param accountName Name of the Jabber account.
                  */
-                Input(const std::string &accountName);
+                Input(Control &control, const std::string &accountName);
 
 /*}}}*/
 
@@ -89,6 +94,12 @@ namespace Control
                  * @param input Something that has been written into the FIFO.
                  */
                 void _handleInput(const std::string &input);
+
+/*}}}*/
+
+                //Control &_control;/*{{{*/
+                /// The control object.
+                Control &_control;
 
 /*}}}*/
         };

@@ -48,54 +48,54 @@ namespace Control
     {
     }/*}}}*/
 
-    void Roster::addContact(const std::string &rawJid) const/*{{{*/
+    void Roster::addContact(const gloox::JID &jid) const/*{{{*/
     {
         _checkClient();
-        const gloox::JID &jid = _generateJid(rawJid);
 
 #       ifdef DEBUG
-            printLog("Add " + rawJid + " to the roster.");
+            printLog("Add " + jid.bare() + " to the roster.");
 #       endif
 
         const gloox::StringList groups;
         _client.rosterManager()->add(jid, jid.bare(), groups);
     }/*}}}*/
-    void Roster::removeContact(const std::string &rawJid) const/*{{{*/
+    void Roster::removeContact(const gloox::JID &jid) const/*{{{*/
     {
         _checkClient();
-        const gloox::JID &jid = _generateJid(rawJid);
 
 #       ifdef DEBUG
-            printLog("Remove " + rawJid + " from the roster.");
+            printLog("Remove " + jid.bare() + " from the roster.");
 #       endif
 
         _client.rosterManager()->remove(jid);
     }/*}}}*/
 
     void Roster::subscribe(/*{{{*/
-        const std::string &rawJid,
+        const gloox::JID &jid,
         const std::string &message) const
     {
         _checkClient();
-        const gloox::JID &jid = _generateJid(rawJid);
 
 #       ifdef DEBUG
-            printLog("Sending subscription request to " + rawJid);
+            printLog("Sending subscription request to " + jid.bare());
 #       endif
 
         _client.rosterManager()->remove(jid);
     }/*}}}*/
     void Roster::unsubscribe(/*{{{*/
-        const std::string &rawJid,
+        const gloox::JID &jid,
         const std::string &message) const
     {
+        // FIXME
     }/*}}}*/
 
-    void Roster::acknowledgeSubscription(const std::string &rawJid) const/*{{{*/
+    void Roster::acknowledgeSubscription(const gloox::JID &jid) const/*{{{*/
     {
+        // FIXME
     }/*}}}*/
-    void Roster::declineSubscription(const std::string &rawJid) const/*{{{*/
+    void Roster::declineSubscription(const gloox::JID &jid) const/*{{{*/
     {
+        // FIXME
     }/*}}}*/
 
     void Roster::handleItemAdded(const gloox::JID &jid)/*{{{*/
