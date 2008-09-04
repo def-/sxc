@@ -23,6 +23,7 @@
 // INCLUDE/*{{{*/
 
 #include <stdexcept>
+#include <sstream>
 
 #include <sys/signal.h>
 #include <sigc++/sigc++.h>
@@ -32,10 +33,6 @@
 
 #ifdef HAVE_CONFIG_H
 #   include <config.hxx>
-#endif
-
-#ifdef DEBUG
-#   include <sstream>
 #endif
 
 /*}}}*/
