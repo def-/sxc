@@ -144,6 +144,28 @@ namespace Control
                 const std::string &status=gloox::EmptyString);
 
 /*}}}*/
+            //void setPriority(int priority);/*{{{*/
+
+            /**
+             * @brief Set the priority.
+             *
+             * This function sets the priority without altering the other
+             * presence data.
+             *
+             * @param priority The new priority to set to.
+             */
+            void setPriority(int priority);
+
+/*}}}*/
+            //void disconnect();
+
+            /**
+             * @brief Close the connection to the server.
+             */
+            void disconnect();
+
+
+
             //void sendMessage(const gloox::JID &to, const string &body);/*{{{*/
 
             /**
@@ -330,16 +352,16 @@ namespace Control
 
 /*}}}*/
 
-            //const File::Input _input;/*{{{*/
+            //File::Input _input;/*{{{*/
 
             /// The input file.
-            const File::Input _input;
+            File::Input _input;
 
 /*}}}*/
-            //const File::Output _output;/*{{{*/
+            //File::Output _output;/*{{{*/
 
             /// The output file.
-            //const File::Output _output;
+            //File::Output _output;
 
 /*}}}*/
     };

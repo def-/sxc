@@ -87,13 +87,15 @@ namespace Control
                 version + "\").");
 #       endif
         _client.disco()->setVersion(name, version);
+
+        _input.listen();
     }/*}}}*/
     Control::~Control()/*{{{*/
     {
 #       if DEBUG
-            printLog("Destructing Control::Control");
+            printLog("Exit.");
 #       endif
-        _client.disconnect();
+        disconnect();
     }/*}}}*/
 
     void Control::setPassphrase(const std::string &pass)/*{{{*/
@@ -150,7 +152,10 @@ namespace Control
 
         // Don't connect if already connected or connecting.
         if (gloox::StateDisconnected == _client.state()) {
-            pthread_create(&_thread, NULL, _run, (void*)this);
+            if ("" == _client.password())
+                print("Password not set.");
+            else
+                pthread_create(&_thread, NULL, _run, (void*)this);
         }
     }/*}}}*/
     void Control::setPresence(/*{{{*/
@@ -158,6 +163,18 @@ namespace Control
         const std::string &status)
     {
         setPresence(presence, _client.priority(), status);
+    }/*}}}*/
+    void Control::setPriority(int priority)/*{{{*/
+    {
+        gloox::Presence &pres = _client.presence();
+        setPresence(pres.presence(), priority, pres.status());
+    }/*}}}*/
+    void Control::disconnect()/*{{{*/
+    {
+#       if DEBUG
+            printLog("Disconnect.");
+#       endif
+        _client.disconnect();
     }/*}}}*/
     void Control::sendMessage(/*{{{*/
         const gloox::JID &to,

@@ -26,6 +26,7 @@
 #endif
 
 #include <string>
+#include <sstream>
 #include <deque>
 #include <map>
 
@@ -63,14 +64,15 @@ namespace Control
             commandMap::iterator it = map.begin();
 
             it = map.insert(it, command("ack", param(1, false)));
-            it = map.insert(it, command("add", param(1, true )));
+            it = map.insert(it, command("add", param(1, false)));
             it = map.insert(it, command("del", param(1, false)));
             it = map.insert(it, command("msg", param(2, false)));
             it = map.insert(it, command("pgp", param(2, false)));
             it = map.insert(it, command("pwd", param(1, false)));
-            it = map.insert(it, command("set", param(1, true )));
-            it = map.insert(it, command("sub", param(1, true )));
-            it = map.insert(it, command("usc", param(1, false)));
+            it = map.insert(it, command("set", param(1, true)));
+            it = map.insert(it, command("pri", param(1, false)));
+            it = map.insert(it, command("sub", param(1, true)));
+            it = map.insert(it, command("usc", param(1, true)));
 
             return map;
         }
@@ -78,6 +80,7 @@ namespace Control
 /*}}}*/
         void Command::execute()/*{{{*/
         {
+            // FIXME Catch exceptions.
             parse();
             const std::deque<std::string> parsed = getParsed();
             const std::string name = parsed.at(0);
@@ -87,7 +90,6 @@ namespace Control
             if ("ack" == name) {
                 roster.acknowledgeSubscription(parsed.at(1));
             } else if ("add" == name) {
-                // TODO Can be optimized.
                 roster.addContact(parsed.at(1));
             } else if ("del" == name) {
                 roster.removeContact(parsed.at(1));
@@ -95,7 +97,6 @@ namespace Control
                 _control.sendMessage(parsed.at(1), parsed.at(2));
             } else if ("pgp" == name) {
                 const std::string action = parsed.at(1);
-                // FIXME add pgp
                 if ("chk" == action) {
                 } else if ("dec" == action) {
                 } else if ("enc" == action) {
@@ -113,11 +114,53 @@ namespace Control
             } else if ("pwd" == name) {
                 _control.setPassphrase(parsed.at(1));
             } else if ("set" == name) {
-                // FIXME
-                //if (3 == parsed.size())
-                //    _control.setPresence(parsed.at(1), parsed.at(2));
-                //else
-                //    _control.setPresence(parsed.at(1), parsed.at(2), parsed.at(3));
+                gloox::Presence::PresenceType presence;
+                if ("available" == parsed.at(1)) {
+                    presence = gloox::Presence::Available;
+                } else if ("chat" == parsed.at(1)) {
+                    presence = gloox::Presence::Chat;
+                } else if ("away" == parsed.at(1)) {
+                    presence = gloox::Presence::Away;
+                } else if ("busy" == parsed.at(1)) {
+                    presence = gloox::Presence::DND;
+                } else if ("xaway" == parsed.at(1)) {
+                    presence = gloox::Presence::XA;
+                } else if ("invisible" == parsed.at(1)) {
+                    presence = gloox::Presence::Unavailable;
+                } else if ("offline" == parsed.at(1)) {
+                    _control.disconnect();
+                    return;
+                } else {
+                    libsxc::Exception::Type type =
+                        libsxc::Exception::InvalidCommand;
+                    std::string message =
+                        "Invalid parameter \"" + parsed.at(1) +
+                        "\" for command \"set\".";
+                    throw Exception::InputException(type, message);
+                }
+
+                if (2 == parsed.size())
+                    _control.setPresence(presence);
+                else
+                    _control.setPresence(presence, parsed.at(2));
+            } else if ("pri" == name) {
+                int priority;
+
+                std::istringstream ss;
+                ss.str(parsed.at(1));
+                ss >> priority;
+
+                if (priority > 127 || priority < -128) {
+                    libsxc::Exception::Type type =
+                        libsxc::Exception::InvalidCommand;
+                    std::string message =
+                        "Invalid parameter \"" + parsed.at(1) +
+                        "\" for command \"pri\". Has to be a number between " +
+                        "-128 and 127";
+                    throw Exception::InputException(type, message);
+                }
+
+                _control.setPriority(priority);
             } else if ("sub" == name) {
                 roster.subscribe(parsed.at(1), parsed.at(2));
             } else if ("usc" == name) {
