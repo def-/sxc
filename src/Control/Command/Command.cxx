@@ -71,7 +71,6 @@ namespace Control
             it = map.insert(it, command("pwd", param(1, false)));
             it = map.insert(it, command("set", param(1, true)));
             it = map.insert(it, command("pri", param(1, false)));
-            it = map.insert(it, command("res", param(1, false)));
             it = map.insert(it, command("sub", param(1, true)));
             it = map.insert(it, command("usc", param(1, true)));
 
@@ -169,9 +168,6 @@ namespace Control
                 }
 
                 _control.setPriority(priority);
-/*}}}*/
-            } else if ("res" == name) {/*{{{*/
-                _control.setResource(parsed.at(1));
 /*}}}*/
             } else if ("sub" == name) {/*{{{*/
                 roster.subscribe(parsed.at(1), parsed.at(2));

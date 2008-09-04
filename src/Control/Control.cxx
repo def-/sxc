@@ -58,7 +58,8 @@ namespace Control
         const gloox::JID &jid,
         int port,
         const std::string &name,
-        const std::string &version)
+        const std::string &version,
+        const std::string &resource)
     : _client(jid, "", port), // Fill in the passphrase later.
       _roster(_client),
     // FIXME
@@ -81,12 +82,18 @@ namespace Control
                 type + "\", name: \"" + name + "\").");
 #       endif
         _client.disco()->setIdentity(category, type, name);
+
 #       if DEBUG
             printLog(
                 "Set version: (name: \"" + name + "\", version: \"" +
                 version + "\").");
 #       endif
         _client.disco()->setVersion(name, version);
+
+#       if DEBUG
+            printLog("Set resource: \"" + resource + "\".");
+#       endif
+        _client.setResource(resource);
 
         _input.listen();
     }/*}}}*/
@@ -168,13 +175,6 @@ namespace Control
     {
         gloox::Presence &pres = _client.presence();
         setPresence(pres.presence(), priority, pres.status());
-    }/*}}}*/
-    void Control::setResource(const std::string &resource)/*{{{*/
-    {
-#       if DEBUG
-            printLog("Set resource: \"" + resource + "\".");
-#       endif
-        _client.setResource(resource);
     }/*}}}*/
     void Control::disconnect()/*{{{*/
     {

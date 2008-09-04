@@ -61,7 +61,7 @@ namespace Control
         gloox::MessageHandler
     {
         public:
-            //Control(JID &jid, int port, string &name, string &version);/*{{{*/
+            //Control(&jid, port, &name, &version, resource);/*{{{*/
 
             /**
              * @brief The constructor.
@@ -78,12 +78,14 @@ namespace Control
              *        the default one.
              * @param name The name to announce.
              * @param version The version to announce.
+             * @param resource The resource to identify as.
              */
             Control(
                 const gloox::JID &jid,
                 int port,
                 const std::string &name,
-                const std::string &version);
+                const std::string &version,
+                const std::string &resource);
 
 /*}}}*/
             //~Control();/*{{{*/
@@ -157,17 +159,6 @@ namespace Control
             void setPriority(int priority);
 
 /*}}}*/
-            //void setResource(const std::string &resource);/*{{{*/
-
-            /**
-             * @brief Set the resource.
-             *
-             * @param The resource to set.
-             */
-            void setResource(const std::string &resource);
-
-/*}}}*/
-
             //void disconnect();/*{{{*/
 
             /**

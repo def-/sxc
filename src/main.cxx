@@ -28,6 +28,7 @@
 // INCLUDE/*{{{*/
 
 #include <string>
+#include <unistd.h>
 
 #include <sys/signal.h>
 #include <sigc++/adaptors/bind.h>
@@ -48,9 +49,6 @@
 #endif
 
 /*}}}*/
-
-#include <gloox/presence.h>
-#include <iostream>
 
 /**
  * @mainpage sxc Documentation
@@ -87,6 +85,16 @@ int main(int argc, char *argv[])/*{{{*/
     libsxc::Option::Option<std::string> version(
         &parser, ' ', "iqversion", "version",
         std::string("Version to announce (default: ") + VERSION + ")", VERSION);
+
+    const unsigned int hostNameSize = 256;
+    char hostName[hostNameSize];
+    if (0 != gethostname(hostName, hostNameSize)) // This should never happen!
+        printErr("Error getting the hostname of this system.");
+    const std::string defaultResource = std::string(PACKAGE) + "@" + hostName;
+    libsxc::Option::Option<std::string> resource(
+        &parser, 'r', "resource", "resource",
+        std::string("Resource name (default: ") + defaultResource + ")",
+        defaultResource);
     libsxc::Option::Option<gloox::JID> jid(
         &parser, ' ', "", "jid", "user@domain[/resource]");
 
@@ -112,10 +120,8 @@ int main(int argc, char *argv[])/*{{{*/
         jid.getValue(),
         port.getValue(),
         name.getValue(),
-        version.getValue());
-    //control.setPassphrase("test");
-    //control.setPresence(gloox::Presence::Available);
-    //control.getRoster().addContact("folibar@boo");
+        version.getValue(),
+        resource.getValue());
     pause(); // Wait until a signal is received and its handler returns.
 
     return 0;
