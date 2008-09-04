@@ -9,6 +9,7 @@ Control:
 :set available|chat|away|busy|xaway|invisible [<message>]
 :set offline
 :pri <priority>
+:res <resource>
 # Implies ":add"
 :sub <jid> [<message>]
 # Implies ":del"

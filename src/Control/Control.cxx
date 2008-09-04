@@ -169,6 +169,13 @@ namespace Control
         gloox::Presence &pres = _client.presence();
         setPresence(pres.presence(), priority, pres.status());
     }/*}}}*/
+    void Control::setResource(const std::string &resource)/*{{{*/
+    {
+#       if DEBUG
+            printLog("Set resource: \"" + resource + "\".");
+#       endif
+        _client.setResource(resource);
+    }/*}}}*/
     void Control::disconnect()/*{{{*/
     {
 #       if DEBUG

@@ -157,14 +157,25 @@ namespace Control
             void setPriority(int priority);
 
 /*}}}*/
-            //void disconnect();
+            //void setResource(const std::string &resource);/*{{{*/
+
+            /**
+             * @brief Set the resource.
+             *
+             * @param The resource to set.
+             */
+            void setResource(const std::string &resource);
+
+/*}}}*/
+
+            //void disconnect();/*{{{*/
 
             /**
              * @brief Close the connection to the server.
              */
             void disconnect();
 
-
+/*}}}*/
 
             //void sendMessage(const gloox::JID &to, const string &body);/*{{{*/
 
