@@ -190,8 +190,8 @@ namespace Control
 #       ifdef DEBUG
             std::ostringstream ss;
             ss << "Status changed: (jid: \"" << item.jid()
-               << "\", resource: \"" << resource << "\", presence: \""
-               << presence << "\", message: \"" << msg << "\").";
+               << "\", resource: \"" << resource << "\", presence: "
+               << presence << ", message: \"" << msg << "\").";
             printLog(ss.str());
 #       endif
         // FIXME
@@ -205,8 +205,8 @@ namespace Control
 #       ifdef DEBUG
             std::ostringstream ss;
             ss << "Self-status changed: (jid: \"" << item.name()
-               << "\", resource: \"" << resource << "\", presence: \""
-               << presence << "\", message: \"" << msg << "\").";
+               << "\", resource: \"" << resource << "\", presence: "
+               << presence << ", message: \"" << msg << "\").";
             printLog(ss.str());
 #       endif
         // FIXME
