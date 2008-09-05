@@ -23,6 +23,7 @@
 // INCLUDE/*{{{*/
 
 #include <gloox/gloox.h>
+#include <gloox/presence.h>
 
 /*}}}*/
 
@@ -34,7 +35,6 @@
 //string &genConnErrorString(connE, streamE, streamEText, authE, debug=0);/*{{{*/
 
 /**
- * @author Dennis Felsing
  * @brief Generate an error text.
  *
  * @param connectionError The connection error.
@@ -50,6 +50,16 @@ std::string &genConnErrorString(
     const std::string &streamErrorText,
     gloox::AuthenticationError authError,
     bool isDebug = false);
+
+/*}}}*/
+//std::string &genPresenceString(gloox::Presence::PresenceType presence);/*{{{*/
+
+/**
+ * @brief Generate a presence text.
+ *
+ * @param presence The presence.
+ */
+std::string &genPresenceString(gloox::Presence::PresenceType presence);
 
 /*}}}*/
 

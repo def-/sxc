@@ -24,6 +24,7 @@
 
 #include <string>
 #include <gloox/gloox.h>
+#include <gloox/presence.h>
 
 #include <generateString.hxx>
 
@@ -277,6 +278,42 @@ std::string &genConnErrorString(/*{{{*/
         text = "An unknown error occured.";
     }
     return text;
+}/*}}}*/
+std::string &genPresenceString(gloox::Presence::PresenceType presence)/*{{{*/
+{
+    static std::string presenceStr;
+    switch (presence) {
+    case gloox::Presence::Available:
+        presenceStr = "Available";
+        break;
+    case gloox::Presence::Chat:
+        presenceStr = "Chat";
+        break;
+    case gloox::Presence::Away:
+        presenceStr = "Away";
+        break;
+    case gloox::Presence::DND:
+        presenceStr = "DND";
+        break;
+    case gloox::Presence::XA:
+        presenceStr = "XA";
+        break;
+    case gloox::Presence::Unavailable:
+        presenceStr = "Unavailable";
+        break;
+    case gloox::Presence::Probe:
+        presenceStr = "Probe";
+        break;
+    case gloox::Presence::Error:
+        presenceStr = "Error";
+        break;
+    case gloox::Presence::Invalid:
+        presenceStr = "Invalid";
+        break;
+    default:
+        presenceStr = "Unknown";
+    }
+    return presenceStr;
 }/*}}}*/
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

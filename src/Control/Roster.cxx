@@ -35,6 +35,7 @@
 #include <Control/Control.hxx>
 #include <Contact/Contact.hxx>
 #include <print.hxx>
+#include <generateString.hxx>
 
 #ifdef HAVE_CONFIG_H
 #   include <config.hxx>
@@ -190,8 +191,9 @@ namespace Control
 #       ifdef DEBUG
             std::ostringstream ss;
             ss << "Status changed: (jid: \"" << item.jid()
-               << "\", resource: \"" << resource << "\", presence: "
-               << presence << ", message: \"" << msg << "\").";
+               << "\", resource: \"" << resource << "\", presence: \""
+               << genPresenceString(presence) << "\" (" << presence
+               << "), message: \"" << msg << "\").";
             printLog(ss.str());
 #       endif
         // FIXME

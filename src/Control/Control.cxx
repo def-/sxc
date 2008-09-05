@@ -109,40 +109,10 @@ namespace Control
         const std::string &status)
     {
 #       if DEBUG/*{{{*/
-            std::string presenceStr;
-            switch (presence) {
-            case gloox::Presence::Available:
-                presenceStr = "Available";
-                break;
-            case gloox::Presence::Chat:
-                presenceStr = "Chat";
-                break;
-            case gloox::Presence::Away:
-                presenceStr = "Away";
-                break;
-            case gloox::Presence::DND:
-                presenceStr = "DND";
-                break;
-            case gloox::Presence::XA:
-                presenceStr = "XA";
-                break;
-            case gloox::Presence::Unavailable:
-                presenceStr = "Unavailable";
-                break;
-            case gloox::Presence::Probe:
-                presenceStr = "Probe";
-                break;
-            case gloox::Presence::Error:
-                presenceStr = "Error";
-                break;
-            case gloox::Presence::Invalid:
-                presenceStr = "Invalid";
-                break;
-            default:
-                presenceStr = "Unknown";
-            }
             std::stringstream text;
-            text << "Set presence: (\"" << presenceStr << "\" (" << presence << "), priority: " << priority << ", message: \"" << status << "\").";;
+            text << "Set presence: (\"" << genPresenceString(presence) << "\" ("
+                 << presence << "), priority: " << priority << ", message: \""
+                 << status << "\").";;
             printLog(text.str());
 #       endif/*}}}*/
 
