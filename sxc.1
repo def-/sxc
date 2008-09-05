@@ -1,0 +1,304 @@
+.TH SXC 1 "2008-09-05" "simple xmpp client"
+
+.SH NAME
+sxc \- simple xmpp xlient
+
+.SH SYNOPSIS
+.B sxc [-h] [-V] [-p
+.I port
+.B ] [--iqname
+.I name
+.B ] [--iqversion
+.I version
+.B ]
+.I jid
+
+.SH DESCRIPTION
+.B sxc
+(pronounced "sexy") is for jabber what 
+.B "ii(1)"
+(irc it/irc improved) is for IRC: A
+minimalistic file-based jabber client which runs in the background and can be
+controlled with basic command line tools to read from/write into the files sxc
+creates.
+
+.SH OPTIONS
+
+.TP
+.B -h/--help
+Output information about
+.B sxc
+and its usage and exit.
+
+.TP
+.B -V/--help
+Output the version of
+.B sxc
+and exit.
+
+.TP
+.B -p/--port\fI " port"
+Specify the port to use when connecting to the server. It has to be an integer
+between 0 and 65535 or -1. If the latter is set, the default port for the
+server will be looked up using DNS SRV. If that fails the recommended
+client-to-server port 5222 (registered with IANA as "xmpp-client") is used.
+
+.TP
+.B --iqname\fI " name"
+The name that will be used in responses to jabber:iq:version and disco#info
+requests. Defaults to
+.B sxc.
+
+.TP
+.B --iqversion\fI " version"
+The version that will be used in responses to jabber:iq:version requests. Defaults to
+.B 0.0-prealpha.
+
+.TP
+.I jid
+The JID to use. This contains the username, the server to connect to, and the
+resource to bind to. The JID is constructed like this: user@domain[/resource]. The resource defaults to
+.B sxc@${hostname}.
+.SH STDERR
+The standard error is only used for diagnostic messages.
+
+.SH OUTPUT FILES
+
+.TP
+.I ${jid}/in
+.RS
+The single FIFO file to send commands to an instance of sxc running for the
+specified jid.
+.RE
+.I ${jid}/out
+.RS
+The single global output file of sxc.
+.RE
+.I ${jid}/${contact}/in
+.RS
+ads
+.RE
+.I ${jid}/${contact}/out
+.RS
+fob
+.RE
+
+.SH COMMANDS
+
+.SS
+.I ${jid}/in
+
+.TP
+.B :pwd\fI " password"
+Set the
+.B password
+to use when authenticating with the server.
+
+.TP
+.B :set " available|chat|away|busy|xaway|invisible"\fI " [message]"
+.B Set
+your presence with an option message. If disconnected, establish a connection
+to the server.
+
+.TP
+.B :set " offline"
+.B Set
+your state to offline. This disconnects from the server.
+
+.TP
+.B :pri\fI " priority"
+Set your
+.B priority
+to the specified level. Has to be between -128 and 127, 0 is the default.
+
+.TP
+.B :add\fI " jid"
+.B Add
+the JID to the roster. Use
+.B :sub
+instead if you want to receive presence updates.
+
+.TP
+.B :del\fI " jid"
+.B Delete
+the JID from the roster. In order not to receive presence updates use
+.B :usc
+instead.
+
+.TP
+.B :sub\fI " jid [message]"
+Send a
+.B subscription
+request to the specified JID including the message. This
+also adds the contact to the roster.
+
+.TP
+.B :usc\fI " jid [message]"
+Send an
+.B unsubscription
+request to the specified JID including the message. This
+also removes the contact from the roster.
+
+.TP
+.B :msg\fI " jid text"
+Send a single
+.B message
+to the specified jid.
+
+.TP
+.B :ack\fI " jid"
+.B Acknowledge
+the subscription request of the specified JID.
+
+.TP
+.B :dec\fI " jid"
+.B Decline
+the subscription request of the specified JID.
+
+.TP
+.B :pgp " enc|dec|sig|chk"\fI " command"
+Set the command to be used for
+.B PGP encryption, decryption, signing,
+and
+.B checking.
+.SS
+.B ${jid}/${contact}/in
+
+.TP
+.B :msg\fI " text"
+Send the specified
+.B message
+to the contact.
+
+.TP
+.B :add
+.B Add
+this contact to the server-side roster.
+
+.TP
+.B :del
+.B Delete
+this contact from the server-side and local roster.
+
+.TP
+.B :sub\fI " [message]"
+.B Subscribe
+to this contact using the message if specified.
+
+.TP
+.B :usc\fI " [message]"
+.B Unsubscribe
+from this contact using the message if specified.
+.B :ack
+.B Acknowledge
+the subscription request of this contact.
+
+.TP
+.B :dec
+.B Decline
+the subscription request of this contact.
+
+.TP
+.B :pgp " key"\fI " keyId"
+Set the
+.B PGP
+key for this contact to the specified key id.
+
+.TP
+.B :pgp " on|off"
+Enable or disable
+.B PGP
+for this contact.
+
+.SH RETURN STATUSES
+
+.TP
+.B 0
+No error occured.
+.TP
+.B 64
+A general error.
+.TP
+.B 200
+Invalid usage.
+
+.SS Program option errors
+.TP
+.B 80
+An obligatory option was not set.
+.TP
+.B 81
+An option was set more than one time.
+.TP
+.B 82
+An unknown option was set.
+.TP
+.B 83
+The value for for an option was not set.
+.TP
+.B 84
+An invalid port was specified.
+.TP
+.B 85
+The specified JID is invalid
+.TP
+.B 86
+The value of an option is invalid.
+.TP
+.B 87
+Two options are conflicting.
+
+.SH RUNSCRIPT
+You may find it more convenient to invoke sxc using a script.
+.PP
+.I EXAMPLE:
+.nf
+#!/bin/sh
+.nf
+JID="example@jid.org"
+.nf
+PWD="insecurepwd"
+.nf
+PRI=23
+(
+    echo ":pwd $PWD" > $JID/in
+    sleep 0.01
+    echo ":pri $PRI" > $JID/in
+    sleep 0.01
+    echo ":set available" > $JID/in
+)&
+exec src/sxc $JID
+
+.SH BUGS
+When multiple processes write to the input file at the same time they cannot be
+distinguished and get interpreted as a signle command.
+.PP
+A proxy cannot be set directly. Instead use a transparent proxying library like
+.B tsocks(1)
+to make
+.B sxc
+use a proxy.
+.PP
+.B sxc
+announces to the server to be a "console" program, while "client daemon" would
+be better.
+.PP
+Most signals are not handled correctly.
+
+.SH HOMEPAGE
+http://sxc.sf.net/
+
+.SH AUTHOR
+Andreas Waidler
+.nf
+Dennis Felsing
+
+.SH REPORTING BUGS
+Please report bugs to sxc team.
+
+.SH "SEE ALSO"
+.BR ii (1),
+.BR sxc-find (1),
+.BR sxc-profile (1),
+.BR sxc-register (1),
+.BR tsocks (1)
