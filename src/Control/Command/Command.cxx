@@ -22,9 +22,11 @@
 
 #ifdef HAVE_CONFIG_H
 #   include <config.hxx>
-#   include <print.hxx>
 #endif
 
+#include <print.hxx>
+
+#include <stdexcept>
 #include <string>
 #include <sstream>
 #include <deque>
@@ -82,108 +84,119 @@ namespace Control
         void Command::execute()/*{{{*/
         {
             // FIXME Catch exceptions.
-            parse();
-            const std::deque<std::string> parsed = getParsed();
-            const std::string name = parsed.at(0);
+            try {
+                parse();
+                const std::deque<std::string> parsed = getParsed();
+                const std::string name = parsed.at(0);
 
-            Roster &roster = _control.getRoster();
+                Roster &roster = _control.getRoster();
 
-            if ("ack" == name) {/*{{{*/
-                roster.acknowledgeSubscription(parsed.at(1));
-/*}}}*/
-            } else if ("dec" == name) {/*{{{*/
-                roster.declineSubscription(parsed.at(1));
-/*}}}*/
-            } else if ("add" == name) {/*{{{*/
-                roster.addContact(parsed.at(1));
-/*}}}*/
-            } else if ("del" == name) {/*{{{*/
-                roster.removeContact(parsed.at(1));
-/*}}}*/
-            } else if ("msg" == name) {/*{{{*/
-                _control.sendMessage(parsed.at(1), parsed.at(2));
-/*}}}*/
-            } else if ("pgp" == name) {/*{{{*/
-                const std::string action = parsed.at(1);
-                if ("chk" == action) {
-                } else if ("dec" == action) {
-                } else if ("enc" == action) {
-                } else if ("sig" == action) {
-                } else {
-                    libsxc::Exception::Type type =
-                        libsxc::Exception::InvalidCommand;
-                    std::string message = "Unknown parameter '"
-                                        + action + "' for command 'pgp'.";
-                    throw Exception::InputException(type, message);
-                }
-                // FIXME add pgp
-                throw Exception::InputException(
-                    libsxc::Exception::General, "Unimplemented.");
-/*}}}*/
-            } else if ("pwd" == name) {/*{{{*/
-                _control.setPassphrase(parsed.at(1));
-/*}}}*/
-            } else if ("set" == name) {/*{{{*/
-                gloox::Presence::PresenceType presence;
-                const std::string presenceStr = parsed.at(1);
-                if ("available" == presenceStr) {
-                    presence = gloox::Presence::Available;
-                } else if ("chat" == presenceStr) {
-                    presence = gloox::Presence::Chat;
-                } else if ("away" == presenceStr) {
-                    presence = gloox::Presence::Away;
-                } else if ("busy" == presenceStr) {
-                    presence = gloox::Presence::DND;
-                } else if ("xaway" == presenceStr) {
-                    presence = gloox::Presence::XA;
-                } else if ("invisible" == presenceStr) {
-                    presence = gloox::Presence::Unavailable;
-                } else if ("offline" == presenceStr) {
-                    _control.disconnect();
-                    return;
-                } else {
-                    // FIXME: Exceptions: Accept message as reference, too
-                    std::string message = "Not a state to :set : '"
-                                        + presenceStr + "'";
+                if ("ack" == name) {/*{{{*/
+                    roster.acknowledgeSubscription(parsed.at(1));
+    /*}}}*/
+                } else if ("dec" == name) {/*{{{*/
+                    roster.declineSubscription(parsed.at(1));
+    /*}}}*/
+                } else if ("add" == name) {/*{{{*/
+                    roster.addContact(parsed.at(1));
+    /*}}}*/
+                } else if ("del" == name) {/*{{{*/
+                    roster.removeContact(parsed.at(1));
+    /*}}}*/
+                } else if ("msg" == name) {/*{{{*/
+                    _control.sendMessage(parsed.at(1), parsed.at(2));
+    /*}}}*/
+                } else if ("pgp" == name) {/*{{{*/
+                    const std::string action = parsed.at(1);
+                    if ("chk" == action) {
+                    } else if ("dec" == action) {
+                    } else if ("enc" == action) {
+                    } else if ("sig" == action) {
+                    } else {
+                        libsxc::Exception::Type type =
+                            libsxc::Exception::InvalidCommand;
+                        std::string message = "Unknown parameter '"
+                                            + action + "' for command 'pgp'.";
+                        throw Exception::InputException(type, message);
+                    }
+                    // FIXME add pgp
                     throw Exception::InputException(
-                        libsxc::Exception::InvalidCommand, message);
+                        libsxc::Exception::General, "Unimplemented.");
+    /*}}}*/
+                } else if ("pwd" == name) {/*{{{*/
+                    _control.setPassphrase(parsed.at(1));
+    /*}}}*/
+                } else if ("set" == name) {/*{{{*/
+                    gloox::Presence::PresenceType presence;
+                    const std::string presenceStr = parsed.at(1);
+                    if ("available" == presenceStr) {
+                        presence = gloox::Presence::Available;
+                    } else if ("chat" == presenceStr) {
+                        presence = gloox::Presence::Chat;
+                    } else if ("away" == presenceStr) {
+                        presence = gloox::Presence::Away;
+                    } else if ("busy" == presenceStr) {
+                        presence = gloox::Presence::DND;
+                    } else if ("xaway" == presenceStr) {
+                        presence = gloox::Presence::XA;
+                    } else if ("invisible" == presenceStr) {
+                        presence = gloox::Presence::Unavailable;
+                    } else if ("offline" == presenceStr) {
+                        _control.disconnect();
+                        return;
+                    } else {
+                        // FIXME: Exceptions: Accept message as reference, too
+                        std::string message = "Not a state to :set : '"
+                                            + presenceStr + "'";
+                        throw Exception::InputException(
+                            libsxc::Exception::InvalidCommand, message);
+                    }
+
+                    if (2 == parsed.size())
+                        _control.setPresence(presence);
+                    else
+                        _control.setPresence(presence, parsed.at(2));
+    /*}}}*/
+                } else if ("pri" == name) {/*{{{*/
+                    int priority;
+
+                    std::istringstream ss;
+                    ss.str(parsed.at(1));
+                    ss >> priority;
+
+                    if (priority > 127 || priority < -128) {
+                        libsxc::Exception::Type type =
+                            libsxc::Exception::InvalidCommand;
+                        std::string message =
+                            "Invalid parameter \"" + parsed.at(1) +
+                            "\" for command \"pri\". Has to be a number between " +
+                            "-128 and 127";
+                        throw Exception::InputException(type, message);
+                    }
+
+                    _control.setPriority(priority);
+    /*}}}*/
+                } else if ("sub" == name) {/*{{{*/
+                    roster.subscribe(parsed.at(1), parsed.at(2));
+    /*}}}*/
+                } else if ("usc" == name) {/*{{{*/
+                    roster.unsubscribe(parsed.at(1), parsed.at(2));
+    /*}}}*/
+                } else {/*{{{*/
+                    libsxc::Exception::Type t = libsxc::Exception::InvalidCommand;
+                    std::string message = "Unknown name: " + name;
+                    throw Exception::InputException(t, message);
+    /*}}}*/
                 }
-
-                if (2 == parsed.size())
-                    _control.setPresence(presence);
-                else
-                    _control.setPresence(presence, parsed.at(2));
-/*}}}*/
-            } else if ("pri" == name) {/*{{{*/
-                int priority;
-
-                std::istringstream ss;
-                ss.str(parsed.at(1));
-                ss >> priority;
-
-                if (priority > 127 || priority < -128) {
-                    libsxc::Exception::Type type =
-                        libsxc::Exception::InvalidCommand;
-                    std::string message =
-                        "Invalid parameter \"" + parsed.at(1) +
-                        "\" for command \"pri\". Has to be a number between " +
-                        "-128 and 127";
-                    throw Exception::InputException(type, message);
-                }
-
-                _control.setPriority(priority);
-/*}}}*/
-            } else if ("sub" == name) {/*{{{*/
-                roster.subscribe(parsed.at(1), parsed.at(2));
-/*}}}*/
-            } else if ("usc" == name) {/*{{{*/
-                roster.unsubscribe(parsed.at(1), parsed.at(2));
-/*}}}*/
-            } else {/*{{{*/
-                libsxc::Exception::Type t = libsxc::Exception::InvalidCommand;
-                std::string message = "Unknown name: " + name;
-                throw Exception::InputException(t, message);
-/*}}}*/
+            } catch (std::out_of_range &e) {
+                // Accessed an element of container returned by getParsed()
+                // that did not exist. This would be a bug in this class (or
+                // its parent). Keywords: bad parsing, outdated command 
+                // specification.
+                std::string message = "out_of_range: ";
+                message.append(e.what());
+                _control.print(message);
+                printErr(message);
             }
         }
 

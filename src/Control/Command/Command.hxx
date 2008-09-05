@@ -69,9 +69,6 @@ namespace Control
                  * @exception InputException(InvalidCommand) A check failed.
                  * @exception libsxc::Exception::Exception Childs of this basic
                  *            exception may be thrown by invoked methods.
-                 * @exception std::out_of_range Accessing an element of returned
-                 *            by @ref getParsed() that does not exist. This
-                 *            would be a bug in this class (or its parent).
                  * @exception std::exception This should usually not happen.
                  */
                 void execute();
