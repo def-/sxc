@@ -121,28 +121,28 @@ namespace Control
 /*}}}*/
             } else if ("set" == name) {/*{{{*/
                 gloox::Presence::PresenceType presence;
-                if ("available" == parsed.at(1)) {
+                const std::string presenceStr = parsed.at(1);
+                if ("available" == presenceStr) {
                     presence = gloox::Presence::Available;
-                } else if ("chat" == parsed.at(1)) {
+                } else if ("chat" == presenceStr) {
                     presence = gloox::Presence::Chat;
-                } else if ("away" == parsed.at(1)) {
+                } else if ("away" == presenceStr) {
                     presence = gloox::Presence::Away;
-                } else if ("busy" == parsed.at(1)) {
+                } else if ("busy" == presenceStr) {
                     presence = gloox::Presence::DND;
-                } else if ("xaway" == parsed.at(1)) {
+                } else if ("xaway" == presenceStr) {
                     presence = gloox::Presence::XA;
-                } else if ("invisible" == parsed.at(1)) {
+                } else if ("invisible" == presenceStr) {
                     presence = gloox::Presence::Unavailable;
-                } else if ("offline" == parsed.at(1)) {
+                } else if ("offline" == presenceStr) {
                     _control.disconnect();
                     return;
                 } else {
-                    libsxc::Exception::Type type =
-                        libsxc::Exception::InvalidCommand;
-                    std::string message =
-                        "Invalid parameter \"" + parsed.at(1) +
-                        "\" for command \"set\".";
-                    throw Exception::InputException(type, message);
+                    // FIXME: Exceptions: Accept message as reference, too
+                    std::string message = "Not a state to :set : '"
+                                        + presenceStr + "'";
+                    throw Exception::InputException(
+                        libsxc::Exception::InvalidCommand, message);
                 }
 
                 if (2 == parsed.size())
