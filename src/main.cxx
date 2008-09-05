@@ -106,7 +106,7 @@ int main(int argc, char *argv[])/*{{{*/
 
     try {
         parser.parse(argv);
-    } catch (libsxc::Exception::Exception &e) {
+    } catch (libsxc::Exception::OptionException &e) {
         if (libsxc::Exception::ShowUsage == e.getType()) {
             std::cerr << PACKAGE << " " << VERSION << " (C) " << COPYRIGHT
                       << std::endl;
@@ -127,16 +127,25 @@ int main(int argc, char *argv[])/*{{{*/
         if (e.getType() < 0) // No error. (ShowUsage, ShowVersion)
             return libsxc::Exception::NoError;
         return e.getType();
+    } catch (libsxc::Exception::Exception &e) {
+        printErr(e.getDescription());
+        return e.getType();
     }
 
     SignalHandler::setHandler(SIGINT, sigc::ptr_fun(&dummy));
 
-    Control::Control control(
-        jid.getValue(),
-        port.getValue(),
-        name.getValue(),
-        version.getValue(),
-        resource.getValue());
+    try {
+        Control::Control control(
+            jid.getValue(),
+            port.getValue(),
+            name.getValue(),
+            version.getValue(),
+            resource.getValue());
+    } catch (libsxc::Exception::Exception &e) {
+        printErr(e.getDescription());
+        return e.getType();
+    }
+
     pause(); // Wait until a signal is received and its handler returns.
 
     return 0;
