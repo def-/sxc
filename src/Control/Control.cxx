@@ -58,8 +58,7 @@ namespace Control
         const gloox::JID &jid,
         int port,
         const std::string &name,
-        const std::string &version,
-        const std::string &resource)
+        const std::string &version)
     : _client(jid, "", port), // Fill in the passphrase later.
       _roster(_client),
     // FIXME
@@ -89,11 +88,6 @@ namespace Control
                 version + "\").");
 #       endif
         _client.disco()->setVersion(name, version);
-
-#       if DEBUG
-            printLog("Set resource: \"" + resource + "\".");
-#       endif
-        _client.setResource(resource);
 
         _input.listen();
     }/*}}}*/

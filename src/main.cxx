@@ -1,8 +1,3 @@
-// TODO:
-// - more consts and references (speed)
-// - comparisons with (const == var)
-// - remove compiler warnings (-Wall -Wextra)
-// - write some more tests
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -97,12 +92,9 @@ int main(int argc, char *argv[])/*{{{*/
     if (0 != gethostname(hostName, hostNameSize)) // This should never happen!
         printErr("Error getting the hostname of this system.");
     const std::string defaultResource = std::string(PACKAGE) + "@" + hostName;
-    libsxc::Option::Option<std::string> resource(
-        &parser, 'r', "resource", "resource",
-        std::string("Resource name (default: ") + defaultResource + ")",
-        defaultResource);
     libsxc::Option::Option<gloox::JID> jid(
-        &parser, ' ', "", "jid", "user@domain[/resource]");
+        &parser, ' ', "", "jid", 
+        "user@domain[/resource] (resource default: " + defaultResource + ")");
 
     try {
         parser.parse(argv);
@@ -132,22 +124,28 @@ int main(int argc, char *argv[])/*{{{*/
         return e.getType();
     }
 
+    gloox::JID jidJid = jid.getValue();
+    if ("" == jidJid.resource())
+        jidJid.setResource(defaultResource);
+
     SignalHandler::setHandler(SIGINT, sigc::ptr_fun(&dummy));
 
+    Control::Control *control;
     try {
-        Control::Control control(
-            jid.getValue(),
+        control = new Control::Control(
+            jidJid,
             port.getValue(),
             name.getValue(),
-            version.getValue(),
-            resource.getValue());
+            version.getValue());
     } catch (libsxc::Exception::Exception &e) {
         printErr(e.getDescription());
+        delete control;
         return e.getType();
     }
 
     pause(); // Wait until a signal is received and its handler returns.
 
+    delete control;
     return 0;
 }/*}}}*/
 

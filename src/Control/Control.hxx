@@ -78,14 +78,12 @@ namespace Control
              *        the default one.
              * @param name The name to announce.
              * @param version The version to announce.
-             * @param resource The resource to identify as.
              */
             Control(
                 const gloox::JID &jid,
                 int port,
                 const std::string &name,
-                const std::string &version,
-                const std::string &resource);
+                const std::string &version);
 
 /*}}}*/
             //~Control();/*{{{*/
