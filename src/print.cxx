@@ -26,12 +26,16 @@
 
 #include <iostream>
 
+#ifdef HAVE_CONFIG_H
+#   include <config.hxx>
+#endif
+
 /*}}}*/
 
 //const std::string _outputPrefix;/*{{{*/
 
 /// The text printed before every output using @ref printErr() and @ref printLog().
-const std::string _outputPrefix = "sxc: ";
+const std::string _outputPrefix = PACKAGE ": ";
 
 
 /*}}}*/
