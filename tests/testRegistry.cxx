@@ -27,6 +27,10 @@
 #include <CommandParser/TestCommandParser.hxx>
 #include <CommandParser/TestNoCommandParser.hxx>
 #include <CommandParser/TestInvalidCommandParser.hxx>
+#include <Time/TestDateTimeFormat.hxx>
+#include <Time/TestIsoDateTimeFormat.hxx>
+#include <Time/TestLocalDateTime.hxx>
+#include <Time/TestTimestamp.hxx>
 
 /*}}}*/
 
@@ -37,6 +41,10 @@ CPPUNIT_TEST_SUITE_REGISTRATION(TestOutput);
 CPPUNIT_TEST_SUITE_REGISTRATION(TestCommandParser);
 CPPUNIT_TEST_SUITE_REGISTRATION(TestNoCommandParser);
 CPPUNIT_TEST_SUITE_REGISTRATION(TestInvalidCommandParser);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestTimestamp);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestLocalDateTime);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestDateTimeFormat);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestIsoDateTimeFormat);
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

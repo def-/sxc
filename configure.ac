@@ -282,9 +282,11 @@ AC_CONFIG_FILES([
     src/Control/File/Makefile
     src/Exception/Makefile
     src/File/Makefile
+    src/Time/Makefile
     tests/Makefile
     tests/CommandParser/Makefile
     tests/File/Makefile
+    tests/Time/Makefile
 ])#}}}
 
 AC_OUTPUT#{{{
