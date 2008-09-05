@@ -63,7 +63,8 @@ namespace Control
       _roster(_client),
     // FIXME
     //  _output(this, jid.bare()),
-      _input(*this, jid.bare())
+      _input(*this, jid.bare()),
+      _thread(NULL)
     {
         _client.registerConnectionListener(this);
 
@@ -152,12 +153,12 @@ namespace Control
         _client.setPresence(presence, priority, status);
 
         // Don't connect if already connected or connecting.
-        if (gloox::StateDisconnected == _client.state()) {
-            if ("" == _client.password())
-                print("Password not set.");
-            else
-                pthread_create(&_thread, NULL, _run, (void*)this);
-        }
+        if (_thread)
+            return;
+        uf ("" == _client.password())
+            print("Password not set.");
+        else
+            pthread_create(&_thread, NULL, _run, (void*)this);
     }/*}}}*/
     void Control::setPresence(/*{{{*/
         gloox::Presence::PresenceType presence,
@@ -257,6 +258,8 @@ namespace Control
 #       if DEBUG
             printLog("End socket receiving thread.");
 #       endif
+
+        that->_thread = NULL;
 
         return (void *) NULL;
     }/*}}}*/
