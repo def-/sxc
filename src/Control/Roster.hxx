@@ -340,11 +340,6 @@ namespace Control
             void _checkClient() const;
 
 /*}}}*/
-            //const gloox::JID &_generateJid(const string &raw) const;/*{{{*/
-            /// Generate a jid from a raw string. Throw exception on error.
-            const gloox::JID &_generateJid(const std::string &raw) const;
-
-/*}}}*/
 
             //gloox::Client &_client;/*{{{*/
             /// The client object this roster is bound to.
