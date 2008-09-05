@@ -103,23 +103,24 @@ void File::AbcInput::_validate()/*{{{*/
         throw Exception::FileInputException(libsxc::Exception::BadFile, message);
     }
 
-    // Check for chmod 600:
-    // if (0 == fstat.st_mode & S_IRUSR
-    // || 0 == fstat.st_mode & S_IWUSR
-    // || 0 != fstat.st_mode & S_IRGRP
-    // || 0 != fstat.st_mode & S_IWGRP
-    // || 0 != fstat.st_mode & S_IROTH
-    // || 0 != fstat.st_mode & S_IWOTH) {
-    if (fstat.st_mode
-    &  (S_IRUSR | S_IWUSR | ~S_IRGRP | ~S_IWGRP | ~S_IROTH | ~S_IWOTH)
-    == (S_IRUSR | S_IWUSR | ~S_IRGRP | ~S_IWGRP | ~S_IROTH | ~S_IWOTH)) {
-        // Converts __mode_t st_mode to human-readable string (octal notation):
-        std::stringstream mode;
-        mode << std::oct << fstat.st_mode;
-        // Extract only necessary part (user, group, other) from file mode:
-        std::string message = _path + ": Chmod should be 600, found "
-                            + mode.str().substr(2);
-        throw Exception::FileInputException(libsxc::Exception::BadFile, message);
+    // Check for chmod 600(octal):
+    int chmod = fstat.st_mode
+              & (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+    int chmodExpected = (S_IRUSR | S_IWUSR);
+#ifdef DEBUG
+    std::stringstream msg;
+    msg << "fstat.st_mode = " << std::oct << fstat.st_mode << '\n';
+    msg << "chmod         = " << std::oct << chmod         << '\n';
+    msg << "expected      = " << std::oct << chmodExpected << '\n';
+    printLog(msg.str());
+#endif
+    if (chmod != chmodExpected) {
+        std::stringstream msg;
+        msg << "Bad chmod: " << std::oct << chmod;
+        // FIXME: Exceptions have to accept parameter being a string.
+        std::string message = msg.str();
+        throw Exception::FileInputException(libsxc::Exception::BadFile,
+                                            message);
     }
 
     _isFifoValid = true;

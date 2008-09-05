@@ -23,6 +23,8 @@
 
 // INCLUDES/*{{{*/
 
+#include <sys/stat.h>
+
 #include <string>
 #include <Exception/FileInputException.hxx>
 #include <cppunit/extensions/HelperMacros.h>
@@ -39,10 +41,21 @@ class TestInput : public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE(TestInput);
         CPPUNIT_TEST(testCreate);
-        CPPUNIT_TEST_EXCEPTION(exceptCreateExist, Exception::FileInputException);
+        CPPUNIT_TEST_EXCEPTION(exceptCreateExist,
+                               Exception::FileInputException);
         CPPUNIT_TEST(testValidate);
-        CPPUNIT_TEST_EXCEPTION(exceptValidateMissing, Exception::FileInputException);
-        CPPUNIT_TEST_EXCEPTION(exceptValidateBad, Exception::FileInputException);
+        CPPUNIT_TEST_EXCEPTION(exceptValidateMissing,
+                               Exception::FileInputException);
+        CPPUNIT_TEST_EXCEPTION(exceptValidate200,
+                               Exception::FileInputException);
+        CPPUNIT_TEST_EXCEPTION(exceptValidate400,
+                               Exception::FileInputException);
+        CPPUNIT_TEST_EXCEPTION(exceptValidate604,
+                               Exception::FileInputException);
+        CPPUNIT_TEST_EXCEPTION(exceptValidate640,
+                               Exception::FileInputException);
+        CPPUNIT_TEST_EXCEPTION(exceptValidateBad,
+                               Exception::FileInputException);
         CPPUNIT_TEST(testClose);
         CPPUNIT_TEST(testListen);
         CPPUNIT_TEST(testListenClose);
@@ -60,6 +73,10 @@ class TestInput : public CppUnit::TestFixture
         void exceptCreateExist();
         void testValidate();
         void exceptValidateMissing();
+        void exceptValidate200();
+        void exceptValidate400();
+        void exceptValidate604();
+        void exceptValidate640();
         void exceptValidateBad();
         void testClose();
 
@@ -67,6 +84,9 @@ class TestInput : public CppUnit::TestFixture
         void testListen();
         void testListenClose();
         void testWrite();
+
+        // Helper methods:
+        void exceptValidateChmod(mode_t mode);
 
     protected:
 
@@ -78,5 +98,3 @@ class TestInput : public CppUnit::TestFixture
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
-
-
