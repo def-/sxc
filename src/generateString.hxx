@@ -27,8 +27,8 @@
 /*}}}*/
 
 
-#ifndef GENERATEERRORTEXT_HXX
-#define GENERATEERRORTEXT_HXX
+#ifndef GENERATESTRING_HXX
+#define GENERATESTRING_HXX
 
 
 //string &generateErrorText(connectionE, streamE, streamEText, authE);/*{{{*/
@@ -53,6 +53,6 @@ std::string &generateErrorText(
 /*}}}*/
 
 
-#endif // GENERATEERRORTEXT_HXX
+#endif // GENERATESTRING_HXX
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

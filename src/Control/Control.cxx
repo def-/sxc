@@ -37,7 +37,7 @@
 #include <Control/Control.hxx>
 #include <Control/Roster.hxx>
 #include <Control/File/Input.hxx>
-#include <generateErrorText.hxx>
+#include <generateString.hxx>
 #include <print.hxx>
 
 #ifdef HAVE_CONFIG_H
