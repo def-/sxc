@@ -29,6 +29,7 @@
 
 #include <string>
 #include <unistd.h>
+#include <iostream>
 
 #include <sys/signal.h>
 #include <sigc++/adaptors/bind.h>
@@ -39,6 +40,7 @@
 #include <libsxc/Option/Option.hxx>
 #include <libsxc/Option/OptionPort.hxx>
 #include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Exception/Type.hxx>
 
 #include <Control/Control.hxx>
 #include <SignalHandler.hxx>
@@ -77,6 +79,10 @@ void dummy()
 int main(int argc, char *argv[])/*{{{*/
 {
     libsxc::Option::Parser parser;
+    libsxc::Option::Option<bool> defHelp(
+        &parser, 'h', "help", "Show help and exit");
+    libsxc::Option::Option<bool> defVersion(
+        &parser, 'v', "version", "Show version and exit");
     libsxc::Option::OptionPort port(
         &parser, 'p', "port", "port", "0 - 65535, -1 for default");
     libsxc::Option::Option<std::string> name(
@@ -101,16 +107,25 @@ int main(int argc, char *argv[])/*{{{*/
     try {
         parser.parse(argv);
     } catch (libsxc::Exception::Exception &e) {
-        const std::string &description = e.getDescription();
-        if (description == "")
-            printErr(
-                std::string(PACKAGE) + " " + VERSION + " (C) " + COPYRIGHT);
-        else
-            printErr(description);
+        if (libsxc::Exception::ShowUsage == e.getType()) {
+            std::cerr << PACKAGE << " " << VERSION << " (C) " << COPYRIGHT
+                      << std::endl;
+        } else if (libsxc::Exception::ShowVersion == e.getType()) {
+            std::cerr << VERSION << std::endl;
+            return libsxc::Exception::NoError;
+        } else {
+            printErr(e.getDescription());
+        }
 
         std::vector<std::string> usage = parser.getUsage();
-        for_each(usage.begin(), usage.end(), printErr);
+        for(
+        std::vector<std::string>::iterator line = usage.begin();
+        line != usage.end();
+        ++line)
+            std::cerr << *line << std::endl;
 
+        if (e.getType() < 0) // No error. (ShowUsage, ShowVersion)
+            return libsxc::Exception::NoError;
         return e.getType();
     }
 
