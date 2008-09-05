@@ -68,10 +68,6 @@ namespace Control
     {
         _client.registerConnectionListener(this);
 
-        // Up to this point there were two roster managers registered with the
-        // client, but gloox is capable of handling this.
-        _client.disableRoster();
-
         // "console" is not exactly what sxc is, but "pc" is described as a
         // full-featured GUI.
         const std::string category = "client";

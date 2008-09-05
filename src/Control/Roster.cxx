@@ -54,6 +54,8 @@ namespace Control
       _client(client),
       _contacts()
     {
+        // Asynchronous subscription request handling.
+        _client.rosterManager()->registerRosterListener(this, false);
     }/*}}}*/
 
     void Roster::addContact(const gloox::JID &jid) const/*{{{*/
@@ -187,7 +189,7 @@ namespace Control
     {
 #       ifdef DEBUG
             std::ostringstream ss;
-            ss << "Status changed: (jid: \"" << item.name()
+            ss << "Status changed: (jid: \"" << item.jid()
                << "\", resource: \"" << resource << "\", presence: \""
                << presence << "\", message: \"" << msg << "\").";
             printLog(ss.str());
