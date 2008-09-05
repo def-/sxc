@@ -61,6 +61,9 @@ namespace Control
         const std::string &version)
     : _client(jid, "", port), // Fill in the passphrase later.
       _roster(_client),
+      _presence(gloox::Presence::Available),
+      _priority(0),
+      _status(""),
     // FIXME
     //  _output(this, jid.bare()),
       _input(*this, jid.bare()),
@@ -116,6 +119,12 @@ namespace Control
             printLog(text.str());
 #       endif/*}}}*/
 
+        // Don't trust _client, but instead store the presence information
+        // locally.
+        _presence = presence;
+        _priority = priority;
+        _status = status;
+
         _client.setPresence(presence, priority, status);
 
         // Don't connect if already connected or connecting.
@@ -130,12 +139,11 @@ namespace Control
         gloox::Presence::PresenceType presence,
         const std::string &status)
     {
-        setPresence(presence, _client.priority(), status);
+        setPresence(presence, _priority, status);
     }/*}}}*/
     void Control::setPriority(int priority)/*{{{*/
     {
-        gloox::Presence &pres = _client.presence();
-        setPresence(pres.presence(), priority, pres.status());
+        setPresence(_presence, priority, _status);
     }/*}}}*/
     void Control::disconnect()/*{{{*/
     {

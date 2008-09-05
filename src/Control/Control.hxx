@@ -36,6 +36,7 @@
 #include <gloox/message.h>
 #include <gloox/messagehandler.h>
 #include <gloox/error.h>
+#include <gloox/presence.h>
 
 #include <libsxc/Exception/Exception.hxx>
 
@@ -337,7 +338,12 @@ namespace Control
 
 /*}}}*/
 
+            //pthread_t _thread;/*{{{*/
+
+            /// The connection thread.
             pthread_t _thread;
+
+/*}}}*/
 
             //gloox::Client _client;/*{{{*/
 
@@ -351,6 +357,10 @@ namespace Control
             Roster _roster;
 
 /*}}}*/
+
+            gloox::Presence::PresenceType _presence;
+            int _priority;
+            std::string _status;
 
             //File::Input _input;/*{{{*/
 
