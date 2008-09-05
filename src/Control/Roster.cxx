@@ -250,7 +250,7 @@ namespace Control
     void Roster::handleRosterError(const gloox::IQ &iq)/*{{{*/
     {
 #       ifdef DEBUG
-            // FIXME: getStanzaErrorDesctiption()
+            // FIXME: getStanzaErrorDescription()
             printLog("Roster error received.");
 #       endif
         //FIXME

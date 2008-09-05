@@ -35,7 +35,7 @@
 //string &genConnErrorString(connE, streamE, streamEText, authE, debug=0);/*{{{*/
 
 /**
- * @brief Generate an error text.
+ * @brief Generate a connection error text.
  *
  * @param connectionError The connection error.
  * @param streamError More verbose information about a stream error.
@@ -58,8 +58,23 @@ std::string &genConnErrorString(
  * @brief Generate a presence text.
  *
  * @param presence The presence.
+ * @return The generated text.
  */
 std::string &genPresenceString(gloox::Presence::PresenceType presence);
+
+/*}}}*/
+//std::string &genStanzaErrorString(StanzaErrorType, StanzaError)/*{{{*/
+
+/**
+ * @brief Generate a stanza error text.
+ *
+ * @param type The stanza error type
+ * @param error The stanza error.
+ * @return The generated text.
+ */
+std::string &genStanzaErrorString(
+    gloox::StanzaErrorType type,
+    gloox::StanzaError error);
 
 /*}}}*/
 
