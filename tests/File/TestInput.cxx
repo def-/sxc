@@ -22,6 +22,8 @@
 
 #include <cstdio>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include <string>
 #include <fstream>
@@ -38,6 +40,9 @@ void TestInput::setUp()/*{{{*/
 {
     _inputDummy = new InputDummy(TestInput::fifoPath);
     _inputDummy->initialize(true);
+
+    // For the case that a previous test did not stop cleanly.
+    remove(TestInput::fifoPath.c_str());
 }
 
 /*}}}*/
@@ -79,6 +84,30 @@ void TestInput::exceptValidateMissing()/*{{{*/
     // been called manually. FIFO should be missing, this should fail and throw
     // an exception.
     _inputDummy->_validate();
+}
+
+/*}}}*/
+void TestInput::exceptValidate200()/*{{{*/
+{
+    exceptValidateChmod(S_IWUSR);
+}
+
+/*}}}*/
+void TestInput::exceptValidate400()/*{{{*/
+{
+    exceptValidateChmod(S_IRUSR);
+}
+
+/*}}}*/
+void TestInput::exceptValidate604()/*{{{*/
+{
+    exceptValidateChmod(S_IRUSR | S_IWUSR | S_IROTH);
+}
+
+/*}}}*/
+void TestInput::exceptValidate640()/*{{{*/
+{
+    exceptValidateChmod(S_IRUSR | S_IWUSR | S_IRGRP);
 }
 
 /*}}}*/
@@ -127,6 +156,15 @@ void TestInput::testWrite()/*{{{*/
     sleep(1);
 
     CPPUNIT_ASSERT_EQUAL(testInput, _inputDummy->getLastInput());
+}
+
+/*}}}*/
+void TestInput::exceptValidateChmod(mode_t mode)/*{{{*/
+{
+    std::cout << std::endl << std::oct << mode << std::endl;
+    CPPUNIT_ASSERT_EQUAL(0, mkfifo(TestInput::fifoPath.c_str(), mode));
+    // This should fail and throw an exception.
+    _inputDummy->_validate();
 }
 
 /*}}}*/
