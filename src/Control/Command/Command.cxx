@@ -64,6 +64,7 @@ namespace Control
             commandMap::iterator it = map.begin();
 
             it = map.insert(it, command("ack", param(1, false)));
+            it = map.insert(it, command("dec", param(1, false)));
             it = map.insert(it, command("add", param(1, false)));
             it = map.insert(it, command("del", param(1, false)));
             it = map.insert(it, command("msg", param(2, false)));
@@ -89,6 +90,9 @@ namespace Control
 
             if ("ack" == name) {/*{{{*/
                 roster.acknowledgeSubscription(parsed.at(1));
+/*}}}*/
+            } else if ("dec" == name) {/*{{{*/
+                roster.declineSubscription(parsed.at(1));
 /*}}}*/
             } else if ("add" == name) {/*{{{*/
                 roster.addContact(parsed.at(1));

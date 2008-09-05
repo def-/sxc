@@ -77,7 +77,7 @@ int main(int argc, char *argv[])/*{{{*/
     libsxc::Option::Option<bool> defHelp(
         &parser, 'h', "help", "Show help and exit");
     libsxc::Option::Option<bool> defVersion(
-        &parser, 'v', "version", "Show version and exit");
+        &parser, 'V', "version", "Show version and exit");
     libsxc::Option::OptionPort port(
         &parser, 'p', "port", "port", "0 - 65535, -1 for default");
     libsxc::Option::Option<std::string> name(

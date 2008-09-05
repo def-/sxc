@@ -1,6 +1,7 @@
 Control:
 
 :ack <jid>
+:dec <jid>
 :add <jid>
 :del <jid>
 :msg <jid> <text>
@@ -17,6 +18,7 @@ Control:
 Contact:
 
 :ack
+:dec
 :add
 :del
 :msg <text>
