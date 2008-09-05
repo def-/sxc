@@ -155,7 +155,7 @@ namespace Control
         // Don't connect if already connected or connecting.
         if (_thread)
             return;
-        uf ("" == _client.password())
+        if ("" == _client.password())
             print("Password not set.");
         else
             pthread_create(&_thread, NULL, _run, (void*)this);
