@@ -31,7 +31,7 @@
 #define GENERATESTRING_HXX
 
 
-//string &generateErrorText(connectionE, streamE, streamEText, authE);/*{{{*/
+//string &genConnErrorString(connE, streamE, streamEText, authE, debug=0);/*{{{*/
 
 /**
  * @author Dennis Felsing
@@ -44,11 +44,12 @@
  * @param authError More verbose information about an authentication error.
  * @return The generated text.
  */
-std::string &generateErrorText(
+std::string &genConnErrorString(
     gloox::ConnectionError connectionError,
     gloox::StreamError streamError,
     const std::string &streamErrorText,
-    gloox::AuthenticationError authError);
+    gloox::AuthenticationError authError,
+    bool isDebug = false);
 
 /*}}}*/
 

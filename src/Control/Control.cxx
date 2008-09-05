@@ -222,16 +222,22 @@ namespace Control
     }/*}}}*/
     void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
     {
-        std::string text = "Disconnected: " + generateErrorText(
+#       if DEBUG
+            printLog(genConnErrorString(
+                e,
+                _client.streamError(),
+                _client.streamErrorText(),
+                _client.authError(),
+                true)); // Debug.
+#       endif
+
+        std::string &text = genConnErrorString(
             e,
             _client.streamError(),
             _client.streamErrorText(),
             _client.authError());
         if (!text.empty())
-            print(text);
-#       if DEBUG
-            printLog(text);
-#       endif
+            print("Disconnected: " + text);
         //FIXME: Decide whether to reconnect and restart _run or not.
     }/*}}}*/
     bool Control::onTLSConnect(const gloox::CertInfo &info)/*{{{*/

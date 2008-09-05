@@ -29,16 +29,19 @@
 
 /*}}}*/
 
-std::string &generateErrorText(/*{{{*/
+std::string &genConnErrorString(/*{{{*/
     gloox::ConnectionError connectionError,
     gloox::StreamError streamError,
     const std::string &streamErrorText,
-    gloox::AuthenticationError authError)
+    gloox::AuthenticationError authError,
+    bool isDebug)
 {
     static std::string text;
 
     switch (connectionError) {
     case gloox::ConnNoError:
+        if (isDebug)
+            text = "No error occured.";
         break;
     case gloox::ConnStreamError: {
         text = "A stream error occured: ";
@@ -263,7 +266,9 @@ std::string &generateErrorText(/*{{{*/
         }
         break;
     case gloox::ConnUserDisconnected:
-        // The user (or higher-level protocol) requested a disconnect.
+        if (isDebug)
+            text = "The user (or higher-level protocol) requested a "
+                   "disconnect.";
         break;
     case gloox::ConnNotConnected:
         text = "There is no active connection.";
