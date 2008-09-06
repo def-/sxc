@@ -64,17 +64,15 @@ std::string &genConnErrorString(
 std::string &genPresenceString(gloox::Presence::PresenceType presence);
 
 /*}}}*/
-//std::string &genStanzaErrorString(StanzaErrorType, StanzaError)/*{{{*/
+//std::string &genStanzaErrorString(gloox::StanzaError error)/*{{{*/
 
 /**
  * @brief Generate a stanza error text.
  *
- * @param type The stanza error type
  * @param error The stanza error.
  * @return The generated text.
  */
 std::string &genStanzaErrorString(
-    gloox::StanzaErrorType type,
     gloox::StanzaError error);
 
 /*}}}*/

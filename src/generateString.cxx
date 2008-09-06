@@ -317,10 +317,123 @@ std::string &genPresenceString(gloox::Presence::PresenceType presence)/*{{{*/
     return presenceStr;
 }/*}}}*/
 std::string &genStanzaErrorString(/*{{{*/
-    gloox::StanzaErrorType type,
     gloox::StanzaError error)
 {
     static std::string str;
+
+    switch (error) {
+    case gloox::StanzaErrorBadRequest:
+        str = "The sender has sent XML that is malformed or that cannot be "
+              "processed (e.g., an IQ stanza that includes an unrecognized "
+              "value of the 'type' attribute).";
+        break;
+    case gloox::StanzaErrorConflict:
+        str = "Access cannot be granted because an existing resource or "
+              "session exists with the same name or address.";
+        break;
+    case gloox::StanzaErrorFeatureNotImplemented:
+        str = "The feature requested is not implemented by the recipient or "
+              "server and therefore cannot be processed.";
+        break;
+    case gloox::StanzaErrorForbidden:
+        str = "The requesting entity does not possess the required "
+              "permissions to perform the action.";
+        break;
+    case gloox::StanzaErrorGone:
+        str = "The recipient or server can no longer be contacted at this "
+              "address (the error stanza MAY contain a new address in the XML "
+              "character data of the <gone/> element).";
+        break;
+    case gloox::StanzaErrorInternalServerError:
+        str = "The server could not process the stanza because of a "
+              "misconfiguration or an otherwise-undefined internal server "
+              "error.";
+        break;
+    case gloox::StanzaErrorItemNotFound:
+        str = "The addressed JID or item requested cannot be found";
+        break;
+    case gloox::StanzaErrorJidMalformed:
+        str = "The sending entity has provided or communicated an XMPP "
+              "address (e.g., a value of the 'to' attribute) or aspect "
+              "thereof (e.g., a resource identifier) that does not adhere to "
+              "the syntax defined in Addressing Scheme (Section 3).";
+        break;
+    case gloox::StanzaErrorNotAcceptable:
+        str = "The recipient or server understands the request but is "
+              "refusing to process it because it does not meet criteria "
+              "defined by the recipient or server (e.g., a local policy "
+              "regarding acceptable words in messages).";
+        break;
+    case gloox::StanzaErrorNotAllowed:
+        str = "The recipient or server does not allow any entity to perform "
+              "the action.";
+        break;
+    case gloox::StanzaErrorNotAuthorized:
+        str = "The sender must provide proper credentials before being "
+              "allowed to perform the action, or has provided impreoper "
+              "credentials.";
+        break;
+    case gloox::StanzaErrorNotModified:
+        str = "The item requested has not changed since it was last "
+              "requested.";
+        break;
+    case gloox::StanzaErrorPaymentRequired:
+        str = "The requesting entity is not authorized to access the "
+              "requested service because payment is required.";
+        break;
+    case gloox::StanzaErrorRecipientUnavailable:
+        str = "The intended recipient is temporarily unavailable.";
+        break;
+    case gloox::StanzaErrorRedirect:
+        str = "The recipient or server is redirecting requests for this "
+              "information to another entity, usually temporarily.";
+        break;
+    case gloox::StanzaErrorRegistrationRequired:
+        str = "The requesting entity is not authorized to access the requested "
+              "service because registration is required.";
+        break;
+    case gloox::StanzaErrorRemoteServerNotFound:
+        str = "A remote server or service specified as part or all of the JID "
+              "of the intended recipient does not exist.";
+        break;
+    case gloox::StanzaErrorRemoteServerTimeout:
+        str = "A remote server or service specified as part or all of the JID "
+              "of the intended recipient (or required to fulfill a request) "
+              "could not be contacted within a reasonable amount of time.";
+        break;
+    case gloox::StanzaErrorResourceConstraint:
+        str = "The server or recipient lacks the system resources necessary to "
+              "service the request.";
+        break;
+    case gloox::StanzaErrorServiceUnavailable:
+        str = "The server or recipient does not currently provide the "
+              "requested service.";
+        break;
+    case gloox::StanzaErrorSubscribtionRequired:
+        str = "The requesting entity is not authorized to access the requested "
+              "service because a subscription is required.";
+        break;
+    case gloox::StanzaErrorUndefinedCondition:
+        str = "The error condition is undefined.";
+        break;
+    case gloox::StanzaErrorUnexpectedRequest:
+        str = "The recipient or server understood the request but was not "
+              "expecting it at this time (e.g., the request was out of order).";
+        break;
+    case gloox::StanzaErrorUnknownSender:
+        str = "The stanza 'from' address specified by a connected client is "
+              "not valid for the stream (e.g., the stanza does not include a "
+              "'from' address when multiple resources are bound to the "
+              "stream).";
+        break;
+    case gloox::StanzaErrorUndefined:
+        str = "No stanza error occured.";
+        break;
+    default:
+        str = "An unknown stanza error occured";
+        break;
+    }
+
     return str;
 }/*}}}*/
 std::string &genMsgTypeString(gloox::Message::MessageType type)/*{{{*/

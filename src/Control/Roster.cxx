@@ -252,8 +252,11 @@ namespace Control
     void Roster::handleRosterError(const gloox::IQ &iq)/*{{{*/
     {
 #       ifdef DEBUG
-            // FIXME: getStanzaErrorDescription()
-            printLog("Roster error received.");
+            const gloox::Error *error = iq.error();
+            if (error)
+                printLog(
+                    "Roster error received: " +
+                    genStanzaErrorString(error->error()));
 #       endif
         //FIXME
     }/*}}}*/
