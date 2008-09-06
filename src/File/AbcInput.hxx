@@ -23,9 +23,11 @@
 
 // INCLUDES/*{{{*/
 
+#include <pthread.h>
+
+#include <list>
 #include <string>
 #include <fstream>
-#include <pthread.h>
 
 /*}}}*/
 
@@ -41,6 +43,21 @@ namespace File
     class AbcInput
     {
         public:
+            // static list<string> splitNull(const string &)/*{{{*/
+
+            /**
+             * @brief Splits @a data on each occurrence of @a delim.
+             *
+             * @note: @a delim will be extracted and discarded.
+             *
+             * @param data Any input to split.
+             * @param delim Character to delimit the substrings.
+             * @return Constant reference to a list holding the parts.
+             */
+            static std::list<std::string> split(
+                const std::string &data, const char delim);
+
+/*}}}*/
             // AbcInput();/*{{{*/
 
             /// Constructor, initializes private variables with default values.
@@ -155,22 +172,18 @@ namespace File
             void _validate();
 
 /*}}}*/
-            // void _read();/*{{{*/
+            // std::string _read();/*{{{*/
 
             /**
              * @brief Reads the FIFO blocking.
              *
-             * Stops reading when the other end closes the pipe. Then, all input
-             * will be passed to @ref _handleInput().
+             * Stops reading when EOF is reached. This typically happens when
+             * the writer closes the pipe.
              *
-             * Before calling @ref _handleInput(), @ref _mustClose will be
-             * checked. This method will return if it is true.
-             *
-             * @note The only way to stop this method is to "unblock" the call
-             *       to open(). This can be done by opening and closing the
-             *       other end of the named pipe.
+             * @note Since the underlying object is a named pipe, opening it for
+             *       reading blocks until the file is opened in write mode.
              */
-            void _read();
+            std::string _read();
 
 /*}}}*/
 

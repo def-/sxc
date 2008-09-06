@@ -26,13 +26,14 @@
 #endif
 
 #include <cerrno>
-#include <sstream>
 #include <sys/stat.h>
-
-#include <string>
-#include <fstream>
 #include <pthread.h>
 #include <signal.h>
+
+#include <list>
+#include <string>
+#include <fstream>
+#include <sstream>
 
 #include <File/AbcInput.hxx>
 #include <Exception/FileInputException.hxx>
@@ -127,44 +128,22 @@ void File::AbcInput::_validate()/*{{{*/
 }
 
 /*}}}*/
-void File::AbcInput::_read()/*{{{*/
+std::string File::AbcInput::_read()/*{{{*/
 {
-    _fifo.open(_path.c_str());
-
-    if (_mustClose)
-        return;
-
-    std::string buffer;
     std::string input;
-    bool isFirstLine = true;
+    std::string buf;
+
+    _fifo.open(_path.c_str());
     while (!_fifo.eof()) {
-        getline(_fifo, buffer);
-        if (_fifo.eof() && buffer.empty()) {
-#ifdef DEBUG
-            std::string msg = "AbcInput::_read() (while): ";
-            msg.append("EOF, empty buffer. Not appending trailing newline.");
-            printLog(msg);
-#endif
-            break;
-        }
-        if (isFirstLine) {
-            isFirstLine = false;
-        } else {
-            input += '\n';
-        }
-        input.append(buffer);
-#ifdef DEBUG
-        printLog("AbcInput::_read(): Read '" + buffer + "'.");
-        printLog("AbcInput::_read(): Input is now: '" + input + "'.");
-#endif
+        getline(_fifo, buf);
+        input.append(buf);
+        input.push_back('\n');
     }
-#ifdef DEBUG
-    printLog("AbcInput::_read(): EOF. Input was: '" + input + "'.");
-#endif
-
-    _handleInput(input);
-
     _fifo.close();
+
+    input.erase(--input.end());
+
+    return input;
 }
 
 /*}}}*/
@@ -213,19 +192,44 @@ void File::AbcInput::close()/*{{{*/
 }
 
 /*}}}*/
+std::list<std::string> File::AbcInput::split(
+    const std::string &data, const char delim)/*{{{*/
+{
+    std::istringstream in(data);
+    std::string buf;
+    std::list<std::string> splitted;
+
+    do {
+        getline(in, buf, delim);
+        if (!buf.empty())
+            splitted.push_back(buf);
+    } while (!in.eof());
+
+    return splitted;
+}
+
+/*}}}*/
 void *File::AbcInput::_listen(void *fifo)/*{{{*/
 {
 #ifdef DEBUG
     printLog("Thread running.");
 #endif
-    // FIXME: Add exception handling.
+    // FIXME: Add exception handling. || called methods must not throw
     AbcInput *that = (AbcInput *) fifo;
-    do {
-        // _read() reads blocking until the other end closes the pipe. This 
-        // loop will always restart _read() after it handled some input and 
-        // returned.
-        that->_read();
-    } while (!that->_mustClose);
+    while (!that->_mustClose) {
+        std::string input = that->_read();
+
+        if (that->_mustClose) break;
+        if (input.empty()) continue;
+
+        std::list<std::string> inputs = AbcInput::split(input, '\0');
+        for (std::list<std::string>::iterator it = inputs.begin();
+             it != inputs.end();
+             ++it)
+        {
+            that->_handleInput(*it);
+        }
+    }
 
 #ifdef DEBUG
     printLog("Thread terminating.");
