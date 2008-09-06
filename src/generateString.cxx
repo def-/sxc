@@ -25,6 +25,7 @@
 #include <string>
 #include <gloox/gloox.h>
 #include <gloox/presence.h>
+#include <gloox/message.h>
 
 #include <generateString.hxx>
 
@@ -320,6 +321,33 @@ std::string &genStanzaErrorString(/*{{{*/
     gloox::StanzaError error)
 {
     static std::string str;
+    return str;
+}/*}}}*/
+std::string &genMsgTypeString(gloox::Message::MessageType type)/*{{{*/
+{
+    static std::string str;
+    switch (type) {
+    case gloox::Message::Chat:
+        str = "Chat";
+        break;
+    case gloox::Message::Error:
+        str = "Error";
+        break;
+    case gloox::Message::Groupchat:
+        str = "Groupchat";
+        break;
+    case gloox::Message::Headline:
+        str = "Headline";
+        break;
+    case gloox::Message::Normal:
+        str = "Normal";
+        break;
+    case gloox::Message::Invalid:
+        str = "Invalid";
+        break;
+    default:
+        str = "Unknown";
+    }
     return str;
 }/*}}}*/
 

@@ -70,6 +70,7 @@ namespace Control
       _thread(NULL)
     {
         _client.registerConnectionListener(this);
+        _client.registerMessageHandler(this);
 
         // "console" is not exactly what sxc is, but "pc" is described as a
         // full-featured GUI.
@@ -166,8 +167,20 @@ namespace Control
         const gloox::Message &msg,
         gloox::MessageSession *session)
     {
+#       ifdef DEBUG
+            std::ostringstream ss;
+            ss << "Message received: (jid: \"" << msg.from().full();
+            if (session)
+                ss << "\", thread id: \"" << session->threadID() << "\"";
+            else
+                ss << "\", no session";
+            ss << ", type: \"" << genMsgTypeString(msg.subtype());
+            ss << "\" (" << msg.subtype();
+            ss << "), subject: \"" << msg.subject();
+            ss << "\", body: \"" << msg.body() << "\").";
+            printLog(ss.str());
+#       endif
         // FIXME
-        //print(session->target()->full() + ": " + msg.body());
     }/*}}}*/
 
     void Control::handleError(/*{{{*/

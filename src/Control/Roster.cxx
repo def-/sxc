@@ -175,7 +175,9 @@ namespace Control
         entry != roster.end();
             ++entry) {
 #           ifdef DEBUG
-                printLog("Add contact " + entry->first + " to the roster");
+                printLog(
+                    "Add contact from initial roster: \"" + entry->first +
+                    "\".");
 #           endif
             _contacts.insert(make_pair(
                 entry->first,
@@ -191,7 +193,7 @@ namespace Control
 #       ifdef DEBUG
             std::ostringstream ss;
             ss << "Status changed: (jid: \"" << item.jid()
-               << "\", resource: \"" << resource << "\", presence: \""
+               << "/" << resource << "\", presence: \""
                << genPresenceString(presence) << "\" (" << presence
                << "), message: \"" << msg << "\").";
             printLog(ss.str());

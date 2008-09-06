@@ -24,6 +24,7 @@
 
 #include <gloox/gloox.h>
 #include <gloox/presence.h>
+#include <gloox/message.h>
 
 /*}}}*/
 
@@ -75,6 +76,17 @@ std::string &genPresenceString(gloox::Presence::PresenceType presence);
 std::string &genStanzaErrorString(
     gloox::StanzaErrorType type,
     gloox::StanzaError error);
+
+/*}}}*/
+//std::string &genMsgTypeString(gloox::Message::MessageType type);/*{{{*/
+
+/**
+ * @brief Generate a text from a message type.
+ *
+ * @param type The message type.
+ * @return The generated text.
+ */
+std::string &genMsgTypeString(gloox::Message::MessageType type);
 
 /*}}}*/
 
