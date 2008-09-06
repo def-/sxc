@@ -35,9 +35,8 @@ namespace File
      * @author Andreas Waidler
      * @brief Abstract Base Class handling input (FIFOs).
      *
-     * Handles creation and checking of, listening (non-blocking) on and reading
-     * (blocking) off FIFOs. Contains pure virtual methods that will define the
-     * location of the FIFO and how the input is handled.
+     * Handles creation, checking, listening (non-blocking) on and reading
+     * (blocking) of named pipes (FIFO).
      */
     class AbcInput
     {
@@ -159,7 +158,7 @@ namespace File
             // void _read();/*{{{*/
 
             /**
-             * @brief Reads blocking from the FIFO.
+             * @brief Reads the FIFO blocking.
              *
              * Stops reading when the other end closes the pipe. Then, all input
              * will be passed to @ref _handleInput().
