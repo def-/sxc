@@ -144,7 +144,7 @@ void TestInput::testListenClose()/*{{{*/
 }
 
 /*}}}*/
-void TestInput::testWrite()/*{{{*/
+void TestInput::testReadSimple()/*{{{*/
 {
     _inputDummy->_create();
     _inputDummy->listen();
@@ -156,6 +156,73 @@ void TestInput::testWrite()/*{{{*/
     sleep(1);
 
     CPPUNIT_ASSERT_EQUAL(testInput, _inputDummy->getLastInput());
+}
+
+/*}}}*/
+void TestInput::testReadNL()/*{{{*/
+{
+    _inputDummy->_create();
+    _inputDummy->listen();
+
+    const std::string testInput = "foobar\nfoobar\n";
+    std::ofstream fifo(TestInput::fifoPath.c_str());
+    fifo << testInput << std::flush;
+    fifo.close();
+    sleep(1);
+
+    CPPUNIT_ASSERT_EQUAL(testInput, _inputDummy->getLastInput());
+}
+
+/*}}}*/
+void TestInput::testReadNull()/*{{{*/
+{
+    _inputDummy->_create();
+    _inputDummy->listen();
+
+    // Create string while avoiding to let it terminate after \0
+    std::string testInput = "foo";
+    testInput.push_back('\0');
+    testInput.append("bar");
+    std::ofstream fifo(TestInput::fifoPath.c_str());
+    fifo << testInput << std::flush;
+    fifo.close();
+    sleep(1);
+
+    CPPUNIT_ASSERT_EQUAL(std::string("bar"), _inputDummy->getLastInput());
+}
+
+/*}}}*/
+void TestInput::testReadTrailNull()/*{{{*/
+{
+    _inputDummy->_create();
+    _inputDummy->listen();
+
+    std::string testInput = "foobar";
+    testInput.push_back('\0');
+    testInput.push_back('\0');
+    std::ofstream fifo(TestInput::fifoPath.c_str());
+    fifo << testInput << std::flush;
+    fifo.close();
+    sleep(1);
+
+    CPPUNIT_ASSERT_EQUAL(std::string("foobar"), _inputDummy->getLastInput());
+}
+
+/*}}}*/
+void TestInput::testReadLeadNull()/*{{{*/
+{
+    _inputDummy->_create();
+    _inputDummy->listen();
+
+    std::string testInput;
+    testInput.push_back ('\0');
+    testInput.append("foobar");
+    std::ofstream fifo(TestInput::fifoPath.c_str());
+    fifo << testInput << std::flush;
+    fifo.close();
+    sleep(1);
+
+    CPPUNIT_ASSERT_EQUAL(std::string("foobar"), _inputDummy->getLastInput());
 }
 
 /*}}}*/

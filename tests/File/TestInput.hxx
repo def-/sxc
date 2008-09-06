@@ -59,7 +59,11 @@ class TestInput : public CppUnit::TestFixture
         CPPUNIT_TEST(testClose);
         CPPUNIT_TEST(testListen);
         CPPUNIT_TEST(testListenClose);
-        CPPUNIT_TEST(testWrite);
+        CPPUNIT_TEST(testReadSimple);
+        CPPUNIT_TEST(testReadNL);
+        CPPUNIT_TEST(testReadNull);
+        CPPUNIT_TEST(testReadTrailNull);
+        CPPUNIT_TEST(testReadLeadNull);
     CPPUNIT_TEST_SUITE_END();
 
     public:
@@ -79,11 +83,15 @@ class TestInput : public CppUnit::TestFixture
         void exceptValidate640();
         void exceptValidateBad();
         void testClose();
+        void testReadSimple();
+        void testReadNL();
+        void testReadNull();
+        void testReadTrailNull();
+        void testReadLeadNull();
 
         // Public interface of InputBase or InputDummy:
         void testListen();
         void testListenClose();
-        void testWrite();
 
         // Helper methods:
         void exceptValidateChmod(mode_t mode);
