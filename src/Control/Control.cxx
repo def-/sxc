@@ -50,7 +50,6 @@
 
 /*}}}*/
 
-#include <iostream>
 
 namespace Control
 {
@@ -61,6 +60,9 @@ namespace Control
         const std::string &version)
     : _client(jid, "", port), // Fill in the passphrase later.
       _roster(_client),
+#     ifdef DEBUG
+          _logHandler(new LogHandler),
+#     endif
       _presence(gloox::Presence::Available),
       _priority(0),
       _status(""),
@@ -71,6 +73,13 @@ namespace Control
     {
         _client.registerConnectionListener(this);
         _client.registerMessageHandler(this);
+
+#       ifdef DEBUG
+            _client.logInstance().registerLogHandler(
+                gloox::LogLevelDebug,
+                gloox::LogAreaAll,
+                _logHandler);
+#       endif
 
         // "console" is not exactly what sxc is, but "pc" is described as a
         // full-featured GUI.
@@ -98,6 +107,10 @@ namespace Control
             printLog("Exit.");
 #       endif
         disconnect();
+#       if DEBUG
+            _client.logInstance().removeLogHandler(_logHandler);
+            delete _logHandler;
+#       endif
     }/*}}}*/
 
     void Control::setPassphrase(const std::string &pass)/*{{{*/

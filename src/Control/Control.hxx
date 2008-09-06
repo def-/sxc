@@ -42,6 +42,7 @@
 
 #include <Control/Roster.hxx>
 #include <Control/File/Input.hxx>
+#include <LogHandler.hxx>
 
 /*}}}*/
 
@@ -357,6 +358,7 @@ namespace Control
             Roster _roster;
 
 /*}}}*/
+            gloox::LogHandler *_logHandler;
 
             gloox::Presence::PresenceType _presence;
             int _priority;
