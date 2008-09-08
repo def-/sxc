@@ -29,13 +29,13 @@
 #include <gloox/presence.h>
 #include <gloox/iq.h>
 
+#include <libsxc/generateString.hxx>
 #include <libsxc/Exception/GlooxException.hxx>
 
 #include <Control/Roster.hxx>
 #include <Control/Control.hxx>
 #include <Contact/Contact.hxx>
 #include <print.hxx>
-#include <generateString.hxx>
 
 #ifdef HAVE_CONFIG_H
 #   include <config.hxx>
@@ -194,7 +194,7 @@ namespace Control
             std::ostringstream ss;
             ss << "Status changed: (jid: \"" << item.jid()
                << "/" << resource << "\", presence: \""
-               << genPresenceString(presence) << "\" (" << presence
+               << libsxc::genPresenceString(presence) << "\" (" << presence
                << "), message: \"" << msg << "\").";
             printLog(ss.str());
 #       endif
@@ -256,7 +256,7 @@ namespace Control
             if (error)
                 printLog(
                     "Roster error received: " +
-                    genStanzaErrorString(error->error()));
+                    libsxc::genStanzaErrorString(error->error()));
 #       endif
         //FIXME
     }/*}}}*/

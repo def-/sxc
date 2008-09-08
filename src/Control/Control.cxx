@@ -32,12 +32,12 @@
 #include <gloox/disco.h>
 #include <gloox/error.h>
 
+#include <libsxc/generateString.hxx>
 #include <libsxc/Exception/Exception.hxx>
 
 #include <Control/Control.hxx>
 #include <Control/Roster.hxx>
 #include <Control/File/Input.hxx>
-#include <generateString.hxx>
 #include <print.hxx>
 
 #ifdef HAVE_CONFIG_H
@@ -127,9 +127,9 @@ namespace Control
     {
 #       if DEBUG/*{{{*/
             std::stringstream text;
-            text << "Set presence: (\"" << genPresenceString(presence) << "\" ("
-                 << presence << "), priority: " << priority << ", message: \""
-                 << status << "\").";;
+            text << "Set presence: (\"" << libsxc::genPresenceString(presence)
+                 << "\" (" << presence << "), priority: " << priority
+                 << ", message: \"" << status << "\").";;
             printLog(text.str());
 #       endif/*}}}*/
 
@@ -187,7 +187,7 @@ namespace Control
                 ss << "\", thread id: \"" << session->threadID() << "\"";
             else
                 ss << "\", no session";
-            ss << ", type: \"" << genMsgTypeString(msg.subtype());
+            ss << ", type: \"" << libsxc::genMsgTypeString(msg.subtype());
             ss << "\" (" << msg.subtype();
             ss << "), subject: \"" << msg.subject();
             ss << "\", body: \"" << msg.body() << "\").";
@@ -227,7 +227,7 @@ namespace Control
     void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
     {
 #       if DEBUG
-            printLog(genConnErrorString(
+            printLog(libsxc::genConnErrorString(
                 e,
                 _client.streamError(),
                 _client.streamErrorText(),
@@ -235,7 +235,7 @@ namespace Control
                 true)); // Debug.
 #       endif
 
-        std::string &text = genConnErrorString(
+        std::string &text = libsxc::genConnErrorString(
             e,
             _client.streamError(),
             _client.streamErrorText(),

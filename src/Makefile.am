@@ -4,7 +4,6 @@ noinst_LTLIBRARIES = libSrc.la
 libSrc_la_CPPFLAGS = $(GLOOX_CFLAGS) $(SIGC_CFLAGS)
 libSrc_la_SOURCES =\
     print.cxx\
-    generateString.cxx\
     SignalHandler.cxx\
     LogHandler.cxx
 
