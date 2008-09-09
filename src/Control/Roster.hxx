@@ -71,6 +71,14 @@ namespace Control
             Roster(gloox::Client &client);
 
 /*}}}*/
+            //~Roster();/*{{{*/
+
+            /**
+             * @brief Clean up.
+             */
+            ~Roster();
+
+/*}}}*/
 
             //void addContact(const gloox::JID &jid) const;/*{{{*/
 
