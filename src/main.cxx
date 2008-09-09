@@ -60,9 +60,9 @@
  * into the files/FIFOs sxc creates.
  */
 
-void dummy()
+void dummy()/*{{{*/
 {
-}
+}/*}}}*/
 
 /**
  * @author Dennis Felsing

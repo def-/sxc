@@ -193,7 +193,13 @@ namespace Control
             ss << "\", body: \"" << msg.body() << "\").";
             printLog(ss.str());
 #       endif
-        // FIXME
+        if ("" != msg.subject()) {
+            print(
+                msg.from().full() + ": Subject: " + msg.subject() + "\n\n" +
+                msg.body());
+        } else {
+            print(msg.from().full() + ": " + msg.body());
+        }
     }/*}}}*/
 
     void Control::handleError(/*{{{*/
@@ -221,7 +227,7 @@ namespace Control
     void Control::onConnect()/*{{{*/
     {
 #       if DEBUG
-            printLog("Connection established.");
+            printLog("Connected: Connection established.");
 #       endif
     }/*}}}*/
     void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
@@ -242,7 +248,6 @@ namespace Control
             _client.authError());
         if (!text.empty())
             print("Disconnected: " + text);
-        //FIXME: Decide whether to reconnect and restart _run or not.
     }/*}}}*/
     bool Control::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
     {
