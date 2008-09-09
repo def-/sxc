@@ -40,6 +40,11 @@ const std::string _outputPrefix = PACKAGE ": ";
 
 /*}}}*/
 
+void printErrRaw(std::string text)/*{{{*/
+{
+    std::cerr << text << std::endl;
+}/*}}}*/
+
 void printErr(std::string text)/*{{{*/
 {
     std::cerr << _outputPrefix << text << std::endl;

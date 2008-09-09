@@ -35,6 +35,16 @@
  * @author Dennis Felsing
  */
 
+//void printErrRaw(std::string text);/*{{{*/
+
+/**
+ * @brief Print a raw text (unformatted) to stderr.
+ *
+ * @param text The raw text to print.
+ */
+void printErrRaw(std::string text);
+
+/*}}}*/
 //void printErr(std::string text);/*{{{*/
 
 /**

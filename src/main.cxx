@@ -110,11 +110,7 @@ int main(int argc, char *argv[])/*{{{*/
         }
 
         std::vector<std::string> usage = parser.getUsage();
-        for(
-        std::vector<std::string>::iterator line = usage.begin();
-        line != usage.end();
-        ++line)
-            std::cerr << *line << std::endl;
+        for_each(usage.begin(), usage.end(), printErrRaw);
 
         if (e.getType() < 0) // No error. (ShowUsage, ShowVersion)
             return libsxc::Exception::NoError;
