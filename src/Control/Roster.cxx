@@ -135,7 +135,10 @@ namespace Control
 #       ifdef DEBUG
             printLog("Item added to the roster: \"" + jid.bare() + "\".");
 #       endif
-        // FIXME
+
+        _contacts.insert(make_pair(
+            jid.bare(),
+            new Contact::Contact(&_client, jid)));
     }/*}}}*/
     void Roster::handleItemSubscribed(const gloox::JID &jid)/*{{{*/
     {
