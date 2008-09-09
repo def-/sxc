@@ -241,7 +241,7 @@ namespace Control
                 true)); // Debug.
 #       endif
 
-        std::string &text = libsxc::genConnErrorString(
+        std::string text = libsxc::genConnErrorString(
             e,
             _client.streamError(),
             _client.streamErrorText(),
