@@ -59,9 +59,9 @@ namespace Control
         const std::string &name,
         const std::string &version)
     : _client(jid, "", port), // Fill in the passphrase later.
-      _roster(_client),
+      _roster(&_client),
 #     ifdef DEBUG
-          _logHandler(new LogHandler),
+          _logHandler(),
 #     endif
       _presence(gloox::Presence::Available),
       _priority(0),
@@ -69,7 +69,7 @@ namespace Control
     // FIXME
     //  _output(this, jid.bare()),
       _input(*this, jid.bare()),
-      _thread(NULL)
+      _thread()
     {
         _client.registerConnectionListener(this);
         _client.registerMessageHandler(this);
@@ -78,7 +78,7 @@ namespace Control
             _client.logInstance().registerLogHandler(
                 gloox::LogLevelDebug,
                 gloox::LogAreaAll,
-                _logHandler);
+                &_logHandler);
 #       endif
 
         // "console" is not exactly what sxc is, but "pc" is described as a
@@ -106,10 +106,13 @@ namespace Control
 #       if DEBUG
             printLog("Exit.");
 #       endif
+
         disconnect();
+        _client.removeMessageHandler(this);
+        _client.removeConnectionListener(this);
+
 #       if DEBUG
-            _client.logInstance().removeLogHandler(_logHandler);
-            delete _logHandler;
+            _client.logInstance().removeLogHandler(&_logHandler);
 #       endif
     }/*}}}*/
 
@@ -269,8 +272,6 @@ namespace Control
 #       if DEBUG
             printLog("End socket receiving thread.");
 #       endif
-
-        that->_thread = NULL;
 
         return (void *) NULL;
     }/*}}}*/

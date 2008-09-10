@@ -44,6 +44,9 @@
 #include <Control/File/Input.hxx>
 #include <LogHandler.hxx>
 
+#ifdef HAVE_CONFIG_H
+#   include <config.hxx>
+#endif
 /*}}}*/
 
 /**
@@ -358,7 +361,9 @@ namespace Control
             Roster _roster;
 
 /*}}}*/
-            gloox::LogHandler *_logHandler;
+#           if DEBUG
+                LogHandler _logHandler;
+#           endif
 
             gloox::Presence::PresenceType _presence;
             int _priority;

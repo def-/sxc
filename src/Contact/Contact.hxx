@@ -50,18 +50,20 @@ namespace Contact
     class Contact : public gloox::MessageHandler
     {
         public:
-            //Contact(gloox::ClientBase *client, const gloox::JID jid);/*{{{*/
+            //Contact(gloox::ClientBase *client, const gloox::JID &jid);/*{{{*/
 
             /**
              * @brief Initialise the contact.
              */
-            Contact(gloox::ClientBase *client, const gloox::JID jid);
+            Contact(gloox::ClientBase *client, const gloox::JID &jid);
 
 /*}}}*/
             //~Contact();/*{{{*/
 
             /**
              * @brief Destroy the contact.
+             *
+             * This method also lets the client dispose of the MessageSession.
              */
             ~Contact();
 
@@ -79,6 +81,7 @@ namespace Contact
         private:
             //File::Input *_input;
             //File::Output *_output;
+            gloox::ClientBase *_client;
             gloox::MessageSession *_session;
 
     };

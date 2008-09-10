@@ -26,6 +26,13 @@
 
 #include <gloox/error.h>
 
+#ifdef HAVE_CONFIG_H
+#   include <config.hxx>
+#endif
+
+#ifdef DEBUG
+#   include <print.hxx>
+#endif
 /*}}}*/
 
 
