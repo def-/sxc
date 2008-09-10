@@ -261,11 +261,9 @@ PWD="insecurepwd"
 .nf
 PRI=23
 (
-    echo ":pwd $PWD" > $JID/in
-    sleep 0.01
-    echo ":pri $PRI" > $JID/in
-    sleep 0.01
-    echo ":set available" > $JID/in
+    echo "\0:pwd $PWD\0" > $JID/in
+    echo "\0:pri $PRI\0" > $JID/in
+    echo "\0:set available\0" > $JID/in
 )&
 exec src/sxc $JID
 
