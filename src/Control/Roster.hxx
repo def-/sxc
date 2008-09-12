@@ -45,6 +45,8 @@
 
 namespace Control
 {
+    class Control;
+
     //typedef map<const string, Contact> contactList;/*{{{*/
 
     /// A map of JIDs and Contact-objects.
@@ -61,14 +63,15 @@ namespace Control
     class Roster : public gloox::RosterListener
     {
         public:
-            //Roster(gloox::Client *client);/*{{{*/
+            //Roster(Control *control, gloox::Client *client);/*{{{*/
 
             /**
              * @brief Initialise the roster and register with the client.
              *
+             * @param control The control object.
              * @param client The client instance to register with.
              */
-            Roster(gloox::Client *client);
+            Roster(Control *control, gloox::Client *client);
 
 /*}}}*/
             //~Roster();/*{{{*/
@@ -80,7 +83,7 @@ namespace Control
 
 /*}}}*/
 
-            //void addContact(const gloox::JID &jid) const;/*{{{*/
+            //void addContact(const JID &jid, isPermanent=true) const;/*{{{*/
 
             /**
              * @brief Add contact to the roster.
@@ -89,8 +92,13 @@ namespace Control
              *       subscribe() if you want to see the contact's status.
              *
              * @param jid The JID to add to the roster.
+             * @param isPermanent If false only add to local roster, else also
+             *        send an add-command to the server to permanently add the
+             *        contact.
              */
-            void addContact(const gloox::JID &jid) const;
+            void addContact(
+                const gloox::JID &jid,
+                bool isPermanent=true);
 
 /*}}}*/
             //void removeContact(const gloox::JID &jid) const;/*{{{*/
@@ -348,8 +356,48 @@ namespace Control
             void _checkClient() const;
 
 /*}}}*/
+            //void _addContactRemote(const gloox::JID &jid) const;/*{{{*/
 
-            //gloox::Client &_client;/*{{{*/
+            /**
+             * @brief Add a contact to the remote roster only.
+             *
+             * This implicitely calls the synchronisation with the server to
+             * immediately add the contact.
+             *
+             * @param jid The JID to add to the roster.
+             */
+            void _addContactRemote(const gloox::JID &jid) const;
+
+/*}}}*/
+            //void _addContactLocal(const gloox::JID &jid);/*{{{*/
+
+            /**
+             * @brief Add a contact to the local roster only.
+             *
+             * @param jid The JID to add to the roster.
+             */
+            void _addContactLocal(const gloox::JID &jid);
+
+/*}}}*/
+            //contactList::iterator _getClient(const std::string &jid);/*{{{*/
+
+            /**
+             * @brief Get an iterator to the client specified by the jid.
+             *
+             * Points to _contacts.end() if not found.
+             *
+             * @param jid The JID to search for.
+             */
+            contactList::iterator _getClient(const std::string &jid);
+
+/*}}}*/
+
+            //Control *_control;/*{{{*/
+            /// The client object this roster is bound to.
+            Control *_control;
+
+/*}}}*/
+            //gloox::Client *_client;/*{{{*/
             /// The client object this roster is bound to.
             gloox::Client *_client;
 

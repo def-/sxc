@@ -27,9 +27,12 @@
 
 // INCLUDE/*{{{*/
 
+#include <string>
+
 #include <gloox/clientbase.h>
 #include <gloox/messagesession.h>
 #include <gloox/messagehandler.h>
+#include <gloox/presence.h>
 
 //#include <Contact/File/Input.hxx>
 
@@ -69,6 +72,19 @@ namespace Contact
 
 /*}}}*/
 
+            //void printPresenceUpdate(&resource, presence, &message)/*{{{*/
+
+            /**
+             * @brief Print a text to the contact's output file.
+             *
+             * @param text The text to print.
+             */
+            void printPresenceUpdate(
+                const std::string &resource,
+                gloox::Presence::PresenceType presence,
+                const std::string &message);
+
+/*}}}*/
             //void handleMessage(Message msg, MessageSession session);/*{{{*/
 
             /**

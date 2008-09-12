@@ -59,7 +59,7 @@ namespace Control
         const std::string &name,
         const std::string &version)
     : _client(jid, "", port), // Fill in the passphrase later.
-      _roster(&_client),
+      _roster(this, &_client),
 #     ifdef DEBUG
           _logHandler(),
 #     endif
@@ -236,7 +236,7 @@ namespace Control
     void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
     {
 #       if DEBUG
-            printLog(libsxc::genConnErrorString(
+            printLog("Disconnected: " + libsxc::genConnErrorString(
                 e,
                 _client.streamError(),
                 _client.streamErrorText(),

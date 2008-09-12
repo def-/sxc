@@ -22,8 +22,11 @@
 
 // INCLUDE/*{{{*/
 
+#include <string>
+
 #include <gloox/clientbase.h>
 #include <gloox/messagesession.h>
+#include <gloox/presence.h>
 
 #include <Contact/Contact.hxx>
 
@@ -66,6 +69,13 @@ namespace Contact
         _client->disposeMessageSession(_session);
     }/*}}}*/
 
+    void Contact::printPresenceUpdate(
+        const std::string &resource,
+        gloox::Presence::PresenceType presence,
+        const std::string &message)
+    {
+        // FIXME
+    }
     void Contact::handleMessage(/*{{{*/
         const gloox::Message &msg,
         gloox::MessageSession *session)
