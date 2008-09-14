@@ -277,6 +277,7 @@ AM_CONDITIONAL(have_cppunit, test "x${have_cppunit}" = xyes)
 AC_CONFIG_FILES([
     Makefile
     Doxyfile
+    sxc.1
     src/Makefile
     src/CommandParser/Makefile
     src/Contact/Makefile

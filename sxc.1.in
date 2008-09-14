@@ -1,10 +1,10 @@
-.TH SXC 1 "2008-09-05" "simple xmpp client"
+.TH SXC 1 "2008-09-14" "simple xmpp client"
 
 .SH NAME
-sxc \- simple xmpp xlient
+@PACKAGE@ \- simple xmpp xlient
 
 .SH SYNOPSIS
-.B sxc [-h] [-V] [-p
+.B @PACKAGE@ [-h] [-V] [-p
 .I port
 .B ] [--iqname
 .I name
@@ -14,26 +14,26 @@ sxc \- simple xmpp xlient
 .I jid
 
 .SH DESCRIPTION
-.B sxc
+.B @PACKAGE@
 (pronounced "sexy") is for jabber what 
 .B "ii(1)"
 (irc it/irc improved) is for IRC: A
 minimalistic file-based jabber client which runs in the background and can be
-controlled with basic command line tools to read from/write into the files sxc
-creates.
+controlled with basic command line tools to read from/write into the files
+@PACKAGE@ creates.
 
 .SH OPTIONS
 
 .TP
 .B -h/--help
 Output information about
-.B sxc
+.B @PACKAGE@
 and its usage and exit.
 
 .TP
 .B -V/--help
 Output the version of
-.B sxc
+.B @PACKAGE@
 and exit.
 
 .TP
@@ -47,18 +47,20 @@ client-to-server port 5222 (registered with IANA as "xmpp-client") is used.
 .B --iqname\fI " name"
 The name that will be used in responses to jabber:iq:version and disco#info
 requests. Defaults to
-.B sxc.
+.B @PACKAGE@.
 
 .TP
 .B --iqversion\fI " version"
-The version that will be used in responses to jabber:iq:version requests. Defaults to
+The version that will be used in responses to jabber:iq:version requests.
+Defaults to
 .B 0.0-prealpha.
 
 .TP
 .I jid
 The JID to use. This contains the username, the server to connect to, and the
-resource to bind to. The JID is constructed like this: user@domain[/resource]. The resource defaults to
-.B sxc@${hostname}.
+resource to bind to. The JID is constructed like this: user@domain[/resource].
+The resource defaults to
+.B @PACKAGE@@${hostname}.
 .SH STDERR
 The standard error is only used for diagnostic messages.
 
@@ -67,12 +69,12 @@ The standard error is only used for diagnostic messages.
 .TP
 .I ${jid}/in
 .RS
-The single FIFO file to send commands to an instance of sxc running for the
-specified jid.
+The single FIFO file to send commands to an instance of @PACKAGE@ running for
+the specified jid.
 .RE
 .I ${jid}/out
 .RS
-The single global output file of sxc.
+The single global output file of @PACKAGE@.
 .RE
 .I ${jid}/${contact}/in
 .RS
@@ -249,7 +251,7 @@ The value of an option is invalid.
 Two options are conflicting.
 
 .SH RUNSCRIPT
-You may find it more convenient to invoke sxc using a script.
+You may find it more convenient to invoke @PACKAGE@ using a script.
 .PP
 .I EXAMPLE:
 .nf
@@ -265,7 +267,7 @@ PRI=23
     echo "\0:pri $PRI\0" > $JID/in
     echo "\0:set available\0" > $JID/in
 )&
-exec src/sxc $JID
+exec src/@PACKAGE@ $JID
 
 .SH BUGS
 When multiple processes write to the input file at the same time they cannot be
@@ -274,10 +276,10 @@ distinguished and get interpreted as a signle command.
 A proxy cannot be set directly. Instead use a transparent proxying library like
 .B tsocks(1)
 to make
-.B sxc
+.B @PACKAGE@
 use a proxy.
 .PP
-.B sxc
+.B @PACKAGE@
 announces to the server to be a "console" program, while "client daemon" would
 be better.
 .PP
@@ -292,7 +294,7 @@ Andreas Waidler
 Dennis Felsing
 
 .SH REPORTING BUGS
-Please report bugs to sxc team.
+Please report bugs to @PACKAGE_BUGREPORT@
 
 .SH "SEE ALSO"
 .BR ii (1),
