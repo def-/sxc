@@ -135,7 +135,7 @@ int main(int argc, char *argv[])/*{{{*/
             version.getValue());
     } catch (libsxc::Exception::Exception &e) {
         printErr(e.getDescription());
-        delete control;
+        // Don't delete control, as it failed to initialize.
         return e.getType();
     }
 

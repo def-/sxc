@@ -29,6 +29,7 @@
 
 #include <string>
 #include <map>
+
 #include <gloox/client.h>
 #include <gloox/rostermanager.h>
 #include <gloox/rosterlistener.h>
@@ -38,6 +39,8 @@
 #include <gloox/jid.h>
 #include <gloox/presence.h>
 #include <gloox/iq.h>
+#include <gloox/message.h>
+#include <gloox/messagehandler.h>
 
 #include <Contact/Contact.hxx>
 
@@ -60,7 +63,7 @@ namespace Control
      *
      * This class handles all changes to the roster from and to the server.
      */
-    class Roster : public gloox::RosterListener
+    class Roster : public gloox::RosterListener, public gloox::MessageHandler
     {
         public:
             //Roster(Control *control, gloox::Client *client);/*{{{*/
@@ -170,6 +173,29 @@ namespace Control
              * @param jid The JID.
              */
             void declineSubscription(const gloox::JID &jid) const;
+
+/*}}}*/
+
+            // Reimplemented from gloox::MessageHandler
+            //void handleMessage(const &msg, *session);/*{{{*/
+
+            /**
+             * @brief Handle an incomming message.
+             *
+             * This function adds a new contact to the roster (local only) and
+             * redirects the incommint message to it.
+             *
+             * @note Only messages, whose senders don't have a @ref
+             *       Contact::Contact registered, get to this function. Once
+             *       this function has been called for a contact, all future
+             *       messages get delivered to the contact directly.
+             *
+             * @param msg The complete message.
+             * @param session The message session, if available.
+             */
+            void handleMessage(
+                const gloox::Message &msg,
+                gloox::MessageSession *session);
 
 /*}}}*/
 

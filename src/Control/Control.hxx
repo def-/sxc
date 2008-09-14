@@ -33,8 +33,6 @@
 #include <gloox/presence.h>
 #include <gloox/client.h>
 #include <gloox/connectionlistener.h>
-#include <gloox/message.h>
-#include <gloox/messagehandler.h>
 #include <gloox/error.h>
 #include <gloox/presence.h>
 
@@ -61,9 +59,7 @@ namespace Control
      * This class initializes sxc's main input and output files, handles
      * input and errors.
      */
-    class Control : public
-        gloox::ConnectionListener,
-        gloox::MessageHandler
+    class Control : public gloox::ConnectionListener
     {
         public:
             //Control(&jid, port, &name, &version, resource);/*{{{*/
@@ -187,25 +183,6 @@ namespace Control
              * @return Whether it was possible to send the message.
              */
             void sendMessage(const gloox::JID &to, const std::string &body);
-
-/*}}}*/
-            //void handleMessage(Message &msg, session=0);/*{{{*/
-
-            /**
-             * @brief Handle an incomming message.
-             *
-             * This function redirects an incomming message to the general
-             * out-file for contacts that are not in the roster.
-             *
-             * @note Only messages, whose senders don't have a @ref
-             *       Contact::Contact registered, get to this function.
-             *
-             * @param msg The complete message.
-             * @param session The message session, if available.
-             */
-            void handleMessage(
-                const gloox::Message &msg,
-                gloox::MessageSession *session=0);
 
 /*}}}*/
 

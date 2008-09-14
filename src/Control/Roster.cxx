@@ -24,10 +24,13 @@
 
 #include <string>
 #include <map>
+
 #include <gloox/clientbase.h>
 #include <gloox/jid.h>
 #include <gloox/presence.h>
 #include <gloox/iq.h>
+#include <gloox/message.h>
+#include <gloox/messagehandler.h>
 
 #include <libsxc/generateString.hxx>
 #include <libsxc/Exception/GlooxException.hxx>
@@ -141,6 +144,19 @@ namespace Control
 #       endif
 
         _client->rosterManager()->ackSubscriptionRequest(jid, false);
+    }/*}}}*/
+
+    void Roster::handleMessage(/*{{{*/
+        const gloox::Message &msg,
+        gloox::MessageSession *session)
+    {
+        addContact(msg.from(), false); // Local only.
+
+        contactList::iterator contact = _getClient(msg.from().bare());
+        if (_contacts.end() == contact)
+            return;
+
+        contact->second->handleMessage(msg, session);
     }/*}}}*/
 
     void Roster::handleItemAdded(const gloox::JID &jid)/*{{{*/

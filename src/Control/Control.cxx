@@ -72,7 +72,7 @@ namespace Control
       _thread()
     {
         _client.registerConnectionListener(this);
-        _client.registerMessageHandler(this);
+        _client.registerMessageHandler(&_roster);
 
 #       ifdef DEBUG
             _client.logInstance().registerLogHandler(
@@ -108,8 +108,8 @@ namespace Control
 #       endif
 
         disconnect();
-        _client.removeMessageHandler(this);
         _client.removeConnectionListener(this);
+        _client.removeMessageHandler(&_roster);
 
 #       if DEBUG
             _client.logInstance().removeLogHandler(&_logHandler);
@@ -178,31 +178,6 @@ namespace Control
             to,
             body);
         _client.send(message);
-    }/*}}}*/
-    void Control::handleMessage(/*{{{*/
-        const gloox::Message &msg,
-        gloox::MessageSession *session)
-    {
-#       ifdef DEBUG
-            std::ostringstream ss;
-            ss << "Message received: (jid: \"" << msg.from().full();
-            if (session)
-                ss << "\", thread id: \"" << session->threadID() << "\"";
-            else
-                ss << "\", no session";
-            ss << ", type: \"" << libsxc::genMsgTypeString(msg.subtype());
-            ss << "\" (" << msg.subtype();
-            ss << "), subject: \"" << msg.subject();
-            ss << "\", body: \"" << msg.body() << "\").";
-            printLog(ss.str());
-#       endif
-        if ("" != msg.subject()) {
-            print(
-                msg.from().full() + ": Subject: " + msg.subject() + "\n\n" +
-                msg.body());
-        } else {
-            print(msg.from().full() + ": " + msg.body());
-        }
     }/*}}}*/
 
     void Control::handleError(/*{{{*/
