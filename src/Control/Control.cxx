@@ -201,6 +201,10 @@ namespace Control
     {
         return _roster;
     }/*}}}*/
+    const gloox::JID &Control::getJid()/*{{{*/
+    {
+        return _client.jid();
+    }/*}}}*/
 
     void Control::onConnect()/*{{{*/
     {

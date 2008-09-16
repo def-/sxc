@@ -224,6 +224,16 @@ namespace Control
             Roster &getRoster();
 
 /*}}}*/
+            //const gloox::JID &getJid();/*{{{*/
+
+            /**
+             * @brief Get the JID.
+             *
+             * @return A reference to the JID.
+             */
+            const gloox::JID &getJid();
+
+/*}}}*/
 
             //void onConnect();/*{{{*/
 
