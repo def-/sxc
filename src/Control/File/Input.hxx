@@ -32,8 +32,6 @@
 
 namespace Control
 {
-    class Control;
-
     namespace File
     {
         /**
