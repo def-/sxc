@@ -104,6 +104,16 @@ namespace Contact
             const gloox::JID &getJid();
 
 /*}}}*/
+            //void sendMessage(const std::string &message);/*{{{*/
+
+            /**
+             * @brief Send a chat message to the contact.
+             *
+             * @param message The raw message to send.
+             */
+            void sendMessage(const std::string &message);
+
+/*}}}*/
         private:
             //File::Input *_input;
             //File::Output *_output;

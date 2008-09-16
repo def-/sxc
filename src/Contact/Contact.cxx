@@ -69,13 +69,13 @@ namespace Contact
         _client->disposeMessageSession(_session);
     }/*}}}*/
 
-    void Contact::printPresenceUpdate(
+    void Contact::printPresenceUpdate(/*{{{*/
         const std::string &resource,
         gloox::Presence::PresenceType presence,
         const std::string &message)
     {
         // FIXME
-    }
+    }/*}}}*/
     void Contact::handleMessage(/*{{{*/
         const gloox::Message &msg,
         gloox::MessageSession *session)
@@ -98,6 +98,10 @@ namespace Contact
     const gloox::JID &Contact::getJid()/*{{{*/
     {
         return _session->target();
+    }/*}}}*/
+    void Contact::sendMessage(const std::string &message)/*{{{*/
+    {
+        // FIXME
     }/*}}}*/
 }
 
