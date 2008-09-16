@@ -18,15 +18,13 @@
  */
 /*}}}*/
 
-#ifndef CONTROL_FILE_INPUT_HXX
-#define CONTROL_FILE_INPUT_HXX
+#ifndef CONTROL_FILE_OUTPUT_HXX
+#define CONTROL_FILE_OUTPUT_HXX
 
 // INCLUDES/*{{{*/
 
 #include <string>
-
-#include <File/AbcInput.hxx>
-#include <Control/Control.hxx>
+#include <File/AbcOutput.hxx>
 
 /*}}}*/
 
@@ -35,25 +33,24 @@ namespace Control
     namespace File
     {
         /**
-         * @brief Main input class for sxc.
+         * @brief Main output class for sxc.
          *
-         * Creates the file <JID>/in which handles commands for sxc and 
-         * communication with the server.
+         * Creates the file $JID/out which displays messages from sxc and from
+         * the server.
          *
          * @author Andreas Waidler
          */
-        class Input : public ::File::AbcInput
+        class Output : public ::File::AbcOutput
         {
             public:
-                // Input(Control &control, const string &accountName);/*{{{*/
+                // Output(const std::string &accountName);/*{{{*/
 
                 /**
                  * @brief Initializes the object.
                  *
-                 * @param control The Control object.
                  * @param accountName Name of the Jabber account.
                  */
-                Input(Control &control, const std::string &accountName);
+                Output(const std::string &accountName);
 
 /*}}}*/
 
@@ -70,41 +67,31 @@ namespace Control
                 // std::string _createPath() const;/*{{{*/
 
                 /**
-                 * @brief Returns the path and file name of the FIFO.
+                 * @brief Creates a string containing the path of this file.
                  *
-                 * @see File::AbcInput::_createPath()
+                 * @see File::AbcOutput::_createPath()
                  *
-                 * @return "$accountName/in"
+                 * @return $accountName/out
                  */
-                std::string _createPath() const;
+                std::string _createPath();
 
 /*}}}*/
-                // void _handleInput(const std::string &input);/*{{{*/
+                // std::string _format(const std::string &output) const;/*{{{*/
 
                 /**
-                 * @brief Handles input that has been written into the FIFO.
+                 * @brief Formats the output.
                  *
-                 * For a list of valid commands see @ref
-                 * Control::Command::Command. The main work will be done by an
-                 * instance of that class, this method provides just the
-                 * exception handling and creates that object.
-                 *
-                 * @param input Something that has been written into the FIFO.
+                 * @param output String to be formatted.
+                 * @return A formatted string.
                  */
-                void _handleInput(const std::string &input);
-
-/*}}}*/
-
-                //Control &_control;/*{{{*/
-                /// The control object.
-                Control &_control;
+                std::string _format(const std::string &output) const;
 
 /*}}}*/
         };
     }
 }
 
-#endif // CONTROL_FILE_INPUT_HXX
+#endif // CONTROL_FILE_OUTPUT_HXX
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

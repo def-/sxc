@@ -18,55 +18,51 @@
  */
 /*}}}*/
 
-#ifndef CONTROL_FILE_INPUT_HXX
-#define CONTROL_FILE_INPUT_HXX
+#ifndef CONTACT_FILE_INPUT_HXX
+#define CONTACT_FILE_INPUT_HXX
 
 // INCLUDES/*{{{*/
 
 #include <string>
 
 #include <File/AbcInput.hxx>
+#include <Contact/Contact.hxx>
 #include <Control/Control.hxx>
 
 /*}}}*/
 
-namespace Control
+namespace Contact
 {
     namespace File
     {
         /**
-         * @brief Main input class for sxc.
+         * @brief Input file for communication with contacts.
          *
-         * Creates the file <JID>/in which handles commands for sxc and 
-         * communication with the server.
+         * Creates the file <JID>/<Contact>/in which handles communication with 
+         * a contact and the corresponding commands.
          *
          * @author Andreas Waidler
          */
         class Input : public ::File::AbcInput
         {
             public:
-                // Input(Control &control, const string &accountName);/*{{{*/
+                // Input(Control &control, Contact &contact);/*{{{*/
 
                 /**
-                 * @brief Initializes the object.
+                 * @brief Default constructor.
                  *
-                 * @param control The Control object.
-                 * @param accountName Name of the Jabber account.
+                 * @note Call @ref initialize() before using the object.
+                 *
+                 * @param contact Contact object. Stored as a reference 
+                 *                internally.
                  */
-                Input(Control &control, const std::string &accountName);
+                Input(Control::Control &control, Contact &contact);
 
 /*}}}*/
 
             protected:
 
-
             private:
-                // std::string _accountName;/*{{{*/
-
-                /// The account name, i.e. user@jabber.example.org
-                std::string _accountName;
-
-/*}}}*/
                 // std::string _createPath() const;/*{{{*/
 
                 /**
@@ -79,13 +75,24 @@ namespace Control
                 std::string _createPath() const;
 
 /*}}}*/
+                //Control &_control;/*{{{*/
+                /// The control object.
+                Control::Control &_control;
+
+/*}}}*/
+                //Contact &_contact;/*{{{*/
+                /// The contact object.
+                Contact &_contact;
+
+/*}}}*/
+
                 // void _handleInput(const std::string &input);/*{{{*/
 
                 /**
                  * @brief Handles input that has been written into the FIFO.
                  *
                  * For a list of valid commands see @ref
-                 * Control::Command::Command. The main work will be done by an
+                 * Contact::Command::Command. The main work will be done by an
                  * instance of that class, this method provides just the
                  * exception handling and creates that object.
                  *
@@ -94,17 +101,11 @@ namespace Control
                 void _handleInput(const std::string &input);
 
 /*}}}*/
-
-                //Control &_control;/*{{{*/
-                /// The control object.
-                Control &_control;
-
-/*}}}*/
         };
     }
 }
 
-#endif // CONTROL_FILE_INPUT_HXX
+#endif // CONTACT_FILE_INPUT_HXX
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
