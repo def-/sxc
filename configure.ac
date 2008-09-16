@@ -281,6 +281,7 @@ AC_CONFIG_FILES([
     src/Makefile
     src/CommandParser/Makefile
     src/Contact/Makefile
+    src/Contact/File/Makefile
     src/Control/Makefile
     src/Control/Command/Makefile
     src/Control/File/Makefile
@@ -288,10 +289,10 @@ AC_CONFIG_FILES([
     src/File/Makefile
     src/Time/Makefile
     tests/Makefile
+    tests/CommandParser/Makefile
+    tests/File/Makefile
+    tests/Time/Makefile
 ])#}}}
-#    tests/CommandParser/Makefile
-#    tests/File/Makefile
-#    tests/Time/Makefile
 
 AC_OUTPUT#{{{
 
