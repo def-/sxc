@@ -33,6 +33,11 @@
 
 namespace Contact
 {
+    /**
+     * @brief Parses and executes commands for the contacts.
+     *
+     * @author Andreas Waidler
+     */
     class Command : CommandParser::AbcCommandParser
     {
         public:
