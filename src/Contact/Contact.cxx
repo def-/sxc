@@ -95,7 +95,7 @@ namespace Contact
 #       endif
         //_output->write(msg->body());
     }/*}}}*/
-    const gloox::JID Contact::getJid()/*{{{*/
+    const gloox::JID &Contact::getJid()/*{{{*/
     {
         return _session->target();
     }/*}}}*/

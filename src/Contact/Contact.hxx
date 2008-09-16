@@ -94,14 +94,14 @@ namespace Contact
                 gloox::MessageSession *session);
 
 /*}}}*/
-            //const gloox::JID getJid();/*{{{*/
+            //const gloox::JID &getJid();/*{{{*/
 
             /**
              * @brief Get the JID.
              *
              * @return The JID of the contact.
              */
-            const gloox::JID getJid();
+            const gloox::JID &getJid();
 
 /*}}}*/
         private:
