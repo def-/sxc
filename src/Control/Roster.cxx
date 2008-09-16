@@ -295,8 +295,8 @@ namespace Control
     }/*}}}*/
     void Roster::handleRosterError(const gloox::IQ &iq)/*{{{*/
     {
+        const gloox::Error *error = iq.error();
 #       ifdef DEBUG
-            const gloox::Error *error = iq.error();
             if (error)
                 printLog(
                     "Roster error received: " +
@@ -304,9 +304,10 @@ namespace Control
 #       endif
 
         // FIXME: Use handleError
-        _control->print(
-            "Roster error received: " +
-            libsxc::genStanzaErrorString(error->error()));
+        if (error)
+            _control->print(
+                "Roster error received: " +
+                libsxc::genStanzaErrorString(error->error()));
     }/*}}}*/
 
     void Roster::_checkClient() const/*{{{*/
