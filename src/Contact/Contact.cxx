@@ -95,6 +95,10 @@ namespace Contact
 #       endif
         //_output->write(msg->body());
     }/*}}}*/
+    const gloox::JID Contact::getJid()/*{{{*/
+    {
+        return _session->target();
+    }/*}}}*/
 }
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.

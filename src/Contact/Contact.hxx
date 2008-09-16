@@ -94,6 +94,16 @@ namespace Contact
                 gloox::MessageSession *session);
 
 /*}}}*/
+            //const gloox::JID getJid();/*{{{*/
+
+            /**
+             * @brief Get the JID.
+             *
+             * @return The JID of the contact.
+             */
+            const gloox::JID getJid();
+
+/*}}}*/
         private:
             //File::Input *_input;
             //File::Output *_output;
