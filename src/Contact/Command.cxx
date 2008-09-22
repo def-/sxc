@@ -104,9 +104,7 @@ namespace Contact
                 roster.removeContact(_contact.getJid().bare());
 /*}}}*/
             } else if ("msg" == name) {/*{{{*/
-                _contact.sendMessage(
-                    _contact.getJid().bare(),
-                    parsed.at(1));
+                _contact.sendMessage(parsed.at(1));
 /*}}}*/
             } else if ("pgp" == name) {/*{{{*/
                 const std::string action = parsed.at(1);
