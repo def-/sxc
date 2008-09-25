@@ -73,7 +73,7 @@ namespace Control
                  *
                  * @return $accountName/out
                  */
-                std::string _createPath();
+                std::string _createPath() const;
 
 /*}}}*/
                 // std::string _format(const std::string &output) const;/*{{{*/

@@ -31,7 +31,7 @@
 #include <Control/Control.hxx>
 #include <Control/File/Output.hxx>
 #include <Control/Command/Command.hxx>
-#include <Exception/OutputException.hxx>
+//#include <Exception/OutputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
 
 /*}}}*/
