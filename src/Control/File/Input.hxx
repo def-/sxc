@@ -45,15 +45,14 @@ namespace Control
         class Input : public ::File::AbcInput
         {
             public:
-                // Input(Control &control, const string &accountName);/*{{{*/
+                // Input(Control &control);/*{{{*/
 
                 /**
                  * @brief Initializes the object.
                  *
                  * @param control The Control object.
-                 * @param accountName Name of the Jabber account.
                  */
-                Input(Control &control, const std::string &accountName);
+                Input(Control &control);
 
 /*}}}*/
 
