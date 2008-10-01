@@ -51,7 +51,8 @@ namespace Contact
 /*}}}*/
         std::string Input::_createPath() const/*{{{*/
         {
-            return _control.getJid().bare() + _contact.getJid().bare() + "/in";
+            return _control.getJid().bare() + "/"
+                   + _contact.getJid().bare() + "/in";
         }
 
 /*}}}*/
