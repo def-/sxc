@@ -68,7 +68,7 @@ namespace Control
       _status(""),
     // FIXME
     //  _output(this, jid.bare()),
-      _input(*this, jid.bare()),
+      _input(*this),
       _thread()
     {
         _client.registerConnectionListener(this);

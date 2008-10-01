@@ -41,9 +41,9 @@ namespace Control
 {
     namespace File
     {
-        Input::Input(Control &control, const std::string &accountName)/*{{{*/
+        Input::Input(Control &control)/*{{{*/
         : _control(control),
-          _accountName(accountName)
+          _accountName(control.getJid().bare())
         {
             initialize();
         }
