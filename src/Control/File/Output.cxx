@@ -26,6 +26,7 @@
 #endif
 
 #include <string>
+#include <Control/Control.hxx>
 #include <Control/File/Output.hxx>
 #include <Time/Timestamp.hxx>
 #include <Time/LocalDateTime.hxx>
@@ -37,15 +38,15 @@ namespace Control
 {
     namespace File
     {
-        Output::Output(const std::string &accountName)/*{{{*/
-        : _accountName(accountName)
+        Output::Output(Control::Control &control)/*{{{*/
+        : _control(&control)
         {
         }
 
 /*}}}*/
         std::string Output::_createPath() const/*{{{*/
         {
-            return _accountName + "/out";
+            return _control->getJid().bare() + "/out";
         }
 
 /*}}}*/

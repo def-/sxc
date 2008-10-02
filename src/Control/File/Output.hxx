@@ -43,14 +43,14 @@ namespace Control
         class Output : public ::File::AbcOutput
         {
             public:
-                // Output(const std::string &accountName);/*{{{*/
+                // Output(Control::Control &control);/*{{{*/
 
                 /**
                  * @brief Initializes the object.
                  *
-                 * @param accountName Name of the Jabber account.
+                 * @param control Central object, holding account information
                  */
-                Output(const std::string &accountName);
+                Output(Control::Control &control);
 
 /*}}}*/
 
@@ -58,10 +58,11 @@ namespace Control
 
 
             private:
-                // std::string _accountName;/*{{{*/
+                // Control::Control *_control;/*{{{*/
 
-                /// The account name, i.e. user@jabber.example.org
-                std::string _accountName;
+                /// Central control object, used for error handling or getting 
+                /// account information.
+                Control::Control *_control;
 
 /*}}}*/
                 // std::string _createPath() const;/*{{{*/
