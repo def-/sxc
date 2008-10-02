@@ -26,13 +26,13 @@
 #endif
 
 #include <string>
-#include <Time/Timestamp.hxx>
-#include <Time/LocalDateTime.hxx>
 #include <Control/Control.hxx>
 #include <Control/File/Output.hxx>
 #include <Control/Command/Command.hxx>
-//#include <Exception/OutputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
+#include <Time/Timestamp.hxx>
+#include <Time/LocalDateTime.hxx>
+#include <Time/IsoDateTimeFormat.hxx>
 
 /*}}}*/
 
@@ -54,8 +54,9 @@ namespace Control
 /*}}}*/
         std::string Output::_format(const std::string &output) const/*{{{*/
         {
-            // FIXME
-            return "2000-00-00T00:00 " + output;
+            Time::LocalDateTime date = Time::LocalDateTime(Time::Timestamp());
+            Time::IsoDateTimeFormat format(&date);
+            return format.string() + ' ' + output;
         }
 
 /*}}}*/
