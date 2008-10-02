@@ -51,15 +51,16 @@ namespace Contact
 /*}}}*/
         std::string Input::_createPath() const/*{{{*/
         {
-            return _control.getJid().bare() + _contact.getJid().bare() + "/in";
+            return _control.getJid().bare() + "/"
+                   + _contact.getJid().bare() + "/in";
         }
 
 /*}}}*/
         void Input::_handleInput(const std::string &input)/*{{{*/
         {
-            /* // TODO
+            // TODO
             try {
-                Command::Command command(_contact, input);
+                Command command(_control, _contact, input);
                 command.execute();
             } catch (Exception::InputException &e) {
                 // Just an invalid input, nothing serious.
@@ -73,7 +74,6 @@ namespace Contact
                 printErr(e.what());
                 _contact.print(e.what());
             }
-            */
         }
 
 /*}}}*/
