@@ -49,9 +49,9 @@ namespace Contact
                 // Input(Control &control, Contact &contact);/*{{{*/
 
                 /**
-                 * @brief Default constructor.
+                 * @brief Default constructor, initalizes object.
                  *
-                 * @note Call @ref initialize() before using the object.
+                 * Calls @ref initialize() so that the object is ready to use.
                  *
                  * @param contact Contact object. Stored as a reference 
                  *                internally.
