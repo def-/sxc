@@ -27,26 +27,29 @@
 
 #include <string>
 #include <Control/Control.hxx>
-#include <Control/File/Output.hxx>
+#include <Contact/Contact.hxx>
+#include <Contact/File/Output.hxx>
 #include <Time/Timestamp.hxx>
 #include <Time/LocalDateTime.hxx>
 #include <Time/IsoDateTimeFormat.hxx>
 
 /*}}}*/
 
-namespace Control
+namespace Contact
 {
     namespace File
     {
-        Output::Output(Control::Control &control)/*{{{*/
+        Output::Output(Control::Control &control, Contact &contact)/*{{{*/
         : _control(&control)
+        , _contact(&contact)
         {
         }
 
 /*}}}*/
         std::string Output::_createPath() const/*{{{*/
         {
-            return _control->getJid().bare() + "/out";
+            return _control->getJid().bare() + '/'
+                   + _contact->getJid().bare() + "/out";
         }
 
 /*}}}*/

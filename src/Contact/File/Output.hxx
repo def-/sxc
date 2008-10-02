@@ -25,37 +25,37 @@
 
 #include <string>
 #include <File/AbcOutput.hxx>
+#include <Control/Control.hxx>
+#include <Contact/Contact.hxx>
 
 /*}}}*/
 
-namespace Control
+namespace Contact
 {
     namespace File
     {
         /**
-         * @brief Main output class for sxc.
+         * @brief Output class for contacts.
          *
-         * Creates the file $JID/out which displays messages from sxc and from
-         * the server.
+         * Creates the file $JID/$CONTACT/out which contains messages from and 
+         * to that contact.
          *
          * @author Andreas Waidler
          */
         class Output : public ::File::AbcOutput
         {
             public:
-                // Output(Control::Control &control);/*{{{*/
+                // Output(Control::Control &control, Contact &contact);/*{{{*/
 
                 /**
                  * @brief Initializes the object.
                  *
                  * @param control Central object, holding account information
+                 * @param contact Contact to which this output belongs
                  */
-                Output(Control::Control &control);
+                Output(Control::Control &control, Contact &contact);
 
 /*}}}*/
-
-            protected:
-
 
             private:
                 // Control::Control *_control;/*{{{*/
@@ -63,6 +63,12 @@ namespace Control
                 /// Central control object, used for error handling or getting 
                 /// account information.
                 Control::Control *_control;
+
+/*}}}*/
+                // Contact *_contact;/*{{{*/
+
+                /// Contact to which this output belongs.
+                Contact *_contact;
 
 /*}}}*/
                 // std::string _createPath() const;/*{{{*/
