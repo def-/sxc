@@ -46,6 +46,7 @@ namespace Contact
         : _control(control),
           _contact(contact)
         {
+            initialize();
         }
 
 /*}}}*/
@@ -64,15 +65,15 @@ namespace Contact
                 command.execute();
             } catch (Exception::InputException &e) {
                 // Just an invalid input, nothing serious.
-                _contact.handleError(e);
+                _control.handleError(e);
             } catch (libsxc::Exception::Exception &e) {
                 // This may be something more serious.
                 // TODO: Fix handleError() to make use of stderr
-                _contact.handleError(e);
+                _control.handleError(e);
             } catch (std::exception &e) {
                 // This is *really* unexpected.
                 printErr(e.what());
-                _contact.print(e.what());
+                _control.print(e.what());
             }
         }
 
