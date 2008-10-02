@@ -26,10 +26,7 @@
 #endif
 
 #include <string>
-#include <Control/Control.hxx>
 #include <Control/File/Output.hxx>
-#include <Control/Command/Command.hxx>
-#include <libsxc/Exception/Exception.hxx>
 #include <Time/Timestamp.hxx>
 #include <Time/LocalDateTime.hxx>
 #include <Time/IsoDateTimeFormat.hxx>
