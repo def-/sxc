@@ -38,7 +38,9 @@ namespace Control
             // Command(Control &control, const std::string &command);/*{{{*/
 
             /**
-             * @brief Default constructor, calls parent constructor.
+             * @brief Default constructor, initializes the object.
+             *
+             * Calls parent constructor and sets passed properties.
              *
              * @param control The control object to use to execute commands.
              * @param command A command to be parsed.
@@ -73,9 +75,12 @@ namespace Control
 
 /*}}}*/
 
-        protected:
-
         private:
+            //Control &_control;/*{{{*/
+            /// The control object.
+            Control &_control;
+
+/*}}}*/
             // commandMap _createCommands() const;/*{{{*/
 
             /**
@@ -85,12 +90,6 @@ namespace Control
              *         parameters.
              */
             CommandParser::commandMap _createCommands() const;
-
-/*}}}*/
-
-            //Control &_control;/*{{{*/
-            /// The control object.
-            Control &_control;
 
 /*}}}*/
     };

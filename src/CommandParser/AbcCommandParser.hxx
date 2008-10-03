@@ -66,7 +66,7 @@ namespace CommandParser
      * @brief Abstract base class for command parsing.
      *
      * Child classes only have to implement the abstract method @ref
-     * _createCommands(). Assume, that @ref _createCommands() returns a useable
+     * _createCommands(). Assumed that @ref _createCommands() returns a useable
      * @c commandMap, the parser will work out of the box.
      *
      * You might want to give derived classes a method to handle the parsed
@@ -92,7 +92,7 @@ namespace CommandParser
 /*}}}*/
             // virtual ~AbcCommandParser();/*{{{*/
 
-            /// Virtual destructor, does no work currently.
+            /// Virtual destructor, has no work to do currently.
             virtual ~AbcCommandParser();
 
 /*}}}*/

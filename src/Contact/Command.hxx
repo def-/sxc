@@ -46,6 +46,9 @@ namespace Contact
             /**
              * @brief Default constructor.
              *
+             * For the purpose of the Control and Contact objects see @ref 
+             * execute().
+             *
              * @param control The control object.
              * @param contact The contact object which received this command.
              * @param command A command to be parsed.
@@ -87,15 +90,17 @@ namespace Contact
 
         private:
             //Control &_control;/*{{{*/
+
             /// The control object.
             Control::Control &_control;
+
 /*}}}*/
             //Contact &_contact;/*{{{*/
+
             /// The contact object.
             Contact &_contact;
 
 /*}}}*/
-
             // commandMap _createCommands() const;/*{{{*/
 
             /**
