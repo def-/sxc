@@ -228,7 +228,6 @@ void TestInput::testReadLeadNull()/*{{{*/
 /*}}}*/
 void TestInput::exceptValidateChmod(mode_t mode)/*{{{*/
 {
-    std::cout << std::endl << std::oct << mode << std::endl;
     CPPUNIT_ASSERT_EQUAL(0, mkfifo(TestInput::fifoPath.c_str(), mode));
     // This should fail and throw an exception.
     _inputDummy->_validate();
