@@ -31,7 +31,7 @@
 #include <print.hxx>
 #include <Control/Control.hxx>
 #include <Control/File/Input.hxx>
-#include <Control/Command/Command.hxx>
+#include <Control/Command.hxx>
 #include <Exception/InputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
 
@@ -58,7 +58,7 @@ namespace Control
         void Input::_handleInput(const std::string &input)/*{{{*/
         {
             try {
-                Command::Command command(_control, input);
+                Command command(_control, input);
                 command.execute();
             } catch (Exception::InputException &e) {
                 // Just an invalid input, nothing serious.

@@ -283,7 +283,6 @@ AC_CONFIG_FILES([
     src/Contact/Makefile
     src/Contact/File/Makefile
     src/Control/Makefile
-    src/Control/Command/Makefile
     src/Control/File/Makefile
     src/Exception/Makefile
     src/File/Makefile

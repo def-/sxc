@@ -92,7 +92,7 @@ namespace Contact
                  * @brief Handles input that has been written into the FIFO.
                  *
                  * For a list of valid commands see @ref
-                 * Contact::Command::Command. The main work will be done by an
+                 * Contact::Command. The main work will be done by an
                  * instance of that class, this method provides just the
                  * exception handling and creates that object.
                  *
