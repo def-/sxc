@@ -56,14 +56,10 @@ namespace Control
 
 /*}}}*/
 
-            protected:
-
-
             private:
-                // std::string _accountName;/*{{{*/
-
-                /// The account name, i.e. user@jabber.example.org
-                std::string _accountName;
+                //Control &_control;/*{{{*/
+                /// The control object.
+                Control &_control;
 
 /*}}}*/
                 // std::string _createPath() const;/*{{{*/
@@ -91,12 +87,6 @@ namespace Control
                  * @param input Something that has been written into the FIFO.
                  */
                 void _handleInput(const std::string &input);
-
-/*}}}*/
-
-                //Control &_control;/*{{{*/
-                /// The control object.
-                Control &_control;
 
 /*}}}*/
         };

@@ -42,19 +42,18 @@ namespace Control
     namespace File
     {
         Input::Input(Control &control)/*{{{*/
-        : _control(control),
-          _accountName(control.getJid().bare())
+        : _control(control)
         {
             initialize();
         }
 
-        /*}}}*/
+/*}}}*/
         std::string Input::_createPath() const/*{{{*/
         {
-            return _accountName + "/in";
+            return _control.getJid().bare() + "/in";
         }
 
-        /*}}}*/
+/*}}}*/
         void Input::_handleInput(const std::string &input)/*{{{*/
         {
             try {
@@ -74,7 +73,7 @@ namespace Control
             }
         }
 
-        /*}}}*/
+/*}}}*/
     }
 }
 
