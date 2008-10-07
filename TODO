@@ -1,0 +1,15 @@
+* Exceptions
+  * Line, File
+* Control
+  * Exception/Error
+  * Account
+  * ConnectionHandler
+* Namespace-Index
+* Exceptions
+* No internal references.
+* No pointers as parameters.
+* Indent, foo -$id$...
+* Only member method if necessary
+* Const correctness
+* Streams for files.
+* ISC License
