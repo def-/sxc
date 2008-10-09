@@ -24,6 +24,7 @@
 // INCLUDES/*{{{*/
 
 #include <string>
+#include <fstream>
 #include <cppunit/extensions/HelperMacros.h>
 #include "OutputDummy.hxx"
 
@@ -37,9 +38,11 @@
 class TestOutput : public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE(TestOutput);
+        CPPUNIT_TEST(testInitialize);
         CPPUNIT_TEST(testOpen);
         CPPUNIT_TEST(testClose);
         CPPUNIT_TEST(testWrite);
+        CPPUNIT_TEST_EXCEPTION(exceptClose, std::ofstream::failure);
     CPPUNIT_TEST_SUITE_END();
 
     public:
@@ -49,9 +52,11 @@ class TestOutput : public CppUnit::TestFixture
         void tearDown();
 
         // Public interface of OutputBase or OutputDummy:
+        void testInitialize();
         void testOpen();
         void testWrite();
         void testClose();
+        void exceptClose();
 
     protected:
 

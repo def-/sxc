@@ -32,38 +32,36 @@ const std::string TestOutput::path = "abcoutput.out";
 void TestOutput::setUp()/*{{{*/
 {
     _output = new OutputDummy(TestOutput::path);
-    _output->initialize();
-}
-
-/*}}}*/
+}/*}}}*/
 void TestOutput::tearDown()/*{{{*/
 {
     delete _output;
     _output = NULL;
 
     remove(TestOutput::path.c_str());
-}
-
-/*}}}*/
+}/*}}}*/
+void TestOutput::testInitialize()/*{{{*/
+{
+    _output->initialize();
+}/*}}}*/
 void TestOutput::testOpen()/*{{{*/
 {
+    _output->initialize();
     _output->open();
-}
-
-/*}}}*/
+}/*}}}*/
 void TestOutput::testClose()/*{{{*/
 {
+    _output->initialize();
     _output->open();
     _output->close();
-}
-
-/*}}}*/
+}/*}}}*/
 void TestOutput::testWrite()/*{{{*/
 {
     std::ifstream input;
     std::string contents;
     const std::string test = "foobar";
 
+    _output->initialize();
     _output->open();
     _output->write(test);
     _output->close();
@@ -72,10 +70,14 @@ void TestOutput::testWrite()/*{{{*/
     getline(input, contents);
     input.close();
 
+    // OutputDummy will prefix everything with "UNITTEST: ".
     CPPUNIT_ASSERT_EQUAL(std::string("UNITTEST: " + test), contents);
-}
-
-/*}}}*/
+}/*}}}*/
+void TestOutput::exceptClose()/*{{{*/
+{
+    _output->initialize();
+    _output->close();
+}/*}}}*/
 
 // Use no tabs at all; four spaces indentation; max. eighty chars per line.
 // vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker

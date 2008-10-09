@@ -43,13 +43,13 @@ class OutputDummy : public File::AbcOutput
 
     public:
         OutputDummy(const std::string &filename);
+        void write(const std::string &output);
 
     protected:
 
     private:
         std::string _filename;
         std::string _createPath() const;
-        std::string _format(const std::string &output) const;
 };
 
 #endif // OUTPUTDUMMY_H

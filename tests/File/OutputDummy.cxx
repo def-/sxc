@@ -37,9 +37,9 @@ std::string OutputDummy::_createPath() const/*{{{*/
 }
 
 /*}}}*/
-std::string OutputDummy::_format(const std::string &output) const/*{{{*/
+void OutputDummy::write(const std::string &output)/*{{{*/
 {
-    return "UNITTEST: " + output;
+    File::AbcOutput::write("UNITTEST: " + output);
 }
 
 /*}}}*/
