@@ -45,8 +45,6 @@ namespace SomeNamespace
     /**
      * @class SomeNamespace
      *
-     * @author Andreas Waidler
-     * @author Bernd Sad Torb
      *
      * @brief Coding style example class.
      *

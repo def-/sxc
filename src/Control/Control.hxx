@@ -52,7 +52,6 @@
 namespace Control
 {
     /**
-     * @author Dennis Felsing
      * @brief The central class connecting and controlling other classes.
      *
      * This class initializes sxc's main input and output files, handles

@@ -38,7 +38,6 @@ namespace Control
          * Creates the file $JID/out which displays messages from sxc and from
          * the server.
          *
-         * @author Andreas Waidler
          */
         class Output : public ::File::AbcOutput
         {

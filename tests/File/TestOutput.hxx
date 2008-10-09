@@ -33,7 +33,6 @@
 /**
  * @class TestOutput
  * @brief Testsuite for the File::OutputDummy class.
- * @author Andreas Waidler
  */
 class TestOutput : public CppUnit::TestFixture
 {

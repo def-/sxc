@@ -36,7 +36,6 @@ using CommandParser::commandMap;
 /**
  * @class CommandParserDummy
  * @brief Dummy implementation of the ABC CommandParser::AbcCommandParser
- * @author Andreas Waidler
  *
  * Inherits from the abstract base class @ref CommandParser::AbcCommandParser
  * and definines the abstract methods as "dummy" ones that do no "real" work but

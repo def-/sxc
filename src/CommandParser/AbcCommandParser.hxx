@@ -73,7 +73,6 @@ namespace CommandParser
      * command. This method could simply call @ref parse() and use the container
      * returned by @ref getParsed() to decide what to do.
      *
-     * @author Andreas Waidler
      */
     class AbcCommandParser
     {

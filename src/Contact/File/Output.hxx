@@ -40,7 +40,6 @@ namespace Contact
          * Creates the file $JID/$CONTACT/out which contains messages from and
          * to that contact.
          *
-         * @author Andreas Waidler
          */
         class Output : public ::File::AbcOutput
         {

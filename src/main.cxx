@@ -64,7 +64,6 @@ void dummy()/*{{{*/
 }/*}}}*/
 
 /**
- * @author Dennis Felsing
  * @brief The starting point of sxc.
  *
  * Parse the parameters the program was started with and then initialize the

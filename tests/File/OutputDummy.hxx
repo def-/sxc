@@ -31,7 +31,6 @@
 /**
  * @class OutputDummy
  * @brief Dummy implementation of the ABC File::AbcOutput
- * @author Andreas Waidler
  *
  * Inherits from the abstract base class File::AbcOutput and definines the
  * abstract methods as "dummy" ones that do no "real" work but are optimized for

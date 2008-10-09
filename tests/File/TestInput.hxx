@@ -35,7 +35,6 @@
 /**
  * @class TestInput
  * @brief Testsuite for the File::InputDummy class.
- * @author Andreas Waidler
  */
 class TestInput : public CppUnit::TestFixture
 {

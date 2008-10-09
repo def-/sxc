@@ -33,7 +33,6 @@
 /*}}}*/
 
 /**
- * @author Dennis Felsing
  * @brief A signal handler.
  *
  * This class can be used to decide what to do on signals.

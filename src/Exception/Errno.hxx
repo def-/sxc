@@ -21,7 +21,6 @@
 
 /**
  * @file Errno.hxx
- * @author Andreas Waidler
  * @brief Contains functions for handling the system errno variable.
  */
 

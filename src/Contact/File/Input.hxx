@@ -41,7 +41,6 @@ namespace Contact
          * Creates the file <JID>/<Contact>/in which handles communication with
          * a contact and the corresponding commands.
          *
-         * @author Andreas Waidler
          */
         class Input : public ::File::AbcInput
         {

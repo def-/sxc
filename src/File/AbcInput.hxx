@@ -34,7 +34,6 @@
 namespace File
 {
     /**
-     * @author Andreas Waidler
      * @brief Abstract Base Class handling input (FIFOs).
      *
      * Handles creation, checking, listening (non-blocking) on and reading

@@ -34,7 +34,6 @@
 /*}}}*/
 
 /**
- * @author Dennis Felsing
  * @brief Handle debug messages between gloox and the server.
  */
 class LogHandler : public gloox::LogHandler

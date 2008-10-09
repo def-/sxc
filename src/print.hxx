@@ -31,7 +31,6 @@
 
 
 /**
- * @author Dennis Felsing
  */
 
 //void printErrRaw(std::string text);/*{{{*/

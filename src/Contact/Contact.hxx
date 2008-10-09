@@ -43,7 +43,6 @@
 namespace Contact
 {
     /**
-     * @author Dennis Felsing
      * @brief A representation of a contact.
      *
      * Objects of this class get called when a message for the represented

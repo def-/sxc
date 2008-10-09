@@ -32,7 +32,6 @@
 /**
  * @class TestCommandParser
  * @brief Testsuite for the CommandParser::AbcCommandParser class.
- * @author Andreas Waidler
  *
  * Uses an object of the dummy child class CommandParserDummy to test
  * AbcCommandParser for functionality.

@@ -57,7 +57,6 @@ namespace Control
 /*}}}*/
 
     /**
-     * @author Dennis Felsing
      * @brief A roster containing all the contacts.
      *
      * This class handles all changes to the roster from and to the server.

@@ -40,7 +40,6 @@ namespace Control
          * Creates the file <JID>/in which handles commands for sxc and
          * communication with the server.
          *
-         * @author Andreas Waidler
          */
         class Input : public ::File::AbcInput
         {

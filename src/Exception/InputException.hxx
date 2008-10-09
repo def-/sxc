@@ -33,7 +33,6 @@ namespace Exception
 {
     /**
      * @brief Exception class for commands.
-     * @author Andreas Waidler
      *
      * @see File::InputParser
      */

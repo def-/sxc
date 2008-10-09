@@ -34,7 +34,6 @@ namespace Exception
 {
     /**
      * @brief Exception class for the input file classes.
-     * @author Andreas Waidler
      */
     class FileInputException : public libsxc::Exception::Exception
     {
