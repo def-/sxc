@@ -373,5 +373,5 @@ namespace Control
 #include <Control/Control.ixx>
 
 #endif // CONTROL_CONTROL_HXX
-// Use no tabs at all; four spaces indentation; max. eighty chars per line.
-// vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+// Use no tabs at all; two spaces indentation; max. eighty chars per line.
+// vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker
