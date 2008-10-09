@@ -20,7 +20,7 @@
 // INCLUDES/*{{{*/
 
 #ifdef HAVE_CONFIG_H
-#   include <config.hxx>
+# include <config.hxx>
 #endif
 #include <print.hxx>
 

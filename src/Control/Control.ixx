@@ -25,11 +25,11 @@
 #include <gloox/error.h>
 
 #ifdef HAVE_CONFIG_H
-#   include <config.hxx>
+# include <config.hxx>
 #endif
 
 #ifdef DEBUG
-#   include <print.hxx>
+# include <print.hxx>
 #endif
 /*}}}*/
 
@@ -38,16 +38,16 @@ namespace Control
 {
   inline void Control::onResourceBind(const std::string &resource)/*{{{*/
   {
-#       if DEBUG
+#   if DEBUG
       printLog("Bind resouce: \"" + resource + "\".");
-#       endif
+#   endif
   }/*}}}*/
 
   inline void Control::onResourceBindError(const gloox::Error *error)/*{{{*/
   {
-#       if DEBUG
+#   if DEBUG
       printLog("Resource bind error.");
-#       endif
+#   endif
   }/*}}}*/
 
   inline void Control::onSessionCreateError(const gloox::Error *error)/*{{{*/

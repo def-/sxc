@@ -30,7 +30,7 @@
 #include <print.hxx>
 
 #ifdef HAVE_CONFIG_H
-#   include <config.hxx>
+# include <config.hxx>
 #endif
 
 /*}}}*/
@@ -41,12 +41,12 @@ void SignalHandler::setIgnore(unsigned int signum)/*{{{*/
 {
   SignalHandler::_check(signum);
 
-#   ifdef DEBUG
+# ifdef DEBUG
     std::stringstream ss;
     ss << "Setting signal to be ignored: " << signum << " ("
        << SignalHandler::_toString(signum) << ").";
     printErr(ss.str());
-#   endif
+# endif
 
   signal(signum, SIG_IGN);
   SignalHandler::_handlers[signum].disconnect();
@@ -55,12 +55,12 @@ void SignalHandler::setDefault(unsigned int signum)/*{{{*/
 {
   SignalHandler::_check(signum);
 
-#   ifdef DEBUG
+# ifdef DEBUG
     std::stringstream ss;
     ss << "Setting signal to be handled as default: " << signum << " ("
        << SignalHandler::_toString(signum) << ").";
     printErr(ss.str());
-#   endif
+# endif
 
   signal(signum, SIG_DFL);
   SignalHandler::_handlers[signum].disconnect();
@@ -69,12 +69,12 @@ void SignalHandler::setHandler(unsigned int signum, Slot slot)/*{{{*/
 {
   SignalHandler::_check(signum);
 
-#   ifdef DEBUG
+# ifdef DEBUG
     std::stringstream ss;
     ss << "Setting signal to be handled in a custom way: " << signum << " ("
        << SignalHandler::_toString(signum) << ").";
     printErr(ss.str());
-#   endif
+# endif
 
   SignalHandler::_handlers[signum] = slot;
   signal(signum, &SignalHandler::_handle);
@@ -121,12 +121,12 @@ void SignalHandler::_check(unsigned int signum)/*{{{*/
 }/*}}}*/
 void SignalHandler::_handle(int signum)/*{{{*/
 {
-#   ifdef DEBUG
+# ifdef DEBUG
     std::stringstream ss;
     ss << "Signal received: " << signum << " ("
        << SignalHandler::_toString(signum) << ").";
     printErr(ss.str());
-#   endif
+# endif
 
   SignalHandler::_handlers[signum]();
 }/*}}}*/

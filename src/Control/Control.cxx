@@ -39,11 +39,11 @@
 #include <print.hxx>
 
 #ifdef HAVE_CONFIG_H
-#   include <config.hxx>
+# include <config.hxx>
 #endif
 
 #ifdef DEBUG
-#   include <sstream>
+# include <sstream>
 #endif
 
 /*}}}*/
@@ -58,9 +58,9 @@ namespace Control
     const std::string &version)
   : _client(jid, "", port), // Fill in the passphrase later.
     _roster(this, &_client),
-#     ifdef DEBUG
+#   ifdef DEBUG
       _logHandler(),
-#     endif
+#   endif
     _presence(gloox::Presence::Available),
     _priority(0),
     _status(""),
@@ -72,53 +72,53 @@ namespace Control
     _client.registerConnectionListener(this);
     _client.registerMessageHandler(&_roster);
 
-#       ifdef DEBUG
+#   ifdef DEBUG
       _client.logInstance().registerLogHandler(
         gloox::LogLevelDebug,
         gloox::LogAreaAll,
         &_logHandler);
-#       endif
+#   endif
 
     // "console" is not exactly what sxc is, but "pc" is described as a
     // full-featured GUI.
     const std::string category = "client";
     const std::string type = "console";
-#       if DEBUG
+#   if DEBUG
       printLog(
         "Set identity: (category: \"" + category + "\", type: \"" +
         type + "\", name: \"" + name + "\").");
-#       endif
+#   endif
     _client.disco()->setIdentity(category, type, name);
 
-#       if DEBUG
+#   if DEBUG
       printLog(
         "Set version: (name: \"" + name + "\", version: \"" +
         version + "\").");
-#       endif
+#   endif
     _client.disco()->setVersion(name, version);
 
     _input.listen();
   }/*}}}*/
   Control::~Control()/*{{{*/
   {
-#       if DEBUG
+#   if DEBUG
       printLog("Exit.");
-#       endif
+#   endif
 
     disconnect();
     _client.removeConnectionListener(this);
     _client.removeMessageHandler(&_roster);
 
-#       if DEBUG
+#   if DEBUG
       _client.logInstance().removeLogHandler(&_logHandler);
-#       endif
+#   endif
   }/*}}}*/
 
   void Control::setPassphrase(const std::string &pass)/*{{{*/
   {
-#       if DEBUG
+#   if DEBUG
       printLog("Set passphrase: \"" + pass + "\".");
-#       endif
+#   endif
     _client.setPassword(pass);
   }/*}}}*/
   void Control::setPresence(/*{{{*/
@@ -126,13 +126,13 @@ namespace Control
     int priority,
     const std::string &status)
   {
-#       if DEBUG/*{{{*/
+#   if DEBUG/*{{{*/
       std::stringstream text;
       text << "Set presence: (\"" << libsxc::genPresenceString(presence)
          << "\" (" << presence << "), priority: " << priority
          << ", message: \"" << status << "\").";;
       printLog(text.str());
-#       endif/*}}}*/
+#   endif/*}}}*/
 
     // Don't trust _client, but instead store the presence information
     // locally.
@@ -162,9 +162,9 @@ namespace Control
   }/*}}}*/
   void Control::disconnect()/*{{{*/
   {
-#       if DEBUG
+#   if DEBUG
       printLog("Disconnect.");
-#       endif
+#   endif
     _client.disconnect();
   }/*}}}*/
   void Control::sendMessage(/*{{{*/
@@ -206,20 +206,20 @@ namespace Control
 
   void Control::onConnect()/*{{{*/
   {
-#       if DEBUG
+#   if DEBUG
       printLog("Connected: Connection established.");
-#       endif
+#   endif
   }/*}}}*/
   void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
   {
-#       if DEBUG
+#   if DEBUG
       printLog("Disconnected: " + libsxc::genConnErrorString(
         e,
         _client.streamError(),
         _client.streamErrorText(),
         _client.authError(),
         true)); // Debug.
-#       endif
+#   endif
 
     std::string text = libsxc::genConnErrorString(
       e,
@@ -231,24 +231,24 @@ namespace Control
   }/*}}}*/
   bool Control::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
   {
-#       if DEBUG
+#   if DEBUG
       printLog("Acknowledge TLS certificate.");
-#       endif
+#   endif
     return true;
   }/*}}}*/
 
   void *Control::_run(void *rawThat)/*{{{*/
   {
-#       if DEBUG
+#   if DEBUG
       printLog("Start socket receiving thread.");
-#       endif
+#   endif
 
     Control *that = (Control *) rawThat;
     that->_client.connect(); // Blocking.
 
-#       if DEBUG
+#   if DEBUG
       printLog("End socket receiving thread.");
-#       endif
+#   endif
 
     return (void *) NULL;
   }/*}}}*/

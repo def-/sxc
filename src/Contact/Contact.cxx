@@ -29,15 +29,15 @@
 #include <Contact/Contact.hxx>
 
 #ifdef HAVE_CONFIG_H
-#   include <config.hxx>
+# include <config.hxx>
 #endif
 
 #ifdef DEBUG
-#   include <sstream>
+# include <sstream>
 
-#   include <libsxc/generateString.hxx>
+# include <libsxc/generateString.hxx>
 
-#   include <print.hxx>
+# include <print.hxx>
 #endif
 
 /*}}}*/
@@ -49,9 +49,9 @@ namespace Contact
   : _client(client),
     _session(new gloox::MessageSession(client, jid))
   {
-#       ifdef DEBUG
+#   ifdef DEBUG
       printErr("Create contact: \"" + jid.bare() + "\".");
-#       endif
+#   endif
     _session->registerMessageHandler(this);
 
     //_input = new File::Input(jid.bare());
@@ -59,9 +59,9 @@ namespace Contact
   }/*}}}*/
   Contact::~Contact()/*{{{*/
   {
-#       ifdef DEBUG
+#   ifdef DEBUG
       printErr("Delete contact: \"" + _session->target().bare() + "\".");
-#       endif
+#   endif
     // This deletes the session. Else the destructor of gloox::ClientBase
     // would handle this.
     _client->disposeMessageSession(_session);
@@ -78,7 +78,7 @@ namespace Contact
     const gloox::Message &msg,
     gloox::MessageSession *session)
   {
-#       ifdef DEBUG
+#   ifdef DEBUG
       std::ostringstream ss;
       ss << "Contact received message: (jid: \"" << msg.from().full();
       if (session)
@@ -90,7 +90,7 @@ namespace Contact
       ss << "), subject: \"" << msg.subject();
       ss << "\", body: \"" << msg.body() << "\").";
       printLog(ss.str());
-#       endif
+#   endif
     //_output->write(msg->body());
   }/*}}}*/
   const gloox::JID &Contact::getJid()/*{{{*/
