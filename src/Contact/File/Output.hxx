@@ -37,7 +37,7 @@ namespace Contact
         /**
          * @brief Output class for contacts.
          *
-         * Creates the file $JID/$CONTACT/out which contains messages from and 
+         * Creates the file $JID/$CONTACT/out which contains messages from and
          * to that contact.
          *
          * @author Andreas Waidler
@@ -60,7 +60,7 @@ namespace Contact
             private:
                 // Control::Control *_control;/*{{{*/
 
-                /// Central control object, used for error handling or getting 
+                /// Central control object, used for error handling or getting
                 /// account information.
                 Control::Control *_control;
 

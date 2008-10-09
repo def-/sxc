@@ -60,7 +60,7 @@ namespace Control
             private:
                 // Control::Control *_control;/*{{{*/
 
-                /// Central control object, used for error handling or getting 
+                /// Central control object, used for error handling or getting
                 /// account information.
                 Control::Control *_control;
 

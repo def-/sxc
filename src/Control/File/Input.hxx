@@ -37,7 +37,7 @@ namespace Control
         /**
          * @brief Main input class for sxc.
          *
-         * Creates the file <JID>/in which handles commands for sxc and 
+         * Creates the file <JID>/in which handles commands for sxc and
          * communication with the server.
          *
          * @author Andreas Waidler

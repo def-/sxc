@@ -41,11 +41,11 @@ namespace Exception
 
     /** Transforms the passed errno into an exception type.
      *
-     * For a list of possible errno's and their meaning, look at the following 
+     * For a list of possible errno's and their meaning, look at the following
      * man pages:
      * @li man 2 stat
      * @li man 3 mkfifo
-     * 
+     *
      * @param p_errno The errno that occured and that should be transformed.
      * @return An Exception::Type that matches the passed errno.
      */

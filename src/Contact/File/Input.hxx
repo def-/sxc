@@ -38,7 +38,7 @@ namespace Contact
         /**
          * @brief Input file for communication with contacts.
          *
-         * Creates the file <JID>/<Contact>/in which handles communication with 
+         * Creates the file <JID>/<Contact>/in which handles communication with
          * a contact and the corresponding commands.
          *
          * @author Andreas Waidler
@@ -53,7 +53,7 @@ namespace Contact
                  *
                  * Calls @ref initialize() so that the object is ready to use.
                  *
-                 * @param contact Contact object. Stored as a reference 
+                 * @param contact Contact object. Stored as a reference
                  *                internally.
                  */
                 Input(Control::Control &control, Contact &contact);

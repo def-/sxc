@@ -2,17 +2,17 @@
 /*
   Copyright (C) 2008 Andreas Waidler, Dennis Felsing
 
-  This program is free software: you can redistribute it and/or modify it 
-  under the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
+  This program is free software: you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation, either version 3 of the License, or (at your option)
   any later version.
 
-  This program is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
   more details.
 
-  You should have received a copy of the GNU General Public License along with 
+  You should have received a copy of the GNU General Public License along with
   this program. If not, see <http://www.gnu.org/licenses/>.
  */
 /*}}}*/
@@ -32,12 +32,12 @@
  * @namespace SomeNamespace
  * @brief Namespace of StyleExample.
  *
- * Base namespace of the coding standards of the sxc project. Acts also as an 
+ * Base namespace of the coding standards of the sxc project. Acts also as an
  * example how namespaces should be formatted and documented.
  *
- * @note The docblock of a namespace should be placed in the directory, where 
- *       its files are placed. Its file name should be its name with an .h 
- *       appended. If this file exists, simply document it in the existing file 
+ * @note The docblock of a namespace should be placed in the directory, where
+ *       its files are placed. Its file name should be its name with an .h
+ *       appended. If this file exists, simply document it in the existing file
  *       (where the namespace should be declared, anyways).
  */
 namespace SomeNamespace
@@ -50,11 +50,11 @@ namespace SomeNamespace
      *
      * @brief Coding style example class.
      *
-     * An example class showing the coding style used in sxc. It is inspired by 
+     * An example class showing the coding style used in sxc. It is inspired by
      * http://www.possibility.com/
      *
      * This is a JavaDoc style comment.
-     * The first line is a brief description, everything following is the same in 
+     * The first line is a brief description, everything following is the same in
      * verbose.
      *
      * @see something
@@ -68,7 +68,7 @@ namespace SomeNamespace
              * @brief Default constructor.
              *        This is is STILL a brief description.
              *
-             * This is the verbose description of the constructor that does 
+             * This is the verbose description of the constructor that does
              * foo and bar.
              *
              * @note This is a note.
@@ -78,8 +78,8 @@ namespace SomeNamespace
 /*}}}*/
             // ~StyleExample();/*{{{*/
 
-            /** 
-             * @brief Brief description. 
+            /**
+             * @brief Brief description.
              *
              * The Second sentence is the detailed description. And it is very
              * detailed, isn't it?
@@ -110,7 +110,7 @@ namespace SomeNamespace
              * @brief Does something with many arguments.
              *
              * No one knows what this method does.
-             * 
+             *
              * @param argA An important integer.
              * @param argB A less important integer.
              * @param argC A string containing some mysterious data.

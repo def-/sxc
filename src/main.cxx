@@ -93,7 +93,7 @@ int main(int argc, char *argv[])/*{{{*/
         printErr("Error getting the hostname of this system.");
     const std::string defaultResource = std::string(PACKAGE) + "@" + hostName;
     libsxc::Option::Option<gloox::JID> jid(
-        &parser, ' ', "", "jid", 
+        &parser, ' ', "", "jid",
         "user@domain[/resource] (resource default: " + defaultResource + ")");
 
     try {

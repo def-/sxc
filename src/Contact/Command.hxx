@@ -46,7 +46,7 @@ namespace Contact
             /**
              * @brief Default constructor.
              *
-             * For the purpose of the Control and Contact objects see @ref 
+             * For the purpose of the Control and Contact objects see @ref
              * execute().
              *
              * @param control The control object.

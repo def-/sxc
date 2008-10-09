@@ -64,7 +64,7 @@ void TestLocalDateTime::testRaw()/*{{{*/
     Time::LocalDateTime date(2008, 9, 4, 23, 14, 3);
     const struct tm *tm = date.raw();
     // Some values may seem to be weird, see man ctime for this.
-    CPPUNIT_ASSERT_EQUAL(108,  tm->tm_year); 
+    CPPUNIT_ASSERT_EQUAL(108,  tm->tm_year);
     CPPUNIT_ASSERT_EQUAL(8,    tm->tm_mon);
     CPPUNIT_ASSERT_EQUAL(4,    tm->tm_mday);
     CPPUNIT_ASSERT_EQUAL(23,   tm->tm_hour);

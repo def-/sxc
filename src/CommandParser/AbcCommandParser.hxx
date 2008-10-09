@@ -188,7 +188,7 @@ namespace CommandParser
              * empty) the abstract method @ref _createCommands() is called and
              * the resulting @c commandMap is stored in @ref _commands. This
              * method then returns a constant reference to it.
-             * 
+             *
              * @return Constant reference to the result of @ref _createCommands()
              */
             const commandMap &_getCommands() const;
@@ -208,7 +208,7 @@ namespace CommandParser
              * @brief Creates a container holding all possible commands.
              *
              * @note Pure virtual, aka abstract.
-             * 
+             *
              * @return All valid commands and the specification of their
              *         parameters
              */

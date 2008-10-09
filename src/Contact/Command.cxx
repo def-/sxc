@@ -136,7 +136,7 @@ namespace Contact
         } catch (std::out_of_range &e) {
             // Accessed an element of container returned by getParsed()
             // that did not exist. This would be a bug in this class (or
-            // its parent). Keywords: bad parsing, outdated command 
+            // its parent). Keywords: bad parsing, outdated command
             // specification.
             std::string message = "out_of_range: ";
             message.append(e.what());

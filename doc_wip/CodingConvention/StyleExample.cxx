@@ -46,7 +46,7 @@ namespace SomeNamespace
         std::string argC,
         std::string argD)
     {
-        if (1 == argA) // I am a comment! 
+        if (1 == argA) // I am a comment!
             std::cout << "aaa";
 
         // I am a long comment for the next statement. Always put the constant

@@ -33,7 +33,7 @@
  * @brief Dummy implementation of the ABC File::AbcInput
  * @author Andreas Waidler
  *
- * Inherits from the abstract base class File::AbcInput and definines the 
+ * Inherits from the abstract base class File::AbcInput and definines the
  * abstract methods as "dummy" ones that do no "real" work but are optimized for
  * unit tests.
  */

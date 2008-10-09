@@ -80,8 +80,8 @@ namespace File
              * calls to abstract methods which cannot be called in the
              * constructor.
              *
-             * Calls @ref _createPath() to set @ref _path. Tries to create 
-             * the FIFO or checks its permissions by calling @ref _tryCreate() 
+             * Calls @ref _createPath() to set @ref _path. Tries to create
+             * the FIFO or checks its permissions by calling @ref _tryCreate()
              * or @ref _validate().
              *
              * @note This method has to be called before any other method can be
@@ -100,7 +100,7 @@ namespace File
              * @brief Initiates listening on the FIFO.
              *
              * If @a blocking is set to @c true this method will read blocking,
-             * i.e. it will finish when @ref close() is run. Per default, @a 
+             * i.e. it will finish when @ref close() is run. Per default, @a
              * blocking is @c false.
              *
              * This method creates a thread that executes @ref _listen()
@@ -256,7 +256,7 @@ namespace File
              * @note This method terminates only if @ref _mustClose is true and
              *       the blocking call to @ref _read() finishes.
              *
-             * @warning Should only be called by a pthread created in @ref 
+             * @warning Should only be called by a pthread created in @ref
              *          listen.
              *
              * @warning The parameter @a fifo should not be anything other than
