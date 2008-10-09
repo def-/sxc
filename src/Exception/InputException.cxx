@@ -28,24 +28,24 @@
 
 namespace Exception
 {
-    InputException::InputException(libsxc::Exception::Type type, std::string &message)/*{{{*/
-    : Exception(type, message)
-    {
-    }
+  InputException::InputException(libsxc::Exception::Type type, std::string &message)/*{{{*/
+  : Exception(type, message)
+  {
+  }
 
 /*}}}*/
-    InputException::InputException(libsxc::Exception::Type type, const char *message)/*{{{*/
-    : Exception(type, message)
-    {
-    }
+  InputException::InputException(libsxc::Exception::Type type, const char *message)/*{{{*/
+  : Exception(type, message)
+  {
+  }
 
 /*}}}*/
-    void InputException::createDescription() throw()/*{{{*/
-    {
-        std::stringstream desc;
-        desc << "InputException: " << _message << " (" << _type << ") .";
-        _description = desc.str();
-    }
+  void InputException::createDescription() throw()/*{{{*/
+  {
+    std::stringstream desc;
+    desc << "InputException: " << _message << " (" << _type << ") .";
+    _description = desc.str();
+  }
 
 /*}}}*/
 }

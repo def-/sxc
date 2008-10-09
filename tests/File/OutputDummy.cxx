@@ -33,13 +33,13 @@ OutputDummy::OutputDummy(const std::string &filename)/*{{{*/
 /*}}}*/
 std::string OutputDummy::_createPath() const/*{{{*/
 {
-    return _filename;
+  return _filename;
 }
 
 /*}}}*/
 void OutputDummy::write(const std::string &output)/*{{{*/
 {
-    File::AbcOutput::write("UNITTEST: " + output);
+  File::AbcOutput::write("UNITTEST: " + output);
 }
 
 /*}}}*/

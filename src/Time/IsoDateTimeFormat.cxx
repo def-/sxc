@@ -27,33 +27,33 @@
 
 namespace Time
 {
-    IsoDateTimeFormat::IsoDateTimeFormat(const DateTime *dateTime, unsigned short formatOptions)/*{{{*/
-    : DateTimeFormat(dateTime)
-    {
-        std::string formatstr;
-        if (formatOptions & FORMAT_DATE    == FORMAT_DATE)
-            formatstr.append("%FT");
-        if (formatOptions & FORMAT_SECONDS == FORMAT_SECONDS)
-            formatstr.append("%T");
-        else
-            formatstr.append("%R");
+  IsoDateTimeFormat::IsoDateTimeFormat(const DateTime *dateTime, unsigned short formatOptions)/*{{{*/
+  : DateTimeFormat(dateTime)
+  {
+    std::string formatstr;
+    if (formatOptions & FORMAT_DATE    == FORMAT_DATE)
+      formatstr.append("%FT");
+    if (formatOptions & FORMAT_SECONDS == FORMAT_SECONDS)
+      formatstr.append("%T");
+    else
+      formatstr.append("%R");
 
-        format(formatstr);
-    }
+    format(formatstr);
+  }
 
-    /*}}}*/
-    IsoDateTimeFormat::~IsoDateTimeFormat()/*{{{*/
-    {
-    }
+  /*}}}*/
+  IsoDateTimeFormat::~IsoDateTimeFormat()/*{{{*/
+  {
+  }
 
-    /*}}}*/
-    std::string IsoDateTimeFormat::format(const std::string &format,
-                                          unsigned int length)/*{{{*/
-    {
-        return DateTimeFormat::format(format, length);
-    }
+  /*}}}*/
+  std::string IsoDateTimeFormat::format(const std::string &format,
+                      unsigned int length)/*{{{*/
+  {
+    return DateTimeFormat::format(format, length);
+  }
 
-    /*}}}*/
+  /*}}}*/
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

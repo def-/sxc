@@ -39,22 +39,22 @@ InputDummy::InputDummy(const std::string &filename)/*{{{*/
 /*}}}*/
 std::string InputDummy::_createPath() const/*{{{*/
 {
-    return _filename;
+  return _filename;
 }
 
 /*}}}*/
 const std::string &InputDummy::getLastInput() const/*{{{*/
 {
-    return _lastInput;
+  return _lastInput;
 }
 
 /*}}}*/
 void InputDummy::_handleInput(const std::string &input)/*{{{*/
 {
 #ifdef DEBUG
-    printLog("INPUT: " + input);
+  printLog("INPUT: " + input);
 #endif
-    _lastInput = input;
+  _lastInput = input;
 }
 
 /*}}}*/

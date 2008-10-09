@@ -30,17 +30,17 @@
 
 namespace Time
 {
-    class IsoDateTimeFormat : public DateTimeFormat
-    {
-        public:
-            static const unsigned short FORMAT_DATE    = 0x1;
-            static const unsigned short FORMAT_SECONDS = 0x2;
-            IsoDateTimeFormat(const DateTime *dateTime,
-                unsigned short formatOptions=(FORMAT_DATE | FORMAT_SECONDS));
-            ~IsoDateTimeFormat();
-        private:
-            std::string format(const std::string &format, unsigned int length=50);
-    };
+  class IsoDateTimeFormat : public DateTimeFormat
+  {
+    public:
+      static const unsigned short FORMAT_DATE    = 0x1;
+      static const unsigned short FORMAT_SECONDS = 0x2;
+      IsoDateTimeFormat(const DateTime *dateTime,
+        unsigned short formatOptions=(FORMAT_DATE | FORMAT_SECONDS));
+      ~IsoDateTimeFormat();
+    private:
+      std::string format(const std::string &format, unsigned int length=50);
+  };
 }
 
 #endif // ISODATETIMEFORMAT_HXX

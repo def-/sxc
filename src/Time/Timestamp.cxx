@@ -27,29 +27,29 @@
 
 namespace Time
 {
-    Timestamp::Timestamp()/*{{{*/
-    {
-        time(&_raw);
-    }
+  Timestamp::Timestamp()/*{{{*/
+  {
+    time(&_raw);
+  }
 
-    /*}}}*/
-    Timestamp::Timestamp(time_t time)/*{{{*/
-    {
-        _raw = time;
-    }
+  /*}}}*/
+  Timestamp::Timestamp(time_t time)/*{{{*/
+  {
+    _raw = time;
+  }
 
-    /*}}}*/
-    Timestamp::~Timestamp()/*{{{*/
-    {
-    }
+  /*}}}*/
+  Timestamp::~Timestamp()/*{{{*/
+  {
+  }
 
-    /*}}}*/
-    const time_t &Timestamp::raw() const/*{{{*/
-    {
-        return _raw;
-    }
+  /*}}}*/
+  const time_t &Timestamp::raw() const/*{{{*/
+  {
+    return _raw;
+  }
 
-    /*}}}*/
+  /*}}}*/
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

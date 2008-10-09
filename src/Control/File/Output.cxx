@@ -36,29 +36,29 @@
 
 namespace Control
 {
-    namespace File
+  namespace File
+  {
+    Output::Output(Control::Control &control)/*{{{*/
+    : _control(&control)
     {
-        Output::Output(Control::Control &control)/*{{{*/
-        : _control(&control)
-        {
-        }
-
-/*}}}*/
-        std::string Output::_createPath() const/*{{{*/
-        {
-            return _control->getJid().bare() + "/out";
-        }
-
-/*}}}*/
-        std::string Output::_format(const std::string &output) const/*{{{*/
-        {
-            Time::LocalDateTime date = Time::LocalDateTime(Time::Timestamp());
-            Time::IsoDateTimeFormat format(&date);
-            return format.string() + ' ' + output;
-        }
-
-/*}}}*/
     }
+
+/*}}}*/
+    std::string Output::_createPath() const/*{{{*/
+    {
+      return _control->getJid().bare() + "/out";
+    }
+
+/*}}}*/
+    std::string Output::_format(const std::string &output) const/*{{{*/
+    {
+      Time::LocalDateTime date = Time::LocalDateTime(Time::Timestamp());
+      Time::IsoDateTimeFormat format(&date);
+      return format.string() + ' ' + output;
+    }
+
+/*}}}*/
+  }
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

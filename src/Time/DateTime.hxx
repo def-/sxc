@@ -30,25 +30,25 @@
 
 namespace Time
 {
-    class DateTime
-    {
-        public:
-            DateTime();
-            virtual ~DateTime();
-            virtual void set(int year, int month, int day,
-                             int hours=0, int minutes=0, int seconds=0);
-            virtual void set(const Timestamp &ts);
-            virtual const Timestamp &getTimestamp() const;
-            virtual const struct tm *raw() const;
+  class DateTime
+  {
+    public:
+      DateTime();
+      virtual ~DateTime();
+      virtual void set(int year, int month, int day,
+               int hours=0, int minutes=0, int seconds=0);
+      virtual void set(const Timestamp &ts);
+      virtual const Timestamp &getTimestamp() const;
+      virtual const struct tm *raw() const;
 
-        protected:
-            virtual struct tm *_fromTimestamp(const Timestamp &ts) const = 0;
-            virtual Timestamp _createTimestamp(struct tm *timeinfo) const = 0;
+    protected:
+      virtual struct tm *_fromTimestamp(const Timestamp &ts) const = 0;
+      virtual Timestamp _createTimestamp(struct tm *timeinfo) const = 0;
 
-        private:
-            Timestamp _timestamp;
-            struct tm *_tm;
-    };
+    private:
+      Timestamp _timestamp;
+      struct tm *_tm;
+  };
 }
 
 #endif // DATETIME_HXX

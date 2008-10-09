@@ -39,30 +39,30 @@
  */
 class TestInvalidCommandParser : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE(TestInvalidCommandParser);
-        CPPUNIT_TEST_EXCEPTION(testParse, Exception::InputException);
-        CPPUNIT_TEST_EXCEPTION(testGetName, Exception::InputException);
-        CPPUNIT_TEST_EXCEPTION(testGetParameterString, Exception::InputException);
-        CPPUNIT_TEST_EXCEPTION(testGetParsed, Exception::InputException);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(TestInvalidCommandParser);
+    CPPUNIT_TEST_EXCEPTION(testParse, Exception::InputException);
+    CPPUNIT_TEST_EXCEPTION(testGetName, Exception::InputException);
+    CPPUNIT_TEST_EXCEPTION(testGetParameterString, Exception::InputException);
+    CPPUNIT_TEST_EXCEPTION(testGetParsed, Exception::InputException);
+  CPPUNIT_TEST_SUITE_END();
 
-    public:
-        TestInvalidCommandParser();
+  public:
+    TestInvalidCommandParser();
 
-        void setUp();
-        void tearDown();
+    void setUp();
+    void tearDown();
 
-        // Public interface of CommandParser:
-        void testParse();
-        void testGetName();
-        void testGetParameterString();
-        void testGetParsed();
+    // Public interface of CommandParser:
+    void testParse();
+    void testGetName();
+    void testGetParameterString();
+    void testGetParsed();
 
-    protected:
+  protected:
 
-    private:
-        parserList _parsers;
-        commandList _commands;
+  private:
+    parserList _parsers;
+    commandList _commands;
 };
 
 #endif // TESTINVALIDCOMMANDPARSER_H

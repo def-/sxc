@@ -31,26 +31,26 @@
 
 namespace Exception
 {
-    /**
-     * @brief Exception class for commands.
-     *
-     * @see File::InputParser
-     */
-    class InputException : public libsxc::Exception::Exception
-    {
-        public:
-            /// Default constructor, does only call parent constructor.
-            InputException(libsxc::Exception::Type type, std::string &message);
-            /// Overloaded default constructor, calls parent constructor.
-            InputException(libsxc::Exception::Type type, const char *message);
+  /**
+   * @brief Exception class for commands.
+   *
+   * @see File::InputParser
+   */
+  class InputException : public libsxc::Exception::Exception
+  {
+    public:
+      /// Default constructor, does only call parent constructor.
+      InputException(libsxc::Exception::Type type, std::string &message);
+      /// Overloaded default constructor, calls parent constructor.
+      InputException(libsxc::Exception::Type type, const char *message);
 
-        protected:
-            /// @see Exception::createDescription()
-            virtual void createDescription() throw();
+    protected:
+      /// @see Exception::createDescription()
+      virtual void createDescription() throw();
 
-        private:
+    private:
 
-    };
+  };
 }
 
 #endif // EXCEPTION_INPUTEXCEPTION_HXX

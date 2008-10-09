@@ -40,36 +40,36 @@ void TestLocalDateTime::tearDown()/*{{{*/
 /*}}}*/
 void TestLocalDateTime::testCtorTs()/*{{{*/
 {
-    Time::Timestamp ts;
-    Time::LocalDateTime date(ts);
+  Time::Timestamp ts;
+  Time::LocalDateTime date(ts);
 }
 
 /*}}}*/
 void TestLocalDateTime::testCtorInt()/*{{{*/
 {
-    Time::LocalDateTime date(2008, 9, 4, 23, 14, 3);
+  Time::LocalDateTime date(2008, 9, 4, 23, 14, 3);
 }
 
 /*}}}*/
 void TestLocalDateTime::testGetTimestamp()/*{{{*/
 {
-    Time::Timestamp ts(TestLocalDateTime::TIME);
-    Time::LocalDateTime date(ts);
-    CPPUNIT_ASSERT_EQUAL(TestLocalDateTime::TIME, date.getTimestamp().raw());
+  Time::Timestamp ts(TestLocalDateTime::TIME);
+  Time::LocalDateTime date(ts);
+  CPPUNIT_ASSERT_EQUAL(TestLocalDateTime::TIME, date.getTimestamp().raw());
 }
 
 /*}}}*/
 void TestLocalDateTime::testRaw()/*{{{*/
 {
-    Time::LocalDateTime date(2008, 9, 4, 23, 14, 3);
-    const struct tm *tm = date.raw();
-    // Some values may seem to be weird, see man ctime for this.
-    CPPUNIT_ASSERT_EQUAL(108,  tm->tm_year);
-    CPPUNIT_ASSERT_EQUAL(8,    tm->tm_mon);
-    CPPUNIT_ASSERT_EQUAL(4,    tm->tm_mday);
-    CPPUNIT_ASSERT_EQUAL(23,   tm->tm_hour);
-    CPPUNIT_ASSERT_EQUAL(14,   tm->tm_min);
-    CPPUNIT_ASSERT_EQUAL(3,    tm->tm_sec);
+  Time::LocalDateTime date(2008, 9, 4, 23, 14, 3);
+  const struct tm *tm = date.raw();
+  // Some values may seem to be weird, see man ctime for this.
+  CPPUNIT_ASSERT_EQUAL(108,  tm->tm_year);
+  CPPUNIT_ASSERT_EQUAL(8,    tm->tm_mon);
+  CPPUNIT_ASSERT_EQUAL(4,    tm->tm_mday);
+  CPPUNIT_ASSERT_EQUAL(23,   tm->tm_hour);
+  CPPUNIT_ASSERT_EQUAL(14,   tm->tm_min);
+  CPPUNIT_ASSERT_EQUAL(3,    tm->tm_sec);
 }
 
 /*}}}*/

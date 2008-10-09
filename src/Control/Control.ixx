@@ -37,27 +37,27 @@
 
 namespace Control
 {
-    inline void Control::onResourceBind(const std::string &resource)/*{{{*/
-    {
+  inline void Control::onResourceBind(const std::string &resource)/*{{{*/
+  {
 #       if DEBUG
-            printLog("Bind resouce: \"" + resource + "\".");
+      printLog("Bind resouce: \"" + resource + "\".");
 #       endif
-    }/*}}}*/
+  }/*}}}*/
 
-    inline void Control::onResourceBindError(const gloox::Error *error)/*{{{*/
-    {
+  inline void Control::onResourceBindError(const gloox::Error *error)/*{{{*/
+  {
 #       if DEBUG
-            printLog("Resource bind error.");
+      printLog("Resource bind error.");
 #       endif
-    }/*}}}*/
+  }/*}}}*/
 
-    inline void Control::onSessionCreateError(const gloox::Error *error)/*{{{*/
-    {
-    }/*}}}*/
+  inline void Control::onSessionCreateError(const gloox::Error *error)/*{{{*/
+  {
+  }/*}}}*/
 
-    inline void Control::onStreamEvent(gloox::StreamEvent event)/*{{{*/
-    {
-    }/*}}}*/
+  inline void Control::onStreamEvent(gloox::StreamEvent event)/*{{{*/
+  {
+  }/*}}}*/
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

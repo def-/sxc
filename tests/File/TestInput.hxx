@@ -38,67 +38,67 @@
  */
 class TestInput : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE(TestInput);
-        CPPUNIT_TEST(testCreate);
-        CPPUNIT_TEST_EXCEPTION(exceptCreateExist,
-                               Exception::FileInputException);
-        CPPUNIT_TEST(testValidate);
-        CPPUNIT_TEST_EXCEPTION(exceptValidateMissing,
-                               Exception::FileInputException);
-        CPPUNIT_TEST_EXCEPTION(exceptValidate200,
-                               Exception::FileInputException);
-        CPPUNIT_TEST_EXCEPTION(exceptValidate400,
-                               Exception::FileInputException);
-        CPPUNIT_TEST_EXCEPTION(exceptValidate604,
-                               Exception::FileInputException);
-        CPPUNIT_TEST_EXCEPTION(exceptValidate640,
-                               Exception::FileInputException);
-        CPPUNIT_TEST_EXCEPTION(exceptValidateBad,
-                               Exception::FileInputException);
-        CPPUNIT_TEST(testClose);
-        CPPUNIT_TEST(testListen);
-        CPPUNIT_TEST(testListenClose);
-        CPPUNIT_TEST(testReadSimple);
-        CPPUNIT_TEST(testReadNL);
-        CPPUNIT_TEST(testReadNull);
-        CPPUNIT_TEST(testReadTrailNull);
-        CPPUNIT_TEST(testReadLeadNull);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(TestInput);
+    CPPUNIT_TEST(testCreate);
+    CPPUNIT_TEST_EXCEPTION(exceptCreateExist,
+                 Exception::FileInputException);
+    CPPUNIT_TEST(testValidate);
+    CPPUNIT_TEST_EXCEPTION(exceptValidateMissing,
+                 Exception::FileInputException);
+    CPPUNIT_TEST_EXCEPTION(exceptValidate200,
+                 Exception::FileInputException);
+    CPPUNIT_TEST_EXCEPTION(exceptValidate400,
+                 Exception::FileInputException);
+    CPPUNIT_TEST_EXCEPTION(exceptValidate604,
+                 Exception::FileInputException);
+    CPPUNIT_TEST_EXCEPTION(exceptValidate640,
+                 Exception::FileInputException);
+    CPPUNIT_TEST_EXCEPTION(exceptValidateBad,
+                 Exception::FileInputException);
+    CPPUNIT_TEST(testClose);
+    CPPUNIT_TEST(testListen);
+    CPPUNIT_TEST(testListenClose);
+    CPPUNIT_TEST(testReadSimple);
+    CPPUNIT_TEST(testReadNL);
+    CPPUNIT_TEST(testReadNull);
+    CPPUNIT_TEST(testReadTrailNull);
+    CPPUNIT_TEST(testReadLeadNull);
+  CPPUNIT_TEST_SUITE_END();
 
-    public:
-        static const std::string fifoPath;
+  public:
+    static const std::string fifoPath;
 
-        void setUp();
-        void tearDown();
+    void setUp();
+    void tearDown();
 
-        // Protected methods of InputBase:
-        void testCreate();
-        void exceptCreateExist();
-        void testValidate();
-        void exceptValidateMissing();
-        void exceptValidate200();
-        void exceptValidate400();
-        void exceptValidate604();
-        void exceptValidate640();
-        void exceptValidateBad();
-        void testClose();
-        void testReadSimple();
-        void testReadNL();
-        void testReadNull();
-        void testReadTrailNull();
-        void testReadLeadNull();
+    // Protected methods of InputBase:
+    void testCreate();
+    void exceptCreateExist();
+    void testValidate();
+    void exceptValidateMissing();
+    void exceptValidate200();
+    void exceptValidate400();
+    void exceptValidate604();
+    void exceptValidate640();
+    void exceptValidateBad();
+    void testClose();
+    void testReadSimple();
+    void testReadNL();
+    void testReadNull();
+    void testReadTrailNull();
+    void testReadLeadNull();
 
-        // Public interface of InputBase or InputDummy:
-        void testListen();
-        void testListenClose();
+    // Public interface of InputBase or InputDummy:
+    void testListen();
+    void testListenClose();
 
-        // Helper methods:
-        void exceptValidateChmod(mode_t mode);
+    // Helper methods:
+    void exceptValidateChmod(mode_t mode);
 
-    protected:
+  protected:
 
-    private:
-        InputDummy *_inputDummy;
+  private:
+    InputDummy *_inputDummy;
 };
 
 #endif // TESTINPUT_H

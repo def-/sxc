@@ -52,190 +52,190 @@ File::AbcInput::AbcInput()/*{{{*/
 /*}}}*/
 File::AbcInput::~AbcInput()/*{{{*/
 {
-    if (_isListening)
-        close();
+  if (_isListening)
+    close();
 }
 
 /*}}}*/
 void File::AbcInput::initialize(bool notPhysical)/*{{{*/
 {
-    _path = _createPath();
+  _path = _createPath();
 
-    if (!notPhysical) {
-        try {
-            _validate();
-        } catch (Exception::FileInputException &e) {
-            // If the file is missing, create it. Anything else means that someone
-            // tampered with the file.
-            if (libsxc::Exception::FileMissing != e.getType())
-                throw e;
-            _create();
-        }
+  if (!notPhysical) {
+    try {
+      _validate();
+    } catch (Exception::FileInputException &e) {
+      // If the file is missing, create it. Anything else means that someone
+      // tampered with the file.
+      if (libsxc::Exception::FileMissing != e.getType())
+        throw e;
+      _create();
     }
+  }
 }
 
 /*}}}*/
 void File::AbcInput::_create()/*{{{*/
 {
-    // Try to create FIFO with chmod 600.
-    if (0 == mkfifo(_path.c_str(), S_IRUSR | S_IWUSR))
-        return;
+  // Try to create FIFO with chmod 600.
+  if (0 == mkfifo(_path.c_str(), S_IRUSR | S_IWUSR))
+    return;
 
-    // Creation of FIFO failed.
-    libsxc::Exception::Type type = Exception::errnoToType(errno);
-    std::string message  = "Could not create FIFO " + _path;
-    throw Exception::FileInputException(type, message);
+  // Creation of FIFO failed.
+  libsxc::Exception::Type type = Exception::errnoToType(errno);
+  std::string message  = "Could not create FIFO " + _path;
+  throw Exception::FileInputException(type, message);
 }
 
 /*}}}*/
 void File::AbcInput::_validate()/*{{{*/
 {
-    // Try to get file stats, needed for analyzing the chmod of the file.
-    struct stat fstat;
-    if (0 != stat(_path.c_str(), &fstat)) {
-        libsxc::Exception::Type type = Exception::errnoToType(errno);
-        std::string message  = "Could not get FIFO fstat: " + _path;
-        throw Exception::FileInputException(type, message);
-    }
+  // Try to get file stats, needed for analyzing the chmod of the file.
+  struct stat fstat;
+  if (0 != stat(_path.c_str(), &fstat)) {
+    libsxc::Exception::Type type = Exception::errnoToType(errno);
+    std::string message  = "Could not get FIFO fstat: " + _path;
+    throw Exception::FileInputException(type, message);
+  }
 
-    // Is this really a FIFO?
-    if (!S_ISFIFO(fstat.st_mode)) {
-        std::string message  = "Not a FIFO: " + _path;
-        throw Exception::FileInputException(libsxc::Exception::BadFile, message);
-    }
+  // Is this really a FIFO?
+  if (!S_ISFIFO(fstat.st_mode)) {
+    std::string message  = "Not a FIFO: " + _path;
+    throw Exception::FileInputException(libsxc::Exception::BadFile, message);
+  }
 
-    // Check for chmod 600(octal):
-    int chmod = fstat.st_mode
-              & (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-    int chmodExpected = (S_IRUSR | S_IWUSR);
+  // Check for chmod 600(octal):
+  int chmod = fstat.st_mode
+        & (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+  int chmodExpected = (S_IRUSR | S_IWUSR);
 #ifdef DEBUG
-    std::stringstream msg;
-    msg << "fstat.st_mode = " << std::oct << fstat.st_mode << '\n';
-    msg << "chmod         = " << std::oct << chmod         << '\n';
-    msg << "expected      = " << std::oct << chmodExpected << '\n';
-    printLog(msg.str());
+  std::stringstream msg;
+  msg << "fstat.st_mode = " << std::oct << fstat.st_mode << '\n';
+  msg << "chmod         = " << std::oct << chmod         << '\n';
+  msg << "expected      = " << std::oct << chmodExpected << '\n';
+  printLog(msg.str());
 #endif
-    if (chmod != chmodExpected) {
-        std::stringstream msg;
-        msg << "Bad chmod: " << std::oct << chmod;
-        // FIXME: Exceptions have to accept parameter being a string.
-        std::string message = msg.str();
-        throw Exception::FileInputException(libsxc::Exception::BadFile,
-                                            message);
-    }
+  if (chmod != chmodExpected) {
+    std::stringstream msg;
+    msg << "Bad chmod: " << std::oct << chmod;
+    // FIXME: Exceptions have to accept parameter being a string.
+    std::string message = msg.str();
+    throw Exception::FileInputException(libsxc::Exception::BadFile,
+                      message);
+  }
 
-    _isFifoValid = true;
+  _isFifoValid = true;
 }
 
 /*}}}*/
 std::string File::AbcInput::_read()/*{{{*/
 {
-    std::string input;
-    std::string buf;
+  std::string input;
+  std::string buf;
 
-    _fifo.open(_path.c_str());
-    while (!_fifo.eof()) {
-        getline(_fifo, buf);
-        input.append(buf);
-        input.push_back('\n');
-    }
-    _fifo.close();
+  _fifo.open(_path.c_str());
+  while (!_fifo.eof()) {
+    getline(_fifo, buf);
+    input.append(buf);
+    input.push_back('\n');
+  }
+  _fifo.close();
 
-    input.erase(--input.end());
+  input.erase(--input.end());
 
-    return input;
+  return input;
 }
 
 /*}}}*/
 void File::AbcInput::listen(bool blocking)/*{{{*/
 {
-    // Prevent input from being handled twice:
-    if (_isListening) {
-        std::string message = "Already listening on " + _path;
-        throw Exception::FileInputException(libsxc::Exception::FileLocked, message);
-    }
-    _isListening = true;
+  // Prevent input from being handled twice:
+  if (_isListening) {
+    std::string message = "Already listening on " + _path;
+    throw Exception::FileInputException(libsxc::Exception::FileLocked, message);
+  }
+  _isListening = true;
 
 #ifdef DEBUG
-    printLog("Creating thread.");
+  printLog("Creating thread.");
 #endif
 
-    // Start the thread in the background.
-    pthread_create(&_thread, NULL, _listen, (void*)this);
+  // Start the thread in the background.
+  pthread_create(&_thread, NULL, _listen, (void*)this);
 
 #ifdef DEBUG
-    printLog("Thread created.");
+  printLog("Thread created.");
 #endif
 
-    // Join the thread when this functions should read in a blocking way.
-    if (true == blocking)
-        pthread_join(_thread, NULL);
+  // Join the thread when this functions should read in a blocking way.
+  if (true == blocking)
+    pthread_join(_thread, NULL);
 
 #ifdef DEBUG
-    printLog("listen() ends here.");
+  printLog("listen() ends here.");
 #endif
 }
 
 /*}}}*/
 void File::AbcInput::close()/*{{{*/
 {
-    if (_isListening) {
-        _mustClose = true;
-        // Open an close FIFO in order to unblock subthread.
-        std::ofstream out(_path.c_str());
-        out.close();
-        pthread_join(_thread, NULL);
-    }
+  if (_isListening) {
+    _mustClose = true;
+    // Open an close FIFO in order to unblock subthread.
+    std::ofstream out(_path.c_str());
+    out.close();
+    pthread_join(_thread, NULL);
+  }
 
-    _mustClose   = false;
-    _isListening = false;
+  _mustClose   = false;
+  _isListening = false;
 }
 
 /*}}}*/
 std::list<std::string> File::AbcInput::split(
-    const std::string &data, const char delim)/*{{{*/
+  const std::string &data, const char delim)/*{{{*/
 {
-    std::istringstream in(data);
-    std::string buf;
-    std::list<std::string> splitted;
+  std::istringstream in(data);
+  std::string buf;
+  std::list<std::string> splitted;
 
-    do {
-        getline(in, buf, delim);
-        if (!buf.empty())
-            splitted.push_back(buf);
-    } while (!in.eof());
+  do {
+    getline(in, buf, delim);
+    if (!buf.empty())
+      splitted.push_back(buf);
+  } while (!in.eof());
 
-    return splitted;
+  return splitted;
 }
 
 /*}}}*/
 void *File::AbcInput::_listen(void *fifo)/*{{{*/
 {
 #ifdef DEBUG
-    printLog("Thread running.");
+  printLog("Thread running.");
 #endif
-    // FIXME: Add exception handling. || called methods must not throw
-    AbcInput *that = (AbcInput *) fifo;
-    while (!that->_mustClose) {
-        std::string input = that->_read();
+  // FIXME: Add exception handling. || called methods must not throw
+  AbcInput *that = (AbcInput *) fifo;
+  while (!that->_mustClose) {
+    std::string input = that->_read();
 
-        if (that->_mustClose) break;
-        if (input.empty()) continue;
+    if (that->_mustClose) break;
+    if (input.empty()) continue;
 
-        std::list<std::string> inputs = AbcInput::split(input, '\0');
-        for (std::list<std::string>::iterator it = inputs.begin();
-             it != inputs.end();
-             ++it)
-        {
-            that->_handleInput(*it);
-        }
+    std::list<std::string> inputs = AbcInput::split(input, '\0');
+    for (std::list<std::string>::iterator it = inputs.begin();
+       it != inputs.end();
+       ++it)
+    {
+      that->_handleInput(*it);
     }
+  }
 
 #ifdef DEBUG
-    printLog("Thread terminating.");
+  printLog("Thread terminating.");
 #endif
 
-    return NULL;
+  return NULL;
 }
 
 /*}}}*/

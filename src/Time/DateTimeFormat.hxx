@@ -30,19 +30,19 @@
 
 namespace Time
 {
-    class DateTimeFormat
-    {
-        public:
-            DateTimeFormat(const DateTime *dateTime);
-            virtual ~DateTimeFormat();
-            virtual const std::string &string() const;
-            virtual std::string format(const std::string &format,
-                                       unsigned int length=50);
+  class DateTimeFormat
+  {
+    public:
+      DateTimeFormat(const DateTime *dateTime);
+      virtual ~DateTimeFormat();
+      virtual const std::string &string() const;
+      virtual std::string format(const std::string &format,
+                     unsigned int length=50);
 
-        private:
-            const DateTime *_dateTime;
-            std::string _formatted;
-    };
+    private:
+      const DateTime *_dateTime;
+      std::string _formatted;
+  };
 }
 
 #endif // DATETIMEFORMAT_HXX

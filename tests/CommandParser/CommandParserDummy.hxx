@@ -44,14 +44,14 @@ using CommandParser::commandMap;
 class CommandParserDummy : public CommandParser::AbcCommandParser
 {
 
-    public:
-        CommandParserDummy(const std::string &command);
-        ~CommandParserDummy();
+  public:
+    CommandParserDummy(const std::string &command);
+    ~CommandParserDummy();
 
-    protected:
+  protected:
 
-    private:
-        commandMap _createCommands() const;
+  private:
+    commandMap _createCommands() const;
 };
 
 // For the various test classes

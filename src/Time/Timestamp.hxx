@@ -25,17 +25,17 @@
 
 namespace Time
 {
-    class Timestamp
-    {
-        public:
-            Timestamp();
-            Timestamp(time_t time);
-            virtual ~Timestamp();
-            virtual const time_t &raw() const;
+  class Timestamp
+  {
+    public:
+      Timestamp();
+      Timestamp(time_t time);
+      virtual ~Timestamp();
+      virtual const time_t &raw() const;
 
-        private:
-            time_t _raw;
-    };
+    private:
+      time_t _raw;
+  };
 }
 
 #endif // TIMESTAMP_HXX

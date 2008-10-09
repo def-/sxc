@@ -31,30 +31,30 @@
 
 namespace Exception
 {
-    FileInputException::FileInputException(/*{{{*/
-        libsxc::Exception::Type type,
-        std::string &message)
-    : Exception(type, message)
-    {
-    }
+  FileInputException::FileInputException(/*{{{*/
+    libsxc::Exception::Type type,
+    std::string &message)
+  : Exception(type, message)
+  {
+  }
 
 /*}}}*/
-    FileInputException::FileInputException(/*{{{*/
-        libsxc::Exception::Type type,
-        const char *message)
-    : Exception(type, message)
-    {
-    }
+  FileInputException::FileInputException(/*{{{*/
+    libsxc::Exception::Type type,
+    const char *message)
+  : Exception(type, message)
+  {
+  }
 
 /*}}}*/
-    void FileInputException::createDescription() throw()/*{{{*/
-    {
-        // FIXME
-        std::stringstream desc;
-        desc << "!!! FIXME: FileInputException { _type = " << _type
-             << ", _message = " << _message << " }";
-        _description = desc.str();
-    }
+  void FileInputException::createDescription() throw()/*{{{*/
+  {
+    // FIXME
+    std::stringstream desc;
+    desc << "!!! FIXME: FileInputException { _type = " << _type
+       << ", _message = " << _message << " }";
+    _description = desc.str();
+  }
 
 /*}}}*/
 }

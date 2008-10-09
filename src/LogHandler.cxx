@@ -31,11 +31,11 @@
 /*}}}*/
 
 void LogHandler::handleLog(/*{{{*/
-    gloox::LogLevel level,
-    gloox::LogArea area,
-    const std::string &message)
+  gloox::LogLevel level,
+  gloox::LogArea area,
+  const std::string &message)
 {
-    printLog(message);
+  printLog(message);
 }/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

@@ -52,207 +52,207 @@
 
 namespace Control
 {
-    Control::Control(/*{{{*/
-        const gloox::JID &jid,
-        int port,
-        const std::string &name,
-        const std::string &version)
-    : _client(jid, "", port), // Fill in the passphrase later.
-      _roster(this, &_client),
+  Control::Control(/*{{{*/
+    const gloox::JID &jid,
+    int port,
+    const std::string &name,
+    const std::string &version)
+  : _client(jid, "", port), // Fill in the passphrase later.
+    _roster(this, &_client),
 #     ifdef DEBUG
-          _logHandler(),
+      _logHandler(),
 #     endif
-      _presence(gloox::Presence::Available),
-      _priority(0),
-      _status(""),
-    // FIXME
-    //  _output(this, jid.bare()),
-      _input(*this),
-      _thread()
-    {
-        _client.registerConnectionListener(this);
-        _client.registerMessageHandler(&_roster);
+    _presence(gloox::Presence::Available),
+    _priority(0),
+    _status(""),
+  // FIXME
+  //  _output(this, jid.bare()),
+    _input(*this),
+    _thread()
+  {
+    _client.registerConnectionListener(this);
+    _client.registerMessageHandler(&_roster);
 
 #       ifdef DEBUG
-            _client.logInstance().registerLogHandler(
-                gloox::LogLevelDebug,
-                gloox::LogAreaAll,
-                &_logHandler);
+      _client.logInstance().registerLogHandler(
+        gloox::LogLevelDebug,
+        gloox::LogAreaAll,
+        &_logHandler);
 #       endif
 
-        // "console" is not exactly what sxc is, but "pc" is described as a
-        // full-featured GUI.
-        const std::string category = "client";
-        const std::string type = "console";
+    // "console" is not exactly what sxc is, but "pc" is described as a
+    // full-featured GUI.
+    const std::string category = "client";
+    const std::string type = "console";
 #       if DEBUG
-            printLog(
-                "Set identity: (category: \"" + category + "\", type: \"" +
-                type + "\", name: \"" + name + "\").");
+      printLog(
+        "Set identity: (category: \"" + category + "\", type: \"" +
+        type + "\", name: \"" + name + "\").");
 #       endif
-        _client.disco()->setIdentity(category, type, name);
-
-#       if DEBUG
-            printLog(
-                "Set version: (name: \"" + name + "\", version: \"" +
-                version + "\").");
-#       endif
-        _client.disco()->setVersion(name, version);
-
-        _input.listen();
-    }/*}}}*/
-    Control::~Control()/*{{{*/
-    {
-#       if DEBUG
-            printLog("Exit.");
-#       endif
-
-        disconnect();
-        _client.removeConnectionListener(this);
-        _client.removeMessageHandler(&_roster);
+    _client.disco()->setIdentity(category, type, name);
 
 #       if DEBUG
-            _client.logInstance().removeLogHandler(&_logHandler);
+      printLog(
+        "Set version: (name: \"" + name + "\", version: \"" +
+        version + "\").");
 #       endif
-    }/*}}}*/
+    _client.disco()->setVersion(name, version);
 
-    void Control::setPassphrase(const std::string &pass)/*{{{*/
-    {
+    _input.listen();
+  }/*}}}*/
+  Control::~Control()/*{{{*/
+  {
 #       if DEBUG
-            printLog("Set passphrase: \"" + pass + "\".");
+      printLog("Exit.");
 #       endif
-        _client.setPassword(pass);
-    }/*}}}*/
-    void Control::setPresence(/*{{{*/
-        gloox::Presence::PresenceType presence,
-        int priority,
-        const std::string &status)
-    {
+
+    disconnect();
+    _client.removeConnectionListener(this);
+    _client.removeMessageHandler(&_roster);
+
+#       if DEBUG
+      _client.logInstance().removeLogHandler(&_logHandler);
+#       endif
+  }/*}}}*/
+
+  void Control::setPassphrase(const std::string &pass)/*{{{*/
+  {
+#       if DEBUG
+      printLog("Set passphrase: \"" + pass + "\".");
+#       endif
+    _client.setPassword(pass);
+  }/*}}}*/
+  void Control::setPresence(/*{{{*/
+    gloox::Presence::PresenceType presence,
+    int priority,
+    const std::string &status)
+  {
 #       if DEBUG/*{{{*/
-            std::stringstream text;
-            text << "Set presence: (\"" << libsxc::genPresenceString(presence)
-                 << "\" (" << presence << "), priority: " << priority
-                 << ", message: \"" << status << "\").";;
-            printLog(text.str());
+      std::stringstream text;
+      text << "Set presence: (\"" << libsxc::genPresenceString(presence)
+         << "\" (" << presence << "), priority: " << priority
+         << ", message: \"" << status << "\").";;
+      printLog(text.str());
 #       endif/*}}}*/
 
-        // Don't trust _client, but instead store the presence information
-        // locally.
-        _presence = presence;
-        _priority = priority;
-        _status = status;
+    // Don't trust _client, but instead store the presence information
+    // locally.
+    _presence = presence;
+    _priority = priority;
+    _status = status;
 
-        _client.setPresence(presence, priority, status);
+    _client.setPresence(presence, priority, status);
 
-        // Don't connect if already connected or connecting.
-        if (_thread)
-            return;
-        if ("" == _client.password())
-            print("Password not set.");
-        else
-            pthread_create(&_thread, NULL, _run, (void*)this);
-    }/*}}}*/
-    void Control::setPresence(/*{{{*/
-        gloox::Presence::PresenceType presence,
-        const std::string &status)
-    {
-        setPresence(presence, _priority, status);
-    }/*}}}*/
-    void Control::setPriority(int priority)/*{{{*/
-    {
-        setPresence(_presence, priority, _status);
-    }/*}}}*/
-    void Control::disconnect()/*{{{*/
-    {
+    // Don't connect if already connected or connecting.
+    if (_thread)
+      return;
+    if ("" == _client.password())
+      print("Password not set.");
+    else
+      pthread_create(&_thread, NULL, _run, (void*)this);
+  }/*}}}*/
+  void Control::setPresence(/*{{{*/
+    gloox::Presence::PresenceType presence,
+    const std::string &status)
+  {
+    setPresence(presence, _priority, status);
+  }/*}}}*/
+  void Control::setPriority(int priority)/*{{{*/
+  {
+    setPresence(_presence, priority, _status);
+  }/*}}}*/
+  void Control::disconnect()/*{{{*/
+  {
 #       if DEBUG
-            printLog("Disconnect.");
+      printLog("Disconnect.");
 #       endif
-        _client.disconnect();
-    }/*}}}*/
-    void Control::sendMessage(/*{{{*/
-        const gloox::JID &to,
-        const std::string &body)
-    {
-        gloox::Message message(
-            gloox::Message::Normal, // Not Chat.
-            to,
-            body);
-        _client.send(message);
-    }/*}}}*/
+    _client.disconnect();
+  }/*}}}*/
+  void Control::sendMessage(/*{{{*/
+    const gloox::JID &to,
+    const std::string &body)
+  {
+    gloox::Message message(
+      gloox::Message::Normal, // Not Chat.
+      to,
+      body);
+    _client.send(message);
+  }/*}}}*/
 
-    void Control::handleError(/*{{{*/
-        libsxc::Exception::Exception &e,
-        bool isCritical) const
-    {
-        if (isCritical) {
-            printErr(e.getDescription());
-            exit(e.getType());
-        }
-        print(e.getDescription());
-    }/*}}}*/
+  void Control::handleError(/*{{{*/
+    libsxc::Exception::Exception &e,
+    bool isCritical) const
+  {
+    if (isCritical) {
+      printErr(e.getDescription());
+      exit(e.getType());
+    }
+    print(e.getDescription());
+  }/*}}}*/
 
-    void Control::print(std::string text) const/*{{{*/
-    {
-        // FIXME
-        //_output->write(text);
-    }/*}}}*/
+  void Control::print(std::string text) const/*{{{*/
+  {
+    // FIXME
+    //_output->write(text);
+  }/*}}}*/
 
-    Roster &Control::getRoster()/*{{{*/
-    {
-        return _roster;
-    }/*}}}*/
-    const gloox::JID &Control::getJid()/*{{{*/
-    {
-        return _client.jid();
-    }/*}}}*/
+  Roster &Control::getRoster()/*{{{*/
+  {
+    return _roster;
+  }/*}}}*/
+  const gloox::JID &Control::getJid()/*{{{*/
+  {
+    return _client.jid();
+  }/*}}}*/
 
-    void Control::onConnect()/*{{{*/
-    {
+  void Control::onConnect()/*{{{*/
+  {
 #       if DEBUG
-            printLog("Connected: Connection established.");
+      printLog("Connected: Connection established.");
 #       endif
-    }/*}}}*/
-    void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
-    {
+  }/*}}}*/
+  void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
+  {
 #       if DEBUG
-            printLog("Disconnected: " + libsxc::genConnErrorString(
-                e,
-                _client.streamError(),
-                _client.streamErrorText(),
-                _client.authError(),
-                true)); // Debug.
-#       endif
-
-        std::string text = libsxc::genConnErrorString(
-            e,
-            _client.streamError(),
-            _client.streamErrorText(),
-            _client.authError());
-        if (!text.empty())
-            print("Disconnected: " + text);
-    }/*}}}*/
-    bool Control::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
-    {
-#       if DEBUG
-            printLog("Acknowledge TLS certificate.");
-#       endif
-        return true;
-    }/*}}}*/
-
-    void *Control::_run(void *rawThat)/*{{{*/
-    {
-#       if DEBUG
-            printLog("Start socket receiving thread.");
+      printLog("Disconnected: " + libsxc::genConnErrorString(
+        e,
+        _client.streamError(),
+        _client.streamErrorText(),
+        _client.authError(),
+        true)); // Debug.
 #       endif
 
-        Control *that = (Control *) rawThat;
-        that->_client.connect(); // Blocking.
-
+    std::string text = libsxc::genConnErrorString(
+      e,
+      _client.streamError(),
+      _client.streamErrorText(),
+      _client.authError());
+    if (!text.empty())
+      print("Disconnected: " + text);
+  }/*}}}*/
+  bool Control::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
+  {
 #       if DEBUG
-            printLog("End socket receiving thread.");
+      printLog("Acknowledge TLS certificate.");
+#       endif
+    return true;
+  }/*}}}*/
+
+  void *Control::_run(void *rawThat)/*{{{*/
+  {
+#       if DEBUG
+      printLog("Start socket receiving thread.");
 #       endif
 
-        return (void *) NULL;
-    }/*}}}*/
+    Control *that = (Control *) rawThat;
+    that->_client.connect(); // Blocking.
+
+#       if DEBUG
+      printLog("End socket receiving thread.");
+#       endif
+
+    return (void *) NULL;
+  }/*}}}*/
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

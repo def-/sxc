@@ -30,65 +30,65 @@
 
 namespace Control
 {
-    namespace File
+  namespace File
+  {
+    /**
+     * @brief Main output class for sxc.
+     *
+     * Creates the file $JID/out which displays messages from sxc and from
+     * the server.
+     *
+     */
+    class Output : public ::File::AbcOutput
     {
+      public:
+        // Output(Control::Control &control);/*{{{*/
+
         /**
-         * @brief Main output class for sxc.
+         * @brief Initializes the object.
          *
-         * Creates the file $JID/out which displays messages from sxc and from
-         * the server.
-         *
+         * @param control Central object, holding account information
          */
-        class Output : public ::File::AbcOutput
-        {
-            public:
-                // Output(Control::Control &control);/*{{{*/
-
-                /**
-                 * @brief Initializes the object.
-                 *
-                 * @param control Central object, holding account information
-                 */
-                Output(Control::Control &control);
+        Output(Control::Control &control);
 
 /*}}}*/
 
-            protected:
+      protected:
 
 
-            private:
-                // Control::Control *_control;/*{{{*/
+      private:
+        // Control::Control *_control;/*{{{*/
 
-                /// Central control object, used for error handling or getting
-                /// account information.
-                Control::Control *_control;
-
-/*}}}*/
-                // std::string _createPath() const;/*{{{*/
-
-                /**
-                 * @brief Creates a string containing the path of this file.
-                 *
-                 * @see File::AbcOutput::_createPath()
-                 *
-                 * @return $accountName/out
-                 */
-                std::string _createPath() const;
+        /// Central control object, used for error handling or getting
+        /// account information.
+        Control::Control *_control;
 
 /*}}}*/
-                // std::string _format(const std::string &output) const;/*{{{*/
+        // std::string _createPath() const;/*{{{*/
 
-                /**
-                 * @brief Formats the output.
-                 *
-                 * @param output String to be formatted.
-                 * @return A formatted string.
-                 */
-                std::string _format(const std::string &output) const;
+        /**
+         * @brief Creates a string containing the path of this file.
+         *
+         * @see File::AbcOutput::_createPath()
+         *
+         * @return $accountName/out
+         */
+        std::string _createPath() const;
 
 /*}}}*/
-        };
-    }
+        // std::string _format(const std::string &output) const;/*{{{*/
+
+        /**
+         * @brief Formats the output.
+         *
+         * @param output String to be formatted.
+         * @return A formatted string.
+         */
+        std::string _format(const std::string &output) const;
+
+/*}}}*/
+    };
+  }
 }
 
 #endif // CONTROL_FILE_OUTPUT_HXX

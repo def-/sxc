@@ -32,69 +32,69 @@
 
 namespace Contact
 {
-    namespace File
+  namespace File
+  {
+    /**
+     * @brief Output class for contacts.
+     *
+     * Creates the file $JID/$CONTACT/out which contains messages from and
+     * to that contact.
+     *
+     */
+    class Output : public ::File::AbcOutput
     {
+      public:
+        // Output(Control::Control &control, Contact &contact);/*{{{*/
+
         /**
-         * @brief Output class for contacts.
+         * @brief Initializes the object.
          *
-         * Creates the file $JID/$CONTACT/out which contains messages from and
-         * to that contact.
-         *
+         * @param control Central object, holding account information
+         * @param contact Contact to which this output belongs
          */
-        class Output : public ::File::AbcOutput
-        {
-            public:
-                // Output(Control::Control &control, Contact &contact);/*{{{*/
-
-                /**
-                 * @brief Initializes the object.
-                 *
-                 * @param control Central object, holding account information
-                 * @param contact Contact to which this output belongs
-                 */
-                Output(Control::Control &control, Contact &contact);
+        Output(Control::Control &control, Contact &contact);
 
 /*}}}*/
 
-            private:
-                // Control::Control *_control;/*{{{*/
+      private:
+        // Control::Control *_control;/*{{{*/
 
-                /// Central control object, used for error handling or getting
-                /// account information.
-                Control::Control *_control;
-
-/*}}}*/
-                // Contact *_contact;/*{{{*/
-
-                /// Contact to which this output belongs.
-                Contact *_contact;
+        /// Central control object, used for error handling or getting
+        /// account information.
+        Control::Control *_control;
 
 /*}}}*/
-                // std::string _createPath() const;/*{{{*/
+        // Contact *_contact;/*{{{*/
 
-                /**
-                 * @brief Creates a string containing the path of this file.
-                 *
-                 * @see File::AbcOutput::_createPath()
-                 *
-                 * @return $accountName/out
-                 */
-                std::string _createPath() const;
+        /// Contact to which this output belongs.
+        Contact *_contact;
 
 /*}}}*/
-                // std::string _format(const std::string &output) const;/*{{{*/
+        // std::string _createPath() const;/*{{{*/
 
-                /**
-                 * @brief Formats the output.
-                 *
-                 * @param output String to be formatted.
-                 * @return A formatted string.
-                 */
-                std::string _format(const std::string &output) const;
+        /**
+         * @brief Creates a string containing the path of this file.
+         *
+         * @see File::AbcOutput::_createPath()
+         *
+         * @return $accountName/out
+         */
+        std::string _createPath() const;
 
 /*}}}*/
-        };
-    }
+        // std::string _format(const std::string &output) const;/*{{{*/
+
+        /**
+         * @brief Formats the output.
+         *
+         * @param output String to be formatted.
+         * @return A formatted string.
+         */
+        std::string _format(const std::string &output) const;
+
+/*}}}*/
+    };
+  }
 }
 
 #endif // CONTROL_FILE_OUTPUT_HXX

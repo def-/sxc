@@ -27,33 +27,33 @@
 
 namespace Time
 {
-    DateTimeFormat::DateTimeFormat(const DateTime *dateTime)/*{{{*/
-    : _dateTime(dateTime)
-    {
-    }
+  DateTimeFormat::DateTimeFormat(const DateTime *dateTime)/*{{{*/
+  : _dateTime(dateTime)
+  {
+  }
 
-    /*}}}*/
-    DateTimeFormat::~DateTimeFormat()/*{{{*/
-    {
-    }
+  /*}}}*/
+  DateTimeFormat::~DateTimeFormat()/*{{{*/
+  {
+  }
 
-    /*}}}*/
-    const std::string &DateTimeFormat::string() const/*{{{*/
-    {
-        return _formatted;
-    }
+  /*}}}*/
+  const std::string &DateTimeFormat::string() const/*{{{*/
+  {
+    return _formatted;
+  }
 
-    /*}}}*/
-    std::string DateTimeFormat::format(const std::string &format,
-                                       unsigned int length)/*{{{*/
-    {
-        char cstr[length];
-        strftime(cstr, length, format.c_str(), _dateTime->raw());
-        _formatted = cstr;
-        return _formatted;
-    }
+  /*}}}*/
+  std::string DateTimeFormat::format(const std::string &format,
+                     unsigned int length)/*{{{*/
+  {
+    char cstr[length];
+    strftime(cstr, length, format.c_str(), _dateTime->raw());
+    _formatted = cstr;
+    return _formatted;
+  }
 
-    /*}}}*/
+  /*}}}*/
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

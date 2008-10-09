@@ -38,17 +38,17 @@
  */
 class OutputDummy : public File::AbcOutput
 {
-    // friend class TestOutput;
+  // friend class TestOutput;
 
-    public:
-        OutputDummy(const std::string &filename);
-        void write(const std::string &output);
+  public:
+    OutputDummy(const std::string &filename);
+    void write(const std::string &output);
 
-    protected:
+  protected:
 
-    private:
-        std::string _filename;
-        std::string _createPath() const;
+  private:
+    std::string _filename;
+    std::string _createPath() const;
 };
 
 #endif // OUTPUTDUMMY_H

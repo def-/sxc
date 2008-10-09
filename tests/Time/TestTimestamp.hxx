@@ -30,25 +30,25 @@
 
 class TestTimestamp : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE(TestTimestamp);
-        CPPUNIT_TEST(testDefCtor);
-        CPPUNIT_TEST(testSpecCtor);
-        CPPUNIT_TEST(testRaw);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(TestTimestamp);
+    CPPUNIT_TEST(testDefCtor);
+    CPPUNIT_TEST(testSpecCtor);
+    CPPUNIT_TEST(testRaw);
+  CPPUNIT_TEST_SUITE_END();
 
-    public:
-        static const time_t TIME;
+  public:
+    static const time_t TIME;
 
-        void setUp();
-        void tearDown();
+    void setUp();
+    void tearDown();
 
-        void testDefCtor();
-        void testSpecCtor();
-        void testRaw();
+    void testDefCtor();
+    void testSpecCtor();
+    void testRaw();
 
-    protected:
+  protected:
 
-    private:
+  private:
 };
 
 #endif // TESTTIMESTAMP_H

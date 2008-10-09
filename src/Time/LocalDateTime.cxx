@@ -22,37 +22,37 @@
 
 namespace Time
 {
-    LocalDateTime::LocalDateTime(const Timestamp &ts)/*{{{*/
-    {
-        set(ts);
-    }
+  LocalDateTime::LocalDateTime(const Timestamp &ts)/*{{{*/
+  {
+    set(ts);
+  }
 
-    /*}}}*/
-    LocalDateTime::LocalDateTime(int year, int month, int day,
-                                 int hour, int minutes, int seconds)/*{{{*/
-    {
-        set(year, month, day, hour, minutes, seconds);
-    }
+  /*}}}*/
+  LocalDateTime::LocalDateTime(int year, int month, int day,
+                 int hour, int minutes, int seconds)/*{{{*/
+  {
+    set(year, month, day, hour, minutes, seconds);
+  }
 
-    /*}}}*/
-    LocalDateTime::~LocalDateTime()/*{{{*/
-    {
-    }
+  /*}}}*/
+  LocalDateTime::~LocalDateTime()/*{{{*/
+  {
+  }
 
-    /*}}}*/
-    struct tm *LocalDateTime::_fromTimestamp(const Timestamp &ts) const/*{{{*/
-    {
-        return localtime(&ts.raw());
-    }
+  /*}}}*/
+  struct tm *LocalDateTime::_fromTimestamp(const Timestamp &ts) const/*{{{*/
+  {
+    return localtime(&ts.raw());
+  }
 
-    /*}}}*/
-    Timestamp LocalDateTime::_createTimestamp(struct tm *tm) const/*{{{*/
-    {
-        Timestamp ts(mktime(tm));
-        return ts;
-    }
+  /*}}}*/
+  Timestamp LocalDateTime::_createTimestamp(struct tm *tm) const/*{{{*/
+  {
+    Timestamp ts(mktime(tm));
+    return ts;
+  }
 
-    /*}}}*/
+  /*}}}*/
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

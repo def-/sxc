@@ -44,21 +44,21 @@ void TestIsoDateTimeFormat::tearDown()/*{{{*/
 /*}}}*/
 void TestIsoDateTimeFormat::testCtor()/*{{{*/
 {
-    Time::LocalDateTime date(Time::Timestamp(TestIsoDateTimeFormat::TIME));
-    Time::IsoDateTimeFormat formatter(&date);
+  Time::LocalDateTime date(Time::Timestamp(TestIsoDateTimeFormat::TIME));
+  Time::IsoDateTimeFormat formatter(&date);
 }
 
 /*}}}*/
 void TestIsoDateTimeFormat::testString()/*{{{*/
 {
-    // TODO Need UtcDate for this.
-    // LocalDateTime date(Timestamp(TestDateTimeFormat::TIME));
-    // DateTimeFormat formatter(&date);
-    // CPPUNIT_ASSERT_EQUAL(std::string("2008-09-04"), formatter.format("%F"));
+  // TODO Need UtcDate for this.
+  // LocalDateTime date(Timestamp(TestDateTimeFormat::TIME));
+  // DateTimeFormat formatter(&date);
+  // CPPUNIT_ASSERT_EQUAL(std::string("2008-09-04"), formatter.format("%F"));
 
-    // std::stringstream ssTs;
-    // ssTs << TestDateTimeFormat::TIME;
-    // CPPUNIT_ASSERT_EQUAL(ssTs.str(), formatter.format("%s"));
+  // std::stringstream ssTs;
+  // ssTs << TestDateTimeFormat::TIME;
+  // CPPUNIT_ASSERT_EQUAL(ssTs.str(), formatter.format("%s"));
 }
 
 /*}}}*/

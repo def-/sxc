@@ -30,23 +30,23 @@
 
 class TestDateTimeFormat : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE(TestDateTimeFormat);
-        CPPUNIT_TEST(testCtor);
-        CPPUNIT_TEST(testFormat);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(TestDateTimeFormat);
+    CPPUNIT_TEST(testCtor);
+    CPPUNIT_TEST(testFormat);
+  CPPUNIT_TEST_SUITE_END();
 
-    public:
-        static const time_t TIME;
+  public:
+    static const time_t TIME;
 
-        void setUp();
-        void tearDown();
+    void setUp();
+    void tearDown();
 
-        void testCtor();
-        void testFormat();
+    void testCtor();
+    void testFormat();
 
-    protected:
+  protected:
 
-    private:
+  private:
 };
 
 #endif // TESTDATETIMEFORMAT_H

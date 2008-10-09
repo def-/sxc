@@ -40,43 +40,43 @@ DateTime::~DateTime()/*{{{*/
 
 /*}}}*/
 void DateTime::set(int year, int month, int day,
-                   int hours, int minutes, int seconds)/*{{{*/
+           int hours, int minutes, int seconds)/*{{{*/
 {
-    {
-        struct tm *tm = _fromTimestamp(Timestamp());
-        tm->tm_year  = year - 1900;
-        tm->tm_mon   = month - 1;
-        tm->tm_mday  = day;
-        tm->tm_hour  = hours;
-        tm->tm_min   = minutes;
-        tm->tm_sec   = seconds;
-        tm->tm_isdst = -1;
+  {
+    struct tm *tm = _fromTimestamp(Timestamp());
+    tm->tm_year  = year - 1900;
+    tm->tm_mon   = month - 1;
+    tm->tm_mday  = day;
+    tm->tm_hour  = hours;
+    tm->tm_min   = minutes;
+    tm->tm_sec   = seconds;
+    tm->tm_isdst = -1;
 
-        _tm = tm;
-    }
-    _timestamp = _createTimestamp(_tm);
+    _tm = tm;
+  }
+  _timestamp = _createTimestamp(_tm);
 }
 
 /*}}}*/
 void DateTime::set(const Timestamp &ts)/*{{{*/
 {
-    _timestamp = ts;
-    _tm = _fromTimestamp(ts);
+  _timestamp = ts;
+  _tm = _fromTimestamp(ts);
 }
 
 /*}}}*/
 const Timestamp &DateTime::getTimestamp() const/*{{{*/
 {
-    return _timestamp;
+  return _timestamp;
 }
 
 /*}}}*/
 const struct tm *DateTime::raw() const/*{{{*/
 {
-    if (NULL == _tm) {
-        throw std::logic_error("_tm not set");
-    }
-    return _tm;
+  if (NULL == _tm) {
+    throw std::logic_error("_tm not set");
+  }
+  return _tm;
 }
 
 /*}}}*/

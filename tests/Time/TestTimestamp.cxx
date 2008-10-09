@@ -40,20 +40,20 @@ void TestTimestamp::tearDown()/*{{{*/
 /*}}}*/
 void TestTimestamp::testDefCtor()/*{{{*/
 {
-    Time::Timestamp ts;
+  Time::Timestamp ts;
 }
 
 /*}}}*/
 void TestTimestamp::testSpecCtor()/*{{{*/
 {
-    Time::Timestamp ts(TestTimestamp::TIME);
+  Time::Timestamp ts(TestTimestamp::TIME);
 }
 
 /*}}}*/
 void TestTimestamp::testRaw()/*{{{*/
 {
-    Time::Timestamp ts(TestTimestamp::TIME);
-    CPPUNIT_ASSERT_EQUAL(TestTimestamp::TIME, ts.raw());
+  Time::Timestamp ts(TestTimestamp::TIME);
+  CPPUNIT_ASSERT_EQUAL(TestTimestamp::TIME, ts.raw());
 }
 
 /*}}}*/

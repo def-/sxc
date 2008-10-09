@@ -36,31 +36,31 @@
  */
 class TestOutput : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE(TestOutput);
-        CPPUNIT_TEST(testInitialize);
-        CPPUNIT_TEST(testOpen);
-        CPPUNIT_TEST(testClose);
-        CPPUNIT_TEST(testWrite);
-        CPPUNIT_TEST_EXCEPTION(exceptClose, std::ofstream::failure);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(TestOutput);
+    CPPUNIT_TEST(testInitialize);
+    CPPUNIT_TEST(testOpen);
+    CPPUNIT_TEST(testClose);
+    CPPUNIT_TEST(testWrite);
+    CPPUNIT_TEST_EXCEPTION(exceptClose, std::ofstream::failure);
+  CPPUNIT_TEST_SUITE_END();
 
-    public:
-        static const std::string path;
+  public:
+    static const std::string path;
 
-        void setUp();
-        void tearDown();
+    void setUp();
+    void tearDown();
 
-        // Public interface of OutputBase or OutputDummy:
-        void testInitialize();
-        void testOpen();
-        void testWrite();
-        void testClose();
-        void exceptClose();
+    // Public interface of OutputBase or OutputDummy:
+    void testInitialize();
+    void testOpen();
+    void testWrite();
+    void testClose();
+    void exceptClose();
 
-    protected:
+  protected:
 
-    private:
-        OutputDummy *_output;
+  private:
+    OutputDummy *_output;
 };
 
 #endif // TESTOUTPUT_H

@@ -42,120 +42,120 @@
  */
 namespace SomeNamespace
 {
-    /**
-     * @class SomeNamespace
-     *
-     *
-     * @brief Coding style example class.
-     *
-     * An example class showing the coding style used in sxc. It is inspired by
-     * http://www.possibility.com/
-     *
-     * This is a JavaDoc style comment.
-     * The first line is a brief description, everything following is the same in
-     * verbose.
-     *
-     * @see something
-     */
-    class StyleExample
-    {
-        public:
-            // StyleExample();/*{{{*/
+  /**
+   * @class SomeNamespace
+   *
+   *
+   * @brief Coding style example class.
+   *
+   * An example class showing the coding style used in sxc. It is inspired by
+   * http://www.possibility.com/
+   *
+   * This is a JavaDoc style comment.
+   * The first line is a brief description, everything following is the same in
+   * verbose.
+   *
+   * @see something
+   */
+  class StyleExample
+  {
+    public:
+      // StyleExample();/*{{{*/
 
-            /**
-             * @brief Default constructor.
-             *        This is is STILL a brief description.
-             *
-             * This is the verbose description of the constructor that does
-             * foo and bar.
-             *
-             * @note This is a note.
-             */
-            StyleExample();
-
-/*}}}*/
-            // ~StyleExample();/*{{{*/
-
-            /**
-             * @brief Brief description.
-             *
-             * The Second sentence is the detailed description. And it is very
-             * detailed, isn't it?
-             *
-             * @warning Use autobrief only for comments fitting into one line.
-             */
-            ~StyleExample();
+      /**
+       * @brief Default constructor.
+       *        This is is STILL a brief description.
+       *
+       * This is the verbose description of the constructor that does
+       * foo and bar.
+       *
+       * @note This is a note.
+       */
+      StyleExample();
 
 /*}}}*/
-            // bool doSomething(std::string someString, int someNumber);/*{{{*/
+      // ~StyleExample();/*{{{*/
 
-            /**
-             * @brief A member doing something with what it gets.
-             *
-             * @warning Don't do this and that!
-             *
-             * @param someString A string about something interesting
-             * @param someNumber A weird number that will be processed
-             * @exception SomeException This is the description.
-             * @return Whether everything the procession did succed or not
-             */
-            bool doSomething(std::string someString, int someNumber);
+      /**
+       * @brief Brief description.
+       *
+       * The Second sentence is the detailed description. And it is very
+       * detailed, isn't it?
+       *
+       * @warning Use autobrief only for comments fitting into one line.
+       */
+      ~StyleExample();
 
 /*}}}*/
-            // void doSomethingWithManyArguments(argA, argB, argC, argD);/*{{{*/
+      // bool doSomething(std::string someString, int someNumber);/*{{{*/
 
-            /**
-             * @brief Does something with many arguments.
-             *
-             * No one knows what this method does.
-             *
-             * @param argA An important integer.
-             * @param argB A less important integer.
-             * @param argC A string containing some mysterious data.
-             * @param argD Another string.
-             */
-            void doSomethingWithManyArguments(
-                int         argA,
-                int         argB,
-                std::string argC,
-                std::string argD);
+      /**
+       * @brief A member doing something with what it gets.
+       *
+       * @warning Don't do this and that!
+       *
+       * @param someString A string about something interesting
+       * @param someNumber A weird number that will be processed
+       * @exception SomeException This is the description.
+       * @return Whether everything the procession did succed or not
+       */
+      bool doSomething(std::string someString, int someNumber);
 
 /*}}}*/
-            // int getSomeValue();/*{{{*/
+      // void doSomethingWithManyArguments(argA, argB, argC, argD);/*{{{*/
 
-            /** A normal setter.
-             *
-             * @return Height of some object.
-             */
-            int getSomeValue();
+      /**
+       * @brief Does something with many arguments.
+       *
+       * No one knows what this method does.
+       *
+       * @param argA An important integer.
+       * @param argB A less important integer.
+       * @param argC A string containing some mysterious data.
+       * @param argD Another string.
+       */
+      void doSomethingWithManyArguments(
+        int         argA,
+        int         argB,
+        std::string argC,
+        std::string argD);
 
 /*}}}*/
-            // bool isValid();/*{{{*/
+      // int getSomeValue();/*{{{*/
 
-            /** Check if the object is still valid.
-             *
-             * @return Whether this object is valid.
-             */
-            bool isValid();
+      /** A normal setter.
+       *
+       * @return Height of some object.
+       */
+      int getSomeValue();
+
+/*}}}*/
+      // bool isValid();/*{{{*/
+
+      /** Check if the object is still valid.
+       *
+       * @return Whether this object is valid.
+       */
+      bool isValid();
 
 /*}}}*/
 
-        protected:
+    protected:
 
-        private:
-            // int _someValue;/*{{{*/
+    private:
+      // int _someValue;/*{{{*/
 
-            /**
-             * @brief A variable.
-             *
-             * This is a very detailled description of this private variable.
-             */
-            int         _someValue;
+      /**
+       * @brief A variable.
+       *
+       * This is a very detailled description of this private variable.
+       */
+      int         _someValue;
 /*}}}*/
-            int         _anotherValue;
-            /// The name of this object.
-            std::string _someString;
-    };
+      int         _anotherValue;
+      /// The name of this object.
+      std::string _someString;
+  };
 }
 
 

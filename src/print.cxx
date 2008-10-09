@@ -41,17 +41,17 @@ const std::string _outputPrefix = PACKAGE ": ";
 
 void printErrRaw(std::string text)/*{{{*/
 {
-    std::cerr << text << std::endl;
+  std::cerr << text << std::endl;
 }/*}}}*/
 
 void printErr(std::string text)/*{{{*/
 {
-    std::cerr << _outputPrefix << text << std::endl;
+  std::cerr << _outputPrefix << text << std::endl;
 }/*}}}*/
 
 void printLog(std::string text)/*{{{*/
 {
-    std::clog << _outputPrefix << text << std::endl;
+  std::clog << _outputPrefix << text << std::endl;
 }/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

@@ -32,67 +32,67 @@
 
 namespace Control
 {
-    class Command : CommandParser::AbcCommandParser
-    {
-        public:
-            // Command(Control &control, const std::string &command);/*{{{*/
+  class Command : CommandParser::AbcCommandParser
+  {
+    public:
+      // Command(Control &control, const std::string &command);/*{{{*/
 
-            /**
-             * @brief Default constructor, initializes the object.
-             *
-             * Calls parent constructor and sets passed properties.
-             *
-             * @param control The control object to use to execute commands.
-             * @param command A command to be parsed.
-             */
-            Command(Control &control, const std::string &command);
-
-/*}}}*/
-            // ~Command();/*{{{*/
-
-            /// Destructor, has nothing to do currently.
-            ~Command();
+      /**
+       * @brief Default constructor, initializes the object.
+       *
+       * Calls parent constructor and sets passed properties.
+       *
+       * @param control The control object to use to execute commands.
+       * @param command A command to be parsed.
+       */
+      Command(Control &control, const std::string &command);
 
 /*}}}*/
-            // void execute();/*{{{*/
+      // ~Command();/*{{{*/
 
-            /**
-             * @brief Executes the passed command.
-             *
-             * Calls @ref parse() and @ref getParsed(). Some parameters may
-             * be checked by this method. Usually the parameters are passed
-             * on without being checked. The associated method will be
-             * called and may throw an exception.
-             *
-             * @note Exception handling has to be done by the caller.
-             *
-             * @exception InputException(InvalidCommand) A check failed.
-             * @exception libsxc::Exception::Exception Childs of this basic
-             *            exception may be thrown by invoked methods.
-             * @exception std::exception This should usually not happen.
-             */
-            void execute();
+      /// Destructor, has nothing to do currently.
+      ~Command();
+
+/*}}}*/
+      // void execute();/*{{{*/
+
+      /**
+       * @brief Executes the passed command.
+       *
+       * Calls @ref parse() and @ref getParsed(). Some parameters may
+       * be checked by this method. Usually the parameters are passed
+       * on without being checked. The associated method will be
+       * called and may throw an exception.
+       *
+       * @note Exception handling has to be done by the caller.
+       *
+       * @exception InputException(InvalidCommand) A check failed.
+       * @exception libsxc::Exception::Exception Childs of this basic
+       *            exception may be thrown by invoked methods.
+       * @exception std::exception This should usually not happen.
+       */
+      void execute();
 
 /*}}}*/
 
-        private:
-            //Control &_control;/*{{{*/
-            /// The control object.
-            Control &_control;
+    private:
+      //Control &_control;/*{{{*/
+      /// The control object.
+      Control &_control;
 
 /*}}}*/
-            // commandMap _createCommands() const;/*{{{*/
+      // commandMap _createCommands() const;/*{{{*/
 
-            /**
-             * @brief Creates a container holding all possible commands.
-             *
-             * @return All valid commands and the specification of their
-             *         parameters.
-             */
-            CommandParser::commandMap _createCommands() const;
+      /**
+       * @brief Creates a container holding all possible commands.
+       *
+       * @return All valid commands and the specification of their
+       *         parameters.
+       */
+      CommandParser::commandMap _createCommands() const;
 
 /*}}}*/
-    };
+  };
 }
 
 #endif // CONTROL_COMMAND_COMMAND_HXX

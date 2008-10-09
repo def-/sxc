@@ -38,19 +38,19 @@
  */
 class InputDummy : public File::AbcInput
 {
-    friend class TestInput;
+  friend class TestInput;
 
-    public:
-        InputDummy(const std::string &filename);
-        const std::string &getLastInput() const;
+  public:
+    InputDummy(const std::string &filename);
+    const std::string &getLastInput() const;
 
-    protected:
+  protected:
 
-    private:
-        std::string _filename;
-        std::string _lastInput;
-        std::string _createPath() const;
-        void _handleInput(const std::string&);
+  private:
+    std::string _filename;
+    std::string _lastInput;
+    std::string _createPath() const;
+    void _handleInput(const std::string&);
 };
 
 #endif // INPUTDUMMY_H

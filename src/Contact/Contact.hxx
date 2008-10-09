@@ -42,83 +42,83 @@
  */
 namespace Contact
 {
-    /**
-     * @brief A representation of a contact.
-     *
-     * Objects of this class get called when a message for the represented
-     * contact gets in.
-     */
-    class Contact : public gloox::MessageHandler
-    {
-        public:
-            //Contact(gloox::ClientBase *client, const gloox::JID &jid);/*{{{*/
+  /**
+   * @brief A representation of a contact.
+   *
+   * Objects of this class get called when a message for the represented
+   * contact gets in.
+   */
+  class Contact : public gloox::MessageHandler
+  {
+    public:
+      //Contact(gloox::ClientBase *client, const gloox::JID &jid);/*{{{*/
 
-            /**
-             * @brief Initialise the contact.
-             */
-            Contact(gloox::ClientBase *client, const gloox::JID &jid);
-
-/*}}}*/
-            //~Contact();/*{{{*/
-
-            /**
-             * @brief Destroy the contact.
-             *
-             * This method also lets the client dispose of the MessageSession.
-             */
-            ~Contact();
+      /**
+       * @brief Initialise the contact.
+       */
+      Contact(gloox::ClientBase *client, const gloox::JID &jid);
 
 /*}}}*/
+      //~Contact();/*{{{*/
 
-            //void printPresenceUpdate(&resource, presence, &message)/*{{{*/
-
-            /**
-             * @brief Print a text to the contact's output file.
-             *
-             * @param text The text to print.
-             */
-            void printPresenceUpdate(
-                const std::string &resource,
-                gloox::Presence::PresenceType presence,
-                const std::string &message);
+      /**
+       * @brief Destroy the contact.
+       *
+       * This method also lets the client dispose of the MessageSession.
+       */
+      ~Contact();
 
 /*}}}*/
-            //void handleMessage(Message msg, MessageSession session);/*{{{*/
 
-            /**
-             */
-            void handleMessage(
-                const gloox::Message &msg,
-                gloox::MessageSession *session);
+      //void printPresenceUpdate(&resource, presence, &message)/*{{{*/
 
-/*}}}*/
-            //const gloox::JID &getJid();/*{{{*/
-
-            /**
-             * @brief Get the JID.
-             *
-             * @return The JID of the contact.
-             */
-            const gloox::JID &getJid();
+      /**
+       * @brief Print a text to the contact's output file.
+       *
+       * @param text The text to print.
+       */
+      void printPresenceUpdate(
+        const std::string &resource,
+        gloox::Presence::PresenceType presence,
+        const std::string &message);
 
 /*}}}*/
-            //void sendMessage(const std::string &message);/*{{{*/
+      //void handleMessage(Message msg, MessageSession session);/*{{{*/
 
-            /**
-             * @brief Send a chat message to the contact.
-             *
-             * @param message The raw message to send.
-             */
-            void sendMessage(const std::string &message);
+      /**
+       */
+      void handleMessage(
+        const gloox::Message &msg,
+        gloox::MessageSession *session);
 
 /*}}}*/
-        private:
-            //File::Input *_input;
-            //File::Output *_output;
-            gloox::ClientBase *_client;
-            gloox::MessageSession *_session;
+      //const gloox::JID &getJid();/*{{{*/
 
-    };
+      /**
+       * @brief Get the JID.
+       *
+       * @return The JID of the contact.
+       */
+      const gloox::JID &getJid();
+
+/*}}}*/
+      //void sendMessage(const std::string &message);/*{{{*/
+
+      /**
+       * @brief Send a chat message to the contact.
+       *
+       * @param message The raw message to send.
+       */
+      void sendMessage(const std::string &message);
+
+/*}}}*/
+    private:
+      //File::Input *_input;
+      //File::Output *_output;
+      gloox::ClientBase *_client;
+      gloox::MessageSession *_session;
+
+  };
 }
 
 #endif // CONTACT_CONTACT_HXX

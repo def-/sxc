@@ -39,111 +39,111 @@
  */
 class SignalHandler
 {
-    public:
-        //typedef sigc::slot0<void> Slot;/*{{{*/
+  public:
+    //typedef sigc::slot0<void> Slot;/*{{{*/
 
-        /**
-         * @brief A slot.
-         *
-         * Can be a class member or a function with or without arguments.
-         *
-         * @section Examples
-         *
-         * Function without arguments:
-         * @code
-         * sigc::ptr_fun(&myFunction);
-         * @endcode
-         *
-         * Function with arguments:
-         * @code
-         * sigc::bind(sigc::ptr_fun(&myFunction), myArgument);
-         * @endcode
-         *
-         * Class member without arguments:
-         * @code
-         * sigc::mem_fun(objectPtr, Class::myMethod);
-         * @endcode
-         *
-         * Class member with arguments:
-         * @code
-         * sigc::bind(sigc::mem_fun(objectPtr, Class::myMethod), myArgument);
-         * @endcode
-         */
-        typedef sigc::slot0<void> Slot;
-
-/*}}}*/
-
-        //static void setIgnore(unsigned int signum);/*{{{*/
-
-        /**
-         * @brief Ignore this signal.
-         */
-        static void setIgnore(unsigned int signum);
-
-/*}}}*/
-        //static void setDefault(unsigned int signum);/*{{{*/
-
-        /**
-         * @brief Use the default way to handle the signal.
-         */
-        static void setDefault(unsigned int signum);
-
-/*}}}*/
-        //static void setHandler(unsigned int signum, Slot slot);/*{{{*/
-
-        /**
-         * @brief Set your own handler for the signal.
-         *
-         * @param signum The signal number as defined in sys/signal.h.
-         * @param slot The slot to handle the signal.
-         */
-        static void setHandler(unsigned int signum, Slot slot);
+    /**
+     * @brief A slot.
+     *
+     * Can be a class member or a function with or without arguments.
+     *
+     * @section Examples
+     *
+     * Function without arguments:
+     * @code
+     * sigc::ptr_fun(&myFunction);
+     * @endcode
+     *
+     * Function with arguments:
+     * @code
+     * sigc::bind(sigc::ptr_fun(&myFunction), myArgument);
+     * @endcode
+     *
+     * Class member without arguments:
+     * @code
+     * sigc::mem_fun(objectPtr, Class::myMethod);
+     * @endcode
+     *
+     * Class member with arguments:
+     * @code
+     * sigc::bind(sigc::mem_fun(objectPtr, Class::myMethod), myArgument);
+     * @endcode
+     */
+    typedef sigc::slot0<void> Slot;
 
 /*}}}*/
 
-    private:
-        //static const std::string _toString(unsigned int signum);/*{{{*/
+    //static void setIgnore(unsigned int signum);/*{{{*/
 
-        /**
-         * @brief Convert the signum to a more meaningful text.
-         *
-         * @param signum The signal.
-         * @return A text.
-         */
-        static const std::string _toString(unsigned int signum);
+    /**
+     * @brief Ignore this signal.
+     */
+    static void setIgnore(unsigned int signum);
 
 /*}}}*/
-        //static void _check(unsigned int signum);/*{{{*/
+    //static void setDefault(unsigned int signum);/*{{{*/
 
-        /**
-         * @brief Check whether the signal is valid.
-         *
-         * Throw an exception if not.
-         */
-        static void _check(unsigned int signum);
+    /**
+     * @brief Use the default way to handle the signal.
+     */
+    static void setDefault(unsigned int signum);
 
 /*}}}*/
-        //static void _handle(int signum);/*{{{*/
+    //static void setHandler(unsigned int signum, Slot slot);/*{{{*/
 
-        /**
-         * @brief Call the assigned signal handler.
-         *
-         * @param signum The signal.
-         */
-        static void _handle(int signum);
+    /**
+     * @brief Set your own handler for the signal.
+     *
+     * @param signum The signal number as defined in sys/signal.h.
+     * @param slot The slot to handle the signal.
+     */
+    static void setHandler(unsigned int signum, Slot slot);
 
 /*}}}*/
 
-        //static const unsigned int _limit = 32;/*{{{*/
+  private:
+    //static const std::string _toString(unsigned int signum);/*{{{*/
 
-        /// The limit of signals.
-        static const unsigned int _limit = 32;
+    /**
+     * @brief Convert the signum to a more meaningful text.
+     *
+     * @param signum The signal.
+     * @return A text.
+     */
+    static const std::string _toString(unsigned int signum);
 
 /*}}}*/
-        //static Slot _handlers[_limit];/*{{{*/
+    //static void _check(unsigned int signum);/*{{{*/
 
-        /// The assigned signal handlers.
-        static Slot _handlers[_limit];
+    /**
+     * @brief Check whether the signal is valid.
+     *
+     * Throw an exception if not.
+     */
+    static void _check(unsigned int signum);
+
+/*}}}*/
+    //static void _handle(int signum);/*{{{*/
+
+    /**
+     * @brief Call the assigned signal handler.
+     *
+     * @param signum The signal.
+     */
+    static void _handle(int signum);
+
+/*}}}*/
+
+    //static const unsigned int _limit = 32;/*{{{*/
+
+    /// The limit of signals.
+    static const unsigned int _limit = 32;
+
+/*}}}*/
+    //static Slot _handlers[_limit];/*{{{*/
+
+    /// The assigned signal handlers.
+    static Slot _handlers[_limit];
 
 /*}}}*/
 };

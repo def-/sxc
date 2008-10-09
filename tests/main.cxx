@@ -33,21 +33,21 @@
 
 int main(int argc, char **argv)
 {
-    CppUnit::TestResult controller;
-    CppUnit::TestResultCollector result;
-    CppUnit::BriefTestProgressListener progress;
-    controller.addListener(&result);
-    controller.addListener(&progress);
+  CppUnit::TestResult controller;
+  CppUnit::TestResultCollector result;
+  CppUnit::BriefTestProgressListener progress;
+  controller.addListener(&result);
+  controller.addListener(&progress);
 
-    CppUnit::TextOutputter outputter(&result, std::clog);
+  CppUnit::TextOutputter outputter(&result, std::clog);
 
-    CppUnit::TestRunner runner;
-    runner.addTest(CppUnit::TestFactoryRegistry::getRegistry().makeTest());
-    runner.run(controller);
+  CppUnit::TestRunner runner;
+  runner.addTest(CppUnit::TestFactoryRegistry::getRegistry().makeTest());
+  runner.run(controller);
 
-    outputter.write();
+  outputter.write();
 
-    return result.wasSuccessful() ? 0 : 1;
+  return result.wasSuccessful() ? 0 : 1;
 }
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

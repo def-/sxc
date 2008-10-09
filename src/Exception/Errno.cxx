@@ -30,45 +30,45 @@
 
 namespace Exception
 {
-    libsxc::Exception::Type errnoToType(int p_errno)
-    {
-        libsxc::Exception::Type result = libsxc::Exception::General;
+  libsxc::Exception::Type errnoToType(int p_errno)
+  {
+    libsxc::Exception::Type result = libsxc::Exception::General;
 
-        switch (p_errno) {
-        case EACCES:
-            result = libsxc::Exception::AccessDenied;
-            break;
+    switch (p_errno) {
+    case EACCES:
+      result = libsxc::Exception::AccessDenied;
+      break;
 
-        case EEXIST:
-            result = libsxc::Exception::FileExists;
-            break;
+    case EEXIST:
+      result = libsxc::Exception::FileExists;
+      break;
 
-        case ENOENT:
-            result = libsxc::Exception::FileMissing;
-            break;
+    case ENOENT:
+      result = libsxc::Exception::FileMissing;
+      break;
 
-        case ELOOP:
-        case ENOTDIR:
-            result = libsxc::Exception::BadPath;
-            break;
+    case ELOOP:
+    case ENOTDIR:
+      result = libsxc::Exception::BadPath;
+      break;
 
-        case ENAMETOOLONG:
-            result = libsxc::Exception::BadFile;
-            break;
+    case ENAMETOOLONG:
+      result = libsxc::Exception::BadFile;
+      break;
 
-        case ENOSPC:
-        case EROFS:
-            result = libsxc::Exception::WriteFailed;
-            break;
-        // The following ones should not be needed but may be passed as
-        // parameter and could be handled in future versions:
-        // case EBADF:
-        // case EFAULT:
-        // case ENOMEM:
-        }
-
-        return result;
+    case ENOSPC:
+    case EROFS:
+      result = libsxc::Exception::WriteFailed;
+      break;
+    // The following ones should not be needed but may be passed as
+    // parameter and could be handled in future versions:
+    // case EBADF:
+    // case EFAULT:
+    // case ENOMEM:
     }
+
+    return result;
+  }
 }
 
 

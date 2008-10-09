@@ -30,27 +30,27 @@
 
 class TestLocalDateTime : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE(TestLocalDateTime);
-        CPPUNIT_TEST(testCtorTs);
-        CPPUNIT_TEST(testCtorInt);
-        CPPUNIT_TEST(testGetTimestamp);
-        CPPUNIT_TEST(testRaw);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(TestLocalDateTime);
+    CPPUNIT_TEST(testCtorTs);
+    CPPUNIT_TEST(testCtorInt);
+    CPPUNIT_TEST(testGetTimestamp);
+    CPPUNIT_TEST(testRaw);
+  CPPUNIT_TEST_SUITE_END();
 
-    public:
-        static const time_t TIME;
+  public:
+    static const time_t TIME;
 
-        void setUp();
-        void tearDown();
+    void setUp();
+    void tearDown();
 
-        void testCtorTs();
-        void testCtorInt();
-        void testGetTimestamp();
-        void testRaw();
+    void testCtorTs();
+    void testCtorInt();
+    void testGetTimestamp();
+    void testRaw();
 
-    protected:
+  protected:
 
-    private:
+  private:
 };
 
 #endif // TESTLOCALDATETIME_H

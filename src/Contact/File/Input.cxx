@@ -40,45 +40,45 @@
 
 namespace Contact
 {
-    namespace File
+  namespace File
+  {
+    Input::Input(Control::Control &control, Contact &contact)/*{{{*/
+    : _control(control),
+      _contact(contact)
     {
-        Input::Input(Control::Control &control, Contact &contact)/*{{{*/
-        : _control(control),
-          _contact(contact)
-        {
-            initialize();
-        }
-
-/*}}}*/
-        std::string Input::_createPath() const/*{{{*/
-        {
-            return _control.getJid().bare() + "/"
-                   + _contact.getJid().bare() + "/in";
-        }
-
-/*}}}*/
-        void Input::_handleInput(const std::string &input)/*{{{*/
-        {
-            // TODO
-            try {
-                Command command(_control, _contact, input);
-                command.execute();
-            } catch (Exception::InputException &e) {
-                // Just an invalid input, nothing serious.
-                _control.handleError(e);
-            } catch (libsxc::Exception::Exception &e) {
-                // This may be something more serious.
-                // TODO: Fix handleError() to make use of stderr
-                _control.handleError(e);
-            } catch (std::exception &e) {
-                // This is *really* unexpected.
-                printErr(e.what());
-                _control.print(e.what());
-            }
-        }
-
-/*}}}*/
+      initialize();
     }
+
+/*}}}*/
+    std::string Input::_createPath() const/*{{{*/
+    {
+      return _control.getJid().bare() + "/"
+           + _contact.getJid().bare() + "/in";
+    }
+
+/*}}}*/
+    void Input::_handleInput(const std::string &input)/*{{{*/
+    {
+      // TODO
+      try {
+        Command command(_control, _contact, input);
+        command.execute();
+      } catch (Exception::InputException &e) {
+        // Just an invalid input, nothing serious.
+        _control.handleError(e);
+      } catch (libsxc::Exception::Exception &e) {
+        // This may be something more serious.
+        // TODO: Fix handleError() to make use of stderr
+        _control.handleError(e);
+      } catch (std::exception &e) {
+        // This is *really* unexpected.
+        printErr(e.what());
+        _control.print(e.what());
+      }
+    }
+
+/*}}}*/
+  }
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

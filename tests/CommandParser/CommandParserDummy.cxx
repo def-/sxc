@@ -51,23 +51,23 @@ CommandParserDummy::~CommandParserDummy()/*{{{*/
 /*}}}*/
 commandMap CommandParserDummy::_createCommands() const/*{{{*/
 {
-    commandMap map;
-    commandMap::iterator it = map.begin();
+  commandMap map;
+  commandMap::iterator it = map.begin();
 
-    it = map.insert(it, command("one", param(1, false)));
-    it = map.insert(it, command("1++", param(1, true)));
-    it = map.insert(it, command("two", param(2, false)));
-    it = map.insert(it, command("2++", param(2, true)));
-    it = map.insert(it, command("thr", param(3, false)));
-    it = map.insert(it, command("3++", param(3, true)));
-    it = map.insert(it, command("fou", param(4, false)));
-    it = map.insert(it, command("4++", param(4, true)));
-    it = map.insert(it, command("fiv", param(5, false)));
-    it = map.insert(it, command("5++", param(5, true)));
-    it = map.insert(it, command("ten", param(10, false)));
-    it = map.insert(it, command("10+", param(10, true)));
+  it = map.insert(it, command("one", param(1, false)));
+  it = map.insert(it, command("1++", param(1, true)));
+  it = map.insert(it, command("two", param(2, false)));
+  it = map.insert(it, command("2++", param(2, true)));
+  it = map.insert(it, command("thr", param(3, false)));
+  it = map.insert(it, command("3++", param(3, true)));
+  it = map.insert(it, command("fou", param(4, false)));
+  it = map.insert(it, command("4++", param(4, true)));
+  it = map.insert(it, command("fiv", param(5, false)));
+  it = map.insert(it, command("5++", param(5, true)));
+  it = map.insert(it, command("ten", param(10, false)));
+  it = map.insert(it, command("10+", param(10, true)));
 
-    return map;
+  return map;
 }
 
 /*}}}*/

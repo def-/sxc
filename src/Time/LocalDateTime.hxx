@@ -25,18 +25,18 @@
 
 namespace Time
 {
-    class LocalDateTime : public DateTime
-    {
-        public:
-            LocalDateTime(const Timestamp &ts);
-            LocalDateTime(int year, int month, int day,
-                          int hour, int minutes, int seconds);
-            virtual ~LocalDateTime();
+  class LocalDateTime : public DateTime
+  {
+    public:
+      LocalDateTime(const Timestamp &ts);
+      LocalDateTime(int year, int month, int day,
+              int hour, int minutes, int seconds);
+      virtual ~LocalDateTime();
 
-        protected:
-            virtual struct tm *_fromTimestamp(const Timestamp &ts) const;
-            virtual Timestamp _createTimestamp(struct tm *tm) const;
-    };
+    protected:
+      virtual struct tm *_fromTimestamp(const Timestamp &ts) const;
+      virtual Timestamp _createTimestamp(struct tm *tm) const;
+  };
 }
 
 #endif // LOCALDATETIME_HXX

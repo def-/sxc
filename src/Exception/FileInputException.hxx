@@ -32,48 +32,48 @@
 
 namespace Exception
 {
-    /**
-     * @brief Exception class for the input file classes.
-     */
-    class FileInputException : public libsxc::Exception::Exception
-    {
-        public:
-            //FileInputException(Type type, string &message)/*{{{*/
+  /**
+   * @brief Exception class for the input file classes.
+   */
+  class FileInputException : public libsxc::Exception::Exception
+  {
+    public:
+      //FileInputException(Type type, string &message)/*{{{*/
 
-            /**
-             * @brief Default constructor, does only call parent constructor.
-             *
-             * @param type The type of the exception.
-             * @param message The message to describe what exactly happened as
-             *        a reference.
-             */
-            FileInputException(
-                libsxc::Exception::Type type,
-                std::string &message);
-
-/*}}}*/
-            //FileInputException(Type type, string *message)/*{{{*/
-
-            /**
-             * @brief Overloaded default constructor, calls parent constructor.
-             *
-             * @param type The type of the exception.
-             * @param message The message to describe what exactly happened as
-             *        a pointer.
-             */
-            FileInputException(
-                libsxc::Exception::Type type,
-                const char *message);
+      /**
+       * @brief Default constructor, does only call parent constructor.
+       *
+       * @param type The type of the exception.
+       * @param message The message to describe what exactly happened as
+       *        a reference.
+       */
+      FileInputException(
+        libsxc::Exception::Type type,
+        std::string &message);
 
 /*}}}*/
+      //FileInputException(Type type, string *message)/*{{{*/
 
-        protected:
-            /// @see Exception::createDescription()
-            virtual void createDescription() throw();
+      /**
+       * @brief Overloaded default constructor, calls parent constructor.
+       *
+       * @param type The type of the exception.
+       * @param message The message to describe what exactly happened as
+       *        a pointer.
+       */
+      FileInputException(
+        libsxc::Exception::Type type,
+        const char *message);
 
-        private:
+/*}}}*/
 
-    };
+    protected:
+      /// @see Exception::createDescription()
+      virtual void createDescription() throw();
+
+    private:
+
+  };
 }
 
 #endif // EXCEPTION_FILEINPUTEXCEPTION_HXX

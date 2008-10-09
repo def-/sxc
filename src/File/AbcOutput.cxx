@@ -34,43 +34,43 @@
 
 namespace File
 {
-    AbcOutput::AbcOutput()/*{{{*/
-    : _path(NULL)
-    {
-    }/*}}}*/
-    AbcOutput::~AbcOutput()/*{{{*/
-    {
-        if (isOpen())
-            close();
-        _dispose();
-    }/*}}}*/
-    void AbcOutput::initialize()/*{{{*/
-    {
-        _dispose();
-        _path = new std::string(_createPath());
-        _ofstream.exceptions(std::ofstream::badbit | std::ofstream::failbit);
-    }/*}}}*/
-    void AbcOutput::write(const std::string &data)/*{{{*/
-    {
-        _ofstream << data << std::flush;
-    }/*}}}*/
-    void AbcOutput::open()/*{{{*/
-    {
-        _ofstream.open(_path->c_str());
-    }/*}}}*/
-    void AbcOutput::close()/*{{{*/
-    {
-        _ofstream.close();
-    }/*}}}*/
-    bool AbcOutput::isOpen() const/*{{{*/
-    {
-        return _ofstream.is_open();
-    }/*}}}*/
-    void AbcOutput::_dispose() throw()/*{{{*/
-    {
-        delete _path;
-        _path = NULL;
-    }/*}}}*/
+  AbcOutput::AbcOutput()/*{{{*/
+  : _path(NULL)
+  {
+  }/*}}}*/
+  AbcOutput::~AbcOutput()/*{{{*/
+  {
+    if (isOpen())
+      close();
+    _dispose();
+  }/*}}}*/
+  void AbcOutput::initialize()/*{{{*/
+  {
+    _dispose();
+    _path = new std::string(_createPath());
+    _ofstream.exceptions(std::ofstream::badbit | std::ofstream::failbit);
+  }/*}}}*/
+  void AbcOutput::write(const std::string &data)/*{{{*/
+  {
+    _ofstream << data << std::flush;
+  }/*}}}*/
+  void AbcOutput::open()/*{{{*/
+  {
+    _ofstream.open(_path->c_str());
+  }/*}}}*/
+  void AbcOutput::close()/*{{{*/
+  {
+    _ofstream.close();
+  }/*}}}*/
+  bool AbcOutput::isOpen() const/*{{{*/
+  {
+    return _ofstream.is_open();
+  }/*}}}*/
+  void AbcOutput::_dispose() throw()/*{{{*/
+  {
+    delete _path;
+    _path = NULL;
+  }/*}}}*/
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

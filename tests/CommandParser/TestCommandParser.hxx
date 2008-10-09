@@ -38,30 +38,30 @@
  */
 class TestCommandParser : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE(TestCommandParser);
-        CPPUNIT_TEST(testParse);
-        CPPUNIT_TEST(testGetName);
-        CPPUNIT_TEST(testGetParameterString);
-        CPPUNIT_TEST(testGetParsed);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(TestCommandParser);
+    CPPUNIT_TEST(testParse);
+    CPPUNIT_TEST(testGetName);
+    CPPUNIT_TEST(testGetParameterString);
+    CPPUNIT_TEST(testGetParsed);
+  CPPUNIT_TEST_SUITE_END();
 
-    public:
-        TestCommandParser();
+  public:
+    TestCommandParser();
 
-        void setUp();
-        void tearDown();
+    void setUp();
+    void tearDown();
 
-        // Public interface of CommandParser:
-        void testParse();
-        void testGetName();
-        void testGetParameterString();
-        void testGetParsed();
+    // Public interface of CommandParser:
+    void testParse();
+    void testGetName();
+    void testGetParameterString();
+    void testGetParsed();
 
-    protected:
+  protected:
 
-    private:
-        parserList _parsers;
-        commandList _commands;
+  private:
+    parserList _parsers;
+    commandList _commands;
 };
 
 #endif // TESTCOMMANDPARSER_H

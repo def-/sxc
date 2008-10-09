@@ -38,14 +38,14 @@
  */
 class LogHandler : public gloox::LogHandler
 {
-    //void handleLog(LogLevel level, LogArea area, const string &msg);/*{{{*/
+  //void handleLog(LogLevel level, LogArea area, const string &msg);/*{{{*/
 
-    /**
-     */
-    void handleLog(
-        gloox::LogLevel level,
-        gloox::LogArea area,
-        const std::string &message);
+  /**
+   */
+  void handleLog(
+    gloox::LogLevel level,
+    gloox::LogArea area,
+    const std::string &message);
 
 /*}}}*/
 };

@@ -33,75 +33,75 @@
 
 namespace Contact
 {
-    namespace File
+  namespace File
+  {
+    /**
+     * @brief Input file for communication with contacts.
+     *
+     * Creates the file <JID>/<Contact>/in which handles communication with
+     * a contact and the corresponding commands.
+     *
+     */
+    class Input : public ::File::AbcInput
     {
+      public:
+        // Input(Control &control, Contact &contact);/*{{{*/
+
         /**
-         * @brief Input file for communication with contacts.
+         * @brief Default constructor, initalizes object.
          *
-         * Creates the file <JID>/<Contact>/in which handles communication with
-         * a contact and the corresponding commands.
+         * Calls @ref initialize() so that the object is ready to use.
          *
+         * @param contact Contact object. Stored as a reference
+         *                internally.
          */
-        class Input : public ::File::AbcInput
-        {
-            public:
-                // Input(Control &control, Contact &contact);/*{{{*/
-
-                /**
-                 * @brief Default constructor, initalizes object.
-                 *
-                 * Calls @ref initialize() so that the object is ready to use.
-                 *
-                 * @param contact Contact object. Stored as a reference
-                 *                internally.
-                 */
-                Input(Control::Control &control, Contact &contact);
+        Input(Control::Control &control, Contact &contact);
 
 /*}}}*/
 
-            protected:
+      protected:
 
-            private:
-                // std::string _createPath() const;/*{{{*/
+      private:
+        // std::string _createPath() const;/*{{{*/
 
-                /**
-                 * @brief Returns the path and file name of the FIFO.
-                 *
-                 * @see File::AbcInput::_createPath()
-                 *
-                 * @return "$accountName/in"
-                 */
-                std::string _createPath() const;
-
-/*}}}*/
-                //Control &_control;/*{{{*/
-                /// The control object.
-                Control::Control &_control;
+        /**
+         * @brief Returns the path and file name of the FIFO.
+         *
+         * @see File::AbcInput::_createPath()
+         *
+         * @return "$accountName/in"
+         */
+        std::string _createPath() const;
 
 /*}}}*/
-                //Contact &_contact;/*{{{*/
-                /// The contact object.
-                Contact &_contact;
+        //Control &_control;/*{{{*/
+        /// The control object.
+        Control::Control &_control;
+
+/*}}}*/
+        //Contact &_contact;/*{{{*/
+        /// The contact object.
+        Contact &_contact;
 
 /*}}}*/
 
-                // void _handleInput(const std::string &input);/*{{{*/
+        // void _handleInput(const std::string &input);/*{{{*/
 
-                /**
-                 * @brief Handles input that has been written into the FIFO.
-                 *
-                 * For a list of valid commands see @ref
-                 * Contact::Command. The main work will be done by an
-                 * instance of that class, this method provides just the
-                 * exception handling and creates that object.
-                 *
-                 * @param input Something that has been written into the FIFO.
-                 */
-                void _handleInput(const std::string &input);
+        /**
+         * @brief Handles input that has been written into the FIFO.
+         *
+         * For a list of valid commands see @ref
+         * Contact::Command. The main work will be done by an
+         * instance of that class, this method provides just the
+         * exception handling and creates that object.
+         *
+         * @param input Something that has been written into the FIFO.
+         */
+        void _handleInput(const std::string &input);
 
 /*}}}*/
-        };
-    }
+    };
+  }
 }
 
 #endif // CONTACT_FILE_INPUT_HXX

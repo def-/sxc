@@ -32,64 +32,64 @@
 
 namespace Control
 {
-    namespace File
+  namespace File
+  {
+    /**
+     * @brief Main input class for sxc.
+     *
+     * Creates the file <JID>/in which handles commands for sxc and
+     * communication with the server.
+     *
+     */
+    class Input : public ::File::AbcInput
     {
+      public:
+        // Input(Control &control);/*{{{*/
+
         /**
-         * @brief Main input class for sxc.
+         * @brief Initializes the object.
          *
-         * Creates the file <JID>/in which handles commands for sxc and
-         * communication with the server.
-         *
+         * @param control The Control object.
          */
-        class Input : public ::File::AbcInput
-        {
-            public:
-                // Input(Control &control);/*{{{*/
-
-                /**
-                 * @brief Initializes the object.
-                 *
-                 * @param control The Control object.
-                 */
-                Input(Control &control);
+        Input(Control &control);
 
 /*}}}*/
 
-            private:
-                //Control &_control;/*{{{*/
-                /// The control object.
-                Control &_control;
+      private:
+        //Control &_control;/*{{{*/
+        /// The control object.
+        Control &_control;
 
 /*}}}*/
-                // std::string _createPath() const;/*{{{*/
+        // std::string _createPath() const;/*{{{*/
 
-                /**
-                 * @brief Returns the path and file name of the FIFO.
-                 *
-                 * @see File::AbcInput::_createPath()
-                 *
-                 * @return "$accountName/in"
-                 */
-                std::string _createPath() const;
-
-/*}}}*/
-                // void _handleInput(const std::string &input);/*{{{*/
-
-                /**
-                 * @brief Handles input that has been written into the FIFO.
-                 *
-                 * For a list of valid commands see @ref
-                 * Control::Command. The main work will be done by an
-                 * instance of that class, this method provides just the
-                 * exception handling and creates that object.
-                 *
-                 * @param input Something that has been written into the FIFO.
-                 */
-                void _handleInput(const std::string &input);
+        /**
+         * @brief Returns the path and file name of the FIFO.
+         *
+         * @see File::AbcInput::_createPath()
+         *
+         * @return "$accountName/in"
+         */
+        std::string _createPath() const;
 
 /*}}}*/
-        };
-    }
+        // void _handleInput(const std::string &input);/*{{{*/
+
+        /**
+         * @brief Handles input that has been written into the FIFO.
+         *
+         * For a list of valid commands see @ref
+         * Control::Command. The main work will be done by an
+         * instance of that class, this method provides just the
+         * exception handling and creates that object.
+         *
+         * @param input Something that has been written into the FIFO.
+         */
+        void _handleInput(const std::string &input);
+
+/*}}}*/
+    };
+  }
 }
 
 #endif // CONTROL_FILE_INPUT_HXX
