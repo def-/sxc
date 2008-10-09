@@ -8,11 +8,9 @@
 * Exceptions
 * No internal references.
 * No pointers as parameters.
-* Indent, foo -$id$...
 * Only member method if necessary
 * Const correctness
 * Streams for files.
-* ISC License
 * Check copy constructor of each class. If none is needed, make it protected
   without implementing it. If one is needed, implement it explicit.
 * Re-check StyleExample.
