@@ -21,7 +21,6 @@
 // INCLUDE/*{{{*/
 
 #include <string>
-#include <unistd.h>
 #include <iostream>
 
 #include <sys/signal.h>
@@ -34,6 +33,7 @@
 #include <libsxc/Option/OptionPort.hxx>
 #include <libsxc/Exception/Exception.hxx>
 #include <libsxc/Exception/Type.hxx>
+#include <libsxc/getHostName.hxx>
 
 #include <Control/Control.hxx>
 #include <SignalHandler.hxx>
@@ -84,11 +84,8 @@ int main(int argc, char *argv[])/*{{{*/
     &parser, ' ', "iqversion", "version",
     std::string("Version to announce (default: ") + VERSION + ")", VERSION);
 
-  const unsigned int hostNameSize = 256;
-  char hostName[hostNameSize];
-  if (0 != gethostname(hostName, hostNameSize)) // This should never happen!
-    printErr("Error getting the hostname of this system.");
-  const std::string defaultResource = std::string(PACKAGE) + "@" + hostName;
+  const std::string defaultResource =
+    std::string(PACKAGE) + "@" + libsxc::getHostName();
   libsxc::Option::Option<gloox::JID> jid(
     &parser, ' ', "", "jid",
     "user@domain[/resource] (resource default: " + defaultResource + ")");
