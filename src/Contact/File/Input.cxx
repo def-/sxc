@@ -27,15 +27,17 @@
 #include <string>
 #include <exception>
 
-#include <print.hxx>
 #include <Control/Control.hxx>
 #include <Contact/Contact.hxx>
 #include <Contact/File/Input.hxx>
 #include <Contact/Command.hxx>
 #include <Exception/InputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Logger.hxx>
 
 /*}}}*/
+
+using libsxc::Error;
 
 namespace Contact
 {
@@ -71,7 +73,7 @@ namespace Contact
         _control.handleError(e);
       } catch (std::exception &e) {
         // This is *really* unexpected.
-        printErr(e.what());
+        LOG<Error>(e.what());
         _control.print(e.what());
       }
     }

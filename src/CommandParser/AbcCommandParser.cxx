@@ -22,7 +22,6 @@
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
 #endif
-#include <print.hxx>
 
 #include <sstream>
 #include <string>
@@ -32,7 +31,11 @@
 #include <CommandParser/AbcCommandParser.hxx>
 #include <Exception/InputException.hxx>
 
+#include <libsxc/Logger.hxx>
+
 /*}}}*/
+
+using libsxc::Debug;
 
 namespace CommandParser
 {
@@ -83,15 +86,14 @@ namespace CommandParser
     // Contains all parameters that have not yet been sliced.
     std::string paramsLeft = _parameters;
 
-#ifdef DEBUG
     {
       std::stringstream msg;
       msg << "entering parser loop for \""  + _command + "\", using "
         << ( it->second.first + (short) it->second.second )
         << " cycles.\n";
-      printLog(msg.str());
+      LOG<Debug>(msg.str());
     }
-#endif
+
     // Stops when the mandatory amount of parameters has been
     // handled.
     for (unsigned short i = 1;
@@ -100,9 +102,8 @@ namespace CommandParser
       // Find end of current parameter:
       delimiter = paramsLeft.find(' ');
       if (std::string::npos == delimiter) {
-#ifdef DEBUG
-        printLog("Not found in \"" + paramsLeft + "\"\n");
-#endif
+        LOG<Debug>("Not found in \"" + paramsLeft + "\"\n");
+
         // Delimiter not found -> only one parameter left.
         if (i == it->second.first) // No problem, last one was optional.
           break;
@@ -114,19 +115,15 @@ namespace CommandParser
       // Extract the parameter and push it into the container.
       _parsed.push_back(paramsLeft.substr(0, (int)delimiter));
 
-#ifdef DEBUG
-      printLog(paramsLeft + '\n' + _parsed.back() + '~');
-#endif
+      LOG<Debug>(paramsLeft + '\n' + _parsed.back() + '~');
+
       // Remove parameter from the list of parameters left.
       paramsLeft = paramsLeft.substr((int)delimiter + 1);
 
-#ifdef DEBUG
-      printLog(paramsLeft + "\n----next cycle----\n");
-#endif
+      LOG<Debug>(paramsLeft + "\n----next cycle----\n");
     }
-#ifdef DEBUG
-    printLog("Out of loop, appending the last one.\n" + paramsLeft + '~');
-#endif
+    LOG<Debug>("Out of loop, appending the last one.\n" + paramsLeft + '~');
+
     _parsed.push_back(paramsLeft);
 
     _isParsed = true;

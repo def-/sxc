@@ -28,26 +28,22 @@
 # include <config.hxx>
 #endif
 
-#ifdef DEBUG
-# include <print.hxx>
-#endif
+#include <libsxc/Logger.hxx>
+
 /*}}}*/
 
+using libsxc::Debug;
 
 namespace Control
 {
   inline void Control::onResourceBind(const std::string &resource)/*{{{*/
   {
-#   if DEBUG
-      printLog("Bind resouce: \"" + resource + "\".");
-#   endif
+    LOG<Debug>("Bind resouce: \"" + resource + "\".");
   }/*}}}*/
 
   inline void Control::onResourceBindError(const gloox::Error *error)/*{{{*/
   {
-#   if DEBUG
-      printLog("Resource bind error.");
-#   endif
+    LOG<Debug>("Resource bind error.");
   }/*}}}*/
 
   inline void Control::onSessionCreateError(const gloox::Error *error)/*{{{*/

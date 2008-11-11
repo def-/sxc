@@ -23,8 +23,6 @@
 # include <config.hxx>
 #endif
 
-#include <print.hxx>
-
 #include <stdexcept>
 #include <string>
 #include <sstream>
@@ -36,8 +34,11 @@
 #include <libsxc/Exception/Exception.hxx>
 #include <Control/Control.hxx>
 #include <Control/Roster.hxx>
+#include <libsxc/Logger.hxx>
 
 /*}}}*/
+
+using libsxc::Error;
 
 using CommandParser::commandMap;
 using CommandParser::command;
@@ -193,7 +194,7 @@ namespace Control
       std::string message = "out_of_range: ";
       message.append(e.what());
       _control.print(message);
-      printErr(message);
+      LOG<Error>(message);
     }
   }
 

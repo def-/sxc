@@ -37,13 +37,16 @@
 
 #include <Control/Control.hxx>
 #include <SignalHandler.hxx>
-#include <print.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
 #endif
 
+#include <libsxc/Logger.hxx>
+
 /*}}}*/
+
+using libsxc::Error;
 
 /**
  * @mainpage sxc Documentation
@@ -100,17 +103,22 @@ int main(int argc, char *argv[])/*{{{*/
       std::cerr << VERSION << std::endl;
       return libsxc::Exception::NoError;
     } else {
-      printErr(e.getDescription());
+      LOG<Error>(e.getDescription());
     }
 
     std::vector<std::string> usage = parser.getUsage();
-    for_each(usage.begin(), usage.end(), printErrRaw);
+    for(
+      std::vector<std::string>::iterator it = usage.begin();
+      usage.end() != it;
+      ++it) {
+      std::cerr << *it << std::endl;
+    }
 
     if (e.getType() < 0) // No error. (ShowUsage, ShowVersion)
       return libsxc::Exception::NoError;
     return e.getType();
   } catch (libsxc::Exception::Exception &e) {
-    printErr(e.getDescription());
+    LOG<Error>(e.getDescription());
     return e.getType();
   }
 
@@ -128,7 +136,7 @@ int main(int argc, char *argv[])/*{{{*/
       name.getValue(),
       version.getValue());
   } catch (libsxc::Exception::Exception &e) {
-    printErr(e.getDescription());
+    LOG<Error>(e.getDescription());
     // Don't delete control, as it failed to initialize.
     return e.getType();
   }

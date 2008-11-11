@@ -21,7 +21,6 @@
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
-# include <print.hxx>
 #endif
 
 #include <cerrno>
@@ -38,8 +37,11 @@
 #include <Exception/FileInputException.hxx>
 #include <Exception/Errno.hxx>
 #include <libsxc/Exception/Type.hxx>
+#include <libsxc/Logger.hxx>
 
 /*}}}*/
+
+using libsxc::Debug;
 
 File::AbcInput::AbcInput()/*{{{*/
 : _isFifoValid(false),
@@ -107,13 +109,13 @@ void File::AbcInput::_validate()/*{{{*/
   int chmod = fstat.st_mode
         & (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
   int chmodExpected = (S_IRUSR | S_IWUSR);
-#ifdef DEBUG
+
   std::stringstream msg;
   msg << "fstat.st_mode = " << std::oct << fstat.st_mode << '\n';
   msg << "chmod         = " << std::oct << chmod         << '\n';
   msg << "expected      = " << std::oct << chmodExpected << '\n';
-  printLog(msg.str());
-#endif
+  LOG<Debug>(msg.str());
+
   if (chmod != chmodExpected) {
     std::stringstream msg;
     msg << "Bad chmod: " << std::oct << chmod;
@@ -155,24 +157,18 @@ void File::AbcInput::listen(bool blocking)/*{{{*/
   }
   _isListening = true;
 
-#ifdef DEBUG
-  printLog("Creating thread.");
-#endif
+  LOG<Debug>("Creating thread.");
 
   // Start the thread in the background.
   pthread_create(&_thread, NULL, _listen, (void*)this);
 
-#ifdef DEBUG
-  printLog("Thread created.");
-#endif
+  LOG<Debug>("Thread created.");
 
   // Join the thread when this functions should read in a blocking way.
   if (true == blocking)
     pthread_join(_thread, NULL);
 
-#ifdef DEBUG
-  printLog("listen() ends here.");
-#endif
+  LOG<Debug>("listen() ends here.");
 }
 
 /*}}}*/
@@ -210,9 +206,7 @@ std::list<std::string> File::AbcInput::split(
 /*}}}*/
 void *File::AbcInput::_listen(void *fifo)/*{{{*/
 {
-#ifdef DEBUG
-  printLog("Thread running.");
-#endif
+  LOG<Debug>("Thread running.");
   // FIXME: Add exception handling. || called methods must not throw
   AbcInput *that = (AbcInput *) fifo;
   while (!that->_mustClose) {
@@ -230,9 +224,7 @@ void *File::AbcInput::_listen(void *fifo)/*{{{*/
     }
   }
 
-#ifdef DEBUG
-  printLog("Thread terminating.");
-#endif
+  LOG<Debug>("Thread terminating.");
 
   return NULL;
 }

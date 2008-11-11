@@ -21,14 +21,17 @@
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
-# include <print.hxx>
 #endif
 
 #include <string>
 
 #include "InputDummy.hxx"
 
+#include <libsxc/Logger.hxx>
+
 /*}}}*/
+
+using libsxc::Debug;
 
 InputDummy::InputDummy(const std::string &filename)/*{{{*/
 : _filename(filename)
@@ -51,7 +54,7 @@ const std::string &InputDummy::getLastInput() const/*{{{*/
 void InputDummy::_handleInput(const std::string &input)/*{{{*/
 {
 #ifdef DEBUG
-  printLog("INPUT: " + input);
+  LOG<Debug>("INPUT: " + input);
 #endif
   _lastInput = input;
 }

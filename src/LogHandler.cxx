@@ -20,21 +20,27 @@
 
 // INCLUDE/*{{{*/
 
-#include <print.hxx>
-
 #include <gloox/gloox.h>
 #include <gloox/loghandler.h>
 
 #include <LogHandler.hxx>
 
+#ifdef HAVE_CONFIG_H
+# include <config.hxx>
+#endif
+
+#include <libsxc/Logger.hxx>
+
 /*}}}*/
+
+using libsxc::Debug;
 
 void LogHandler::handleLog(/*{{{*/
   gloox::LogLevel level,
   gloox::LogArea area,
   const std::string &message)
 {
-  printLog(message);
+  LOG<Debug>(message);
 }/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

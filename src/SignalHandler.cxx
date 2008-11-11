@@ -27,13 +27,16 @@
 #include <sigc++/sigc++.h>
 
 #include <SignalHandler.hxx>
-#include <print.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
 #endif
 
+#include <libsxc/Logger.hxx>
+
 /*}}}*/
+
+using libsxc::Error;
 
 SignalHandler::Slot SignalHandler::_handlers[_limit];
 
@@ -45,7 +48,7 @@ void SignalHandler::setIgnore(unsigned int signum)/*{{{*/
     std::stringstream ss;
     ss << "Setting signal to be ignored: " << signum << " ("
        << SignalHandler::_toString(signum) << ").";
-    printErr(ss.str());
+    LOG<Error>(ss.str());
 # endif
 
   signal(signum, SIG_IGN);
@@ -59,7 +62,7 @@ void SignalHandler::setDefault(unsigned int signum)/*{{{*/
     std::stringstream ss;
     ss << "Setting signal to be handled as default: " << signum << " ("
        << SignalHandler::_toString(signum) << ").";
-    printErr(ss.str());
+    LOG<Error>(ss.str());
 # endif
 
   signal(signum, SIG_DFL);
@@ -73,7 +76,7 @@ void SignalHandler::setHandler(unsigned int signum, Slot slot)/*{{{*/
     std::stringstream ss;
     ss << "Setting signal to be handled in a custom way: " << signum << " ("
        << SignalHandler::_toString(signum) << ").";
-    printErr(ss.str());
+    LOG<Error>(ss.str());
 # endif
 
   SignalHandler::_handlers[signum] = slot;
@@ -125,7 +128,7 @@ void SignalHandler::_handle(int signum)/*{{{*/
     std::stringstream ss;
     ss << "Signal received: " << signum << " ("
        << SignalHandler::_toString(signum) << ").";
-    printErr(ss.str());
+    LOG<Error>(ss.str());
 # endif
 
   SignalHandler::_handlers[signum]();

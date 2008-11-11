@@ -21,7 +21,6 @@
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
-# include <print.hxx>
 #endif
 
 #include <string>

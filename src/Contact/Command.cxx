@@ -21,7 +21,6 @@
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
-# include <print.hxx>
 #endif
 
 #include <stdexcept>
@@ -36,8 +35,11 @@
 #include <Contact/Contact.hxx>
 #include <Control/Control.hxx>
 #include <Control/Roster.hxx>
+#include <libsxc/Logger.hxx>
 
 /*}}}*/
+
+using libsxc::Error;
 
 using CommandParser::commandMap;
 using CommandParser::command;
@@ -140,7 +142,7 @@ namespace Contact
       std::string message = "out_of_range: ";
       message.append(e.what());
       _control.print(message);
-      printErr(message);
+      LOG<Error>(message);
     }
   }
 

@@ -21,6 +21,7 @@
 // INCLUDE/*{{{*/
 
 #include <string>
+#include <sstream>
 
 #include <gloox/clientbase.h>
 #include <gloox/messagesession.h>
@@ -28,20 +29,18 @@
 
 #include <Contact/Contact.hxx>
 
+#include <libsxc/generateString.hxx>
+
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
 #endif
 
-#ifdef DEBUG
-# include <sstream>
-
-# include <libsxc/generateString.hxx>
-
-# include <print.hxx>
-#endif
+#include <libsxc/Logger.hxx>
 
 /*}}}*/
 
+using libsxc::Debug;
+using libsxc::Error;
 
 namespace Contact
 {
@@ -49,9 +48,8 @@ namespace Contact
   : _client(client),
     _session(new gloox::MessageSession(client, jid))
   {
-#   ifdef DEBUG
-      printErr("Create contact: \"" + jid.bare() + "\".");
-#   endif
+    LOG<Error>("Create contact: \"" + jid.bare() + "\".");
+
     _session->registerMessageHandler(this);
 
     //_input = new File::Input(jid.bare());
@@ -59,9 +57,8 @@ namespace Contact
   }/*}}}*/
   Contact::~Contact()/*{{{*/
   {
-#   ifdef DEBUG
-      printErr("Delete contact: \"" + _session->target().bare() + "\".");
-#   endif
+    LOG<Error>("Delete contact: \"" + _session->target().bare() + "\".");
+
     // This deletes the session. Else the destructor of gloox::ClientBase
     // would handle this.
     _client->disposeMessageSession(_session);
@@ -78,19 +75,18 @@ namespace Contact
     const gloox::Message &msg,
     gloox::MessageSession *session)
   {
-#   ifdef DEBUG
-      std::ostringstream ss;
-      ss << "Contact received message: (jid: \"" << msg.from().full();
-      if (session)
-        ss << "\", thread id: \"" << session->threadID() << "\"";
-      else
-        ss << "\", no session";
-      ss << ", type: \"" << libsxc::genMsgTypeString(msg.subtype());
-      ss << "\" (" << msg.subtype();
-      ss << "), subject: \"" << msg.subject();
-      ss << "\", body: \"" << msg.body() << "\").";
-      printLog(ss.str());
-#   endif
+    std::ostringstream ss;
+    ss << "Contact received message: (jid: \"" << msg.from().full();
+    if (session)
+      ss << "\", thread id: \"" << session->threadID() << "\"";
+    else
+      ss << "\", no session";
+    ss << ", type: \"" << libsxc::genMsgTypeString(msg.subtype());
+    ss << "\" (" << msg.subtype();
+    ss << "), subject: \"" << msg.subject();
+    ss << "\", body: \"" << msg.body() << "\").";
+    LOG<Debug>(ss.str());
+
     //_output->write(msg->body());
   }/*}}}*/
   const gloox::JID &Contact::getJid()/*{{{*/
