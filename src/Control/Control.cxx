@@ -99,8 +99,6 @@ namespace Control
       version + "\").");
 
     _client.disco()->setVersion(name, version);
-
-    _input.listen();
   }/*}}}*/
   Control::~Control()/*{{{*/
   {
@@ -115,6 +113,10 @@ namespace Control
 #   endif
   }/*}}}*/
 
+  void Control::run()
+  {
+    _input.listen();
+  }
   void Control::setPassphrase(const std::string &pass)/*{{{*/
   {
     LOG<Debug>("Set passphrase: \"" + pass + "\".");

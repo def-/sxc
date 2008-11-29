@@ -204,17 +204,6 @@ if test "x${have_libsxc}" = xno; then
     (exit 1); exit 1
 fi
 #}}}
-# sigc++#{{{
-PKG_CHECK_MODULES([SIGC], [sigc++-2.0], [have_sigc=yes], [have_sigc=no])
-if test "x${have_sigc}" = xno; then
-    echo \
-"-------------------------------------------------
- Unable to find sigc++-2.0. Stopping
- Check \"config.log\" for more information.
--------------------------------------------------"
-    (exit 1); exit 1
-fi
-#}}}
 # gloox#{{{
 PKG_CHECK_MODULES([GLOOX], [gloox >= 1.0], [have_gloox=yes], [have_gloox=no])
 if test "x${have_gloox}" = xno; then
@@ -262,8 +251,6 @@ AC_SUBST(with_htags)
 
 AC_SUBST(LIBSXC_CFLAGS)
 AC_SUBST(LIBSXC_LIBS)
-AC_SUBST(SIGC_CFLAGS)
-AC_SUBST(SIGC_LIBS)
 AC_SUBST(GLOOX_CFLAGS)
 AC_SUBST(GLOOX_LIBS)
 AC_SUBST(CPPUNIT_CFLAGS)

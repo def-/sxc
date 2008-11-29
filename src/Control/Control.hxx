@@ -93,6 +93,7 @@ namespace Control
 
 /*}}}*/
 
+      void run();
       //void setPassphrase(const std::string &pass);/*{{{*/
 
       /**

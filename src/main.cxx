@@ -22,9 +22,7 @@
 
 #include <string>
 #include <iostream>
-
-#include <sys/signal.h>
-#include <sigc++/adaptors/bind.h>
+#include <signal.h>
 
 #include <gloox/jid.h>
 
@@ -35,8 +33,10 @@
 #include <libsxc/Exception/Type.hxx>
 #include <libsxc/getHostName.hxx>
 
+#include <libsxc/Signal/Waiter.hxx>
+#include <libsxc/Signal/stopOn.hxx>
+
 #include <Control/Control.hxx>
-#include <SignalHandler.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -60,10 +60,6 @@ using libsxc::Error;
  * and can be controlled with basic command line tools to read from / write
  * into the files/FIFOs sxc creates.
  */
-
-void dummy()/*{{{*/
-{
-}/*}}}*/
 
 /**
  * @brief The starting point of sxc.
@@ -126,8 +122,6 @@ int main(int argc, char *argv[])/*{{{*/
   if ("" == jidJid.resource())
     jidJid.setResource(defaultResource);
 
-  SignalHandler::setHandler(SIGINT, sigc::ptr_fun(&dummy));
-
   Control::Control *control;
   try {
     control = new Control::Control(
@@ -141,7 +135,15 @@ int main(int argc, char *argv[])/*{{{*/
     return e.getType();
   }
 
-  pause(); // Wait until a signal is received and its handler returns.
+  // Has to be created before running any thread.
+  libsxc::Signal::Waiter waiter;
+
+  libsxc::Signal::stopOn(waiter, SIGINT);
+  libsxc::Signal::stopOn(waiter, SIGTERM);
+
+  control->run(); // Starts threads.
+
+  waiter.run(); // blocking
 
   delete control;
   return 0;

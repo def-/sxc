@@ -257,21 +257,21 @@ You may find it more convenient to invoke @PACKAGE@ using a script.
 .nf
 #!/bin/sh
 .nf
-JID="example@jid.org"
+JID="alice@example.org"
 .nf
-PWD="insecurepwd"
+PWD="insecure"
 .nf
 PRI=23
 (
-    echo "\0:pwd $PWD\0" > $JID/in
-    echo "\0:pri $PRI\0" > $JID/in
-    echo "\0:set available\0" > $JID/in
+    echo "\\0:pwd $PWD\\0" > $JID/in
+    echo "\\0:pri $PRI\\0" > $JID/in
+    echo "\\0:set available\\0" > $JID/in
 )&
 exec src/@PACKAGE@ $JID
 
 .SH BUGS
 When multiple processes write to the input file at the same time they cannot be
-distinguished and get interpreted as a signle command.
+distinguished and get interpreted as a single command.
 .PP
 A proxy cannot be set directly. Instead use a transparent proxying library like
 .B tsocks(1)
@@ -284,6 +284,18 @@ announces to the server to be a "console" program, while "client daemon" would
 be better.
 .PP
 Most signals are not handled correctly.
+.PP
+You cannot exit
+.B @PACKAGE@
+from within. Use
+.B kill(1)
+instead to send a
+.B SIGTERM.
+If you are running
+.B @PACKAGE@
+in the foreground of a shell you can probably (depending on your shell) send a
+.B SIGINT
+to terminate the program using CTRL+C.
 
 .SH HOMEPAGE
 http://sxc.sf.net/
@@ -294,11 +306,12 @@ Andreas Waidler
 Dennis Felsing
 
 .SH REPORTING BUGS
-Please report bugs to @PACKAGE_BUGREPORT@
+Please report bugs to @PACKAGE_BUGREPORT@.
 
 .SH "SEE ALSO"
 .BR ii (1),
 .BR sxc-find (1),
 .BR sxc-profile (1),
 .BR sxc-register (1),
+.BR kill (1),
 .BR tsocks (1)
