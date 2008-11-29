@@ -27,6 +27,7 @@
 #include <gloox/jid.h>
 
 #include <libsxc/Option/Parser.hxx>
+#include <libsxc/Option/parse.hxx>
 #include <libsxc/Option/Option.hxx>
 #include <libsxc/Option/OptionPort.hxx>
 #include <libsxc/Exception/Exception.hxx>
@@ -70,6 +71,8 @@ using libsxc::Error;
 int main(int argc, char *argv[])/*{{{*/
 {
   libsxc::Option::Parser parser;
+  parser.setHelp(PACKAGE " " VERSION " (C) " COPYRIGHT);
+  parser.setVersion(VERSION);
   libsxc::Option::Option<bool> defHelp(
     &parser, 'h', "help", "Show help and exit");
   libsxc::Option::Option<bool> defVersion(
@@ -89,34 +92,8 @@ int main(int argc, char *argv[])/*{{{*/
     &parser, ' ', "", "jid",
     "user@domain[/resource] (resource default: " + defaultResource + ")");
 
-  try {
-    parser.parse(argv);
-  } catch (libsxc::Exception::OptionException &e) {
-    if (libsxc::Exception::ShowUsage == e.getType()) {
-      std::cerr << PACKAGE << " " << VERSION << " (C) " << COPYRIGHT
-            << std::endl;
-    } else if (libsxc::Exception::ShowVersion == e.getType()) {
-      std::cerr << VERSION << std::endl;
-      return libsxc::Exception::NoError;
-    } else {
-      LOG<Error>(e.getDescription());
-    }
-
-    std::vector<std::string> usage = parser.getUsage();
-    for(
-      std::vector<std::string>::iterator it = usage.begin();
-      usage.end() != it;
-      ++it) {
-      std::cerr << *it << std::endl;
-    }
-
-    if (e.getType() < 0) // No error. (ShowUsage, ShowVersion)
-      return libsxc::Exception::NoError;
-    return e.getType();
-  } catch (libsxc::Exception::Exception &e) {
-    LOG<Error>(e.getDescription());
-    return e.getType();
-  }
+  libsxc::Option::parse(parser, argv);
+  // FIXME: Handle exceptions.
 
   gloox::JID jidJid = jid.getValue();
   if ("" == jidJid.resource())
