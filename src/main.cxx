@@ -38,6 +38,7 @@
 #include <libsxc/Signal/stopOn.hxx>
 
 #include <Control/Control.hxx>
+#include <Error/Handler.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -46,8 +47,6 @@
 #include <libsxc/Logger.hxx>
 
 /*}}}*/
-
-using libsxc::Error;
 
 /**
  * @mainpage sxc Documentation
@@ -62,6 +61,8 @@ using libsxc::Error;
  * into the files/FIFOs sxc creates.
  */
 
+#include <libsxc/Debug/Logger.hxx>
+
 /**
  * @brief The starting point of sxc.
  *
@@ -70,6 +71,7 @@ using libsxc::Error;
  */
 int main(int argc, char *argv[])/*{{{*/
 {
+  LOG2("foobar");
   libsxc::Option::Parser parser;
   parser.setHelp(PACKAGE " " VERSION " (C) " COPYRIGHT);
   parser.setVersion(VERSION);
@@ -107,23 +109,26 @@ int main(int argc, char *argv[])/*{{{*/
       name.getValue(),
       version.getValue());
   } catch (libsxc::Exception::Exception &e) {
-    LOG<Error>(e.getDescription());
+    LOG<libsxc::Error>(e.getDescription());
     // Don't delete control, as it failed to initialize.
     return e.getType();
   }
 
   // Has to be created before running any thread.
   libsxc::Signal::Waiter waiter;
+  Error::Handler handler(waiter);
 
-  libsxc::Signal::stopOn(waiter, SIGINT);
-  libsxc::Signal::stopOn(waiter, SIGTERM);
+  waiter.reg(SIGINT, handler);
+  waiter.reg(SIGTERM, handler);
+  //libsxc::Signal::stopOn(waiter, SIGINT);
+  //libsxc::Signal::stopOn(waiter, SIGTERM);
 
   control->run(); // Starts threads.
 
-  waiter.run(); // blocking
+  waiter.run(); // Blocking. From this moment on signals are handled.
 
   delete control;
-  return 0;
+  return handler.getExitCode();
 }/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

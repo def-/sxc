@@ -271,6 +271,7 @@ AC_CONFIG_FILES([
     src/Contact/File/Makefile
     src/Control/Makefile
     src/Control/File/Makefile
+    src/Error/Makefile
     src/Exception/Makefile
     src/File/Makefile
     src/Time/Makefile
