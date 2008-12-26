@@ -9,6 +9,8 @@ AC_DEFINE_UNQUOTED(
 AC_CONFIG_SRCDIR([src/main.cxx])
 AM_CONFIG_HEADER([src/config.hxx])
 
+EXTRA_DIR=m4
+
 # cxxflags#{{{
 AC_MSG_CHECKING([whether configure should try to set CXXFLAGS])
 if test "x${CXXFLAGS+set}" = xset; then
