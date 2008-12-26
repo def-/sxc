@@ -60,7 +60,7 @@ namespace File
   {
     _ofstream.close();
   }/*}}}*/
-  bool AbcOutput::isOpen() const/*{{{*/
+  bool AbcOutput::isOpen()/*{{{*/
   {
     return _ofstream.is_open();
   }/*}}}*/
