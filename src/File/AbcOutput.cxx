@@ -71,7 +71,7 @@ namespace File
     }
 
 /*}}}*/
-    bool AbcOutput::isOpen() const/*{{{*/
+    bool AbcOutput::isOpen()/*{{{*/
     {
         return _file.is_open();
     }

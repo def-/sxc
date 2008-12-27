@@ -115,14 +115,14 @@ namespace File
             void close();
 
 /*}}}*/
-            // bool isOpen() const;/*{{{*/
+            // bool isOpen();/*{{{*/
 
             /**
              * @brief Checks whether the file is opened or not.
              *
              * @return @c true if open, @c false otherwiese.
              */
-            bool isOpen() const;
+            bool isOpen();
 
 /*}}}*/
 
