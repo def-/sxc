@@ -41,6 +41,7 @@
 #include <gloox/messagehandler.h>
 
 #include <Contact/Contact.hxx>
+#include <Control/MessageSessionManager.hxx>
 
 /*}}}*/
 
@@ -60,7 +61,10 @@ namespace Control
    *
    * This class handles all changes to the roster from and to the server.
    */
-  class Roster : public gloox::RosterListener, public gloox::MessageHandler
+  class Roster
+  : public gloox::RosterListener
+  , public gloox::MessageHandler
+  , public MessageSessionManager
   {
     public:
       //Roster(Control *control, gloox::Client *client);/*{{{*/
@@ -173,21 +177,21 @@ namespace Control
 
 /*}}}*/
 
-      // MessageSessionManager, FIXME: Interface
-      //MessageSession *createMessageSession(*handler, const &jid);/*{{{*/
+      // Reimplemeneted from MessageSessionManager
+      //virtual MessageSession *createMessageSession(*handler, &jid);/*{{{*/
 
       /**
        */
-      gloox::MessageSession *createMessageSession(
+      virtual gloox::MessageSession *createMessageSession(
         gloox::MessageHandler *handler,
         const gloox::JID &jid);
 
 /*}}}*/
-      //void disposeMessageSession(gloox::MessageSession *session);/*{{{*/
+      //virtual void disposeMessageSession(MessageSession *session);/*{{{*/
 
       /**
        */
-      void disposeMessageSession(gloox::MessageSession *session);
+      virtual void disposeMessageSession(gloox::MessageSession *session);
 
 /*}}}*/
 
