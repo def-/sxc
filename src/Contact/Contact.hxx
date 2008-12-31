@@ -34,9 +34,13 @@
 
 #include <File/AbcInput.hxx>
 #include <File/AbcOutput.hxx>
-#include <Control/MessageSessionManager.hxx>
 
 /*}}}*/
+
+namespace Control
+{
+  class Roster;
+}
 
 /**
  * @brief Contains the classes for contacts.
@@ -53,7 +57,7 @@ namespace Contact
   class Contact : public gloox::MessageHandler
   {
     public:
-      //Contact(&manager, &jid);/*{{{*/
+      //Contact(&roster, &jid);/*{{{*/
 
       /**
        * @brief Initialise the contact.
@@ -62,11 +66,7 @@ namespace Contact
        * @param output The object to write contact relevant output to.
        * @param input The object to get input from.
        */
-      Contact(
-        Control::MessageSessionManager &manager,
-        const gloox::JID &jid /*,
-        ::File::AbcOutput &output, 
-        ::File::AbcInput &input */);
+      Contact(Control::Roster &roster, const gloox::JID &jid /*, ::File::AbcOutput &output, ::File::AbcInput &input */);
 
 /*}}}*/
       //~Contact();/*{{{*/
@@ -123,7 +123,7 @@ namespace Contact
 
 /*}}}*/
     private:
-      Control::MessageSessionManager &_manager;
+      Control::Roster &_roster;
       gloox::MessageSession *_session;
       //::File::AbcInput &_input;
       //::File::AbcOutput &_output;

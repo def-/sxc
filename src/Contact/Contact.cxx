@@ -28,7 +28,7 @@
 #include <gloox/presence.h>
 
 #include <Contact/Contact.hxx>
-#include <Control/MessageSessionManager.hxx>
+#include <Control/Roster.hxx>
 
 #include <libsxc/generateString.hxx>
 
@@ -42,9 +42,9 @@
 
 namespace Contact
 {
-  Contact::Contact(Control::MessageSessionManager &manager, const gloox::JID &jid)/*{{{*/
-  : _manager(manager)
-  , _session(manager.createMessageSession(this, jid))
+  Contact::Contact(Control::Roster &roster, const gloox::JID &jid)/*{{{*/
+  : _roster(roster)
+  , _session(roster.createMessageSession(this, jid))
   // FIXME: Files
   {
     LOG2("Create contact: \"" + jid.bare() + "\".");
@@ -58,7 +58,7 @@ namespace Contact
     // This deletes the session. Else the destructor of gloox::ClientBase
     // would handle this.
     //_client->disposeMessageSession(_session);
-    _manager.disposeMessageSession(_session);
+    _roster.disposeMessageSession(_session);
   }/*}}}*/
 
   void Contact::printPresenceUpdate(/*{{{*/
