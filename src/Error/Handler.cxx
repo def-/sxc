@@ -1,3 +1,4 @@
+#line 1 "sxc:Error/Handler.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client

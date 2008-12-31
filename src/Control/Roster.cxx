@@ -1,3 +1,4 @@
+#line 1 "sxc:Control/Roster.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client

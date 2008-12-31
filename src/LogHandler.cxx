@@ -1,3 +1,4 @@
+#line 1 "sxc:LogHandler.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
