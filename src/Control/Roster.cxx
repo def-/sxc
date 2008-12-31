@@ -42,7 +42,7 @@
 # include <config.hxx>
 #endif
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
@@ -71,6 +71,11 @@ namespace Control
     }
   }/*}}}*/
 
+  void Roster::sendMessage(const gloox::JID &jid, const std::string &message)/*{{{*/
+  {
+    // FIXME
+  }/*}}}*/
+
   void Roster::addContact(/*{{{*/
     const gloox::JID &jid,
     bool isPermanent)
@@ -83,7 +88,7 @@ namespace Control
   {
     _checkClient();
 
-    LOG<Debug>("Remove contact from the roster: \"" + jid.bare() + "\".");
+    LOG2("Remove contact from the roster: \"" + jid.bare() + "\".");
 
     _client->rosterManager()->remove(jid);
     _client->rosterManager()->synchronize();
@@ -95,7 +100,7 @@ namespace Control
   {
     _checkClient();
 
-    LOG<Debug>(
+    LOG2(
       "Sending subscription request: (jid: \"" + jid.bare() +
       "\", message: \"" + message + "\").");
 
@@ -109,7 +114,7 @@ namespace Control
   {
     _checkClient();
 
-    LOG<Debug>(
+    LOG2(
       "Sending unsubscription request: (jid: \"" + jid.bare() +
       "\", message: \"" + message + "\").");
 
@@ -119,14 +124,14 @@ namespace Control
 
   void Roster::acknowledgeSubscription(const gloox::JID &jid) const/*{{{*/
   {
-    LOG<Debug>(
+    LOG2(
       "Acknowledge subscription request: \"" + jid.bare() + "\".");
 
     _client->rosterManager()->ackSubscriptionRequest(jid, true);
   }/*}}}*/
   void Roster::declineSubscription(const gloox::JID &jid) const/*{{{*/
   {
-    LOG<Debug>(
+    LOG2(
       "Decline subscription request: \"" + jid.bare() + "\".");
 
     _client->rosterManager()->ackSubscriptionRequest(jid, false);
@@ -138,7 +143,7 @@ namespace Control
   {
     addContact(msg.from(), false); // Local only.
 
-    contactList::iterator contact = _getClient(msg.from().bare());
+    contactList::iterator contact = _getContact(msg.from().bare());
     if (_contacts.end() == contact)
       return;
 
@@ -160,19 +165,19 @@ namespace Control
 
   void Roster::handleItemAdded(const gloox::JID &jid)/*{{{*/
   {
-    LOG<Debug>("Item added to the roster: \"" + jid.bare() + "\".");
+    LOG2("Item added to the roster: \"" + jid.bare() + "\".");
 
     _addContactLocal(jid);
   }/*}}}*/
   void Roster::handleItemSubscribed(const gloox::JID &jid)/*{{{*/
   {
-    LOG<Debug>("Item subscribed: \"" + jid.bare() + "\".");
+    LOG2("Item subscribed: \"" + jid.bare() + "\".");
   }/*}}}*/
   void Roster::handleItemRemoved(const gloox::JID &jid)/*{{{*/
   {
-    LOG<Debug>("Item removed from the roster: \"" + jid.bare() + "\".");
+    LOG2("Item removed from the roster: \"" + jid.bare() + "\".");
 
-    contactList::iterator contact = _getClient(jid.bare());
+    contactList::iterator contact = _getContact(jid.bare());
     if (_contacts.end() == contact)
       return;
     delete contact->second;
@@ -182,16 +187,16 @@ namespace Control
   }/*}}}*/
   void Roster::handleItemUpdated(const gloox::JID &jid)/*{{{*/
   {
-    LOG<Debug>("Item updated: \"" + jid.bare() + "\".");
+    LOG2("Item updated: \"" + jid.bare() + "\".");
   }/*}}}*/
   void Roster::handleItemUnsubscribed(const gloox::JID &jid)/*{{{*/
   {
-    LOG<Debug>(
+    LOG2(
       "Item unsubscribed: \"" + jid.bare() + "\".");
   }/*}}}*/
   void Roster::handleRoster(const gloox::Roster &roster)/*{{{*/
   {
-    LOG<Debug>("Initial roster received from the server.");
+    LOG2("Initial roster received from the server.");
 
     for(
     gloox::Roster::const_iterator entry = roster.begin();
@@ -211,9 +216,9 @@ namespace Control
        << "/" << resource << "\", presence: \""
        << libsxc::genPresenceString(presence) << "\" (" << presence
        << "), message: \"" << msg << "\").";
-    LOG<Debug>(ss.str());
+    LOG2(ss.str());
 
-    contactList::iterator contact = _getClient(item.jid());
+    contactList::iterator contact = _getContact(item.jid());
     if (_contacts.end() == contact)
       return;
     contact->second->printPresenceUpdate(resource, presence, msg);
@@ -228,17 +233,17 @@ namespace Control
     ss << "Self-status changed: (jid: \"" << item.name()
        << "\", resource: \"" << resource << "\", presence: "
        << presence << ", message: \"" << msg << "\").";
-    LOG<Debug>(ss.str());
+    LOG2(ss.str());
   }/*}}}*/
   bool Roster::handleSubscriptionRequest(/*{{{*/
     const gloox::JID &jid,
     const std::string &msg)
   {
-    LOG<Debug>(
+    LOG2(
       "Received subscription request: (jid: \"" + jid.bare() +
       "\", message: \"" + msg + "\").");
 
-    contactList::iterator contact = _getClient(jid.bare());
+    contactList::iterator contact = _getContact(jid.bare());
     if (_contacts.end() == contact)
       return true;
 
@@ -251,11 +256,11 @@ namespace Control
     const gloox::JID &jid,
     const std::string &msg)
   {
-    LOG<Debug>(
+    LOG2(
       "Received unsubscription request: (jid: \"" + jid.bare() +
       "\", message: \"" + msg + "\").");
 
-    contactList::iterator contact = _getClient(jid.bare());
+    contactList::iterator contact = _getContact(jid.bare());
     if (_contacts.end() == contact)
       return true;
 
@@ -269,13 +274,13 @@ namespace Control
     std::ostringstream ss;
     ss << "Nonroster-Status changed: (type: \"" << presence.subtype()
        << "\", message: \"" << presence.status() << "\").";
-    LOG<Debug>(ss.str());
+    LOG2(ss.str());
   }/*}}}*/
   void Roster::handleRosterError(const gloox::IQ &iq)/*{{{*/
   {
     const gloox::Error *error = iq.error();
     if (error)
-      LOG<Debug>(
+      LOG2(
         "Roster error received: " +
         libsxc::genStanzaErrorString(error->error()));
 
@@ -295,7 +300,7 @@ namespace Control
   }/*}}}*/
   void Roster::_addContactRemote(const gloox::JID &jid) const/*{{{*/
   {
-    LOG<Debug>(
+    LOG2(
       "Add contact to the remote roster: \"" + jid.bare() + "\".");
 
     _checkClient();
@@ -306,19 +311,24 @@ namespace Control
   }/*}}}*/
   void Roster::_addContactLocal(const gloox::JID &jid)/*{{{*/
   {
-    LOG<Debug>(
+    LOG2(
       "Add contact to the local roster: \"" + jid.bare() + "\".");
+
+    if (_contacts.end() != _getContact(jid.bare())) {
+      LOG2("Contact already in local roster, not adding.");
+      return;
+    }
 
     _contacts.insert(std::make_pair(
       jid.bare(),
       new Contact::Contact(*this, jid)));
   }/*}}}*/
-  contactList::iterator Roster::_getClient(const std::string &jid)/*{{{*/
+  contactList::iterator Roster::_getContact(const std::string &jid)/*{{{*/
   {
     contactList::iterator contact = _contacts.find(jid);
 
     if (_contacts.end() == contact) {
-      LOG<Debug>("Item not found in local roster");
+      LOG2("Item not found in local roster");
     }
 
     return contact;

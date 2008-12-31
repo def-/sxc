@@ -90,9 +90,34 @@ namespace Contact
   {
     return _session->target();
   }/*}}}*/
+
   void Contact::sendMessage(const std::string &message)/*{{{*/
   {
-    // FIXME
+    _roster.sendMessage(getJid(), message);
+  }/*}}}*/
+  void Contact::add()/*{{{*/
+  {
+    _roster.addContact(getJid(), /* isPermanent = */ true);
+  }/*}}}*/
+  void Contact::remove()/*{{{*/
+  {
+    _roster.removeContact(getJid());
+  }/*}}}*/
+  void Contact::subscribe(const std::string &message)/*{{{*/
+  {
+    _roster.subscribe(getJid(), message);
+  }/*}}}*/
+  void Contact::unsubscribe(const std::string &message)/*{{{*/
+  {
+    _roster.unsubscribe(getJid(), message);
+  }/*}}}*/
+  void Contact::acknowledgeSubscription()/*{{{*/
+  {
+    _roster.acknowledgeSubscription(getJid());
+  }/*}}}*/
+  void Contact::declineSubscription()/*{{{*/
+  {
+    _roster.declineSubscription(getJid());
   }/*}}}*/
 }
 

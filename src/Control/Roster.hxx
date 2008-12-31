@@ -83,6 +83,14 @@ namespace Control
 
 /*}}}*/
 
+      //void sendMessage(const gloox::JID &jid, const std::string &message);/*{{{*/
+
+      /**
+       */
+      void sendMessage(const gloox::JID &jid, const std::string &message);
+
+/*}}}*/
+
       //void addContact(const JID &jid, isPermanent=true) const;/*{{{*/
 
       /**
@@ -420,16 +428,16 @@ namespace Control
       void _addContactLocal(const gloox::JID &jid);
 
 /*}}}*/
-      //contactList::iterator _getClient(const std::string &jid);/*{{{*/
+      //contactList::iterator _getContact(const std::string &jid);/*{{{*/
 
       /**
-       * @brief Get an iterator to the client specified by the jid.
+       * @brief Get an iterator to the contact specified by the jid.
        *
        * Points to _contacts.end() if not found.
        *
        * @param jid The JID to search for.
        */
-      contactList::iterator _getClient(const std::string &jid);
+      contactList::iterator _getContact(const std::string &jid);
 
 /*}}}*/
 

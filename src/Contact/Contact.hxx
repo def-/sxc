@@ -112,6 +112,7 @@ namespace Contact
       const gloox::JID &getJid();
 
 /*}}}*/
+
       //void sendMessage(const std::string &message);/*{{{*/
 
       /**
@@ -122,6 +123,49 @@ namespace Contact
       void sendMessage(const std::string &message);
 
 /*}}}*/
+      //void add();/*{{{*/
+
+      /**
+       */
+      void add();
+
+/*}}}*/
+      //void remove();/*{{{*/
+
+      /**
+       */
+      void remove();
+
+/*}}}*/
+      //void subscribe(const std::string &message=gloox::EmptyString);/*{{{*/
+
+      /**
+       */
+      void subscribe(const std::string &message=gloox::EmptyString);
+
+/*}}}*/
+      //void unsubscribe(const std::string &message=gloox::EmptyString);/*{{{*/
+
+      /**
+       */
+      void unsubscribe(const std::string &message=gloox::EmptyString);
+
+/*}}}*/
+      //void acknowledgeSubscription();/*{{{*/
+
+      /**
+       */
+      void acknowledgeSubscription();
+
+/*}}}*/
+      //void declineSubscription();/*{{{*/
+
+      /**
+       */
+      void declineSubscription();
+
+/*}}}*/
+
     private:
       Control::Roster &_roster;
       gloox::MessageSession *_session;
