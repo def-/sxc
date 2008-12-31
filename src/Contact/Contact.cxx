@@ -28,6 +28,7 @@
 #include <gloox/presence.h>
 
 #include <Contact/Contact.hxx>
+#include <Control/Roster.hxx>
 
 #include <libsxc/generateString.hxx>
 
@@ -35,33 +36,29 @@
 # include <config.hxx>
 #endif
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-using libsxc::Debug;
-using libsxc::Error;
-
 namespace Contact
 {
-  Contact::Contact(gloox::ClientBase *client, const gloox::JID &jid)/*{{{*/
-  : _client(client),
-    _session(new gloox::MessageSession(client, jid))
+  Contact::Contact(Control::Roster &roster, const gloox::JID &jid)/*{{{*/
+  : _roster(roster)
+  , _session(roster.createMessageSession(this, jid))
+  // FIXME: Files
   {
-    LOG<Error>("Create contact: \"" + jid.bare() + "\".");
+    LOG2("Create contact: \"" + jid.bare() + "\".");
 
-    _session->registerMessageHandler(this);
-
-    //_input = new File::Input(jid.bare());
-    //_output = new File::Output(jid.bare());
+    //_session->registerMessageHandler(this);
   }/*}}}*/
   Contact::~Contact()/*{{{*/
   {
-    LOG<Error>("Delete contact: \"" + _session->target().bare() + "\".");
+    LOG2("Delete contact: \"" + _session->target().bare() + "\".");
 
     // This deletes the session. Else the destructor of gloox::ClientBase
     // would handle this.
-    _client->disposeMessageSession(_session);
+    //_client->disposeMessageSession(_session);
+    _roster.disposeMessageSession(_session);
   }/*}}}*/
 
   void Contact::printPresenceUpdate(/*{{{*/
@@ -85,7 +82,7 @@ namespace Contact
     ss << "\" (" << msg.subtype();
     ss << "), subject: \"" << msg.subject();
     ss << "\", body: \"" << msg.body() << "\").";
-    LOG<Debug>(ss.str());
+    LOG2(ss.str());
 
     //_output->write(msg->body());
   }/*}}}*/

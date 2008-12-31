@@ -32,9 +32,15 @@
 #include <gloox/messagehandler.h>
 #include <gloox/presence.h>
 
-//#include <Contact/File/Input.hxx>
+#include <File/AbcInput.hxx>
+#include <File/AbcOutput.hxx>
 
 /*}}}*/
+
+namespace Control
+{
+  class Roster;
+}
 
 /**
  * @brief Contains the classes for contacts.
@@ -45,17 +51,22 @@ namespace Contact
    * @brief A representation of a contact.
    *
    * Objects of this class get called when a message for the represented
-   * contact gets in.
+   * contact gets in. This class does not register itself as the message
+   * handler.
    */
   class Contact : public gloox::MessageHandler
   {
     public:
-      //Contact(gloox::ClientBase *client, const gloox::JID &jid);/*{{{*/
+      //Contact(&roster, &jid);/*{{{*/
 
       /**
        * @brief Initialise the contact.
+       *
+       * @param roster The roster this contact belongs to.
+       * @param output The object to write contact relevant output to.
+       * @param input The object to get input from.
        */
-      Contact(gloox::ClientBase *client, const gloox::JID &jid);
+      Contact(Control::Roster &roster, const gloox::JID &jid /*, ::File::AbcOutput &output, ::File::AbcInput &input */);
 
 /*}}}*/
       //~Contact();/*{{{*/
@@ -112,11 +123,10 @@ namespace Contact
 
 /*}}}*/
     private:
-      //File::Input *_input;
-      //File::Output *_output;
-      gloox::ClientBase *_client;
+      Control::Roster &_roster;
       gloox::MessageSession *_session;
-
+      //::File::AbcInput &_input;
+      //::File::AbcOutput &_output;
   };
 }
 

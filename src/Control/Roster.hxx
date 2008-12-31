@@ -173,6 +173,24 @@ namespace Control
 
 /*}}}*/
 
+      // MessageSessionManager, FIXME: Interface
+      //MessageSession *createMessageSession(*handler, const &jid);/*{{{*/
+
+      /**
+       */
+      gloox::MessageSession *createMessageSession(
+        gloox::MessageHandler *handler,
+        const gloox::JID &jid);
+
+/*}}}*/
+      //void disposeMessageSession(gloox::MessageSession *session);/*{{{*/
+
+      /**
+       */
+      void disposeMessageSession(gloox::MessageSession *session);
+
+/*}}}*/
+
       // Reimplemented from gloox::MessageHandler
       //void handleMessage(const &msg, *session);/*{{{*/
 

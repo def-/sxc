@@ -145,6 +145,19 @@ namespace Control
     contact->second->handleMessage(msg, session);
   }/*}}}*/
 
+  gloox::MessageSession *Roster::createMessageSession(/*{{{*/
+    gloox::MessageHandler *handler,
+    const gloox::JID &jid)
+  {
+    gloox::MessageSession *session = new gloox::MessageSession(_client, jid);
+    session->registerMessageHandler(handler);
+    return session;
+  }/*}}}*/
+  void Roster::disposeMessageSession(gloox::MessageSession *session)/*{{{*/
+  {
+    _client->disposeMessageSession(session);
+  }/*}}}*/
+
   void Roster::handleItemAdded(const gloox::JID &jid)/*{{{*/
   {
     LOG<Debug>("Item added to the roster: \"" + jid.bare() + "\".");
@@ -298,7 +311,7 @@ namespace Control
 
     _contacts.insert(std::make_pair(
       jid.bare(),
-      new Contact::Contact(_client, jid)));
+      new Contact::Contact(*this, jid)));
   }/*}}}*/
   contactList::iterator Roster::_getClient(const std::string &jid)/*{{{*/
   {
