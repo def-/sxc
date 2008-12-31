@@ -1,3 +1,4 @@
+#line 1 "sxc:File/AbcInput.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
