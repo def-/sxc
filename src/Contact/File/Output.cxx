@@ -25,7 +25,7 @@
 #endif
 
 #include <string>
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
 #include <Contact/Contact.hxx>
 #include <Contact/File/Output.hxx>
 #include <Time/Timestamp.hxx>
@@ -38,8 +38,8 @@ namespace Contact
 {
   namespace File
   {
-    Output::Output(Control::Control &control, Contact &contact)/*{{{*/
-    : _control(&control)
+    Output::Output(Account::Account &account, Contact &contact)/*{{{*/
+    : _account(&account)
     , _contact(&contact)
     {
     }
@@ -47,7 +47,7 @@ namespace Contact
 /*}}}*/
     std::string Output::_createPath() const/*{{{*/
     {
-      return _control->getJid().bare() + '/'
+      return _account->getJid().bare() + '/'
            + _contact->getJid().bare() + "/out";
     }
 

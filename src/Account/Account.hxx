@@ -36,7 +36,7 @@
 
 #include <libsxc/Exception/Exception.hxx>
 
-#include <Control/File/Input.hxx>
+#include <Account/File/Input.hxx>
 #include <LogHandler.hxx>
 
 #ifdef HAVE_CONFIG_H
@@ -45,35 +45,35 @@
 /*}}}*/
 
 /**
- * @brief Contains the controller classes.
+ * @brief Contains the accountler classes.
  */
-namespace Control
+namespace Account
 {
   class Roster;
 
   /**
-   * @brief The central class connecting and controlling other classes.
+   * @brief The central class connecting and accountling other classes.
    *
    * This class initializes sxc's main input and output files, handles
    * input and errors.
    */
-  class Control : public gloox::ConnectionListener
+  class Account : public gloox::ConnectionListener
   {
     public:
-      //Control(&client, &roster);/*{{{*/
+      //Account(&client, &roster);/*{{{*/
 
       /**
        * @brief The constructor.
        */
-      Control(gloox::Client &client, Roster &roster/*,t ::File::AbcOutput &out*/);
+      Account(gloox::Client &client, Roster &roster/*,t ::File::AbcOutput &out*/);
 
 /*}}}*/
-      //~Control();/*{{{*/
+      //~Account();/*{{{*/
 
       /**
        * @brief The destructor.
        */
-      ~Control();
+      ~Account();
 
 /*}}}*/
 
@@ -401,7 +401,7 @@ namespace Control
   };
 }
 
-#include <Control/Control.ixx>
+#include <Account/Account.ixx>
 
 #endif // CONTROL_CONTROL_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

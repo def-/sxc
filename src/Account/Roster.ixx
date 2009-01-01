@@ -1,4 +1,4 @@
-#line 2 "sxc:Control/Roster.ixx"
+#line 2 "sxc:Account/Roster.ixx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -36,7 +36,7 @@
 #include <libsxc/generateString.hxx>
 #include <libsxc/Exception/GlooxException.hxx>
 
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -46,11 +46,11 @@
 
 /*}}}*/
 
-namespace Control
+namespace Account
 {
-  template <class Entry> Roster<Entry>::Roster(Control *control, gloox::Client *client)/*{{{*/
+  template <class Entry> Roster<Entry>::Roster(Account *account, gloox::Client *client)/*{{{*/
   : RosterListener(),
-    _control(control),
+    _account(account),
     _client(client),
     _contacts()
   {
@@ -181,7 +181,7 @@ namespace Control
     delete contact->second;
     _contacts.erase(contact);
 
-    _control->print("Contact removed: \"" + jid.bare() + "\".");
+    _account->print("Contact removed: \"" + jid.bare() + "\".");
   }/*}}}*/
   template <class Entry> void Roster<Entry>::handleItemUpdated(const gloox::JID &jid)/*{{{*/
   {
@@ -245,7 +245,7 @@ namespace Control
     if (_contacts.end() == contact)
       return true;
 
-    _control->print(
+    _account->print(
       "Subscription request received: \"" + jid.bare() + "\"");
 
     return true;
@@ -262,7 +262,7 @@ namespace Control
     if (_contacts.end() == contact)
       return true;
 
-    _control->print(
+    _account->print(
       "Unsubscription request received: \"" + jid.bare() + "\"");
 
     return true;
@@ -284,7 +284,7 @@ namespace Control
 
     // FIXME: Use handleError
     if (error)
-      _control->print(
+      _account->print(
         "Roster error received: " +
         libsxc::genStanzaErrorString(error->error()));
   }/*}}}*/

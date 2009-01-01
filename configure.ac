@@ -271,8 +271,8 @@ AC_CONFIG_FILES([
     src/CommandParser/Makefile
     src/Contact/Makefile
     src/Contact/File/Makefile
-    src/Control/Makefile
-    src/Control/File/Makefile
+    src/Account/Makefile
+    src/Account/File/Makefile
     src/Error/Makefile
     src/Exception/Makefile
     src/File/Makefile

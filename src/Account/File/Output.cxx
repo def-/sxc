@@ -1,4 +1,4 @@
-#line 2 "sxc:Control/Control.ixx"
+#line 2 "sxc:Account/File/Output.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -18,42 +18,46 @@
  */
 /*}}}*/
 
-
-// INCLUDE/*{{{*/
-
-#include <string>
-
-#include <gloox/error.h>
+// INCLUDES/*{{{*/
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
 #endif
 
-#include <libsxc/Logger.hxx>
+#include <string>
+#include <Account/Account.hxx>
+#include <Account/File/Output.hxx>
+#include <Time/Timestamp.hxx>
+#include <Time/LocalDateTime.hxx>
+#include <Time/IsoDateTimeFormat.hxx>
 
 /*}}}*/
 
-using libsxc::Debug;
-
-namespace Control
+namespace Account
 {
-  inline void Control::onResourceBind(const std::string &resource)/*{{{*/
+  namespace File
   {
-    LOG<Debug>("Bind resouce: \"" + resource + "\".");
-  }/*}}}*/
+    Output::Output(Account::Account &account)/*{{{*/
+    : _account(&account)
+    {
+    }
 
-  inline void Control::onResourceBindError(const gloox::Error *error)/*{{{*/
-  {
-    LOG<Debug>("Resource bind error.");
-  }/*}}}*/
+/*}}}*/
+    std::string Output::_createPath() const/*{{{*/
+    {
+      return _account->getJid().bare() + "/out";
+    }
 
-  inline void Control::onSessionCreateError(const gloox::Error *error)/*{{{*/
-  {
-  }/*}}}*/
+/*}}}*/
+    std::string Output::_format(const std::string &output) const/*{{{*/
+    {
+      Time::LocalDateTime date = Time::LocalDateTime(Time::Timestamp());
+      Time::IsoDateTimeFormat format(&date);
+      return format.string() + ' ' + output;
+    }
 
-  inline void Control::onStreamEvent(gloox::StreamEvent event)/*{{{*/
-  {
-  }/*}}}*/
+/*}}}*/
+  }
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

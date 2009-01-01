@@ -1,4 +1,4 @@
-SUBDIRS = Error Time Exception CommandParser File Contact Control
+SUBDIRS = Error Time Exception CommandParser File Contact Account
 
 noinst_LTLIBRARIES = libSrc.la
 libSrc_la_CPPFLAGS = $(GLOOX_CFLAGS)
@@ -13,7 +13,7 @@ sxc_CXXFLAGS = $(GLOOX_LIBS) $(LIBSXC_LIBS)
 sxc_LDADD =\
     Time/libTime.la\
     Contact/libContact.la\
-    Control/libControl.la\
+    Account/libAccount.la\
     Error/libError.la\
     Exception/libException.la\
     CommandParser/libCommandParser.la\

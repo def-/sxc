@@ -32,17 +32,17 @@
 
 int main(int argc, char **argv)
 {
-  CppUnit::TestResult controller;
+  CppUnit::TestResult accountler;
   CppUnit::TestResultCollector result;
   CppUnit::BriefTestProgressListener progress;
-  controller.addListener(&result);
-  controller.addListener(&progress);
+  accountler.addListener(&result);
+  accountler.addListener(&progress);
 
   CppUnit::TextOutputter outputter(&result, std::clog);
 
   CppUnit::TestRunner runner;
   runner.addTest(CppUnit::TestFactoryRegistry::getRegistry().makeTest());
-  runner.run(controller);
+  runner.run(accountler);
 
   outputter.write();
 

@@ -37,7 +37,7 @@
 
 /*}}}*/
 
-namespace Control
+namespace Account
 {
   class Roster;
 }
@@ -66,7 +66,7 @@ namespace Contact
        * @param output The object to write contact relevant output to.
        * @param input The object to get input from.
        */
-      Contact(Control::Roster &roster, const gloox::JID &jid /*, ::File::AbcOutput &output, ::File::AbcInput &input */);
+      Contact(Account::Roster &roster, const gloox::JID &jid /*, ::File::AbcOutput &output, ::File::AbcInput &input */);
 
 /*}}}*/
       //~Contact();/*{{{*/
@@ -167,7 +167,7 @@ namespace Contact
 /*}}}*/
 
     private:
-      Control::Roster &_roster;
+      Account::Roster &_roster;
       gloox::MessageSession *_session;
       //::File::AbcInput &_input;
       //::File::AbcOutput &_output;

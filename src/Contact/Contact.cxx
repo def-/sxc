@@ -29,7 +29,7 @@
 #include <gloox/presence.h>
 
 #include <Contact/Contact.hxx>
-#include <Control/Roster.hxx>
+#include <Account/Roster.hxx>
 
 #include <libsxc/generateString.hxx>
 
@@ -43,7 +43,7 @@
 
 namespace Contact
 {
-  Contact::Contact(Control::Roster &roster, const gloox::JID &jid)/*{{{*/
+  Contact::Contact(Account::Roster &roster, const gloox::JID &jid)/*{{{*/
   : _roster(roster)
   , _session(roster.createMessageSession(this, jid))
   // FIXME: Files

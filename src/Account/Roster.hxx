@@ -44,7 +44,7 @@
 
 /*}}}*/
 
-namespace Control
+namespace Account
 {
   //typedef map<const string, Contact> contactList;/*{{{*/
 
@@ -66,7 +66,7 @@ namespace Control
       /**
        * @brief Initialise the roster and register with the client.
        *
-       * @param control The control object.
+       * @param account The account object.
        * @param client The client instance to register with.
        */
       Roster(gloox::Client &client);

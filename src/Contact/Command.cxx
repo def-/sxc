@@ -34,8 +34,8 @@
 #include <Exception/InputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
 #include <Contact/Contact.hxx>
-#include <Control/Control.hxx>
-#include <Control/Roster.hxx>
+#include <Account/Account.hxx>
+#include <Account/Roster.hxx>
 #include <libsxc/Logger.hxx>
 
 /*}}}*/
@@ -49,11 +49,11 @@ using CommandParser::param;
 namespace Contact
 {
   Command::Command(/*{{{*/
-    Control::Control &control,
+    Account::Account &account,
     Contact &contact,
     const std::string &command)
   : AbcCommandParser(command),
-    _control(control),
+    _account(account),
     _contact(contact)
   {
   }
@@ -91,7 +91,7 @@ namespace Contact
       const std::deque<std::string> parsed = getParsed();
       const std::string name = parsed.at(0);
 
-      Control::Roster &roster = _control.getRoster();
+      Account::Roster &roster = _account.getRoster();
 
       if ("ack" == name) {/*{{{*/
         roster.acknowledgeSubscription(_contact.getJid().bare());
@@ -142,7 +142,7 @@ namespace Contact
       // specification.
       std::string message = "out_of_range: ";
       message.append(e.what());
-      _control.print(message);
+      _account.print(message);
       LOG<Error>(message);
     }
   }

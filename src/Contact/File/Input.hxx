@@ -26,7 +26,7 @@
 
 #include <File/AbcInput.hxx>
 #include <Contact/Contact.hxx>
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
 
 /*}}}*/
 
@@ -44,7 +44,7 @@ namespace Contact
     class Input : public ::File::AbcInput
     {
       public:
-        // Input(Control &control, Contact &contact);/*{{{*/
+        // Input(Account &account, Contact &contact);/*{{{*/
 
         /**
          * @brief Default constructor, initalizes object.
@@ -54,7 +54,7 @@ namespace Contact
          * @param contact Contact object. Stored as a reference
          *                internally.
          */
-        Input(Control::Control &control, Contact &contact);
+        Input(Account::Account &account, Contact &contact);
 
 /*}}}*/
 
@@ -73,9 +73,9 @@ namespace Contact
         std::string _createPath() const;
 
 /*}}}*/
-        //Control &_control;/*{{{*/
-        /// The control object.
-        Control::Control &_control;
+        //Account &_account;/*{{{*/
+        /// The account object.
+        Account::Account &_account;
 
 /*}}}*/
         //Contact &_contact;/*{{{*/

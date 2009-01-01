@@ -25,7 +25,7 @@
 #include <string>
 
 #include <CommandParser/AbcCommandParser.hxx>
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
 #include <Contact/Contact.hxx>
 
 /*}}}*/
@@ -39,20 +39,20 @@ namespace Contact
   class Command : CommandParser::AbcCommandParser
   {
     public:
-      // Command(Control &, Contact &, const std::string &);/*{{{*/
+      // Command(Account &, Contact &, const std::string &);/*{{{*/
 
       /**
        * @brief Default constructor.
        *
-       * For the purpose of the Control and Contact objects see @ref
+       * For the purpose of the Account and Contact objects see @ref
        * execute().
        *
-       * @param control The control object.
+       * @param account The account object.
        * @param contact The contact object which received this command.
        * @param command A command to be parsed.
        */
       Command(
-        Control::Control &control,
+        Account::Account &account,
         Contact &contact,
         const std::string &command);
 
@@ -87,10 +87,10 @@ namespace Contact
     protected:
 
     private:
-      //Control &_control;/*{{{*/
+      //Account &_account;/*{{{*/
 
-      /// The control object.
-      Control::Control &_control;
+      /// The account object.
+      Account::Account &_account;
 
 /*}}}*/
       //Contact &_contact;/*{{{*/

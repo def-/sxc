@@ -24,7 +24,7 @@
 
 #include <string>
 #include <File/AbcOutput.hxx>
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
 #include <Contact/Contact.hxx>
 
 /*}}}*/
@@ -43,24 +43,24 @@ namespace Contact
     class Output : public ::File::AbcOutput
     {
       public:
-        // Output(Control::Control &control, Contact &contact);/*{{{*/
+        // Output(Account::Account &account, Contact &contact);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
-         * @param control Central object, holding account information
+         * @param account Central object, holding account information
          * @param contact Contact to which this output belongs
          */
-        Output(Control::Control &control, Contact &contact);
+        Output(Account::Account &account, Contact &contact);
 
 /*}}}*/
 
       private:
-        // Control::Control *_control;/*{{{*/
+        // Account::Account *_account;/*{{{*/
 
-        /// Central control object, used for error handling or getting
+        /// Central account object, used for error handling or getting
         /// account information.
-        Control::Control *_control;
+        Account::Account *_account;
 
 /*}}}*/
         // Contact *_contact;/*{{{*/

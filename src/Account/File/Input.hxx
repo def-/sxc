@@ -25,13 +25,13 @@
 #include <string>
 
 #include <File/AbcInput.hxx>
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
 
 /*}}}*/
 
-namespace Control
+namespace Account
 {
-  class Control;
+  class Account;
 
   namespace File
   {
@@ -45,21 +45,21 @@ namespace Control
     class Input : public ::File::AbcInput
     {
       public:
-        // Input(Control &control);/*{{{*/
+        // Input(Account &account);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
-         * @param control The Control object.
+         * @param account The Account object.
          */
-        Input(Control &control);
+        Input(Account &account);
 
 /*}}}*/
 
       private:
-        //Control &_control;/*{{{*/
-        /// The control object.
-        Control &_control;
+        //Account &_account;/*{{{*/
+        /// The account object.
+        Account &_account;
 
 /*}}}*/
         // std::string _createPath() const;/*{{{*/
@@ -80,7 +80,7 @@ namespace Control
          * @brief Handles input that has been written into the FIFO.
          *
          * For a list of valid commands see @ref
-         * Control::Command. The main work will be done by an
+         * Account::Command. The main work will be done by an
          * instance of that class, this method provides just the
          * exception handling and creates that object.
          *

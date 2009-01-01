@@ -25,26 +25,26 @@
 #include <string>
 
 #include <CommandParser/AbcCommandParser.hxx>
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
 
 /*}}}*/
 
-namespace Control
+namespace Account
 {
   class Command : CommandParser::AbcCommandParser
   {
     public:
-      // Command(Control &control, const std::string &command);/*{{{*/
+      // Command(Account &account, const std::string &command);/*{{{*/
 
       /**
        * @brief Default constructor, initializes the object.
        *
        * Calls parent constructor and sets passed properties.
        *
-       * @param control The control object to use to execute commands.
+       * @param account The account object to use to execute commands.
        * @param command A command to be parsed.
        */
-      Command(Control &control, const std::string &command);
+      Command(Account &account, const std::string &command);
 
 /*}}}*/
       // ~Command();/*{{{*/
@@ -75,9 +75,9 @@ namespace Control
 /*}}}*/
 
     private:
-      //Control &_control;/*{{{*/
-      /// The control object.
-      Control &_control;
+      //Account &_account;/*{{{*/
+      /// The account object.
+      Account &_account;
 
 /*}}}*/
       // commandMap _createCommands() const;/*{{{*/

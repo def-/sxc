@@ -38,8 +38,8 @@
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
 
-#include <Control/Control.hxx>
-#include <Control/Roster.hxx>
+#include <Account/Account.hxx>
+#include <Account/Roster.hxx>
 #include <Error/Handler.hxx>
 #include <setupClient.hxx>
 
@@ -60,7 +60,7 @@
  * @section desc_sec Description
  * sxc (pronounced "sexy) is for jabber what ii (irc it / irc improved) is for
  * IRC: A minimalistic file-based jabber client which runs in the background
- * and can be controlled with basic command line tools to read from / write
+ * and can be accountled with basic command line tools to read from / write
  * into the files/FIFOs sxc creates.
  */
 
@@ -70,7 +70,7 @@
  * @brief The starting point of sxc.
  *
  * Parse the parameters the program was started with and then initialize the
- * @ref Control::Control.
+ * @ref Account::Account.
  */
 int main(int argc, char *argv[])/*{{{*/
 {
@@ -108,14 +108,14 @@ int main(int argc, char *argv[])/*{{{*/
   gloox::Client client(jidJid, "", port.getValue());
   setupClient(client, name.getValue(), version.getValue());
 
-  Control::Roster roster(client);
+  Account::Roster roster(client);
 
-  Control::Control *control;
+  Account::Account *account;
   try {
-    control = new Control::Control(client, roster);
+    account = new Account::Account(client, roster);
   } catch (libsxc::Exception::Exception &e) {
     LOG<libsxc::Error>(e.getDescription());
-    // Don't delete control, as it failed to initialize.
+    // Don't delete account, as it failed to initialize.
     return e.getType();
   }
 
@@ -128,11 +128,11 @@ int main(int argc, char *argv[])/*{{{*/
   //libsxc::Signal::stopOn(waiter, SIGINT);
   //libsxc::Signal::stopOn(waiter, SIGTERM);
 
-  control->run(); // Starts threads.
+  account->run(); // Starts threads.
 
   waiter.run(); // Blocking. From this moment on signals are handled.
 
-  delete control;
+  delete account;
   return handler.getExitCode();
 }/*}}}*/
 

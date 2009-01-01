@@ -27,7 +27,7 @@
 
 /*}}}*/
 
-namespace Control
+namespace Account
 {
   namespace File
   {
@@ -41,14 +41,14 @@ namespace Control
     class Output : public ::File::AbcOutput
     {
       public:
-        // Output(Control::Control &control);/*{{{*/
+        // Output(Account::Account &account);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
-         * @param control Central object, holding account information
+         * @param account Central object, holding account information
          */
-        Output(Control::Control &control);
+        Output(Account::Account &account);
 
 /*}}}*/
 
@@ -56,11 +56,11 @@ namespace Control
 
 
       private:
-        // Control::Control *_control;/*{{{*/
+        // Account::Account *_account;/*{{{*/
 
-        /// Central control object, used for error handling or getting
+        /// Central account object, used for error handling or getting
         /// account information.
-        Control::Control *_control;
+        Account::Account *_account;
 
 /*}}}*/
         // std::string _createPath() const;/*{{{*/

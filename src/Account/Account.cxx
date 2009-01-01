@@ -1,4 +1,4 @@
-#line 2 "sxc:Control/Control.cxx"
+#line 2 "sxc:Account/Account.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -35,9 +35,9 @@
 #include <libsxc/generateString.hxx>
 #include <libsxc/Exception/Exception.hxx>
 
-#include <Control/Control.hxx>
-#include <Control/Roster.hxx>
-#include <Control/File/Input.hxx>
+#include <Account/Account.hxx>
+#include <Account/Roster.hxx>
+#include <Account/File/Input.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -54,9 +54,9 @@
 using libsxc::Debug;
 using libsxc::Error;
 
-namespace Control
+namespace Account
 {
-  Control::Control(/*{{{*/
+  Account::Account(/*{{{*/
     gloox::Client &client,
     Roster &roster)
   : _client(client) // Fill in the passphrase later.
@@ -82,7 +82,7 @@ namespace Control
         &_logHandler);
 #   endif
   }/*}}}*/
-  Control::~Control()/*{{{*/
+  Account::~Account()/*{{{*/
   {
     LOG<Debug>("Exit.");
 
@@ -95,17 +95,17 @@ namespace Control
 #   endif
   }/*}}}*/
 
-  void Control::run()
+  void Account::run()
   {
     _input.listen();
   }
-  void Control::setPassphrase(const std::string &pass)/*{{{*/
+  void Account::setPassphrase(const std::string &pass)/*{{{*/
   {
     LOG<Debug>("Set passphrase: \"" + pass + "\".");
 
     _client.setPassword(pass);
   }/*}}}*/
-  void Control::setPresence(/*{{{*/
+  void Account::setPresence(/*{{{*/
     gloox::Presence::PresenceType presence,
     int priority,
     const std::string &status)
@@ -132,24 +132,24 @@ namespace Control
     else
       pthread_create(&_thread, NULL, _run, (void*)this);
   }/*}}}*/
-  void Control::setPresence(/*{{{*/
+  void Account::setPresence(/*{{{*/
     gloox::Presence::PresenceType presence,
     const std::string &status)
   {
     setPresence(presence, _priority, status);
   }/*}}}*/
-  void Control::setPriority(int priority)/*{{{*/
+  void Account::setPriority(int priority)/*{{{*/
   {
     setPresence(_presence, priority, _status);
   }/*}}}*/
-  void Control::disconnect()/*{{{*/
+  void Account::disconnect()/*{{{*/
   {
     LOG<Debug>("Disconnect.");
 
     _client.disconnect();
   }/*}}}*/
 
-  void Control::sendMessage(/*{{{*/
+  void Account::sendMessage(/*{{{*/
     const gloox::JID &to,
     const std::string &body)
   {
@@ -159,34 +159,34 @@ namespace Control
       body);
     _client.send(message);
   }/*}}}*/
-  void Control::addContact(const gloox::JID &jid)/*{{{*/
+  void Account::addContact(const gloox::JID &jid)/*{{{*/
   {
     _roster.addContact(jid);
   }/*}}}*/
-  void Control::removeContact(const gloox::JID &jid) const/*{{{*/
+  void Account::removeContact(const gloox::JID &jid) const/*{{{*/
   {
     _roster.removeContact(jid);
   }/*}}}*/
-  void Control::subscribe(const gloox::JID &jid, const std::string &message) const/*{{{*/
+  void Account::subscribe(const gloox::JID &jid, const std::string &message) const/*{{{*/
   {
     _roster.subscribe(jid, message);
   }/*}}}*/
-  void Control::unsubscribe(/*{{{*/
+  void Account::unsubscribe(/*{{{*/
     const gloox::JID &jid,
     const std::string &message) const
   {
     _roster.unsubscribe(jid, message);
   }/*}}}*/
-  void Control::acknowledgeSubscription(const gloox::JID &jid) const/*{{{*/
+  void Account::acknowledgeSubscription(const gloox::JID &jid) const/*{{{*/
   {
     _roster.acknowledgeSubscription(jid);
   }/*}}}*/
-  void Control::declineSubscription(const gloox::JID &jid) const/*{{{*/
+  void Account::declineSubscription(const gloox::JID &jid) const/*{{{*/
   {
     _roster.declineSubscription(jid);
   }/*}}}*/
 
-  void Control::handleError(/*{{{*/
+  void Account::handleError(/*{{{*/
     libsxc::Exception::Exception &e,
     bool isCritical) const
   {
@@ -197,24 +197,24 @@ namespace Control
     print(e.getDescription());
   }/*}}}*/
 
-  void Control::print(std::string text) const/*{{{*/
+  void Account::print(std::string text) const/*{{{*/
   {
   }/*}}}*/
 
-  Roster &Control::getRoster()/*{{{*/
+  Roster &Account::getRoster()/*{{{*/
   {
     return _roster;
   }/*}}}*/
-  const gloox::JID &Control::getJid()/*{{{*/
+  const gloox::JID &Account::getJid()/*{{{*/
   {
     return _client.jid();
   }/*}}}*/
 
-  void Control::onConnect()/*{{{*/
+  void Account::onConnect()/*{{{*/
   {
     LOG<Debug>("Connected: Connection established.");
   }/*}}}*/
-  void Control::onDisconnect(gloox::ConnectionError e)/*{{{*/
+  void Account::onDisconnect(gloox::ConnectionError e)/*{{{*/
   {
     LOG<Debug>("Disconnected: " + libsxc::genConnErrorString(
       e,
@@ -231,18 +231,18 @@ namespace Control
     if (!text.empty())
       print("Disconnected: " + text);
   }/*}}}*/
-  bool Control::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
+  bool Account::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
   {
     LOG<Debug>("Acknowledge TLS certificate.");
 
     return true;
   }/*}}}*/
 
-  void *Control::_run(void *rawThat)/*{{{*/
+  void *Account::_run(void *rawThat)/*{{{*/
   {
     LOG<Debug>("Start socket receiving thread.");
 
-    Control *that = (Control *) rawThat;
+    Account *that = (Account *) rawThat;
     that->_client.connect(); // Blocking.
 
     LOG<Debug>("End socket receiving thread.");
