@@ -3,7 +3,8 @@ SUBDIRS = Error Time Exception CommandParser File Contact Control
 noinst_LTLIBRARIES = libSrc.la
 libSrc_la_CPPFLAGS = $(GLOOX_CFLAGS)
 libSrc_la_SOURCES =\
-    LogHandler.cxx
+    LogHandler.cxx \
+    setupClient.cxx
 
 bin_PROGRAMS = sxc
 sxc_CPPFLAGS = $(GLOOX_CFLAGS) $(LIBSXC_CFLAGS)
