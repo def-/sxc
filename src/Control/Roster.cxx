@@ -31,12 +31,12 @@
 #include <gloox/iq.h>
 #include <gloox/message.h>
 #include <gloox/messagehandler.h>
+#include <gloox/error.h>
 
 #include <libsxc/generateString.hxx>
 #include <libsxc/Exception/GlooxException.hxx>
 
 #include <Control/Roster.hxx>
-#include <Control/Control.hxx>
 #include <Contact/Contact.hxx>
 
 #ifdef HAVE_CONFIG_H
@@ -47,22 +47,19 @@
 
 /*}}}*/
 
-using libsxc::Debug;
-
 namespace Control
 {
-  Roster::Roster(Control *control, gloox::Client *client)/*{{{*/
+  Roster::Roster(gloox::Client &client)/*{{{*/
   : RosterListener(),
-    _control(control),
     _client(client),
     _contacts()
   {
     // Asynchronous subscription request handling.
-    _client->rosterManager()->registerRosterListener(this, false);
+    _client.rosterManager()->registerRosterListener(this, false);
   }/*}}}*/
   Roster::~Roster()/*{{{*/
   {
-    _client->rosterManager()->removeRosterListener();
+    _client.rosterManager()->removeRosterListener();
 
     for(
     contactList::iterator entry = _contacts.begin();
@@ -91,8 +88,8 @@ namespace Control
 
     LOG2("Remove contact from the roster: \"" + jid.bare() + "\".");
 
-    _client->rosterManager()->remove(jid);
-    _client->rosterManager()->synchronize();
+    _client.rosterManager()->remove(jid);
+    _client.rosterManager()->synchronize();
   }/*}}}*/
 
   void Roster::subscribe(/*{{{*/
@@ -106,8 +103,8 @@ namespace Control
       "\", message: \"" + message + "\").");
 
     const gloox::StringList groups;
-    _client->rosterManager()->subscribe(jid, jid.bare(), groups, message);
-    _client->rosterManager()->synchronize();
+    _client.rosterManager()->subscribe(jid, jid.bare(), groups, message);
+    _client.rosterManager()->synchronize();
   }/*}}}*/
   void Roster::unsubscribe(/*{{{*/
     const gloox::JID &jid,
@@ -119,8 +116,8 @@ namespace Control
       "Sending unsubscription request: (jid: \"" + jid.bare() +
       "\", message: \"" + message + "\").");
 
-    _client->rosterManager()->unsubscribe(jid, message);
-    _client->rosterManager()->synchronize();
+    _client.rosterManager()->unsubscribe(jid, message);
+    _client.rosterManager()->synchronize();
   }/*}}}*/
 
   void Roster::acknowledgeSubscription(const gloox::JID &jid) const/*{{{*/
@@ -128,14 +125,14 @@ namespace Control
     LOG2(
       "Acknowledge subscription request: \"" + jid.bare() + "\".");
 
-    _client->rosterManager()->ackSubscriptionRequest(jid, true);
+    _client.rosterManager()->ackSubscriptionRequest(jid, true);
   }/*}}}*/
   void Roster::declineSubscription(const gloox::JID &jid) const/*{{{*/
   {
     LOG2(
       "Decline subscription request: \"" + jid.bare() + "\".");
 
-    _client->rosterManager()->ackSubscriptionRequest(jid, false);
+    _client.rosterManager()->ackSubscriptionRequest(jid, false);
   }/*}}}*/
 
   void Roster::handleMessage(/*{{{*/
@@ -155,13 +152,13 @@ namespace Control
     gloox::MessageHandler *handler,
     const gloox::JID &jid)
   {
-    gloox::MessageSession *session = new gloox::MessageSession(_client, jid);
+    gloox::MessageSession *session = new gloox::MessageSession(&_client, jid);
     session->registerMessageHandler(handler);
     return session;
   }/*}}}*/
   void Roster::disposeMessageSession(gloox::MessageSession *session)/*{{{*/
   {
-    _client->disposeMessageSession(session);
+    _client.disposeMessageSession(session);
   }/*}}}*/
 
   void Roster::handleItemAdded(const gloox::JID &jid)/*{{{*/
@@ -184,7 +181,7 @@ namespace Control
     delete contact->second;
     _contacts.erase(contact);
 
-    _control->print("Contact removed: \"" + jid.bare() + "\".");
+    // _control->print("Contact removed: \"" + jid.bare() + "\".");
   }/*}}}*/
   void Roster::handleItemUpdated(const gloox::JID &jid)/*{{{*/
   {
@@ -248,8 +245,8 @@ namespace Control
     if (_contacts.end() == contact)
       return true;
 
-    _control->print(
-      "Subscription request received: \"" + jid.bare() + "\"");
+    //_control->print(
+    //  "Subscription request received: \"" + jid.bare() + "\"");
 
     return true;
   }/*}}}*/
@@ -265,8 +262,8 @@ namespace Control
     if (_contacts.end() == contact)
       return true;
 
-    _control->print(
-      "Unsubscription request received: \"" + jid.bare() + "\"");
+    //_control->print(
+    //  "Unsubscription request received: \"" + jid.bare() + "\"");
 
     return true;
   }/*}}}*/
@@ -286,15 +283,15 @@ namespace Control
         libsxc::genStanzaErrorString(error->error()));
 
     // FIXME: Use handleError
-    if (error)
-      _control->print(
-        "Roster error received: " +
-        libsxc::genStanzaErrorString(error->error()));
+    //if (error)
+    //  _control->print(
+    //    "Roster error received: " +
+    //    libsxc::genStanzaErrorString(error->error()));
   }/*}}}*/
 
   void Roster::_checkClient() const/*{{{*/
   {
-    if (!gloox::StateConnected == _client->state())
+    if (!gloox::StateConnected == _client.state())
       throw libsxc::Exception::GlooxException(
         libsxc::Exception::InvalidUsage,
         "Connection ist not established.");
@@ -307,8 +304,8 @@ namespace Control
     _checkClient();
 
     const gloox::StringList groups;
-    _client->rosterManager()->add(jid, jid.bare(), groups);
-    _client->rosterManager()->synchronize();
+    _client.rosterManager()->add(jid, jid.bare(), groups);
+    _client.rosterManager()->synchronize();
   }/*}}}*/
   void Roster::_addContactLocal(const gloox::JID &jid)/*{{{*/
   {

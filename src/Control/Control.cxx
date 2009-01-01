@@ -62,7 +62,7 @@ namespace Control
     const std::string &name,
     const std::string &version)
   : _client(jid, "", port), // Fill in the passphrase later.
-    _roster(this, &_client),
+    _roster(_client),
 #   ifdef DEBUG
       _logHandler(),
 #   endif

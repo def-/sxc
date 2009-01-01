@@ -46,8 +46,6 @@
 
 namespace Control
 {
-  class Control;
-
   //typedef map<const string, Contact> contactList;/*{{{*/
 
   /// A map of JIDs and Contact-objects.
@@ -63,7 +61,7 @@ namespace Control
   class Roster : public gloox::RosterListener, public gloox::MessageHandler
   {
     public:
-      //Roster(Control *control, gloox::Client *client);/*{{{*/
+      //Roster(gloox::Client &client);/*{{{*/
 
       /**
        * @brief Initialise the roster and register with the client.
@@ -71,7 +69,7 @@ namespace Control
        * @param control The control object.
        * @param client The client instance to register with.
        */
-      Roster(Control *control, gloox::Client *client);
+      Roster(gloox::Client &client);
 
 /*}}}*/
       //~Roster();/*{{{*/
@@ -441,14 +439,9 @@ namespace Control
 
 /*}}}*/
 
-      //Control *_control;/*{{{*/
+      //gloox::Client &_client;/*{{{*/
       /// The client object this roster is bound to.
-      Control *_control;
-
-/*}}}*/
-      //gloox::Client *_client;/*{{{*/
-      /// The client object this roster is bound to.
-      gloox::Client *_client;
+      gloox::Client &_client;
 
 /*}}}*/
       //contactList _contacts;/*{{{*/
