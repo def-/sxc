@@ -27,8 +27,9 @@
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
 
-/*}}}*/
+//#include <File/AbcOutput.hxx>
 
+/*}}}*/
 
 namespace Error
 {
@@ -41,7 +42,7 @@ namespace Error
 
       /**
        */
-      Handler(libsxc::Signal::Waiter &waiter);
+      Handler(libsxc::Signal::Waiter &waiter /*, File::AbcOutput &out*/);
 
 /*}}}*/
       //int getExitCode();/*{{{*/
@@ -76,6 +77,7 @@ namespace Error
 
     private:
       int _exitCode;
+      //File::AbcOutput &_out;
   };
 }
 

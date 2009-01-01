@@ -25,6 +25,7 @@
 #include <libsxc/Signal/stopOn.hxx>
 
 #include <Error/Handler.hxx>
+//#include <File/AbcOutput.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -36,8 +37,9 @@
 
 namespace Error
 {
-  Handler::Handler(libsxc::Signal::Waiter &waiter)/*{{{*/
+  Handler::Handler(libsxc::Signal::Waiter &waiter/*, File::AbcOutput &out*/)/*{{{*/
   : libsxc::Signal::Stopper(waiter)
+  //, _out(out)
   {
   }/*}}}*/
 
@@ -48,12 +50,12 @@ namespace Error
 
   void Handler::print(const std::string &message)/*{{{*/
   {
-    // FIXME
+    //_out.write(message);
   }/*}}}*/
 
   void Handler::printCritical(const std::string &message)/*{{{*/
   {
-    // FIXME
+    std::cerr << message << std::endl;
   }/*}}}*/
 
   void Handler::terminate(int exitCode)/*{{{*/
