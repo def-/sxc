@@ -1,4 +1,4 @@
-#line 1 "sxc:Exception/FileInputException.cxx"
+#line 2 "sxc:Exception/FileInputException.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client

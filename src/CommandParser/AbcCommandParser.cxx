@@ -1,4 +1,4 @@
-#line 1 "sxc:CommandParser/AbcCommandParser.cxx"
+#line 2 "sxc:CommandParser/AbcCommandParser.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
