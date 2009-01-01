@@ -1,4 +1,4 @@
-#line 1 "sxc:Control/Command.cxx"
+#line 2 "sxc:Control/Command.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client

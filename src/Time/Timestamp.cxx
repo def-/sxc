@@ -1,4 +1,4 @@
-#line 1 "sxc:Time/Timestamp.cxx"
+#line 2 "sxc:Time/Timestamp.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client

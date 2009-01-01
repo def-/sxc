@@ -1,4 +1,4 @@
-#line 1 "sxc:Exception/Errno.cxx"
+#line 2 "sxc:Exception/Errno.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
