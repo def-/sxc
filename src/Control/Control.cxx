@@ -56,7 +56,9 @@ using libsxc::Error;
 
 namespace Control
 {
-  Control::Control(gloox::Client &client, Roster &roster)/*{{{*/
+  Control::Control(/*{{{*/
+    gloox::Client &client,
+    Roster &roster)
   : _client(client) // Fill in the passphrase later.
   , _roster(roster)
 #   ifdef DEBUG
@@ -66,7 +68,7 @@ namespace Control
   , _priority(0)
   , _status("")
   // FIXME
-  //, _output(this, jid.bare())
+  //, _out(out)
   , _input(*this)
   , _thread()
   {
@@ -197,8 +199,6 @@ namespace Control
 
   void Control::print(std::string text) const/*{{{*/
   {
-    // FIXME
-    //_output->write(text);
   }/*}}}*/
 
   Roster &Control::getRoster()/*{{{*/

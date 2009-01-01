@@ -60,12 +60,12 @@ namespace Control
   class Control : public gloox::ConnectionListener
   {
     public:
-      //Control(&client, Control::Roster &roster);/*{{{*/
+      //Control(&client, &roster);/*{{{*/
 
       /**
        * @brief The constructor.
        */
-      Control(gloox::Client &client, Roster &roster);
+      Control(gloox::Client &client, Roster &roster/*,t ::File::AbcOutput &out*/);
 
 /*}}}*/
       //~Control();/*{{{*/
@@ -230,7 +230,8 @@ namespace Control
 
 /*}}}*/
 
-      //int print(std::string text) const;/*{{{*/
+      // FIXME: Remove this! Use Output object directly instead.
+      //void print(std::string text) const;/*{{{*/
 
       /**
        * @brief Print a text to the output file.
@@ -244,7 +245,7 @@ namespace Control
 
 /*}}}*/
 
-      // FIXME: Remove this!
+      // FIXME: Remove this! Use wrapper methods instead.
       //Roster &getRoster();/*{{{*/
 
       /**
