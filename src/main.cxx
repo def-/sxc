@@ -40,6 +40,7 @@
 
 #include <Control/Control.hxx>
 #include <Error/Handler.hxx>
+#include <setupClient.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -102,13 +103,13 @@ int main(int argc, char *argv[])/*{{{*/
   if ("" == jidJid.resource())
     jidJid.setResource(defaultResource);
 
+  // Fill in the passphrase later.
+  gloox::Client client(jidJid, "", port.getValue());
+  setupClient(client, name.getValue(), version.getValue());
+
   Control::Control *control;
   try {
-    control = new Control::Control(
-      jidJid,
-      port.getValue(),
-      name.getValue(),
-      version.getValue());
+    control = new Control::Control(client);
   } catch (libsxc::Exception::Exception &e) {
     LOG<libsxc::Error>(e.getDescription());
     // Don't delete control, as it failed to initialize.

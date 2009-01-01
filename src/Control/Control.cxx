@@ -56,23 +56,19 @@ using libsxc::Error;
 
 namespace Control
 {
-  Control::Control(/*{{{*/
-    const gloox::JID &jid,
-    int port,
-    const std::string &name,
-    const std::string &version)
-  : _client(jid, "", port), // Fill in the passphrase later.
-    _roster(_client),
+  Control::Control(gloox::Client &client)/*{{{*/
+  : _client(client) // Fill in the passphrase later.
+  , _roster(_client)
 #   ifdef DEBUG
-      _logHandler(),
+  ,   _logHandler()
 #   endif
-    _presence(gloox::Presence::Available),
-    _priority(0),
-    _status(""),
+  , _presence(gloox::Presence::Available)
+  , _priority(0)
+  , _status("")
   // FIXME
-  //  _output(this, jid.bare()),
-    _input(*this),
-    _thread()
+  //, _output(this, jid.bare())
+  , _input(*this)
+  , _thread()
   {
     _client.registerConnectionListener(this);
     _client.registerMessageHandler(&_roster);
@@ -83,23 +79,6 @@ namespace Control
         gloox::LogAreaAll,
         &_logHandler);
 #   endif
-
-    // "console" is not exactly what sxc is, but "pc" is described as a
-    // full-featured GUI.
-    const std::string category = "client";
-    const std::string type = "console";
-
-    LOG<Debug>(
-      "Set identity: (category: \"" + category + "\", type: \"" +
-      type + "\", name: \"" + name + "\").");
-
-    _client.disco()->setIdentity(category, type, name);
-
-    LOG<Debug>(
-      "Set version: (name: \"" + name + "\", version: \"" +
-      version + "\").");
-
-    _client.disco()->setVersion(name, version);
   }/*}}}*/
   Control::~Control()/*{{{*/
   {

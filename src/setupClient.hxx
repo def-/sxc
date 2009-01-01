@@ -24,6 +24,11 @@
 //void setupClient(&client, const &name, const &version);/*{{{*/
 
 /**
+ * Setup the client object.
+ *
+ * @param client The client object.
+ * @param name The name to announce.
+ * @param version The version to announce.
  */
 void setupClient(
   gloox::Client &client,

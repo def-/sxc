@@ -59,29 +59,12 @@ namespace Control
   class Control : public gloox::ConnectionListener
   {
     public:
-      //Control(&jid, port, &name, &version, resource);/*{{{*/
+      //Control(&client);/*{{{*/
 
       /**
        * @brief The constructor.
-       *
-       * Create new instances of @ref File::Input, and @ref File::Output.
-       * Also save the parameters to be able to use them when connecting
-       * to the server on a call to @ref setPresence(). Create a client,
-       * but don't connect to the server.
-       *
-       * @warning The parameters won't be checked for validity.
-       *
-       * @param jid A valid JID.
-       * @param port The port on the server to connect to. -1 to use
-       *        the default one.
-       * @param name The name to announce.
-       * @param version The version to announce.
        */
-      Control(
-        const gloox::JID &jid,
-        int port,
-        const std::string &name,
-        const std::string &version);
+      Control(gloox::Client &client);
 
 /*}}}*/
       //~Control();/*{{{*/
@@ -380,10 +363,10 @@ namespace Control
 
 /*}}}*/
 
-      //gloox::Client _client;/*{{{*/
+      //gloox::Client &_client;/*{{{*/
 
       /// The XMPP client.
-      gloox::Client _client;
+      gloox::Client &_client;
 
 /*}}}*/
       //Roster _roster;/*{{{*/
