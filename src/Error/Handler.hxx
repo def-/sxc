@@ -52,18 +52,18 @@ namespace Error
 
 /*}}}*/
       // From Error::Handler
-      //void listen(const std::string &message);/*{{{*/
+      //void print(const std::string &message);/*{{{*/
 
       /**
        */
-      void listen(const std::string &message);
+      void print(const std::string &message);
 
   /*}}}*/
-      //void listenCritical(const std::string &message);/*{{{*/
+      //void printCritical(const std::string &message);/*{{{*/
 
       /**
        */
-      void listenCritical(const std::string &message);
+      void printCritical(const std::string &message);
 
   /*}}}*/
       //void terminate(int exitCode);/*{{{*/

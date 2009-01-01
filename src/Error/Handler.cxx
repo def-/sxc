@@ -46,12 +46,12 @@ namespace Error
     return _exitCode;
   }/*}}}*/
 
-  void Handler::listen(const std::string &message)/*{{{*/
+  void Handler::print(const std::string &message)/*{{{*/
   {
     // FIXME
   }/*}}}*/
 
-  void Handler::listenCritical(const std::string &message)/*{{{*/
+  void Handler::printCritical(const std::string &message)/*{{{*/
   {
     // FIXME
   }/*}}}*/
