@@ -183,6 +183,52 @@ namespace Control
       void sendMessage(const gloox::JID &to, const std::string &body);
 
 /*}}}*/
+      //void addContact(const gloox::JID &jid) const;/*{{{*/
+
+      /**
+       */
+      void addContact(const gloox::JID &jid);
+
+/*}}}*/
+      //void removeContact(const gloox::JID &jid) const;/*{{{*/
+
+      /**
+       */
+      void removeContact(const gloox::JID &jid) const;
+
+/*}}}*/
+      //void subscribe(const JID &jid, &message=EmptyString) const;/*{{{*/
+
+      /**
+       */
+      void subscribe(
+        const gloox::JID &jid,
+        const std::string &message=gloox::EmptyString) const;
+
+/*}}}*/
+      //void unsubscribe(const JID &jid, &message=Empty) const;/*{{{*/
+
+      /**
+       */
+      void unsubscribe(
+        const gloox::JID &jid,
+        const std::string &message=gloox::EmptyString) const;
+
+/*}}}*/
+      //void acknowledgeSubscription(const gloox::JID &jid) const;/*{{{*/
+
+      /**
+       */
+      void acknowledgeSubscription(const gloox::JID &jid) const;
+
+/*}}}*/
+      //void declineSubscription(const gloox::JID &jid) const;/*{{{*/
+
+      /**
+       */
+      void declineSubscription(const gloox::JID &jid) const;
+
+/*}}}*/
 
       //void handleError(Exception &e, isCritical=false) const;/*{{{*/
 

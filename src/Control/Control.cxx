@@ -167,6 +167,7 @@ namespace Control
 
     _client.disconnect();
   }/*}}}*/
+
   void Control::sendMessage(/*{{{*/
     const gloox::JID &to,
     const std::string &body)
@@ -176,6 +177,32 @@ namespace Control
       to,
       body);
     _client.send(message);
+  }/*}}}*/
+  void Control::addContact(const gloox::JID &jid)/*{{{*/
+  {
+    _roster.addContact(jid);
+  }/*}}}*/
+  void Control::removeContact(const gloox::JID &jid) const/*{{{*/
+  {
+    _roster.removeContact(jid);
+  }/*}}}*/
+  void Control::subscribe(const gloox::JID &jid, const std::string &message) const/*{{{*/
+  {
+    _roster.subscribe(jid, message);
+  }/*}}}*/
+  void Control::unsubscribe(/*{{{*/
+    const gloox::JID &jid,
+    const std::string &message) const
+  {
+    _roster.unsubscribe(jid, message);
+  }/*}}}*/
+  void Control::acknowledgeSubscription(const gloox::JID &jid) const/*{{{*/
+  {
+    _roster.acknowledgeSubscription(jid);
+  }/*}}}*/
+  void Control::declineSubscription(const gloox::JID &jid) const/*{{{*/
+  {
+    _roster.declineSubscription(jid);
   }/*}}}*/
 
   void Control::handleError(/*{{{*/
