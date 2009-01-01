@@ -56,9 +56,9 @@ using libsxc::Error;
 
 namespace Control
 {
-  Control::Control(gloox::Client &client)/*{{{*/
+  Control::Control(gloox::Client &client, Roster &roster)/*{{{*/
   : _client(client) // Fill in the passphrase later.
-  , _roster(_client)
+  , _roster(roster)
 #   ifdef DEBUG
   ,   _logHandler()
 #   endif

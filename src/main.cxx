@@ -39,6 +39,7 @@
 #include <libsxc/Signal/stopOn.hxx>
 
 #include <Control/Control.hxx>
+#include <Control/Roster.hxx>
 #include <Error/Handler.hxx>
 #include <setupClient.hxx>
 
@@ -107,9 +108,11 @@ int main(int argc, char *argv[])/*{{{*/
   gloox::Client client(jidJid, "", port.getValue());
   setupClient(client, name.getValue(), version.getValue());
 
+  Control::Roster roster(client);
+
   Control::Control *control;
   try {
-    control = new Control::Control(client);
+    control = new Control::Control(client, roster);
   } catch (libsxc::Exception::Exception &e) {
     LOG<libsxc::Error>(e.getDescription());
     // Don't delete control, as it failed to initialize.

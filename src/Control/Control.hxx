@@ -36,7 +36,6 @@
 
 #include <libsxc/Exception/Exception.hxx>
 
-#include <Control/Roster.hxx>
 #include <Control/File/Input.hxx>
 #include <LogHandler.hxx>
 
@@ -50,6 +49,8 @@
  */
 namespace Control
 {
+  class Roster;
+
   /**
    * @brief The central class connecting and controlling other classes.
    *
@@ -59,12 +60,12 @@ namespace Control
   class Control : public gloox::ConnectionListener
   {
     public:
-      //Control(&client);/*{{{*/
+      //Control(&client, Control::Roster &roster);/*{{{*/
 
       /**
        * @brief The constructor.
        */
-      Control(gloox::Client &client);
+      Control(gloox::Client &client, Roster &roster);
 
 /*}}}*/
       //~Control();/*{{{*/
@@ -243,6 +244,7 @@ namespace Control
 
 /*}}}*/
 
+      // FIXME: Remove this!
       //Roster &getRoster();/*{{{*/
 
       /**
@@ -369,10 +371,10 @@ namespace Control
       gloox::Client &_client;
 
 /*}}}*/
-      //Roster _roster;/*{{{*/
+      //Roster &_roster;/*{{{*/
 
       /// The roster operation listener.
-      Roster _roster;
+      Roster &_roster;
 
 /*}}}*/
 #     if DEBUG
