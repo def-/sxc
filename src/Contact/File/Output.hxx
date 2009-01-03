@@ -23,9 +23,8 @@
 // INCLUDES/*{{{*/
 
 #include <string>
+
 #include <File/AbcOutput.hxx>
-#include <Account/Account.hxx>
-#include <Contact/Contact.hxx>
 
 /*}}}*/
 
@@ -43,32 +42,21 @@ namespace Contact
     class Output : public ::File::AbcOutput
     {
       public:
-        // Output(Account::Account &account, Contact &contact);/*{{{*/
+        // Output(const string accountJid, const string contactJid);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
-         * @param account Central object, holding account information
-         * @param contact Contact to which this output belongs
+         * @param accountJid Our local jid.
+         * @param contactJid The remote contact's jid.
          */
-        Output(Account::Account &account, Contact &contact);
+        Output(const std::string accountJid, const std::string contactJid);
 
 /*}}}*/
 
       private:
-        // Account::Account *_account;/*{{{*/
-
-        /// Central account object, used for error handling or getting
-        /// account information.
-        Account::Account *_account;
-
-/*}}}*/
-        // Contact *_contact;/*{{{*/
-
-        /// Contact to which this output belongs.
-        Contact *_contact;
-
-/*}}}*/
+        const std::string _accountJid;
+        const std::string _contactJid;
         // std::string _createPath() const;/*{{{*/
 
         /**

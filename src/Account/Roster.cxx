@@ -38,6 +38,7 @@
 
 #include <Account/Roster.hxx>
 #include <Contact/Contact.hxx>
+#include <Contact/File/Output.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -317,9 +318,13 @@ namespace Account
       return;
     }
 
+    //Contact::File::Output out(_client.jid().bare(), jid.bare());
     _contacts.insert(std::make_pair(
       jid.bare(),
-      new Contact::Contact(*this, jid)));
+      new Contact::Contact(
+        *this,
+        jid,
+        *(new Contact::File::Output(_client.jid().bare(), jid.bare())))));
   }/*}}}*/
   contactList::iterator Roster::_getContact(const std::string &jid)/*{{{*/
   {

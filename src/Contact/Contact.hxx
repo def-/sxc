@@ -57,16 +57,16 @@ namespace Contact
   class Contact : public gloox::MessageHandler
   {
     public:
-      //Contact(&roster, &jid);/*{{{*/
+      //Contact(&roster, &jid, &output);/*{{{*/
 
       /**
        * @brief Initialise the contact.
        *
        * @param roster The roster this contact belongs to.
-       * @param output The object to write contact relevant output to.
-       * @param input The object to get input from.
+       * @param out The object to write contact relevant output to. Takes the ownership
+       * @param in The object to get input from.
        */
-      Contact(Account::Roster &roster, const gloox::JID &jid /*, ::File::AbcOutput &output, ::File::AbcInput &input */);
+      Contact(Account::Roster &roster, const gloox::JID &jid, ::File::AbcOutput &out/*, ::File::AbcInput &in*/);
 
 /*}}}*/
       //~Contact();/*{{{*/
@@ -170,7 +170,7 @@ namespace Contact
       Account::Roster &_roster;
       gloox::MessageSession *_session;
       //::File::AbcInput &_input;
-      //::File::AbcOutput &_output;
+      ::File::AbcOutput &_out;
   };
 }
 

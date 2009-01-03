@@ -25,8 +25,7 @@
 #endif
 
 #include <string>
-#include <Account/Account.hxx>
-#include <Contact/Contact.hxx>
+
 #include <Contact/File/Output.hxx>
 #include <Time/Timestamp.hxx>
 #include <Time/LocalDateTime.hxx>
@@ -38,17 +37,16 @@ namespace Contact
 {
   namespace File
   {
-    Output::Output(Account::Account &account, Contact &contact)/*{{{*/
-    : _account(&account)
-    , _contact(&contact)
+    Output::Output(const std::string accountJid, const std::string contactJid)/*{{{*/
+    : _accountJid(accountJid)
+    , _contactJid(contactJid)
     {
     }
 
 /*}}}*/
     std::string Output::_createPath() const/*{{{*/
     {
-      return _account->getJid().bare() + '/'
-           + _contact->getJid().bare() + "/out";
+      return _accountJid + '/' + _contactJid + "/out";
     }
 
 /*}}}*/

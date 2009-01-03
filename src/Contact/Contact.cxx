@@ -43,9 +43,10 @@
 
 namespace Contact
 {
-  Contact::Contact(Account::Roster &roster, const gloox::JID &jid)/*{{{*/
+  Contact::Contact(Account::Roster &roster, const gloox::JID &jid, ::File::AbcOutput &out)/*{{{*/
   : _roster(roster)
   , _session(roster.createMessageSession(this, jid))
+  , _out(out)
   // FIXME: Files
   {
     LOG2("Create contact: \"" + jid.bare() + "\".");
@@ -60,6 +61,8 @@ namespace Contact
     // would handle this.
     //_client->disposeMessageSession(_session);
     _roster.disposeMessageSession(_session);
+
+    delete &_out;
   }/*}}}*/
 
   void Contact::printPresenceUpdate(/*{{{*/
