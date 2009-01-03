@@ -52,10 +52,7 @@ namespace Account
   class Roster;
 
   /**
-   * @brief The central class connecting and accountling other classes.
-   *
-   * This class initializes sxc's main input and output files, handles
-   * input and errors.
+   * @brief The account of the local user.
    */
   class Account : public gloox::ConnectionListener
   {

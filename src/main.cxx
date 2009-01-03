@@ -74,7 +74,6 @@
  */
 int main(int argc, char *argv[])/*{{{*/
 {
-  LOG2("foobar");
   libsxc::Option::Parser parser;
   parser.setHelp(PACKAGE " " VERSION " (C) " COPYRIGHT);
   parser.setVersion(VERSION);
