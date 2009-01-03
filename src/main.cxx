@@ -28,7 +28,6 @@
 #include <gloox/jid.h>
 
 #include <libsxc/Option/Parser.hxx>
-#include <libsxc/Option/parse.hxx>
 #include <libsxc/Option/Option.hxx>
 #include <libsxc/Option/OptionPort.hxx>
 #include <libsxc/Exception/Exception.hxx>
@@ -61,7 +60,7 @@
  * @section desc_sec Description
  * sxc (pronounced "sexy) is for jabber what ii (irc it / irc improved) is for
  * IRC: A minimalistic file-based jabber client which runs in the background
- * and can be accountled with basic command line tools to read from / write
+ * and can be controlled with basic command line tools to read from / write
  * into the files/FIFOs sxc creates.
  */
 
@@ -76,8 +75,6 @@
 int main(int argc, char *argv[])/*{{{*/
 {
   libsxc::Option::Parser parser;
-  parser.setHelp(PACKAGE " " VERSION " (C) " COPYRIGHT);
-  parser.setVersion(VERSION);
   libsxc::Option::Option<bool> defHelp(
     &parser, 'h', "help", "Show help and exit");
   libsxc::Option::Option<bool> defVersion(
@@ -97,8 +94,39 @@ int main(int argc, char *argv[])/*{{{*/
     &parser, ' ', "", "jid",
     "user@domain[/resource] (resource default: " + defaultResource + ")");
 
-  libsxc::Option::parse(parser, argv);
-  // FIXME: Handle exceptions.
+  try {
+    parser.parse(argv);
+  } catch (libsxc::Exception::OptionException &e) {
+    std::cerr << e.getDescription() << std::endl;
+    return e.getType();
+  } catch (libsxc::Exception::Exception &e) {
+    std::cerr << e.getDescription() << std::endl;
+    return 1;
+  } catch (std::exception &e) {
+    std::cerr << e.what() << std::endl;
+    return 1;
+  } catch (...) {
+    std::cerr << "Unexpected error parsing options." << std::endl;
+    return 1;
+  }
+
+  if (parser.doShowHelp()) {
+    std::cerr << PACKAGE " " VERSION " (C) " COPYRIGHT << std::endl;
+
+    std::vector<std::string> usage = parser.getUsage();
+    for(
+    std::vector<std::string>::iterator it = usage.begin();
+    usage.end() != it;
+    ++it) {
+      std::cerr << *it << std::endl;
+    }
+    return 0;
+  }
+
+  if (parser.doShowVersion()) {
+    std::cerr << VERSION << std::endl;
+    return 0;
+  }
 
   gloox::JID jidJid = jid.getValue();
   if ("" == jidJid.resource())
