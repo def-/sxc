@@ -41,14 +41,14 @@ namespace Account
     class Output : public ::File::AbcOutput
     {
       public:
-        // Output(Account::Account &account);/*{{{*/
+        // Output(const std::string accountJid);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
-         * @param account Central object, holding account information
+         * @param accountJid The JID of this local account.
          */
-        Output(Account::Account &account);
+        Output(const std::string accountJid);
 
 /*}}}*/
 
@@ -56,13 +56,7 @@ namespace Account
 
 
       private:
-        // Account::Account *_account;/*{{{*/
-
-        /// Central account object, used for error handling or getting
-        /// account information.
-        Account::Account *_account;
-
-/*}}}*/
+        const std::string _accountJid;
         // std::string _createPath() const;/*{{{*/
 
         /**

@@ -40,6 +40,7 @@
 
 #include <Account/Account.hxx>
 #include <Account/Roster.hxx>
+#include <Account/File/Output.hxx>
 #include <Error/Handler.hxx>
 #include <setupClient.hxx>
 
@@ -107,11 +108,13 @@ int main(int argc, char *argv[])/*{{{*/
   gloox::Client client(jidJid, "", port.getValue());
   setupClient(client, name.getValue(), version.getValue());
 
+  Account::File::Output out(jidJid.bare());
+
   Account::Roster roster(client);
 
   Account::Account *account;
   try {
-    account = new Account::Account(client, roster);
+    account = new Account::Account(client, roster, out);
   } catch (libsxc::Exception::Exception &e) {
     LOG<libsxc::Error>(e.getDescription());
     // Don't delete account, as it failed to initialize.

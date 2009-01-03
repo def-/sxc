@@ -25,7 +25,6 @@
 #endif
 
 #include <string>
-#include <Account/Account.hxx>
 #include <Account/File/Output.hxx>
 #include <Time/Timestamp.hxx>
 #include <Time/LocalDateTime.hxx>
@@ -37,15 +36,15 @@ namespace Account
 {
   namespace File
   {
-    Output::Output(Account::Account &account)/*{{{*/
-    : _account(&account)
+    Output::Output(const std::string accountJid)/*{{{*/
+    : _accountJid(accountJid)
     {
     }
 
 /*}}}*/
     std::string Output::_createPath() const/*{{{*/
     {
-      return _account->getJid().bare() + "/out";
+      return _accountJid + "/out";
     }
 
 /*}}}*/

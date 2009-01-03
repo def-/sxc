@@ -38,6 +38,7 @@
 #include <Account/Account.hxx>
 #include <Account/Roster.hxx>
 #include <Account/File/Input.hxx>
+#include <File/AbcOutput.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -58,7 +59,8 @@ namespace Account
 {
   Account::Account(/*{{{*/
     gloox::Client &client,
-    Roster &roster)
+    Roster &roster,
+    ::File::AbcOutput &out)
   : _client(client) // Fill in the passphrase later.
   , _roster(roster)
 #   ifdef DEBUG
@@ -67,8 +69,7 @@ namespace Account
   , _presence(gloox::Presence::Available)
   , _priority(0)
   , _status("")
-  // FIXME
-  //, _out(out)
+  , _out(out)
   , _input(*this)
   , _thread()
   {

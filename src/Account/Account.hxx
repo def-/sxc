@@ -38,6 +38,7 @@
 
 #include <Account/File/Input.hxx>
 #include <LogHandler.hxx>
+#include <File/AbcOutput.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -57,12 +58,12 @@ namespace Account
   class Account : public gloox::ConnectionListener
   {
     public:
-      //Account(&client, &roster);/*{{{*/
+      //Account(&client, &roster, &out);/*{{{*/
 
       /**
        * @brief The constructor.
        */
-      Account(gloox::Client &client, Roster &roster/*,t ::File::AbcOutput &out*/);
+      Account(gloox::Client &client, Roster &roster, ::File::AbcOutput &out);
 
 /*}}}*/
       //~Account();/*{{{*/
@@ -389,10 +390,10 @@ namespace Account
       File::Input _input;
 
 /*}}}*/
-      //File::Output _output;/*{{{*/
+      //::File::AbcOutput _out;/*{{{*/
 
       /// The output file.
-      //File::Output _output;
+      ::File::AbcOutput &_out;
 
 /*}}}*/
   };
