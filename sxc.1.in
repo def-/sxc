@@ -191,6 +191,8 @@ to this contact using the message if specified.
 .B :usc\fI " [message]"
 .B Unsubscribe
 from this contact using the message if specified.
+
+.TP
 .B :ack
 .B Acknowledge
 the subscription request of this contact.

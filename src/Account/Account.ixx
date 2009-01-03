@@ -1,4 +1,4 @@
-#line 2 "sxc:Error/Handler.cxx"
+#line 2 "sxc:Account/Account.ixx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -21,11 +21,9 @@
 
 // INCLUDE/*{{{*/
 
-#include <libsxc/Signal/Waiter.hxx>
-#include <libsxc/Signal/stopOn.hxx>
+#include <string>
 
-#include <Error/Handler.hxx>
-//#include <File/AbcOutput.hxx>
+#include <gloox/error.h>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -35,33 +33,26 @@
 
 /*}}}*/
 
-namespace Error
+using libsxc::Debug;
+
+namespace Account
 {
-  Handler::Handler(libsxc::Signal::Waiter &waiter/*, File::AbcOutput &out*/)/*{{{*/
-  : libsxc::Signal::Stopper(waiter)
-  //, _out(out)
+  inline void Account::onResourceBind(const std::string &resource)/*{{{*/
+  {
+    LOG<Debug>("Bind resouce: \"" + resource + "\".");
+  }/*}}}*/
+
+  inline void Account::onResourceBindError(const gloox::Error *error)/*{{{*/
+  {
+    LOG<Debug>("Resource bind error.");
+  }/*}}}*/
+
+  inline void Account::onSessionCreateError(const gloox::Error *error)/*{{{*/
   {
   }/*}}}*/
 
-  int Handler::getExitCode()/*{{{*/
+  inline void Account::onStreamEvent(gloox::StreamEvent event)/*{{{*/
   {
-    return _exitCode;
-  }/*}}}*/
-
-  void Handler::print(const std::string &message)/*{{{*/
-  {
-    //_out.write(message);
-  }/*}}}*/
-
-  void Handler::printCritical(const std::string &message)/*{{{*/
-  {
-    std::cerr << message << std::endl;
-  }/*}}}*/
-
-  void Handler::terminate(int exitCode)/*{{{*/
-  {
-    _exitCode = exitCode;
-    stop(); // Stop the waiter.
   }/*}}}*/
 }
 

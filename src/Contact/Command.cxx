@@ -34,8 +34,8 @@
 #include <Exception/InputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
 #include <Contact/Contact.hxx>
-#include <Control/Control.hxx>
-#include <Control/Roster.hxx>
+#include <Account/Account.hxx>
+#include <Account/Roster.hxx>
 #include <libsxc/Logger.hxx>
 
 /*}}}*/
@@ -49,12 +49,10 @@ using CommandParser::param;
 namespace Contact
 {
   Command::Command(/*{{{*/
-    Control::Control &control,
     Contact &contact,
     const std::string &command)
-  : AbcCommandParser(command),
-    _control(control),
-    _contact(contact)
+  : AbcCommandParser(command)
+  , _contact(contact)
   {
   }
 
@@ -91,19 +89,17 @@ namespace Contact
       const std::deque<std::string> parsed = getParsed();
       const std::string name = parsed.at(0);
 
-      Control::Roster &roster = _control.getRoster();
-
       if ("ack" == name) {/*{{{*/
-        roster.acknowledgeSubscription(_contact.getJid().bare());
+        _contact.acknowledgeSubscription();
 /*}}}*/
       } else if ("dec" == name) {/*{{{*/
-        roster.declineSubscription(_contact.getJid().bare());
+        _contact.declineSubscription();
 /*}}}*/
       } else if ("add" == name) {/*{{{*/
-        roster.addContact(_contact.getJid().bare());
+        _contact.add();
 /*}}}*/
       } else if ("del" == name) {/*{{{*/
-        roster.removeContact(_contact.getJid().bare());
+        _contact.remove();
 /*}}}*/
       } else if ("msg" == name) {/*{{{*/
         _contact.sendMessage(parsed.at(1));
@@ -125,10 +121,10 @@ namespace Contact
           libsxc::Exception::General, "Unimplemented.");
 /*}}}*/
       } else if ("sub" == name) {/*{{{*/
-        roster.subscribe(_contact.getJid().bare(), parsed.at(1));
+        _contact.subscribe(parsed.at(1));
 /*}}}*/
       } else if ("usc" == name) {/*{{{*/
-        roster.unsubscribe(_contact.getJid().bare(), parsed.at(1));
+        _contact.unsubscribe(parsed.at(1));
 /*}}}*/
       } else {/*{{{*/
         libsxc::Exception::Type t = libsxc::Exception::InvalidCommand;
@@ -142,7 +138,7 @@ namespace Contact
       // specification.
       std::string message = "out_of_range: ";
       message.append(e.what());
-      _control.print(message);
+      //_account.print(message); // FIXME
       LOG<Error>(message);
     }
   }

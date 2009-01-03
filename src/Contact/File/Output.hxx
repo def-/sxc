@@ -17,15 +17,14 @@
  */
 /*}}}*/
 
-#ifndef CONTROL_FILE_OUTPUT_HXX
-#define CONTROL_FILE_OUTPUT_HXX
+#ifndef ACCOUNT_FILE_OUTPUT_HXX
+#define ACCOUNT_FILE_OUTPUT_HXX
 
 // INCLUDES/*{{{*/
 
 #include <string>
+
 #include <File/AbcOutput.hxx>
-#include <Control/Control.hxx>
-#include <Contact/Contact.hxx>
 
 /*}}}*/
 
@@ -43,32 +42,21 @@ namespace Contact
     class Output : public ::File::AbcOutput
     {
       public:
-        // Output(Control::Control &control, Contact &contact);/*{{{*/
+        // Output(const string accountJid, const string contactJid);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
-         * @param control Central object, holding account information
-         * @param contact Contact to which this output belongs
+         * @param accountJid Our local jid.
+         * @param contactJid The remote contact's jid.
          */
-        Output(Control::Control &control, Contact &contact);
+        Output(const std::string accountJid, const std::string contactJid);
 
 /*}}}*/
 
       private:
-        // Control::Control *_control;/*{{{*/
-
-        /// Central control object, used for error handling or getting
-        /// account information.
-        Control::Control *_control;
-
-/*}}}*/
-        // Contact *_contact;/*{{{*/
-
-        /// Contact to which this output belongs.
-        Contact *_contact;
-
-/*}}}*/
+        const std::string _accountJid;
+        const std::string _contactJid;
         // std::string _createPath() const;/*{{{*/
 
         /**
@@ -96,7 +84,7 @@ namespace Contact
   }
 }
 
-#endif // CONTROL_FILE_OUTPUT_HXX
+#endif // ACCOUNT_FILE_OUTPUT_HXX
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

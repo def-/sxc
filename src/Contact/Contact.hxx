@@ -32,9 +32,15 @@
 #include <gloox/messagehandler.h>
 #include <gloox/presence.h>
 
-//#include <Contact/File/Input.hxx>
+#include <File/AbcInput.hxx>
+#include <File/AbcOutput.hxx>
 
 /*}}}*/
+
+namespace Account
+{
+  class Roster;
+}
 
 /**
  * @brief Contains the classes for contacts.
@@ -45,17 +51,21 @@ namespace Contact
    * @brief A representation of a contact.
    *
    * Objects of this class get called when a message for the represented
-   * contact gets in.
+   * contact gets in. This class does not register itself as the message
+   * handler.
    */
   class Contact : public gloox::MessageHandler
   {
     public:
-      //Contact(gloox::ClientBase *client, const gloox::JID &jid);/*{{{*/
+      //Contact(&roster, &jid, &out);/*{{{*/
 
       /**
        * @brief Initialise the contact.
+       *
+       * @param roster The roster this contact belongs to.
+       * @param out The object to write contact relevant output to. Takes ownership.
        */
-      Contact(gloox::ClientBase *client, const gloox::JID &jid);
+      Contact(Account::Roster &roster, const gloox::JID &jid, ::File::AbcOutput &out);
 
 /*}}}*/
       //~Contact();/*{{{*/
@@ -101,6 +111,7 @@ namespace Contact
       const gloox::JID &getJid();
 
 /*}}}*/
+
       //void sendMessage(const std::string &message);/*{{{*/
 
       /**
@@ -111,14 +122,57 @@ namespace Contact
       void sendMessage(const std::string &message);
 
 /*}}}*/
-    private:
-      //File::Input *_input;
-      //File::Output *_output;
-      gloox::ClientBase *_client;
-      gloox::MessageSession *_session;
+      //void add();/*{{{*/
 
+      /**
+       */
+      void add();
+
+/*}}}*/
+      //void remove();/*{{{*/
+
+      /**
+       */
+      void remove();
+
+/*}}}*/
+      //void subscribe(const std::string &message=gloox::EmptyString);/*{{{*/
+
+      /**
+       */
+      void subscribe(const std::string &message=gloox::EmptyString);
+
+/*}}}*/
+      //void unsubscribe(const std::string &message=gloox::EmptyString);/*{{{*/
+
+      /**
+       */
+      void unsubscribe(const std::string &message=gloox::EmptyString);
+
+/*}}}*/
+      //void acknowledgeSubscription();/*{{{*/
+
+      /**
+       */
+      void acknowledgeSubscription();
+
+/*}}}*/
+      //void declineSubscription();/*{{{*/
+
+      /**
+       */
+      void declineSubscription();
+
+/*}}}*/
+
+    private:
+      Account::Roster &_roster;
+      gloox::MessageSession *_session;
+      //::File::AbcInput &_in;
+      ::File::AbcOutput &_out;
   };
 }
+
 
 #endif // CONTACT_CONTACT_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

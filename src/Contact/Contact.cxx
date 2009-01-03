@@ -29,6 +29,7 @@
 #include <gloox/presence.h>
 
 #include <Contact/Contact.hxx>
+#include <Account/Roster.hxx>
 
 #include <libsxc/generateString.hxx>
 
@@ -36,33 +37,33 @@
 # include <config.hxx>
 #endif
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-using libsxc::Debug;
-using libsxc::Error;
-
 namespace Contact
 {
-  Contact::Contact(gloox::ClientBase *client, const gloox::JID &jid)/*{{{*/
-  : _client(client),
-    _session(new gloox::MessageSession(client, jid))
+  Contact::Contact(Account::Roster &roster, const gloox::JID &jid, ::File::AbcOutput &out)/*{{{*/
+  : _roster(roster)
+  , _session(roster.createMessageSession(this, jid))
+  , _out(out)
+  //, _in(this)
+  // FIXME: Files
   {
-    LOG<Error>("Create contact: \"" + jid.bare() + "\".");
+    LOG2("Create contact: \"" + jid.bare() + "\".");
 
-    _session->registerMessageHandler(this);
-
-    //_input = new File::Input(jid.bare());
-    //_output = new File::Output(jid.bare());
+    //_session->registerMessageHandler(this);
   }/*}}}*/
   Contact::~Contact()/*{{{*/
   {
-    LOG<Error>("Delete contact: \"" + _session->target().bare() + "\".");
+    LOG2("Delete contact: \"" + _session->target().bare() + "\".");
 
     // This deletes the session. Else the destructor of gloox::ClientBase
     // would handle this.
-    _client->disposeMessageSession(_session);
+    //_client->disposeMessageSession(_session);
+    _roster.disposeMessageSession(_session);
+
+    delete &_out;
   }/*}}}*/
 
   void Contact::printPresenceUpdate(/*{{{*/
@@ -86,7 +87,7 @@ namespace Contact
     ss << "\" (" << msg.subtype();
     ss << "), subject: \"" << msg.subject();
     ss << "\", body: \"" << msg.body() << "\").";
-    LOG<Debug>(ss.str());
+    LOG2(ss.str());
 
     //_output->write(msg->body());
   }/*}}}*/
@@ -94,9 +95,34 @@ namespace Contact
   {
     return _session->target();
   }/*}}}*/
+
   void Contact::sendMessage(const std::string &message)/*{{{*/
   {
-    // FIXME
+    _roster.sendMessage(getJid(), message);
+  }/*}}}*/
+  void Contact::add()/*{{{*/
+  {
+    _roster.addContact(getJid(), /* isPermanent = */ true);
+  }/*}}}*/
+  void Contact::remove()/*{{{*/
+  {
+    _roster.removeContact(getJid());
+  }/*}}}*/
+  void Contact::subscribe(const std::string &message)/*{{{*/
+  {
+    _roster.subscribe(getJid(), message);
+  }/*}}}*/
+  void Contact::unsubscribe(const std::string &message)/*{{{*/
+  {
+    _roster.unsubscribe(getJid(), message);
+  }/*}}}*/
+  void Contact::acknowledgeSubscription()/*{{{*/
+  {
+    _roster.acknowledgeSubscription(getJid());
+  }/*}}}*/
+  void Contact::declineSubscription()/*{{{*/
+  {
+    _roster.declineSubscription(getJid());
   }/*}}}*/
 }
 

@@ -19,8 +19,8 @@
 
 
 
-#ifndef CONTROL_CONTROL_HXX
-#define CONTROL_CONTROL_HXX
+#ifndef ACCOUNT_ACCOUNT_HXX
+#define ACCOUNT_ACCOUNT_HXX
 
 
 // INCLUDE/*{{{*/
@@ -36,9 +36,9 @@
 
 #include <libsxc/Exception/Exception.hxx>
 
-#include <Control/Roster.hxx>
-#include <Control/File/Input.hxx>
+#include <Account/File/Input.hxx>
 #include <LogHandler.hxx>
+#include <File/AbcOutput.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -46,50 +46,32 @@
 /*}}}*/
 
 /**
- * @brief Contains the controller classes.
+ * @brief Contains the accountler classes.
  */
-namespace Control
+namespace Account
 {
+  class Roster;
+
   /**
-   * @brief The central class connecting and controlling other classes.
-   *
-   * This class initializes sxc's main input and output files, handles
-   * input and errors.
+   * @brief The account of the local user.
    */
-  class Control : public gloox::ConnectionListener
+  class Account : public gloox::ConnectionListener
   {
     public:
-      //Control(&jid, port, &name, &version, resource);/*{{{*/
+      //Account(&client, &roster, &out);/*{{{*/
 
       /**
        * @brief The constructor.
-       *
-       * Create new instances of @ref File::Input, and @ref File::Output.
-       * Also save the parameters to be able to use them when connecting
-       * to the server on a call to @ref setPresence(). Create a client,
-       * but don't connect to the server.
-       *
-       * @warning The parameters won't be checked for validity.
-       *
-       * @param jid A valid JID.
-       * @param port The port on the server to connect to. -1 to use
-       *        the default one.
-       * @param name The name to announce.
-       * @param version The version to announce.
        */
-      Control(
-        const gloox::JID &jid,
-        int port,
-        const std::string &name,
-        const std::string &version);
+      Account(gloox::Client &client, Roster &roster, ::File::AbcOutput &out);
 
 /*}}}*/
-      //~Control();/*{{{*/
+      //~Account();/*{{{*/
 
       /**
        * @brief The destructor.
        */
-      ~Control();
+      ~Account();
 
 /*}}}*/
 
@@ -183,6 +165,52 @@ namespace Control
       void sendMessage(const gloox::JID &to, const std::string &body);
 
 /*}}}*/
+      //void addContact(const gloox::JID &jid) const;/*{{{*/
+
+      /**
+       */
+      void addContact(const gloox::JID &jid);
+
+/*}}}*/
+      //void removeContact(const gloox::JID &jid) const;/*{{{*/
+
+      /**
+       */
+      void removeContact(const gloox::JID &jid) const;
+
+/*}}}*/
+      //void subscribe(const JID &jid, &message=EmptyString) const;/*{{{*/
+
+      /**
+       */
+      void subscribe(
+        const gloox::JID &jid,
+        const std::string &message=gloox::EmptyString) const;
+
+/*}}}*/
+      //void unsubscribe(const JID &jid, &message=Empty) const;/*{{{*/
+
+      /**
+       */
+      void unsubscribe(
+        const gloox::JID &jid,
+        const std::string &message=gloox::EmptyString) const;
+
+/*}}}*/
+      //void acknowledgeSubscription(const gloox::JID &jid) const;/*{{{*/
+
+      /**
+       */
+      void acknowledgeSubscription(const gloox::JID &jid) const;
+
+/*}}}*/
+      //void declineSubscription(const gloox::JID &jid) const;/*{{{*/
+
+      /**
+       */
+      void declineSubscription(const gloox::JID &jid) const;
+
+/*}}}*/
 
       //void handleError(Exception &e, isCritical=false) const;/*{{{*/
 
@@ -200,7 +228,8 @@ namespace Control
 
 /*}}}*/
 
-      //int print(std::string text) const;/*{{{*/
+      // FIXME: Remove this! Use Output object directly instead.
+      //void print(std::string text) const;/*{{{*/
 
       /**
        * @brief Print a text to the output file.
@@ -214,6 +243,7 @@ namespace Control
 
 /*}}}*/
 
+      // FIXME: Remove this! Use wrapper methods instead.
       //Roster &getRoster();/*{{{*/
 
       /**
@@ -334,16 +364,16 @@ namespace Control
 
 /*}}}*/
 
-      //gloox::Client _client;/*{{{*/
+      //gloox::Client &_client;/*{{{*/
 
       /// The XMPP client.
-      gloox::Client _client;
+      gloox::Client &_client;
 
 /*}}}*/
-      //Roster _roster;/*{{{*/
+      //Roster &_roster;/*{{{*/
 
       /// The roster operation listener.
-      Roster _roster;
+      Roster &_roster;
 
 /*}}}*/
 #     if DEBUG
@@ -360,17 +390,17 @@ namespace Control
       File::Input _input;
 
 /*}}}*/
-      //File::Output _output;/*{{{*/
+      //::File::AbcOutput _out;/*{{{*/
 
       /// The output file.
-      //File::Output _output;
+      ::File::AbcOutput &_out;
 
 /*}}}*/
   };
 }
 
-#include <Control/Control.ixx>
+#include <Account/Account.ixx>
 
-#endif // CONTROL_CONTROL_HXX
+#endif // ACCOUNT_ACCOUNT_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

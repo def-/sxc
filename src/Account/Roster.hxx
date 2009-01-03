@@ -19,8 +19,8 @@
 
 
 
-#ifndef CONTROL_ROSTER_HXX
-#define CONTROL_ROSTER_HXX
+#ifndef ACCOUNT_ROSTER_HXX
+#define ACCOUNT_ROSTER_HXX
 
 
 // INCLUDE/*{{{*/
@@ -41,13 +41,12 @@
 #include <gloox/messagehandler.h>
 
 #include <Contact/Contact.hxx>
+#include <File/AbcOutput.hxx>
 
 /*}}}*/
 
-namespace Control
+namespace Account
 {
-  class Control;
-
   //typedef map<const string, Contact> contactList;/*{{{*/
 
   /// A map of JIDs and Contact-objects.
@@ -63,15 +62,14 @@ namespace Control
   class Roster : public gloox::RosterListener, public gloox::MessageHandler
   {
     public:
-      //Roster(Control *control, gloox::Client *client);/*{{{*/
+      //Roster(gloox::Client &client, ::File::AbcOutput &out);/*{{{*/
 
       /**
        * @brief Initialise the roster and register with the client.
        *
-       * @param control The control object.
        * @param client The client instance to register with.
        */
-      Roster(Control *control, gloox::Client *client);
+      Roster(gloox::Client &client, ::File::AbcOutput &out);
 
 /*}}}*/
       //~Roster();/*{{{*/
@@ -80,6 +78,14 @@ namespace Control
        * @brief Clean up.
        */
       ~Roster();
+
+/*}}}*/
+
+      //void sendMessage(const gloox::JID &jid, const std::string &message);/*{{{*/
+
+      /**
+       */
+      void sendMessage(const gloox::JID &jid, const std::string &message);
 
 /*}}}*/
 
@@ -170,6 +176,24 @@ namespace Control
        * @param jid The JID.
        */
       void declineSubscription(const gloox::JID &jid) const;
+
+/*}}}*/
+
+      // MessageSessionManager, FIXME: Interface
+      //MessageSession *createMessageSession(*handler, const &jid);/*{{{*/
+
+      /**
+       */
+      gloox::MessageSession *createMessageSession(
+        gloox::MessageHandler *handler,
+        const gloox::JID &jid);
+
+/*}}}*/
+      //void disposeMessageSession(gloox::MessageSession *session);/*{{{*/
+
+      /**
+       */
+      void disposeMessageSession(gloox::MessageSession *session);
 
 /*}}}*/
 
@@ -402,29 +426,25 @@ namespace Control
       void _addContactLocal(const gloox::JID &jid);
 
 /*}}}*/
-      //contactList::iterator _getClient(const std::string &jid);/*{{{*/
+      //contactList::iterator _getContact(const std::string &jid);/*{{{*/
 
       /**
-       * @brief Get an iterator to the client specified by the jid.
+       * @brief Get an iterator to the contact specified by the jid.
        *
        * Points to _contacts.end() if not found.
        *
        * @param jid The JID to search for.
        */
-      contactList::iterator _getClient(const std::string &jid);
+      contactList::iterator _getContact(const std::string &jid);
 
 /*}}}*/
 
-      //Control *_control;/*{{{*/
+      //gloox::Client &_client;/*{{{*/
       /// The client object this roster is bound to.
-      Control *_control;
+      gloox::Client &_client;
 
 /*}}}*/
-      //gloox::Client *_client;/*{{{*/
-      /// The client object this roster is bound to.
-      gloox::Client *_client;
-
-/*}}}*/
+      ::File::AbcOutput &_out;
       //contactList _contacts;/*{{{*/
       /// All @ref Contact instances of the roster.
       contactList _contacts;
@@ -435,6 +455,6 @@ namespace Control
 }
 
 
-#endif // CONTROL_ROSTER_HXX
+#endif // ACCOUNT_ROSTER_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

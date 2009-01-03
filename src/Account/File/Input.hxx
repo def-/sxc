@@ -17,20 +17,22 @@
  */
 /*}}}*/
 
-#ifndef CONTROL_FILE_INPUT_HXX
-#define CONTROL_FILE_INPUT_HXX
+#ifndef ACCOUNT_FILE_INPUT_HXX
+#define ACCOUNT_FILE_INPUT_HXX
 
 // INCLUDES/*{{{*/
 
 #include <string>
 
 #include <File/AbcInput.hxx>
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
 
 /*}}}*/
 
-namespace Control
+namespace Account
 {
+  class Account;
+
   namespace File
   {
     /**
@@ -43,21 +45,21 @@ namespace Control
     class Input : public ::File::AbcInput
     {
       public:
-        // Input(Control &control);/*{{{*/
+        // Input(Account &account);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
-         * @param control The Control object.
+         * @param account The Account object.
          */
-        Input(Control &control);
+        Input(Account &account);
 
 /*}}}*/
 
       private:
-        //Control &_control;/*{{{*/
-        /// The control object.
-        Control &_control;
+        //Account &_account;/*{{{*/
+        /// The account object.
+        Account &_account;
 
 /*}}}*/
         // std::string _createPath() const;/*{{{*/
@@ -78,7 +80,7 @@ namespace Control
          * @brief Handles input that has been written into the FIFO.
          *
          * For a list of valid commands see @ref
-         * Control::Command. The main work will be done by an
+         * Account::Command. The main work will be done by an
          * instance of that class, this method provides just the
          * exception handling and creates that object.
          *
@@ -91,7 +93,7 @@ namespace Control
   }
 }
 
-#endif // CONTROL_FILE_INPUT_HXX
+#endif // ACCOUNT_FILE_INPUT_HXX
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

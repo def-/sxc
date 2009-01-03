@@ -17,8 +17,8 @@
  */
 /*}}}*/
 
-#ifndef CONTROL_FILE_OUTPUT_HXX
-#define CONTROL_FILE_OUTPUT_HXX
+#ifndef ACCOUNT_FILE_OUTPUT_HXX
+#define ACCOUNT_FILE_OUTPUT_HXX
 
 // INCLUDES/*{{{*/
 
@@ -27,7 +27,7 @@
 
 /*}}}*/
 
-namespace Control
+namespace Account
 {
   namespace File
   {
@@ -41,14 +41,14 @@ namespace Control
     class Output : public ::File::AbcOutput
     {
       public:
-        // Output(Control::Control &control);/*{{{*/
+        // Output(const std::string accountJid);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
-         * @param control Central object, holding account information
+         * @param accountJid The JID of this local account.
          */
-        Output(Control::Control &control);
+        Output(const std::string accountJid);
 
 /*}}}*/
 
@@ -56,13 +56,7 @@ namespace Control
 
 
       private:
-        // Control::Control *_control;/*{{{*/
-
-        /// Central control object, used for error handling or getting
-        /// account information.
-        Control::Control *_control;
-
-/*}}}*/
+        const std::string _accountJid;
         // std::string _createPath() const;/*{{{*/
 
         /**
@@ -90,7 +84,7 @@ namespace Control
   }
 }
 
-#endif // CONTROL_FILE_OUTPUT_HXX
+#endif // ACCOUNT_FILE_OUTPUT_HXX
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

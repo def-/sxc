@@ -18,43 +18,25 @@
  */
 /*}}}*/
 
-
-// INCLUDE/*{{{*/
-
-#include <string>
-
-#include <gloox/error.h>
-
-#ifdef HAVE_CONFIG_H
-# include <config.hxx>
-#endif
-
-#include <libsxc/Logger.hxx>
+// INCLUDES/*{{{*/
 
 /*}}}*/
 
-using libsxc::Debug;
+//void setupClient(&client, const &name, const &version);/*{{{*/
 
-namespace Control
-{
-  inline void Control::onResourceBind(const std::string &resource)/*{{{*/
-  {
-    LOG<Debug>("Bind resouce: \"" + resource + "\".");
-  }/*}}}*/
+/**
+ * Setup the client object.
+ *
+ * @param client The client object.
+ * @param name The name to announce.
+ * @param version The version to announce.
+ */
+void setupClient(
+  gloox::Client &client,
+  const std::string &name,
+  const std::string &version);
 
-  inline void Control::onResourceBindError(const gloox::Error *error)/*{{{*/
-  {
-    LOG<Debug>("Resource bind error.");
-  }/*}}}*/
-
-  inline void Control::onSessionCreateError(const gloox::Error *error)/*{{{*/
-  {
-  }/*}}}*/
-
-  inline void Control::onStreamEvent(gloox::StreamEvent event)/*{{{*/
-  {
-  }/*}}}*/
-}
+/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

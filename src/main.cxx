@@ -28,18 +28,19 @@
 #include <gloox/jid.h>
 
 #include <libsxc/Option/Parser.hxx>
-#include <libsxc/Option/parse.hxx>
 #include <libsxc/Option/Option.hxx>
 #include <libsxc/Option/OptionPort.hxx>
 #include <libsxc/Exception/Exception.hxx>
 #include <libsxc/Exception/Type.hxx>
-#include <libsxc/getHostName.hxx>
 
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
 
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
+#include <Account/Roster.hxx>
+#include <Account/File/Output.hxx>
 #include <Error/Handler.hxx>
+#include <setupClient.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -68,14 +69,11 @@
  * @brief The starting point of sxc.
  *
  * Parse the parameters the program was started with and then initialize the
- * @ref Control::Control.
+ * @ref Account::Account.
  */
 int main(int argc, char *argv[])/*{{{*/
 {
-  LOG2("foobar");
   libsxc::Option::Parser parser;
-  parser.setHelp(PACKAGE " " VERSION " (C) " COPYRIGHT);
-  parser.setVersion(VERSION);
   libsxc::Option::Option<bool> defHelp(
     &parser, 'h', "help", "Show help and exit");
   libsxc::Option::Option<bool> defVersion(
@@ -88,30 +86,58 @@ int main(int argc, char *argv[])/*{{{*/
   libsxc::Option::Option<std::string> version(
     &parser, ' ', "iqversion", "version",
     std::string("Version to announce (default: ") + VERSION + ")", VERSION);
-
-  const std::string defaultResource =
-    std::string(PACKAGE) + "@" + libsxc::getHostName();
   libsxc::Option::Option<gloox::JID> jid(
     &parser, ' ', "", "jid",
-    "user@domain[/resource] (resource default: " + defaultResource + ")");
+    "user@domain[/resource]");
 
-  libsxc::Option::parse(parser, argv);
-  // FIXME: Handle exceptions.
-
-  gloox::JID jidJid = jid.getValue();
-  if ("" == jidJid.resource())
-    jidJid.setResource(defaultResource);
-
-  Control::Control *control;
   try {
-    control = new Control::Control(
-      jidJid,
-      port.getValue(),
-      name.getValue(),
-      version.getValue());
+    parser.parse(argv);
+  } catch (libsxc::Exception::OptionException &e) {
+    std::cerr << e.getDescription() << std::endl;
+    return e.getType();
+  } catch (libsxc::Exception::Exception &e) {
+    std::cerr << e.getDescription() << std::endl;
+    return 1; // FIXME: No magic numbers.
+  } catch (std::exception &e) {
+    std::cerr << e.what() << std::endl;
+    return 1;
+  } catch (...) {
+    std::cerr << "Unexpected error parsing options." << std::endl;
+    return 1;
+  }
+
+  if (parser.doShowHelp()) {
+    std::cerr << PACKAGE " " VERSION " (C) " COPYRIGHT << std::endl;
+
+    std::vector<std::string> usage = parser.getUsage();
+    for(
+    std::vector<std::string>::iterator it = usage.begin();
+    usage.end() != it;
+    ++it) {
+      std::cerr << *it << std::endl;
+    }
+    return 0;
+  }
+
+  if (parser.doShowVersion()) {
+    std::cerr << VERSION << std::endl;
+    return 0;
+  }
+
+  // Fill in the passphrase later.
+  gloox::Client client(jid.getValue(), "", port.getValue());
+  setupClient(client, name.getValue(), version.getValue());
+
+  Account::File::Output out(jid.getValue().bare());
+
+  Account::Roster roster(client, out);
+
+  Account::Account *account;
+  try {
+    account = new Account::Account(client, roster, out);
   } catch (libsxc::Exception::Exception &e) {
     LOG<libsxc::Error>(e.getDescription());
-    // Don't delete control, as it failed to initialize.
+    // Don't delete account, as it failed to initialize.
     return e.getType();
   }
 
@@ -121,14 +147,12 @@ int main(int argc, char *argv[])/*{{{*/
 
   waiter.reg(SIGINT, handler);
   waiter.reg(SIGTERM, handler);
-  //libsxc::Signal::stopOn(waiter, SIGINT);
-  //libsxc::Signal::stopOn(waiter, SIGTERM);
 
-  control->run(); // Starts threads.
+  account->run(); // Starts threads.
 
   waiter.run(); // Blocking. From this moment on signals are handled.
 
-  delete control;
+  delete account;
   return handler.getExitCode();
 }/*}}}*/
 

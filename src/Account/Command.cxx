@@ -1,4 +1,4 @@
-#line 2 "sxc:Control/Command.cxx"
+#line 2 "sxc:Account/Command.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -30,11 +30,11 @@
 #include <deque>
 #include <map>
 
-#include <Control/Command.hxx>
+#include <Account/Command.hxx>
 #include <Exception/InputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
-#include <Control/Control.hxx>
-#include <Control/Roster.hxx>
+#include <Account/Account.hxx>
+#include <Account/Roster.hxx>
 #include <libsxc/Logger.hxx>
 
 /*}}}*/
@@ -45,11 +45,11 @@ using CommandParser::commandMap;
 using CommandParser::command;
 using CommandParser::param;
 
-namespace Control
+namespace Account
 {
-  Command::Command(Control &control, const std::string &command)/*{{{*/
+  Command::Command(Account &account, const std::string &command)/*{{{*/
   : AbcCommandParser(command),
-    _control(control)
+    _account(account)
   {
   }
 
@@ -88,22 +88,20 @@ namespace Control
       const std::deque<std::string> parsed = getParsed();
       const std::string name = parsed.at(0);
 
-      Roster &roster = _control.getRoster();
-
       if ("ack" == name) {/*{{{*/
-        roster.acknowledgeSubscription(parsed.at(1));
+        _account.acknowledgeSubscription(parsed.at(1));
 /*}}}*/
       } else if ("dec" == name) {/*{{{*/
-        roster.declineSubscription(parsed.at(1));
+        _account.declineSubscription(parsed.at(1));
 /*}}}*/
       } else if ("add" == name) {/*{{{*/
-        roster.addContact(parsed.at(1));
+        _account.addContact(parsed.at(1));
 /*}}}*/
       } else if ("del" == name) {/*{{{*/
-        roster.removeContact(parsed.at(1));
+        _account.removeContact(parsed.at(1));
 /*}}}*/
       } else if ("msg" == name) {/*{{{*/
-        _control.sendMessage(parsed.at(1), parsed.at(2));
+        _account.sendMessage(parsed.at(1), parsed.at(2));
 /*}}}*/
       } else if ("pgp" == name) {/*{{{*/
         const std::string action = parsed.at(1);
@@ -123,7 +121,7 @@ namespace Control
           libsxc::Exception::General, "Unimplemented.");
 /*}}}*/
       } else if ("pwd" == name) {/*{{{*/
-        _control.setPassphrase(parsed.at(1));
+        _account.setPassphrase(parsed.at(1));
 /*}}}*/
       } else if ("set" == name) {/*{{{*/
         gloox::Presence::PresenceType presence;
@@ -141,7 +139,7 @@ namespace Control
         } else if ("invisible" == presenceStr) {
           presence = gloox::Presence::Unavailable;
         } else if ("offline" == presenceStr) {
-          _control.disconnect();
+          _account.disconnect();
           return;
         } else {
           // FIXME: Exceptions: Accept message as reference, too
@@ -152,9 +150,9 @@ namespace Control
         }
 
         if (2 == parsed.size())
-          _control.setPresence(presence);
+          _account.setPresence(presence);
         else
-          _control.setPresence(presence, parsed.at(2));
+          _account.setPresence(presence, parsed.at(2));
 /*}}}*/
       } else if ("pri" == name) {/*{{{*/
         int priority;
@@ -173,13 +171,13 @@ namespace Control
           throw Exception::InputException(type, message);
         }
 
-        _control.setPriority(priority);
+        _account.setPriority(priority);
 /*}}}*/
       } else if ("sub" == name) {/*{{{*/
-        roster.subscribe(parsed.at(1), parsed.at(2));
+        _account.subscribe(parsed.at(1), parsed.at(2));
 /*}}}*/
       } else if ("usc" == name) {/*{{{*/
-        roster.unsubscribe(parsed.at(1), parsed.at(2));
+        _account.unsubscribe(parsed.at(1), parsed.at(2));
 /*}}}*/
       } else {/*{{{*/
         libsxc::Exception::Type t = libsxc::Exception::InvalidCommand;
@@ -194,7 +192,7 @@ namespace Control
       // specification.
       std::string message = "out_of_range: ";
       message.append(e.what());
-      _control.print(message);
+      //_account.print(message); // FIXME
       LOG<Error>(message);
     }
   }

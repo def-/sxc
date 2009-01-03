@@ -1,4 +1,8 @@
-#line 2 "sxc:Error/Handler.cxx"
+<<<<<<< HEAD:src/Control/File/Output.cxx
+#line 2 "sxc:Control/File/Output.cxx"
+=======
+#line 2 "sxc:Account/File/Output.cxx"
+>>>>>>> r0qdesign:src/Account/File/Output.cxx
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -18,51 +22,45 @@
  */
 /*}}}*/
 
-
-// INCLUDE/*{{{*/
-
-#include <libsxc/Signal/Waiter.hxx>
-#include <libsxc/Signal/stopOn.hxx>
-
-#include <Error/Handler.hxx>
-//#include <File/AbcOutput.hxx>
+// INCLUDES/*{{{*/
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
 #endif
 
-#include <libsxc/Logger.hxx>
+#include <string>
+#include <Account/File/Output.hxx>
+#include <Time/Timestamp.hxx>
+#include <Time/LocalDateTime.hxx>
+#include <Time/IsoDateTimeFormat.hxx>
 
 /*}}}*/
 
-namespace Error
+namespace Account
 {
-  Handler::Handler(libsxc::Signal::Waiter &waiter/*, File::AbcOutput &out*/)/*{{{*/
-  : libsxc::Signal::Stopper(waiter)
-  //, _out(out)
+  namespace File
   {
-  }/*}}}*/
+    Output::Output(const std::string accountJid)/*{{{*/
+    : _accountJid(accountJid)
+    {
+    }
 
-  int Handler::getExitCode()/*{{{*/
-  {
-    return _exitCode;
-  }/*}}}*/
+/*}}}*/
+    std::string Output::_createPath() const/*{{{*/
+    {
+      return _accountJid + "/out";
+    }
 
-  void Handler::print(const std::string &message)/*{{{*/
-  {
-    //_out.write(message);
-  }/*}}}*/
+/*}}}*/
+    std::string Output::_format(const std::string &output) const/*{{{*/
+    {
+      Time::LocalDateTime date = Time::LocalDateTime(Time::Timestamp());
+      Time::IsoDateTimeFormat format(&date);
+      return format.string() + ' ' + output;
+    }
 
-  void Handler::printCritical(const std::string &message)/*{{{*/
-  {
-    std::cerr << message << std::endl;
-  }/*}}}*/
-
-  void Handler::terminate(int exitCode)/*{{{*/
-  {
-    _exitCode = exitCode;
-    stop(); // Stop the waiter.
-  }/*}}}*/
+/*}}}*/
+  }
 }
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

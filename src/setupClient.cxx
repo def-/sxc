@@ -1,4 +1,4 @@
-#line 2 "sxc:Control/File/Output.cxx"
+#line 2 "sxc:setupClient.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -18,47 +18,44 @@
  */
 /*}}}*/
 
-// INCLUDES/*{{{*/
+
+// INCLUDE/*{{{*/
+
+#include <gloox/client.h>
+#include <gloox/disco.h>
+
+#include <setupClient.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
 #endif
 
-#include <string>
-#include <Control/Control.hxx>
-#include <Control/File/Output.hxx>
-#include <Time/Timestamp.hxx>
-#include <Time/LocalDateTime.hxx>
-#include <Time/IsoDateTimeFormat.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-namespace Control
+void setupClient(/*{{{*/
+  gloox::Client &client,
+  const std::string &name,
+  const std::string &version)
 {
-  namespace File
-  {
-    Output::Output(Control::Control &control)/*{{{*/
-    : _control(&control)
-    {
-    }
+  // "console" is not exactly what sxc is, but "pc" is described as a
+  // full-featured GUI.
+  const std::string category = "client";
+  const std::string type = "console";
 
-/*}}}*/
-    std::string Output::_createPath() const/*{{{*/
-    {
-      return _control->getJid().bare() + "/out";
-    }
+  LOG2(
+    "Set identity: (category: \"" + category + "\", type: \"" +
+    type + "\", name: \"" + name + "\").");
 
-/*}}}*/
-    std::string Output::_format(const std::string &output) const/*{{{*/
-    {
-      Time::LocalDateTime date = Time::LocalDateTime(Time::Timestamp());
-      Time::IsoDateTimeFormat format(&date);
-      return format.string() + ' ' + output;
-    }
+  client.disco()->setIdentity(category, type, name);
 
-/*}}}*/
-  }
-}
+  LOG2(
+    "Set version: (name: \"" + name + "\", version: \"" +
+    version + "\").");
+
+  client.disco()->setVersion(name, version);
+}/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

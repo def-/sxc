@@ -28,7 +28,7 @@
 #include <string>
 #include <exception>
 
-#include <Control/Control.hxx>
+#include <Account/Account.hxx>
 #include <Contact/Contact.hxx>
 #include <Contact/File/Input.hxx>
 #include <Contact/Command.hxx>
@@ -44,8 +44,8 @@ namespace Contact
 {
   namespace File
   {
-    Input::Input(Control::Control &control, Contact &contact)/*{{{*/
-    : _control(control),
+    Input::Input(Account::Account &account, Contact &contact)/*{{{*/
+    : _account(account),
       _contact(contact)
     {
       initialize();
@@ -54,7 +54,7 @@ namespace Contact
 /*}}}*/
     std::string Input::_createPath() const/*{{{*/
     {
-      return _control.getJid().bare() + "/"
+      return _account.getJid().bare() + "/"
            + _contact.getJid().bare() + "/in";
     }
 
@@ -63,19 +63,19 @@ namespace Contact
     {
       // TODO
       try {
-        Command command(_control, _contact, input);
+        Command command(_contact, input);
         command.execute();
       } catch (Exception::InputException &e) {
         // Just an invalid input, nothing serious.
-        _control.handleError(e);
+        //_account.handleError(e); // FIXME
       } catch (libsxc::Exception::Exception &e) {
         // This may be something more serious.
         // TODO: Fix handleError() to make use of stderr
-        _control.handleError(e);
+        //_account.handleError(e); // FIXME
       } catch (std::exception &e) {
         // This is *really* unexpected.
-        LOG<Error>(e.what());
-        _control.print(e.what());
+        //LOG<Error>(e.what());
+        //_account.print(e.what()); // FIXME
       }
     }
 

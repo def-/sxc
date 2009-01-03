@@ -1,4 +1,8 @@
+<<<<<<< HEAD:src/Control/File/Input.cxx
 #line 2 "sxc:Control/File/Input.cxx"
+=======
+#line 2 "sxc:Account/File/Input.cxx"
+>>>>>>> r0qdesign:src/Account/File/Input.cxx
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -28,9 +32,9 @@
 #include <string>
 #include <exception>
 
-#include <Control/Control.hxx>
-#include <Control/File/Input.hxx>
-#include <Control/Command.hxx>
+#include <Account/Account.hxx>
+#include <Account/File/Input.hxx>
+#include <Account/Command.hxx>
 #include <Exception/InputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
 #include <libsxc/Logger.hxx>
@@ -39,12 +43,12 @@
 
 using libsxc::Error;
 
-namespace Control
+namespace Account
 {
   namespace File
   {
-    Input::Input(Control &control)/*{{{*/
-    : _control(control)
+    Input::Input(Account &account)/*{{{*/
+    : _account(account)
     {
       initialize();
     }
@@ -52,26 +56,26 @@ namespace Control
 /*}}}*/
     std::string Input::_createPath() const/*{{{*/
     {
-      return _control.getJid().bare() + "/in";
+      return _account.getJid().bare() + "/in";
     }
 
 /*}}}*/
     void Input::_handleInput(const std::string &input)/*{{{*/
     {
       try {
-        Command command(_control, input);
+        Command command(_account, input);
         command.execute();
       } catch (Exception::InputException &e) {
         // Just an invalid input, nothing serious.
-        _control.handleError(e);
+        _account.handleError(e);
       } catch (libsxc::Exception::Exception &e) {
         // This may be something more serious.
         // TODO: Fix handleError() to make use of stderr
-        _control.handleError(e);
+        _account.handleError(e);
       } catch (std::exception &e) {
         // This is *really* unexpected.
         LOG<Error>(e.what());
-        _control.print(e.what());
+        _account.print(e.what());
       }
     }
 
