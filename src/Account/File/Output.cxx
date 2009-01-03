@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/Control/File/Output.cxx
-#line 2 "sxc:Control/File/Output.cxx"
-=======
 #line 2 "sxc:Account/File/Output.cxx"
->>>>>>> r0qdesign:src/Account/File/Output.cxx
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
