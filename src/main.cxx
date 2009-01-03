@@ -110,7 +110,7 @@ int main(int argc, char *argv[])/*{{{*/
 
   Account::File::Output out(jidJid.bare());
 
-  Account::Roster roster(client);
+  Account::Roster roster(client, out);
 
   Account::Account *account;
   try {

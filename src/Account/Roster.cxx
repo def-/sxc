@@ -39,6 +39,7 @@
 #include <Account/Roster.hxx>
 #include <Contact/Contact.hxx>
 #include <Contact/File/Output.hxx>
+#include <File/AbcOutput.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -50,10 +51,11 @@
 
 namespace Account
 {
-  Roster::Roster(gloox::Client &client)/*{{{*/
-  : RosterListener(),
-    _client(client),
-    _contacts()
+  Roster::Roster(gloox::Client &client, ::File::AbcOutput &out)/*{{{*/
+  : RosterListener()
+  , _client(client)
+  , _out(out)
+  , _contacts()
   {
     // Asynchronous subscription request handling.
     _client.rosterManager()->registerRosterListener(this, false);
