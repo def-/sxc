@@ -147,8 +147,6 @@ int main(int argc, char *argv[])/*{{{*/
 
   waiter.reg(SIGINT, handler);
   waiter.reg(SIGTERM, handler);
-  //libsxc::Signal::stopOn(waiter, SIGINT);
-  //libsxc::Signal::stopOn(waiter, SIGTERM);
 
   account->run(); // Starts threads.
 

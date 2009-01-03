@@ -57,16 +57,15 @@ namespace Contact
   class Contact : public gloox::MessageHandler
   {
     public:
-      //Contact(&roster, &jid, &output);/*{{{*/
+      //Contact(&roster, &jid, &out);/*{{{*/
 
       /**
        * @brief Initialise the contact.
        *
        * @param roster The roster this contact belongs to.
-       * @param out The object to write contact relevant output to. Takes the ownership
-       * @param in The object to get input from.
+       * @param out The object to write contact relevant output to. Takes ownership.
        */
-      Contact(Account::Roster &roster, const gloox::JID &jid, ::File::AbcOutput &out/*, ::File::AbcInput &in*/);
+      Contact(Account::Roster &roster, const gloox::JID &jid, ::File::AbcOutput &out);
 
 /*}}}*/
       //~Contact();/*{{{*/
@@ -169,10 +168,11 @@ namespace Contact
     private:
       Account::Roster &_roster;
       gloox::MessageSession *_session;
-      //::File::AbcInput &_input;
+      //::File::AbcInput &_in;
       ::File::AbcOutput &_out;
   };
 }
+
 
 #endif // CONTACT_CONTACT_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

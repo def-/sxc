@@ -63,19 +63,19 @@ namespace Contact
     {
       // TODO
       try {
-        Command command(_account, _contact, input);
+        Command command(_contact, input);
         command.execute();
       } catch (Exception::InputException &e) {
         // Just an invalid input, nothing serious.
-        _account.handleError(e);
+        //_account.handleError(e); // FIXME
       } catch (libsxc::Exception::Exception &e) {
         // This may be something more serious.
         // TODO: Fix handleError() to make use of stderr
-        _account.handleError(e);
+        //_account.handleError(e); // FIXME
       } catch (std::exception &e) {
         // This is *really* unexpected.
-        LOG<Error>(e.what());
-        _account.print(e.what());
+        //LOG<Error>(e.what());
+        //_account.print(e.what()); // FIXME
       }
     }
 

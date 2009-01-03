@@ -39,7 +39,7 @@ namespace Contact
   class Command : CommandParser::AbcCommandParser
   {
     public:
-      // Command(Account &, Contact &, const std::string &);/*{{{*/
+      // Command(Contact &, const std::string &);/*{{{*/
 
       /**
        * @brief Default constructor.
@@ -47,12 +47,10 @@ namespace Contact
        * For the purpose of the Account and Contact objects see @ref
        * execute().
        *
-       * @param account The account object.
        * @param contact The contact object which received this command.
        * @param command A command to be parsed.
        */
       Command(
-        Account::Account &account,
         Contact &contact,
         const std::string &command);
 
@@ -87,12 +85,6 @@ namespace Contact
     protected:
 
     private:
-      //Account &_account;/*{{{*/
-
-      /// The account object.
-      Account::Account &_account;
-
-/*}}}*/
       //Contact &_contact;/*{{{*/
 
       /// The contact object.

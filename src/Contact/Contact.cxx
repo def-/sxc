@@ -47,6 +47,7 @@ namespace Contact
   : _roster(roster)
   , _session(roster.createMessageSession(this, jid))
   , _out(out)
+  //, _in(this)
   // FIXME: Files
   {
     LOG2("Create contact: \"" + jid.bare() + "\".");
