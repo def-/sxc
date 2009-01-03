@@ -88,19 +88,17 @@ namespace Account
       const std::deque<std::string> parsed = getParsed();
       const std::string name = parsed.at(0);
 
-      Roster &roster = _account.getRoster();
-
       if ("ack" == name) {/*{{{*/
-        roster.acknowledgeSubscription(parsed.at(1));
+        _account.acknowledgeSubscription(parsed.at(1));
 /*}}}*/
       } else if ("dec" == name) {/*{{{*/
-        roster.declineSubscription(parsed.at(1));
+        _account.declineSubscription(parsed.at(1));
 /*}}}*/
       } else if ("add" == name) {/*{{{*/
-        roster.addContact(parsed.at(1));
+        _account.addContact(parsed.at(1));
 /*}}}*/
       } else if ("del" == name) {/*{{{*/
-        roster.removeContact(parsed.at(1));
+        _account.removeContact(parsed.at(1));
 /*}}}*/
       } else if ("msg" == name) {/*{{{*/
         _account.sendMessage(parsed.at(1), parsed.at(2));
@@ -176,10 +174,10 @@ namespace Account
         _account.setPriority(priority);
 /*}}}*/
       } else if ("sub" == name) {/*{{{*/
-        roster.subscribe(parsed.at(1), parsed.at(2));
+        _account.subscribe(parsed.at(1), parsed.at(2));
 /*}}}*/
       } else if ("usc" == name) {/*{{{*/
-        roster.unsubscribe(parsed.at(1), parsed.at(2));
+        _account.unsubscribe(parsed.at(1), parsed.at(2));
 /*}}}*/
       } else {/*{{{*/
         libsxc::Exception::Type t = libsxc::Exception::InvalidCommand;
@@ -194,7 +192,7 @@ namespace Account
       // specification.
       std::string message = "out_of_range: ";
       message.append(e.what());
-      _account.print(message);
+      //_account.print(message); // FIXME
       LOG<Error>(message);
     }
   }
