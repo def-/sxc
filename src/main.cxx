@@ -32,7 +32,6 @@
 #include <libsxc/Option/OptionPort.hxx>
 #include <libsxc/Exception/Exception.hxx>
 #include <libsxc/Exception/Type.hxx>
-#include <libsxc/getHostName.hxx>
 
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
@@ -87,12 +86,9 @@ int main(int argc, char *argv[])/*{{{*/
   libsxc::Option::Option<std::string> version(
     &parser, ' ', "iqversion", "version",
     std::string("Version to announce (default: ") + VERSION + ")", VERSION);
-
-  const std::string defaultResource =
-    std::string(PACKAGE) + "@" + libsxc::getHostName();
   libsxc::Option::Option<gloox::JID> jid(
     &parser, ' ', "", "jid",
-    "user@domain[/resource] (resource default: " + defaultResource + ")");
+    "user@domain[/resource]");
 
   try {
     parser.parse(argv);
@@ -101,7 +97,7 @@ int main(int argc, char *argv[])/*{{{*/
     return e.getType();
   } catch (libsxc::Exception::Exception &e) {
     std::cerr << e.getDescription() << std::endl;
-    return 1;
+    return 1; // FIXME: No magic numbers.
   } catch (std::exception &e) {
     std::cerr << e.what() << std::endl;
     return 1;
@@ -128,15 +124,11 @@ int main(int argc, char *argv[])/*{{{*/
     return 0;
   }
 
-  gloox::JID jidJid = jid.getValue();
-  if ("" == jidJid.resource())
-    jidJid.setResource(defaultResource);
-
   // Fill in the passphrase later.
-  gloox::Client client(jidJid, "", port.getValue());
+  gloox::Client client(jid.getValue(), "", port.getValue());
   setupClient(client, name.getValue(), version.getValue());
 
-  Account::File::Output out(jidJid.bare());
+  Account::File::Output out(jid.getValue().bare());
 
   Account::Roster roster(client, out);
 
