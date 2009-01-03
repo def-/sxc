@@ -19,8 +19,8 @@
 
 
 
-#ifndef CONTROL_LOGHANDLER_HXX
-#define CONTROL_LOGHANDLER_HXX
+#ifndef ACCOUNT_LOGHANDLER_HXX
+#define ACCOUNT_LOGHANDLER_HXX
 
 
 // INCLUDE/*{{{*/
@@ -49,6 +49,6 @@ class LogHandler : public gloox::LogHandler
 /*}}}*/
 };
 
-#endif // CONTROL_LOGHANDLER_HXX
+#endif // ACCOUNT_LOGHANDLER_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

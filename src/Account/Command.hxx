@@ -17,8 +17,8 @@
  */
 /*}}}*/
 
-#ifndef CONTROL_COMMAND_COMMAND_HXX
-#define CONTROL_COMMAND_COMMAND_HXX
+#ifndef ACCOUNT_COMMAND_HXX
+#define ACCOUNT_COMMAND_HXX
 
 // INCLUDES/*{{{*/
 
@@ -94,7 +94,7 @@ namespace Account
   };
 }
 
-#endif // CONTROL_COMMAND_COMMAND_HXX
+#endif // ACCOUNT_COMMAND_HXX
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

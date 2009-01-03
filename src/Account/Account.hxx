@@ -19,8 +19,8 @@
 
 
 
-#ifndef CONTROL_CONTROL_HXX
-#define CONTROL_CONTROL_HXX
+#ifndef ACCOUNT_ACCOUNT_HXX
+#define ACCOUNT_ACCOUNT_HXX
 
 
 // INCLUDE/*{{{*/
@@ -401,6 +401,6 @@ namespace Account
 
 #include <Account/Account.ixx>
 
-#endif // CONTROL_CONTROL_HXX
+#endif // ACCOUNT_ACCOUNT_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

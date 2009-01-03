@@ -17,8 +17,8 @@
  */
 /*}}}*/
 
-#ifndef CONTROL_FILE_INPUT_HXX
-#define CONTROL_FILE_INPUT_HXX
+#ifndef ACCOUNT_FILE_INPUT_HXX
+#define ACCOUNT_FILE_INPUT_HXX
 
 // INCLUDES/*{{{*/
 
@@ -93,7 +93,7 @@ namespace Account
   }
 }
 
-#endif // CONTROL_FILE_INPUT_HXX
+#endif // ACCOUNT_FILE_INPUT_HXX
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker
