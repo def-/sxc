@@ -183,6 +183,9 @@ namespace Account
       //MessageSession *createMessageSession(*handler, const &jid);/*{{{*/
 
       /**
+       * Create a new @ref MessageSession and register it with the @ref client.
+       *
+       * @note Don't forget to dispose it later using @ref disposeMessageSession.
        */
       gloox::MessageSession *createMessageSession(
         gloox::MessageHandler *handler,
@@ -192,6 +195,7 @@ namespace Account
       //void disposeMessageSession(gloox::MessageSession *session);/*{{{*/
 
       /**
+       * Remove the registration of the @ref MessageSession and delete it.
        */
       void disposeMessageSession(gloox::MessageSession *session);
 

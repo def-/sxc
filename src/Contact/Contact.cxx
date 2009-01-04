@@ -53,18 +53,12 @@ namespace Contact
   , _in(*this, roster.getJid().bare(), jid.bare())
   {
     LOG2("Create contact: \"" + jid.bare() + "\".");
-
-    //_session->registerMessageHandler(this);
   }/*}}}*/
   Contact::~Contact()/*{{{*/
   {
     LOG2("Delete contact: \"" + _session->target().bare() + "\".");
 
-    // This deletes the session. Else the destructor of gloox::ClientBase
-    // would handle this.
-    //_client->disposeMessageSession(_session);
-    _roster.disposeMessageSession(_session);
-
+    _roster.disposeMessageSession(_session); // Will be deleted.
     delete &_out;
   }/*}}}*/
 

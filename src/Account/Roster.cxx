@@ -161,6 +161,8 @@ namespace Account
   }/*}}}*/
   void Roster::disposeMessageSession(gloox::MessageSession *session)/*{{{*/
   {
+    // This deletes the session. Else the destructor of gloox::ClientBase would
+    // handle this.
     _client.disposeMessageSession(session);
   }/*}}}*/
 
