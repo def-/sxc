@@ -332,6 +332,7 @@ namespace Account
       jid.bare(),
       new Contact::Contact(
         *this,
+        _client.jid(),
         jid,
         *(new Contact::File::Output(_client.jid().bare(), jid.bare())))));
   }/*}}}*/

@@ -45,14 +45,15 @@ namespace Contact
 {
   Contact::Contact(/*{{{*/
     Account::Roster &roster,
-    const gloox::JID &jid,
+    const gloox::JID &accountJid,
+    const gloox::JID &contactJid,
     ::File::AbcOutput &out)
   : _roster(roster)
-  , _session(roster.createMessageSession(this, jid))
-  , _in(*this, roster.getJid().bare(), jid.bare())
+  , _session(roster.createMessageSession(this, contactJid))
+  , _in(*this, accountJid.bare(), contactJid.bare())
   , _out(out)
   {
-    LOG2("Create contact: \"" + jid.bare() + "\".");
+    LOG2("Create contact: \"" + contactJid.bare() + "\".");
   }/*}}}*/
   Contact::~Contact()/*{{{*/
   {

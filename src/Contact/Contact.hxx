@@ -58,7 +58,7 @@ namespace Contact
   class Contact : public gloox::MessageHandler
   {
     public:
-      //Contact(&roster, &jid, &out);/*{{{*/
+      //Contact(&roster, &accountJid, &contactJid, &out);/*{{{*/
 
       /**
        * @brief Initialise the contact.
@@ -66,7 +66,11 @@ namespace Contact
        * @param roster The roster this contact belongs to.
        * @param out The object to write contact relevant output to. Takes ownership.
        */
-      Contact(Account::Roster &roster, const gloox::JID &jid, ::File::AbcOutput &out);
+      Contact(
+        Account::Roster &roster,
+        const gloox::JID &accountJid,
+        const gloox::JID &contactJid,
+        ::File::AbcOutput &out);
 
 /*}}}*/
       //~Contact();/*{{{*/
