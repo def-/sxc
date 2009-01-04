@@ -46,12 +46,11 @@ namespace Contact
   Contact::Contact(/*{{{*/
     Account::Roster &roster,
     const gloox::JID &accountJid,
-    const gloox::JID &contactJid,
-    ::File::AbcOutput &out)
+    const gloox::JID &contactJid)
   : _roster(roster)
   , _session(roster.createMessageSession(this, contactJid))
   , _in(*this, accountJid.bare(), contactJid.bare())
-  , _out(out)
+  , _out(accountJid.bare(), contactJid.bare())
   {
     LOG2("Create contact: \"" + contactJid.bare() + "\".");
   }/*}}}*/
@@ -60,7 +59,6 @@ namespace Contact
     LOG2("Delete contact: \"" + _session->target().bare() + "\".");
 
     _roster.disposeMessageSession(_session); // Will be deleted.
-    delete &_out;
   }/*}}}*/
 
   void Contact::printPresenceUpdate(/*{{{*/

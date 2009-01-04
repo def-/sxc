@@ -34,7 +34,8 @@
 
 //#include <File/AbcInput.hxx>
 #include <Contact/File/Input.hxx>
-#include <File/AbcOutput.hxx>
+//#include <File/AbcOutput.hxx>
+#include <Contact/File/Output.hxx>
 
 /*}}}*/
 
@@ -58,19 +59,17 @@ namespace Contact
   class Contact : public gloox::MessageHandler
   {
     public:
-      //Contact(&roster, &accountJid, &contactJid, &out);/*{{{*/
+      //Contact(&roster, &accountJid, &contactJid);/*{{{*/
 
       /**
        * @brief Initialise the contact.
        *
        * @param roster The roster this contact belongs to.
-       * @param out The object to write contact relevant output to. Takes ownership.
        */
       Contact(
         Account::Roster &roster,
         const gloox::JID &accountJid,
-        const gloox::JID &contactJid,
-        ::File::AbcOutput &out);
+        const gloox::JID &contactJid);
 
 /*}}}*/
       //~Contact();/*{{{*/
@@ -165,7 +164,8 @@ namespace Contact
       gloox::MessageSession *_session;
       //::File::AbcInput &_in;
       File::Input _in;
-      ::File::AbcOutput &_out;
+      //::File::AbcOutput &_out;
+      File::Output _out;
 
       //const gloox::JID &_getJid();/*{{{*/
 

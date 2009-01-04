@@ -331,11 +331,7 @@ namespace Account
     //Contact::File::Output out(_client.jid().bare(), jid.bare());
     _contacts.insert(std::make_pair(
       jid.bare(),
-      new Contact::Contact(
-        *this,
-        _client.jid(),
-        jid,
-        *(new Contact::File::Output(_client.jid().bare(), jid.bare())))));
+      new Contact::Contact(*this, _client.jid(), jid)));
   }/*}}}*/
   contactList::iterator Roster::_getContact(const std::string &jid)/*{{{*/
   {
