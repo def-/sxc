@@ -144,7 +144,8 @@ namespace File
     }
     _fifo.close();
 
-    input.erase(--input.end());
+    if (!input.empty())
+      input.erase(--input.end()); // Remove the last newline.
 
     return input;
   }
