@@ -37,8 +37,6 @@ namespace Error
   { NoError = 0 // No problem occured.
   , General = 64
   // Program option errors./*{{{*/
-  , ShowUsage = -1
-  , ShowVersion = -2
   , OptionNotSet = 80
   , OptionSetMultiple = 81
   , OptionUnknown = 82

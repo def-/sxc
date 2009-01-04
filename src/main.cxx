@@ -31,7 +31,6 @@
 #include <libsxc/Option/Option.hxx>
 #include <libsxc/Option/OptionPort.hxx>
 #include <libsxc/Exception/Exception.hxx>
-#include <libsxc/Exception/Type.hxx>
 
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
@@ -41,6 +40,7 @@
 #include <Account/File/Output.hxx>
 #include <Error/Handler.hxx>
 #include <setupClient.hxx>
+#include <Error/ExitCode.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -97,13 +97,13 @@ int main(int argc, char *argv[])/*{{{*/
     return e.getType();
   } catch (libsxc::Exception::Exception &e) {
     std::cerr << e.getDescription() << std::endl;
-    return 1; // FIXME: No magic numbers.
+    return Error::General;
   } catch (std::exception &e) {
     std::cerr << e.what() << std::endl;
-    return 1;
+    return Error::General;
   } catch (...) {
     std::cerr << "Unexpected error parsing options." << std::endl;
-    return 1;
+    return Error::General;
   }
 
   if (parser.doShowHelp()) {
@@ -116,12 +116,12 @@ int main(int argc, char *argv[])/*{{{*/
     ++it) {
       std::cerr << *it << std::endl;
     }
-    return 0;
+    return Error::NoError;
   }
 
   if (parser.doShowVersion()) {
     std::cerr << VERSION << std::endl;
-    return 0;
+    return Error::NoError;
   }
 
   // Fill in the passphrase later.
