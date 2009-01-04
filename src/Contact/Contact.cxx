@@ -49,8 +49,8 @@ namespace Contact
     ::File::AbcOutput &out)
   : _roster(roster)
   , _session(roster.createMessageSession(this, jid))
-  , _out(out)
   , _in(*this, roster.getJid().bare(), jid.bare())
+  , _out(out)
   {
     LOG2("Create contact: \"" + jid.bare() + "\".");
   }/*}}}*/
@@ -87,38 +87,38 @@ namespace Contact
 
     //_output->write(msg->body());
   }/*}}}*/
-  const gloox::JID &Contact::getJid()/*{{{*/
-  {
-    return _session->target();
-  }/*}}}*/
 
   void Contact::sendMessage(const std::string &message)/*{{{*/
   {
-    _roster.sendMessage(getJid(), message);
+    _roster.sendMessage(_getJid(), message);
   }/*}}}*/
   void Contact::add()/*{{{*/
   {
-    _roster.addContact(getJid(), /* isPermanent = */ true);
+    _roster.addContact(_getJid(), /* isPermanent = */ true);
   }/*}}}*/
   void Contact::remove()/*{{{*/
   {
-    _roster.removeContact(getJid());
+    _roster.removeContact(_getJid());
   }/*}}}*/
   void Contact::subscribe(const std::string &message)/*{{{*/
   {
-    _roster.subscribe(getJid(), message);
+    _roster.subscribe(_getJid(), message);
   }/*}}}*/
   void Contact::unsubscribe(const std::string &message)/*{{{*/
   {
-    _roster.unsubscribe(getJid(), message);
+    _roster.unsubscribe(_getJid(), message);
   }/*}}}*/
   void Contact::acknowledgeSubscription()/*{{{*/
   {
-    _roster.acknowledgeSubscription(getJid());
+    _roster.acknowledgeSubscription(_getJid());
   }/*}}}*/
   void Contact::declineSubscription()/*{{{*/
   {
-    _roster.declineSubscription(getJid());
+    _roster.declineSubscription(_getJid());
+  }/*}}}*/
+  const gloox::JID &Contact::_getJid()/*{{{*/
+  {
+    return _session->target();
   }/*}}}*/
 }
 

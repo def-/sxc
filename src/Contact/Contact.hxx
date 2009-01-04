@@ -102,16 +102,6 @@ namespace Contact
         gloox::MessageSession *session);
 
 /*}}}*/
-      //const gloox::JID &getJid();/*{{{*/
-
-      /**
-       * @brief Get the JID.
-       *
-       * @return The JID of the contact.
-       */
-      const gloox::JID &getJid();
-
-/*}}}*/
 
       //void sendMessage(const std::string &message);/*{{{*/
 
@@ -172,6 +162,17 @@ namespace Contact
       //::File::AbcInput &_in;
       File::Input _in;
       ::File::AbcOutput &_out;
+
+      //const gloox::JID &_getJid();/*{{{*/
+
+      /**
+       * @brief Get the JID.
+       *
+       * @return The JID of the contact.
+       */
+      const gloox::JID &_getJid();
+
+/*}}}*/
   };
 }
 
