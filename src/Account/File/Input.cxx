@@ -43,8 +43,9 @@ namespace Account
 {
   namespace File
   {
-    Input::Input(Account &account)/*{{{*/
+    Input::Input(Account &account, const std::string &jid)/*{{{*/
     : _account(account)
+    , _jid(jid)
     {
       initialize();
     }
@@ -52,7 +53,7 @@ namespace Account
 /*}}}*/
     std::string Input::_createPath() const/*{{{*/
     {
-      return _account.getJid().bare() + "/in";
+      return _jid + "/in";
     }
 
 /*}}}*/
@@ -63,15 +64,15 @@ namespace Account
         command.execute();
       } catch (Exception::InputException &e) {
         // Just an invalid input, nothing serious.
-        _account.handleError(e);
+        _account.handleError(e); // FIXME
       } catch (libsxc::Exception::Exception &e) {
         // This may be something more serious.
         // TODO: Fix handleError() to make use of stderr
-        _account.handleError(e);
+        _account.handleError(e); // FIXME
       } catch (std::exception &e) {
         // This is *really* unexpected.
         LOG<Error>(e.what());
-        _account.print(e.what());
+        //_account.print(e.what()); // FIXME
       }
     }
 

@@ -228,41 +228,6 @@ namespace Account
 
 /*}}}*/
 
-      // FIXME: Remove this! Use Output object directly instead.
-      //void print(std::string text) const;/*{{{*/
-
-      /**
-       * @brief Print a text to the output file.
-       *
-       * Print a text to the output file by sending it to the instance of
-       * @ref File::Output.
-       *
-       * @param text The raw text to be written to the output file.
-       */
-      void print(std::string text) const;
-
-/*}}}*/
-
-      // FIXME: Remove this! Use wrapper methods instead.
-      //Roster &getRoster();/*{{{*/
-
-      /**
-       * @brief Get a reference to the roster manager.
-       */
-      Roster &getRoster();
-
-/*}}}*/
-      //const gloox::JID &getJid();/*{{{*/
-
-      /**
-       * @brief Get the JID.
-       *
-       * @return A reference to the JID.
-       */
-      const gloox::JID &getJid();
-
-/*}}}*/
-
       //void onConnect();/*{{{*/
 
       /**
@@ -384,10 +349,10 @@ namespace Account
       int _priority;
       std::string _status;
 
-      //File::Input _input;/*{{{*/
+      //File::Input _in;/*{{{*/
 
       /// The input file.
-      File::Input _input;
+      File::Input _in;
 
 /*}}}*/
       //::File::AbcOutput _out;/*{{{*/

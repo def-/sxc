@@ -70,7 +70,7 @@ namespace Account
   , _priority(0)
   , _status("")
   , _out(out)
-  , _input(*this)
+  , _in(*this, client.jid().bare())
   , _thread()
   {
     _client.registerConnectionListener(this);
@@ -96,10 +96,10 @@ namespace Account
 #   endif
   }/*}}}*/
 
-  void Account::run()
+  void Account::run()/*{{{*/
   {
-    _input.listen();
-  }
+    _in.listen();
+  }/*}}}*/
   void Account::setPassphrase(const std::string &pass)/*{{{*/
   {
     LOG<Debug>("Set passphrase: \"" + pass + "\".");
@@ -129,7 +129,7 @@ namespace Account
     if (_thread)
       return;
     if ("" == _client.password())
-      print("Password not set.");
+      _out.write("Password not set.");
     else
       pthread_create(&_thread, NULL, _run, (void*)this);
   }/*}}}*/
@@ -195,20 +195,7 @@ namespace Account
       LOG<Error>(e.getDescription());
       exit(e.getType());
     }
-    print(e.getDescription());
-  }/*}}}*/
-
-  void Account::print(std::string text) const/*{{{*/
-  {
-  }/*}}}*/
-
-  Roster &Account::getRoster()/*{{{*/
-  {
-    return _roster;
-  }/*}}}*/
-  const gloox::JID &Account::getJid()/*{{{*/
-  {
-    return _client.jid();
+    _out.write(e.getDescription());
   }/*}}}*/
 
   void Account::onConnect()/*{{{*/
@@ -230,7 +217,7 @@ namespace Account
       _client.streamErrorText(),
       _client.authError());
     if (!text.empty())
-      print("Disconnected: " + text);
+      _out.write("Disconnected: " + text);
   }/*}}}*/
   bool Account::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
   {

@@ -45,14 +45,14 @@ namespace Account
     class Input : public ::File::AbcInput
     {
       public:
-        // Input(Account &account);/*{{{*/
+        // Input(Account &account, const std::string &jid);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
          * @param account The Account object.
          */
-        Input(Account &account);
+        Input(Account &account, const std::string &jid);
 
 /*}}}*/
 
@@ -60,6 +60,11 @@ namespace Account
         //Account &_account;/*{{{*/
         /// The account object.
         Account &_account;
+
+/*}}}*/
+        //const std::string _jid;/*{{{*/
+        /// The account's (local) jid.
+        const std::string _jid;
 
 /*}}}*/
         // std::string _createPath() const;/*{{{*/
