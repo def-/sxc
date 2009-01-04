@@ -26,7 +26,6 @@
 
 #include <File/AbcInput.hxx>
 #include <Contact/Contact.hxx>
-#include <Account/Account.hxx>
 
 /*}}}*/
 
@@ -44,7 +43,7 @@ namespace Contact
     class Input : public ::File::AbcInput
     {
       public:
-        // Input(Account &account, Contact &contact);/*{{{*/
+        // Input(Contact &, string &accountJid, string &contactJid);/*{{{*/
 
         /**
          * @brief Default constructor, initalizes object.
@@ -54,7 +53,10 @@ namespace Contact
          * @param contact Contact object. Stored as a reference
          *                internally.
          */
-        Input(Account::Account &account, Contact &contact);
+        Input(
+          Contact &contact,
+          const std::string &accountJid,
+          const std::string &contactJid);
 
 /*}}}*/
 
@@ -73,16 +75,13 @@ namespace Contact
         std::string _createPath() const;
 
 /*}}}*/
-        //Account &_account;/*{{{*/
-        /// The account object.
-        Account::Account &_account;
-
-/*}}}*/
         //Contact &_contact;/*{{{*/
         /// The contact object.
         Contact &_contact;
 
 /*}}}*/
+        const std::string _accountJid;
+        const std::string _contactJid;
 
         // void _handleInput(const std::string &input);/*{{{*/
 

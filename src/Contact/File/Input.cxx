@@ -28,7 +28,6 @@
 #include <string>
 #include <exception>
 
-#include <Account/Account.hxx>
 #include <Contact/Contact.hxx>
 #include <Contact/File/Input.hxx>
 #include <Contact/Command.hxx>
@@ -44,9 +43,13 @@ namespace Contact
 {
   namespace File
   {
-    Input::Input(Account::Account &account, Contact &contact)/*{{{*/
-    : _account(account),
-      _contact(contact)
+    Input::Input(/*{{{*/
+      Contact &contact,
+      const std::string &accountJid,
+      const std::string &contactJid)
+    : _contact(contact)
+    , _accountJid(accountJid)
+    , _contactJid(contactJid)
     {
       initialize();
     }
@@ -54,8 +57,7 @@ namespace Contact
 /*}}}*/
     std::string Input::_createPath() const/*{{{*/
     {
-      return _account.getJid().bare() + "/"
-           + _contact.getJid().bare() + "/in";
+      return _accountJid + "/" + _contactJid + "/in";
     }
 
 /*}}}*/
