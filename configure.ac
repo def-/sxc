@@ -269,6 +269,7 @@ AC_CONFIG_FILES([
     sxc.1
     src/Makefile
     src/CommandParser/Makefile
+    src/CommandParser/Exception/Makefile
     src/Contact/Makefile
     src/Contact/File/Makefile
     src/Account/Makefile
@@ -276,6 +277,7 @@ AC_CONFIG_FILES([
     src/Error/Makefile
     src/Exception/Makefile
     src/File/Makefile
+    src/File/Exception/Makefile
     src/Time/Makefile
     tests/Makefile
     tests/CommandParser/Makefile

@@ -1,6 +1,6 @@
 // LICENSE/*{{{*/
 /*
-  sxc - Simple Xmpp Client
+  libsxc
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
   Permission to use, copy, modify, and/or distribute this software for any
@@ -17,44 +17,35 @@
  */
 /*}}}*/
 
-#ifndef EXCEPTION_INPUTEXCEPTION_HXX
-#define EXCEPTION_INPUTEXCEPTION_HXX
+#ifndef COMMANDPARSER_EXCEPTION_NOTACOMMAND_HXX
+#define COMMANDPARSER_EXCEPTION_NOTACOMMAND_HXX
 
-// INCLUDES/*{{{*/
+// INCLUDE/*{{{*/
 
-#include <string>
+#include <exception>
+
 #include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Exception/Type.hxx>
 
 /*}}}*/
 
-
-namespace Exception
+namespace CommandParser
 {
-  /**
-   * @brief Exception class for commands.
-   *
-   * @see File::InputParser
-   */
-  class InputException : public libsxc::Exception::Exception
+  namespace Exception
   {
-    public:
-      /// Default constructor, does only call parent constructor.
-      InputException(libsxc::Exception::Type type, std::string &message);
-      /// Overloaded default constructor, calls parent constructor.
-      InputException(libsxc::Exception::Type type, const char *message);
-
-    protected:
-      /// @see Exception::createDescription()
-      virtual void createDescription() throw();
-
-    private:
-
-  };
+    /**
+     */
+    class NotACommand : virtual public libsxc::Exception::Exception
+    {
+      public:
+        NotACommand(const char* name) throw();
+        NotACommand(const char* name, const std::exception& cause) throw();
+      private:
+        void _createMessage(const char* name) throw();
+    };
+  }
 }
 
-#endif // EXCEPTION_INPUTEXCEPTION_HXX
-
-
+#endif // COMMANDPARSER_EXCEPTION_NOTACOMMAND_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker
-

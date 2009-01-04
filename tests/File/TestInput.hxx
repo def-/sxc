@@ -25,9 +25,10 @@
 #include <sys/stat.h>
 
 #include <string>
-#include <Exception/FileInputException.hxx>
 #include <cppunit/extensions/HelperMacros.h>
 #include "InputDummy.hxx"
+
+#include <libsxc/Exception/Exception.hxx>
 
 /*}}}*/
 
@@ -40,20 +41,20 @@ class TestInput : public CppUnit::TestFixture
   CPPUNIT_TEST_SUITE(TestInput);
     CPPUNIT_TEST(testCreate);
     CPPUNIT_TEST_EXCEPTION(exceptCreateExist,
-                 Exception::FileInputException);
+                 libsxc::Exception::Exception);
     CPPUNIT_TEST(testValidate);
     CPPUNIT_TEST_EXCEPTION(exceptValidateMissing,
-                 Exception::FileInputException);
+                 libsxc::Exception::Exception);
     CPPUNIT_TEST_EXCEPTION(exceptValidate200,
-                 Exception::FileInputException);
+                 libsxc::Exception::Exception);
     CPPUNIT_TEST_EXCEPTION(exceptValidate400,
-                 Exception::FileInputException);
+                 libsxc::Exception::Exception);
     CPPUNIT_TEST_EXCEPTION(exceptValidate604,
-                 Exception::FileInputException);
+                 libsxc::Exception::Exception);
     CPPUNIT_TEST_EXCEPTION(exceptValidate640,
-                 Exception::FileInputException);
+                 libsxc::Exception::Exception);
     CPPUNIT_TEST_EXCEPTION(exceptValidateBad,
-                 Exception::FileInputException);
+                 libsxc::Exception::Exception);
     CPPUNIT_TEST(testClose);
     CPPUNIT_TEST(testListen);
     CPPUNIT_TEST(testListenClose);

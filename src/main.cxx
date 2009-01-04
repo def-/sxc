@@ -92,12 +92,9 @@ int main(int argc, char *argv[])/*{{{*/
 
   try {
     parser.parse(argv);
-  } catch (libsxc::Exception::OptionException &e) {
-    std::cerr << e.getDescription() << std::endl;
-    return e.getType();
   } catch (libsxc::Exception::Exception &e) {
-    std::cerr << e.getDescription() << std::endl;
-    return Error::General;
+    std::cerr << e.what() << std::endl;
+    return e.getType();
   } catch (std::exception &e) {
     std::cerr << e.what() << std::endl;
     return Error::General;
@@ -136,7 +133,7 @@ int main(int argc, char *argv[])/*{{{*/
   try {
     account = new Account::Account(client, roster, out);
   } catch (libsxc::Exception::Exception &e) {
-    LOG<libsxc::Error>(e.getDescription());
+    LOG<libsxc::Error>(e.what());
     // Don't delete account, as it failed to initialize.
     return e.getType();
   }

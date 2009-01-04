@@ -31,11 +31,12 @@
 #include <map>
 
 #include <Account/Command.hxx>
-#include <Exception/InputException.hxx>
-#include <libsxc/Exception/Exception.hxx>
 #include <Account/Account.hxx>
 #include <Account/Roster.hxx>
+#include <CommandParser/Exception/InvalidCommand.hxx>
+
 #include <libsxc/Logger.hxx>
+#include <libsxc/Exception/Exception.hxx>
 
 /*}}}*/
 
@@ -110,15 +111,12 @@ namespace Account
         } else if ("enc" == action) {
         } else if ("sig" == action) {
         } else {
-          libsxc::Exception::Type type =
-            libsxc::Exception::InvalidCommand;
           std::string message = "Unknown parameter '"
                     + action + "' for command 'pgp'.";
-          throw Exception::InputException(type, message);
+          throw CommandParser::Exception::InvalidCommand(message.c_str());
         }
         // FIXME add pgp
-        throw Exception::InputException(
-          libsxc::Exception::General, "Unimplemented.");
+        throw libsxc::Exception::Exception("Unimplemented.", libsxc::Exception::General);
 /*}}}*/
       } else if ("pwd" == name) {/*{{{*/
         _account.setPassphrase(parsed.at(1));
@@ -142,11 +140,9 @@ namespace Account
           _account.disconnect();
           return;
         } else {
-          // FIXME: Exceptions: Accept message as reference, too
           std::string message = "Not a state to :set : '"
                     + presenceStr + "'";
-          throw Exception::InputException(
-            libsxc::Exception::InvalidCommand, message);
+          throw CommandParser::Exception::InvalidCommand(message.c_str());
         }
 
         if (2 == parsed.size())
@@ -162,13 +158,11 @@ namespace Account
         ss >> priority;
 
         if (priority > 127 || priority < -128) {
-          libsxc::Exception::Type type =
-            libsxc::Exception::InvalidCommand;
           std::string message =
             "Invalid parameter \"" + parsed.at(1) +
             "\" for command \"pri\". Has to be a number between " +
             "-128 and 127";
-          throw Exception::InputException(type, message);
+          throw CommandParser::Exception::InvalidCommand(message.c_str());
         }
 
         _account.setPriority(priority);
@@ -180,9 +174,8 @@ namespace Account
         _account.unsubscribe(parsed.at(1), parsed.at(2));
 /*}}}*/
       } else {/*{{{*/
-        libsxc::Exception::Type t = libsxc::Exception::InvalidCommand;
         std::string message = "Unknown name: " + name;
-        throw Exception::InputException(t, message);
+        throw CommandParser::Exception::InvalidCommand(message.c_str());
 /*}}}*/
       }
     } catch (std::out_of_range &e) {

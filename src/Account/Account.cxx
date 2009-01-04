@@ -61,7 +61,8 @@ namespace Account
     gloox::Client &client,
     Roster &roster,
     ::File::AbcOutput &out)
-  : _client(client) // Fill in the passphrase later.
+  : _thread()
+  , _client(client) // Fill in the passphrase later.
   , _roster(roster)
 #   ifdef DEBUG
   ,   _logHandler()
@@ -69,9 +70,8 @@ namespace Account
   , _presence(gloox::Presence::Available)
   , _priority(0)
   , _status("")
-  , _out(out)
   , _in(*this, client.jid().bare())
-  , _thread()
+  , _out(out)
   {
     _client.registerConnectionListener(this);
     _client.registerMessageHandler(&_roster);
@@ -192,10 +192,10 @@ namespace Account
     bool isCritical) const
   {
     if (isCritical) {
-      LOG<Error>(e.getDescription());
+      LOG<Error>(e.what());
       exit(e.getType());
     }
-    _out.write(e.getDescription());
+    _out.write(e.what());
   }/*}}}*/
 
   void Account::onConnect()/*{{{*/

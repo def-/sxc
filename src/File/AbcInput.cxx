@@ -35,8 +35,10 @@
 #include <sstream>
 
 #include <File/AbcInput.hxx>
-#include <Exception/FileInputException.hxx>
-#include <Exception/Errno.hxx>
+#include <File/Exception/BadFile.hxx>
+#include <File/Exception/FileLocked.hxx>
+#include <File/Exception/errnoToException.hxx>
+
 #include <libsxc/Exception/Type.hxx>
 #include <libsxc/Logger.hxx>
 
@@ -44,193 +46,193 @@
 
 using libsxc::Debug;
 
-File::AbcInput::AbcInput()/*{{{*/
-: _isFifoValid(false),
-  _isListening(false),
-  _mustClose(false)
+namespace File
 {
-}
+  AbcInput::AbcInput()/*{{{*/
+  : _isFifoValid(false),
+    _isListening(false),
+    _mustClose(false)
+  {
+  }
 
-/*}}}*/
-File::AbcInput::~AbcInput()/*{{{*/
-{
-  if (_isListening)
-    close();
-}
+  /*}}}*/
+  AbcInput::~AbcInput()/*{{{*/
+  {
+    if (_isListening)
+      close();
+  }
 
-/*}}}*/
-void File::AbcInput::initialize(bool notPhysical)/*{{{*/
-{
-  _path = _createPath();
+  /*}}}*/
+  void AbcInput::initialize(bool notPhysical)/*{{{*/
+  {
+    _path = _createPath();
 
-  if (!notPhysical) {
-    try {
-      _validate();
-    } catch (Exception::FileInputException &e) {
-      // If the file is missing, create it. Anything else means that someone
-      // tampered with the file.
-      if (libsxc::Exception::FileMissing != e.getType())
-        throw e;
-      _create();
+    if (!notPhysical) {
+      try {
+        _validate();
+      } catch (libsxc::Exception::Exception &e) {
+        // If the file is missing, create it. Anything else means that someone
+        // tampered with the file.
+        if (libsxc::Exception::FileMissing != e.getType())
+          throw e;
+        _create();
+      }
     }
   }
-}
 
-/*}}}*/
-void File::AbcInput::_create()/*{{{*/
-{
-  // Try to create FIFO with chmod 600.
-  if (0 == mkfifo(_path.c_str(), S_IRUSR | S_IWUSR))
-    return;
+  /*}}}*/
+  void AbcInput::_create()/*{{{*/
+  {
+    // Try to create FIFO with chmod 600.
+    if (0 == mkfifo(_path.c_str(), S_IRUSR | S_IWUSR))
+      return;
 
-  // Creation of FIFO failed.
-  libsxc::Exception::Type type = Exception::errnoToType(errno);
-  std::string message  = "Could not create FIFO " + _path;
-  throw Exception::FileInputException(type, message);
-}
-
-/*}}}*/
-void File::AbcInput::_validate()/*{{{*/
-{
-  // Try to get file stats, needed for analyzing the chmod of the file.
-  struct stat fstat;
-  if (0 != stat(_path.c_str(), &fstat)) {
-    libsxc::Exception::Type type = Exception::errnoToType(errno);
-    std::string message  = "Could not get FIFO fstat: " + _path;
-    throw Exception::FileInputException(type, message);
+    // Creation of FIFO failed.
+    std::string message  = "Could not create FIFO " + _path;
+    throw Exception::errnoToException(errno, message.c_str());
   }
 
-  // Is this really a FIFO?
-  if (!S_ISFIFO(fstat.st_mode)) {
-    std::string message  = "Not a FIFO: " + _path;
-    throw Exception::FileInputException(libsxc::Exception::BadFile, message);
-  }
+  /*}}}*/
+  void AbcInput::_validate()/*{{{*/
+  {
+    // Try to get file stats, needed for analyzing the chmod of the file.
+    struct stat fstat;
+    if (0 != stat(_path.c_str(), &fstat)) {
+      std::string message  = "Could not get FIFO fstat: " + _path;
+      throw Exception::errnoToException(errno, message.c_str());
+    }
 
-  // Check for chmod 600(octal):
-  int chmod = fstat.st_mode
-        & (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-  int chmodExpected = (S_IRUSR | S_IWUSR);
+    // Is this really a FIFO?
+    if (!S_ISFIFO(fstat.st_mode)) {
+      std::string message  = "Not a FIFO: " + _path;
+      throw Exception::BadFile(message.c_str());
+    }
 
-  std::stringstream msg;
-  msg << "fstat.st_mode = " << std::oct << fstat.st_mode << '\n';
-  msg << "chmod         = " << std::oct << chmod         << '\n';
-  msg << "expected      = " << std::oct << chmodExpected << '\n';
-  LOG<Debug>(msg.str());
+    // Check for chmod 600(octal):
+    int chmod = fstat.st_mode
+          & (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+    int chmodExpected = (S_IRUSR | S_IWUSR);
 
-  if (chmod != chmodExpected) {
     std::stringstream msg;
-    msg << "Bad chmod: " << std::oct << chmod;
-    // FIXME: Exceptions have to accept parameter being a string.
-    std::string message = msg.str();
-    throw Exception::FileInputException(libsxc::Exception::BadFile,
-                      message);
-  }
+    msg << "fstat.st_mode = " << std::oct << fstat.st_mode << '\n';
+    msg << "chmod         = " << std::oct << chmod         << '\n';
+    msg << "expected      = " << std::oct << chmodExpected << '\n';
+    LOG<Debug>(msg.str());
 
-  _isFifoValid = true;
-}
-
-/*}}}*/
-std::string File::AbcInput::_read()/*{{{*/
-{
-  std::string input;
-  std::string buf;
-
-  _fifo.open(_path.c_str());
-  while (!_fifo.eof()) {
-    getline(_fifo, buf);
-    input.append(buf);
-    input.push_back('\n');
-  }
-  _fifo.close();
-
-  input.erase(--input.end());
-
-  return input;
-}
-
-/*}}}*/
-void File::AbcInput::listen(bool blocking)/*{{{*/
-{
-  // Prevent input from being handled twice:
-  if (_isListening) {
-    std::string message = "Already listening on " + _path;
-    throw Exception::FileInputException(libsxc::Exception::FileLocked, message);
-  }
-  _isListening = true;
-
-  LOG<Debug>("Creating thread.");
-
-  // Start the thread in the background.
-  pthread_create(&_thread, NULL, _listen, (void*)this);
-
-  LOG<Debug>("Thread created.");
-
-  // Join the thread when this functions should read in a blocking way.
-  if (true == blocking)
-    pthread_join(_thread, NULL);
-
-  LOG<Debug>("listen() ends here.");
-}
-
-/*}}}*/
-void File::AbcInput::close()/*{{{*/
-{
-  if (_isListening) {
-    _mustClose = true;
-    // Open an close FIFO in order to unblock subthread.
-    std::ofstream out(_path.c_str());
-    out.close();
-    pthread_join(_thread, NULL);
-  }
-
-  _mustClose   = false;
-  _isListening = false;
-}
-
-/*}}}*/
-std::list<std::string> File::AbcInput::split(
-  const std::string &data, const char delim)/*{{{*/
-{
-  std::istringstream in(data);
-  std::string buf;
-  std::list<std::string> splitted;
-
-  do {
-    getline(in, buf, delim);
-    if (!buf.empty())
-      splitted.push_back(buf);
-  } while (!in.eof());
-
-  return splitted;
-}
-
-/*}}}*/
-void *File::AbcInput::_listen(void *fifo)/*{{{*/
-{
-  LOG<Debug>("Thread running.");
-  // FIXME: Add exception handling. || called methods must not throw
-  AbcInput *that = (AbcInput *) fifo;
-  while (!that->_mustClose) {
-    std::string input = that->_read();
-
-    if (that->_mustClose) break;
-    if (input.empty()) continue;
-
-    std::list<std::string> inputs = AbcInput::split(input, '\0');
-    for (std::list<std::string>::iterator it = inputs.begin();
-       it != inputs.end();
-       ++it)
-    {
-      that->_handleInput(*it);
+    if (chmod != chmodExpected) {
+      std::stringstream msg;
+      msg << "Bad chmod: " << std::oct << chmod;
+      // FIXME: Exceptions have to accept parameter being a string.
+      std::string message = msg.str();
+      throw Exception::BadFile(message.c_str());
     }
+
+    _isFifoValid = true;
   }
 
-  LOG<Debug>("Thread terminating.");
+  /*}}}*/
+  std::string AbcInput::_read()/*{{{*/
+  {
+    std::string input;
+    std::string buf;
 
-  return NULL;
+    _fifo.open(_path.c_str());
+    while (!_fifo.eof()) {
+      getline(_fifo, buf);
+      input.append(buf);
+      input.push_back('\n');
+    }
+    _fifo.close();
+
+    input.erase(--input.end());
+
+    return input;
+  }
+
+  /*}}}*/
+  void AbcInput::listen(bool blocking)/*{{{*/
+  {
+    // Prevent input from being handled twice:
+    if (_isListening) {
+      std::string message = "Already listening on " + _path;
+      throw Exception::FileLocked(message.c_str());
+    }
+    _isListening = true;
+
+    LOG<Debug>("Creating thread.");
+
+    // Start the thread in the background.
+    pthread_create(&_thread, NULL, _listen, (void*)this);
+
+    LOG<Debug>("Thread created.");
+
+    // Join the thread when this functions should read in a blocking way.
+    if (true == blocking)
+      pthread_join(_thread, NULL);
+
+    LOG<Debug>("listen() ends here.");
+  }
+
+  /*}}}*/
+  void AbcInput::close()/*{{{*/
+  {
+    if (_isListening) {
+      _mustClose = true;
+      // Open an close FIFO in order to unblock subthread.
+      std::ofstream out(_path.c_str());
+      out.close();
+      pthread_join(_thread, NULL);
+    }
+
+    _mustClose   = false;
+    _isListening = false;
+  }
+
+  /*}}}*/
+  std::list<std::string> AbcInput::split(
+    const std::string &data, const char delim)/*{{{*/
+  {
+    std::istringstream in(data);
+    std::string buf;
+    std::list<std::string> splitted;
+
+    do {
+      getline(in, buf, delim);
+      if (!buf.empty())
+        splitted.push_back(buf);
+    } while (!in.eof());
+
+    return splitted;
+  }
+
+  /*}}}*/
+  void *AbcInput::_listen(void *fifo)/*{{{*/
+  {
+    LOG<Debug>("Thread running.");
+    // FIXME: Add exception handling. || called methods must not throw
+    AbcInput *that = (AbcInput *) fifo;
+    while (!that->_mustClose) {
+      std::string input = that->_read();
+
+      if (that->_mustClose) break;
+      if (input.empty()) continue;
+
+      std::list<std::string> inputs = AbcInput::split(input, '\0');
+      for (std::list<std::string>::iterator it = inputs.begin();
+         it != inputs.end();
+         ++it)
+      {
+        that->_handleInput(*it);
+      }
+    }
+
+    LOG<Debug>("Thread terminating.");
+
+    return NULL;
+  }
+
+  /*}}}*/
 }
-
-/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

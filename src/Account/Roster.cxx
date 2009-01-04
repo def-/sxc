@@ -34,7 +34,7 @@
 #include <gloox/error.h>
 
 #include <libsxc/generateString.hxx>
-#include <libsxc/Exception/GlooxException.hxx>
+#include <libsxc/Exception/Exception.hxx>
 
 #include <Account/Roster.hxx>
 #include <Contact/Contact.hxx>
@@ -301,10 +301,11 @@ namespace Account
 
   void Roster::_checkClient() const/*{{{*/
   {
+    // FIXME: Better exception or none at all
     if (!gloox::StateConnected == _client.state())
-      throw libsxc::Exception::GlooxException(
-        libsxc::Exception::InvalidUsage,
-        "Connection ist not established.");
+      throw libsxc::Exception::Exception(
+        "Connection ist not established.",
+        libsxc::Exception::InvalidUsage);
   }/*}}}*/
   void Roster::_addContactRemote(const gloox::JID &jid) const/*{{{*/
   {

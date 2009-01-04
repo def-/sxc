@@ -25,7 +25,8 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <list>
 #include "CommandParserDummy.hxx"
-#include <Exception/InputException.hxx>
+
+#include <libsxc/Exception/Exception.hxx>
 
 /*}}}*/
 
@@ -39,10 +40,10 @@
 class TestNoCommandParser : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(TestNoCommandParser);
-    CPPUNIT_TEST_EXCEPTION(testParse, Exception::InputException);
-    CPPUNIT_TEST_EXCEPTION(testGetName, Exception::InputException);
-    CPPUNIT_TEST_EXCEPTION(testGetParameterString, Exception::InputException);
-    CPPUNIT_TEST_EXCEPTION(testGetParsed, Exception::InputException);
+    CPPUNIT_TEST_EXCEPTION(testParse, libsxc::Exception::Exception);
+    CPPUNIT_TEST_EXCEPTION(testGetName, libsxc::Exception::Exception);
+    CPPUNIT_TEST_EXCEPTION(testGetParameterString, libsxc::Exception::Exception);
+    CPPUNIT_TEST_EXCEPTION(testGetParsed, libsxc::Exception::Exception);
   CPPUNIT_TEST_SUITE_END();
 
   public:

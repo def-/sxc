@@ -29,7 +29,6 @@
 #include <list>
 
 #include <cppunit/Exception.h>
-#include <Exception/InputException.hxx>
 #include <libsxc/Exception/Type.hxx>
 #include "TestCommandParser.hxx"
 #include "CommandParserDummy.hxx"

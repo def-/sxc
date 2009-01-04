@@ -31,12 +31,13 @@
 #include <map>
 
 #include <Contact/Command.hxx>
-#include <Exception/InputException.hxx>
-#include <libsxc/Exception/Exception.hxx>
 #include <Contact/Contact.hxx>
 #include <Account/Account.hxx>
 #include <Account/Roster.hxx>
+#include <CommandParser/Exception/InvalidCommand.hxx>
+
 #include <libsxc/Logger.hxx>
+#include <libsxc/Exception/Type.hxx>
 
 /*}}}*/
 
@@ -111,14 +112,11 @@ namespace Contact
         } else if ("on" == action) {
         } else if ("off" == action) {
         } else {
-          libsxc::Exception::Type type =
-            libsxc::Exception::InvalidCommand;
           std::string message = "Unknown parameter '"
                     + action + "' for command 'pgp'.";
-          throw Exception::InputException(type, message);
+          throw CommandParser::Exception::InvalidCommand(message.c_str());
         }
-        throw Exception::InputException(
-          libsxc::Exception::General, "Unimplemented.");
+        throw libsxc::Exception::Exception("Unimplemented.", libsxc::Exception::General);
 /*}}}*/
       } else if ("sub" == name) {/*{{{*/
         _contact.subscribe(parsed.at(1));
@@ -127,9 +125,8 @@ namespace Contact
         _contact.unsubscribe(parsed.at(1));
 /*}}}*/
       } else {/*{{{*/
-        libsxc::Exception::Type t = libsxc::Exception::InvalidCommand;
         std::string message = "Unknown name: " + name;
-        throw Exception::InputException(t, message);
+        throw CommandParser::Exception::InvalidCommand(message.c_str());
       }/*}}}*/
     } catch (std::out_of_range &e) {
       // Accessed an element of container returned by getParsed()

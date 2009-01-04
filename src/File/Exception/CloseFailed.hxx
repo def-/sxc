@@ -1,7 +1,6 @@
-#line 2 "sxc:Exception/FileInputException.cxx"
 // LICENSE/*{{{*/
 /*
-  sxc - Simple Xmpp Client
+  libsxc
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
   Permission to use, copy, modify, and/or distribute this software for any
@@ -18,48 +17,35 @@
  */
 /*}}}*/
 
-// INCLUDES/*{{{*/
+#ifndef FILE_EXCEPTION_CLOSEFAILED_HXX
+#define FILE_EXCEPTION_CLOSEFAILED_HXX
 
-#include <sstream>
+// INCLUDE/*{{{*/
+
+#include <exception>
 
 #include <libsxc/Exception/Exception.hxx>
 #include <libsxc/Exception/Type.hxx>
 
-#include <Exception/FileInputException.hxx>
-
 /*}}}*/
 
-namespace Exception
+namespace File
 {
-  FileInputException::FileInputException(/*{{{*/
-    libsxc::Exception::Type type,
-    std::string &message)
-  : Exception(type, message)
+  namespace Exception
   {
+    /**
+     */
+    class CloseFailed : virtual public libsxc::Exception::Exception
+    {
+      public:
+        CloseFailed(const char* name) throw();
+        CloseFailed(const char* name, const std::exception& cause) throw();
+      private:
+        void _createMessage(const char* name) throw();
+    };
   }
-
-/*}}}*/
-  FileInputException::FileInputException(/*{{{*/
-    libsxc::Exception::Type type,
-    const char *message)
-  : Exception(type, message)
-  {
-  }
-
-/*}}}*/
-  void FileInputException::createDescription() throw()/*{{{*/
-  {
-    // FIXME
-    std::stringstream desc;
-    desc << "!!! FIXME: FileInputException { _type = " << _type
-       << ", _message = " << _message << " }";
-    _description = desc.str();
-  }
-
-/*}}}*/
 }
 
-
+#endif // FILE_EXCEPTION_CLOSEFAILED_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker
-

@@ -31,7 +31,6 @@
 #include <Contact/Contact.hxx>
 #include <Contact/File/Input.hxx>
 #include <Contact/Command.hxx>
-#include <Exception/InputException.hxx>
 #include <libsxc/Exception/Exception.hxx>
 #include <libsxc/Logger.hxx>
 
@@ -67,11 +66,7 @@ namespace Contact
       try {
         Command command(_contact, input);
         command.execute();
-      } catch (Exception::InputException &e) {
-        // Just an invalid input, nothing serious.
-        //_account.handleError(e); // FIXME
       } catch (libsxc::Exception::Exception &e) {
-        // This may be something more serious.
         // TODO: Fix handleError() to make use of stderr
         //_account.handleError(e); // FIXME
       } catch (std::exception &e) {

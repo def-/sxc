@@ -1,7 +1,6 @@
-#line 2 "sxc:Exception/InputException.cxx"
 // LICENSE/*{{{*/
 /*
-  sxc - Simple Xmpp Client
+  libsxc
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
   Permission to use, copy, modify, and/or distribute this software for any
@@ -18,39 +17,35 @@
  */
 /*}}}*/
 
-// INCLUDES/*{{{*/
+#ifndef FILE_EXCEPTION_BADPATH_HXX
+#define FILE_EXCEPTION_BADPATH_HXX
 
-#include <sstream>
+// INCLUDE/*{{{*/
 
-#include <Exception/InputException.hxx>
+#include <exception>
+
+#include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Exception/Type.hxx>
 
 /*}}}*/
 
-namespace Exception
+namespace File
 {
-  InputException::InputException(libsxc::Exception::Type type, std::string &message)/*{{{*/
-  : Exception(type, message)
+  namespace Exception
   {
+    /**
+     */
+    class BadPath : virtual public libsxc::Exception::Exception
+    {
+      public:
+        BadPath(const char* name) throw();
+        BadPath(const char* name, const std::exception& cause) throw();
+      private:
+        void _createMessage(const char* name) throw();
+    };
   }
-
-/*}}}*/
-  InputException::InputException(libsxc::Exception::Type type, const char *message)/*{{{*/
-  : Exception(type, message)
-  {
-  }
-
-/*}}}*/
-  void InputException::createDescription() throw()/*{{{*/
-  {
-    std::stringstream desc;
-    desc << "InputException: " << _message << " (" << _type << ") .";
-    _description = desc.str();
-  }
-
-/*}}}*/
 }
 
-
+#endif // FILE_EXCEPTION_BADPATH_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker
-

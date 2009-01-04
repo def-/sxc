@@ -1,6 +1,6 @@
 // LICENSE/*{{{*/
 /*
-  sxc - Simple Xmpp Client
+  libsxc
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
   Permission to use, copy, modify, and/or distribute this software for any
@@ -17,40 +17,35 @@
  */
 /*}}}*/
 
+#ifndef FILE_EXCEPTION_BADFILE_HXX
+#define FILE_EXCEPTION_BADFILE_HXX
 
-/**
- * @file Errno.hxx
- * @brief Contains functions for handling the system errno variable.
- */
+// INCLUDE/*{{{*/
 
-#ifndef EXCEPTION_ERRNO_HXX
-#define EXCEPTION_ERRNO_HXX
+#include <exception>
 
-// INCLUDES/*{{{*/
-
+#include <libsxc/Exception/Exception.hxx>
 #include <libsxc/Exception/Type.hxx>
 
 /*}}}*/
 
-
-namespace Exception
+namespace File
 {
-
-  /** Transforms the passed errno into an exception type.
-   *
-   * For a list of possible errno's and their meaning, look at the following
-   * man pages:
-   * @li man 2 stat
-   * @li man 3 mkfifo
-   *
-   * @param p_errno The errno that occured and that should be transformed.
-   * @return An Exception::Type that matches the passed errno.
-   */
-  libsxc::Exception::Type errnoToType(int p_errno);
+  namespace Exception
+  {
+    /**
+     */
+    class BadFile : virtual public libsxc::Exception::Exception
+    {
+      public:
+        BadFile(const char* name) throw();
+        BadFile(const char* name, const std::exception& cause) throw();
+      private:
+        void _createMessage(const char* name) throw();
+    };
+  }
 }
 
-#endif // EXCEPTION_ERRNO_HXX
-
+#endif // FILE_EXCEPTION_BADFILE_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker
-

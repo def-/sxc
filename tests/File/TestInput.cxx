@@ -27,7 +27,6 @@
 #include <string>
 #include <fstream>
 
-#include <Exception/FileInputException.hxx>
 #include <libsxc/Exception/Type.hxx>
 #include "TestInput.hxx"
 

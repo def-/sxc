@@ -30,7 +30,9 @@
 #include <map>
 
 #include <CommandParser/AbcCommandParser.hxx>
-#include <Exception/InputException.hxx>
+#include <CommandParser/Exception/InvalidCommand.hxx>
+#include <CommandParser/Exception/NotACommand.hxx>
+#include <Exception/InvalidUsage.hxx>
 
 #include <libsxc/Logger.hxx>
 
@@ -56,16 +58,14 @@ namespace CommandParser
   void AbcCommandParser::parse()/*{{{*/
   {
     if (_isParsed)
-      throw Exception::InputException(libsxc::Exception::InvalidUsage, "already parsed");
+      throw ::Exception::InvalidUsage("already parsed");
 
     // Check for proper formatting
     if (AbcCommandParser::_commandPrefix != _command.at(0)) {
-      std::string msg = _command; // FIXME: Exceptions have to take const parameters!
-      throw Exception::InputException(libsxc::Exception::NoCommand, msg);
+      throw Exception::NotACommand(_command.c_str());
     }
     if (4 != _command.find(' ')) {
-      std::string msg = _command; // FIXME: Exceptions have to take const parameters!
-      throw Exception::InputException(libsxc::Exception::InvalidCommand, msg);
+      throw Exception::InvalidCommand(_command.c_str());
     }
     // Properly formatted, may be a command. Start slicing it.
     _commandName = _command.substr(1, 3);
@@ -76,8 +76,7 @@ namespace CommandParser
     commandMap::iterator it = commands.find(_commandName);
     if (commands.end() == it) {
       // Invalid command. Input was only formatted like a command.
-      std::string msg = _command; // FIXME: Exceptions have to take const parameters!
-      throw Exception::InputException(libsxc::Exception::InvalidCommand, msg);
+      throw Exception::InvalidCommand(_command.c_str());
     }
 
     _parsed.push_back(_commandName);
@@ -108,9 +107,8 @@ namespace CommandParser
         // Delimiter not found -> only one parameter left.
         if (i == it->second.first) // No problem, last one was optional.
           break;
-        std::string msg = _command; // FIXME: Exceptions have to take const parameters!
         // FIXME: Use InvalidParameters below
-        throw Exception::InputException(libsxc::Exception::InvalidCommand, msg);
+        throw Exception::InvalidCommand(_command.c_str());
       }
 
       // Extract the parameter and push it into the container.
@@ -142,8 +140,7 @@ namespace CommandParser
     if (_isParsed)
       return _commandName;
 
-    std::string msg = _command; // FIXME: Exceptions have to take const parameters!
-    throw Exception::InputException(libsxc::Exception::InvalidUsage, msg);
+    throw ::Exception::InvalidUsage(_command.c_str());
   }
 
 /*}}}*/
@@ -152,8 +149,7 @@ namespace CommandParser
     if (_isParsed)
       return _parameters;
 
-    std::string msg = _command; // FIXME: Exceptions have to take const parameters!
-    throw Exception::InputException(libsxc::Exception::InvalidUsage, msg);
+    throw ::Exception::InvalidUsage(_command.c_str());
   }
 
 /*}}}*/
@@ -161,8 +157,8 @@ namespace CommandParser
   {
     if (_isParsed)
       return _parsed;
-    std::string msg = "Not parsed: " + _command;
-    throw Exception::InputException(libsxc::Exception::InvalidUsage, msg);
+    const std::string msg = "Not parsed: " + _command;
+    throw ::Exception::InvalidUsage(msg.c_str());
   }
 
 /*}}}*/
