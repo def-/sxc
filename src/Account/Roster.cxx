@@ -164,6 +164,11 @@ namespace Account
     _client.disposeMessageSession(session);
   }/*}}}*/
 
+  const gloox::JID &Roster::getJid()/*{{{*/
+  {
+    return _client.jid();
+  }/*}}}*/
+
   void Roster::handleItemAdded(const gloox::JID &jid)/*{{{*/
   {
     LOG2("Item added to the roster: \"" + jid.bare() + "\".");

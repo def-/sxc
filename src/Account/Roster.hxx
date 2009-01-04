@@ -197,6 +197,14 @@ namespace Account
 
 /*}}}*/
 
+      //const gloox::JID &getJid();/*{{{*/
+
+      /**
+       */
+      const gloox::JID &getJid();
+
+/*}}}*/
+
       // Reimplemented from gloox::MessageHandler
       //void handleMessage(const &msg, *session);/*{{{*/
 
