@@ -25,12 +25,13 @@
 #include <string>
 
 #include <File/AbcInput.hxx>
-#include <Contact/Contact.hxx>
 
 /*}}}*/
 
 namespace Contact
 {
+  class Contact;
+
   namespace File
   {
     /**

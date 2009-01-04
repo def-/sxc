@@ -43,12 +43,14 @@
 
 namespace Contact
 {
-  Contact::Contact(Account::Roster &roster, const gloox::JID &jid, ::File::AbcOutput &out)/*{{{*/
+  Contact::Contact(/*{{{*/
+    Account::Roster &roster,
+    const gloox::JID &jid,
+    ::File::AbcOutput &out)
   : _roster(roster)
   , _session(roster.createMessageSession(this, jid))
   , _out(out)
-  //, _in(this)
-  // FIXME: Files
+  , _in(*this, roster.getJid().bare(), jid.bare())
   {
     LOG2("Create contact: \"" + jid.bare() + "\".");
 

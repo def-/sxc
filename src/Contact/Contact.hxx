@@ -32,7 +32,8 @@
 #include <gloox/messagehandler.h>
 #include <gloox/presence.h>
 
-#include <File/AbcInput.hxx>
+//#include <File/AbcInput.hxx>
+#include <Contact/File/Input.hxx>
 #include <File/AbcOutput.hxx>
 
 /*}}}*/
@@ -169,6 +170,7 @@ namespace Contact
       Account::Roster &_roster;
       gloox::MessageSession *_session;
       //::File::AbcInput &_in;
+      File::Input _in;
       ::File::AbcOutput &_out;
   };
 }
