@@ -17,8 +17,8 @@
  */
 /*}}}*/
 
-#ifndef ACCOUNT_FILE_OUTPUT_HXX
-#define ACCOUNT_FILE_OUTPUT_HXX
+#ifndef CONTACT_FILE_OUTPUT_HXX
+#define CONTACT_FILE_OUTPUT_HXX
 
 // INCLUDES/*{{{*/
 
@@ -84,7 +84,7 @@ namespace Contact
   }
 }
 
-#endif // ACCOUNT_FILE_OUTPUT_HXX
+#endif // CONTACT_FILE_OUTPUT_HXX
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker
