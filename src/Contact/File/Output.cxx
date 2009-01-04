@@ -37,7 +37,7 @@ namespace Contact
 {
   namespace File
   {
-    Output::Output(const std::string accountJid, const std::string contactJid)/*{{{*/
+    Output::Output(const std::string &accountJid, const std::string &contactJid)/*{{{*/
     : _accountJid(accountJid)
     , _contactJid(contactJid)
     {

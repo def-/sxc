@@ -42,7 +42,7 @@ namespace Contact
     class Output : public ::File::AbcOutput
     {
       public:
-        // Output(const string accountJid, const string contactJid);/*{{{*/
+        // Output(const string &accountJid, const string &contactJid);/*{{{*/
 
         /**
          * @brief Initializes the object.
@@ -50,7 +50,7 @@ namespace Contact
          * @param accountJid Our local jid.
          * @param contactJid The remote contact's jid.
          */
-        Output(const std::string accountJid, const std::string contactJid);
+        Output(const std::string &accountJid, const std::string &contactJid);
 
 /*}}}*/
 

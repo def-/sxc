@@ -36,7 +36,7 @@ namespace Account
 {
   namespace File
   {
-    Output::Output(const std::string accountJid)/*{{{*/
+    Output::Output(const std::string &accountJid)/*{{{*/
     : _accountJid(accountJid)
     {
     }

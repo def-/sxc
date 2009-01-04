@@ -41,14 +41,14 @@ namespace Account
     class Output : public ::File::AbcOutput
     {
       public:
-        // Output(const std::string accountJid);/*{{{*/
+        // Output(const std::string &accountJid);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
          * @param accountJid The JID of this local account.
          */
-        Output(const std::string accountJid);
+        Output(const std::string &accountJid);
 
 /*}}}*/
 
