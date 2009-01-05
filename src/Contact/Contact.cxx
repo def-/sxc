@@ -85,12 +85,14 @@ namespace Contact
     ss << "\", body: \"" << msg.body() << "\").";
     LOG2(ss.str());
 
-    _out.write(msg.body());
+    _out.writeIncomming(msg.body());
   }/*}}}*/
 
   void Contact::sendMessage(const std::string &message)/*{{{*/
   {
-    _roster.sendMessage(_getJid(), message);
+    LOG2("Sending message: \"" + message + "\"");
+    _session->send(message);
+    _out.writeOutgoing(message);
   }/*}}}*/
   void Contact::add()/*{{{*/
   {

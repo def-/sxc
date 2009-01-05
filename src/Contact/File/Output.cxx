@@ -25,11 +25,14 @@
 #endif
 
 #include <string>
+#include <sstream>
 
 #include <Contact/File/Output.hxx>
 #include <Time/Timestamp.hxx>
 #include <Time/LocalDateTime.hxx>
 #include <Time/IsoDateTimeFormat.hxx>
+
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
@@ -48,9 +51,13 @@ namespace Contact
     {
       close();
     }/*}}}*/
-    void Output::write(const std::string &message)/*{{{*/
+    void Output::writeOutgoing(std::string message)/*{{{*/
     {
-      AbcOutput::write(_format(message));
+      write(_indent(_format("<" + _accountJid + "> "), message) + "\n");
+    }/*}}}*/
+    void Output::writeIncomming(std::string message)/*{{{*/
+    {
+      write(_indent(_format("<" + _contactJid + "> "), message) + "\n");
     }/*}}}*/
 
     std::string Output::_createPath() const/*{{{*/
@@ -61,8 +68,44 @@ namespace Contact
     {
       Time::LocalDateTime date = Time::LocalDateTime(Time::Timestamp());
       Time::IsoDateTimeFormat format(&date);
-      return format.string() + ' ' + output + "\n";
+      return format.string() + ' ' + output;
     }/*}}}*/
+    std::string Output::_indent(const std::string &prefix, std::string &text) const/*{{{*/
+    {
+      size_t pos = 0;
+      while (true) {
+        pos = text.find('\n', pos);
+
+        std::ostringstream ss;
+        ss << "Found newline (pos: " << pos << ", size: " << text.size() << ").";
+        LOG2(ss.str());
+
+        if (std::string::npos == pos)
+          return prefix + text;
+
+        text.insert(pos + 1, std::string(prefix.size(), ' '));
+
+        pos += prefix.size() + 1;
+      }
+    }/*}}}*/
+    //std::string Output::_indent(const std::string &prefix, std::string &text) const/*{{{*/
+    //{
+    //  size_t pos = 0;
+    //  while (true) {
+    //    pos = text.find('\n', pos);
+
+    //    std::ostringstream ss;
+    //    ss << "Found newline (pos: " << pos << ", size: " << text.size() << ").";
+    //    LOG2(ss.str());
+
+    //    if (std::string::npos == pos)
+    //      return prefix + text;
+
+    //    text.insert(pos + 1, std::string(prefix.size(), ' '));
+
+    //    pos += prefix.size() + 1;
+    //  }
+    //}/*}}}*/
   }
 }
 

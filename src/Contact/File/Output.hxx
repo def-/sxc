@@ -54,7 +54,8 @@ namespace Contact
 
 /*}}}*/
         ~Output();
-        virtual void write(const std::string &message);
+        void writeOutgoing(std::string message);
+        void writeIncomming(std::string message);
 
       private:
         const std::string _accountJid;
@@ -82,6 +83,7 @@ namespace Contact
         std::string _format(const std::string &output) const;
 
 /*}}}*/
+        std::string _indent(const std::string &prefix, std::string &text) const;
     };
   }
 }
