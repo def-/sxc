@@ -53,6 +53,8 @@ namespace Contact
         Output(const std::string &accountJid, const std::string &contactJid);
 
 /*}}}*/
+        ~Output();
+        virtual void write(const std::string &message);
 
       private:
         const std::string _accountJid;

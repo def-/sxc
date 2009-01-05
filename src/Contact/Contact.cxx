@@ -85,7 +85,7 @@ namespace Contact
     ss << "\", body: \"" << msg.body() << "\").";
     LOG2(ss.str());
 
-    //_output->write(msg->body());
+    _out.write(msg.body());
   }/*}}}*/
 
   void Contact::sendMessage(const std::string &message)/*{{{*/

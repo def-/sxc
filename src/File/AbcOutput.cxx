@@ -55,7 +55,7 @@ namespace File
   }/*}}}*/
   void AbcOutput::open()/*{{{*/
   {
-    _ofstream.open(_path->c_str());
+    _ofstream.open(_path->c_str(), std::ios_base::app); // Append.
   }/*}}}*/
   void AbcOutput::close()/*{{{*/
   {

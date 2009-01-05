@@ -41,23 +41,28 @@ namespace Contact
     : _accountJid(accountJid)
     , _contactJid(contactJid)
     {
-    }
+      initialize();
+      open();
+    }/*}}}*/
+    Output::~Output()/*{{{*/
+    {
+      close();
+    }/*}}}*/
+    void Output::write(const std::string &message)/*{{{*/
+    {
+      AbcOutput::write(_format(message));
+    }/*}}}*/
 
-/*}}}*/
     std::string Output::_createPath() const/*{{{*/
     {
       return _accountJid + '/' + _contactJid + "/out";
-    }
-
-/*}}}*/
+    }/*}}}*/
     std::string Output::_format(const std::string &output) const/*{{{*/
     {
       Time::LocalDateTime date = Time::LocalDateTime(Time::Timestamp());
       Time::IsoDateTimeFormat format(&date);
-      return format.string() + ' ' + output;
-    }
-
-/*}}}*/
+      return format.string() + ' ' + output + "\n";
+    }/*}}}*/
   }
 }
 
