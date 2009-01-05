@@ -23,7 +23,7 @@
 #include <File/Exception/BadPath.hxx>
 
 #include <libsxc/Exception/Exception.hxx>
-#include <libsxc/Exception/Type.hxx>
+#include <Exit/Code.hxx>
 
 #include <exception>
 #include <cstring>
@@ -39,7 +39,7 @@ namespace File
     : libsxc::Exception::Exception()
     {
       _createMessage(name);
-      setType(libsxc::Exception::BadPath);
+      setExitCode(Exit::BadPath);
       createBacktrace();
     }
 
@@ -50,7 +50,7 @@ namespace File
     : libsxc::Exception::Exception(cause)
     {
       _createMessage(name);
-      setType(libsxc::Exception::BadPath);
+      setExitCode(Exit::BadPath);
       createBacktrace();
     }
 

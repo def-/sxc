@@ -29,7 +29,7 @@
 #include <list>
 
 #include <cppunit/Exception.h>
-#include <libsxc/Exception/Type.hxx>
+#include <Exit/Code.hxx>
 #include "TestCommandParser.hxx"
 #include "CommandParserDummy.hxx"
 

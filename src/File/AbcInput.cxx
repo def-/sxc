@@ -39,7 +39,7 @@
 #include <File/Exception/FileLocked.hxx>
 #include <File/Exception/errnoToException.hxx>
 
-#include <libsxc/Exception/Type.hxx>
+#include <Exit/Code.hxx>
 #include <libsxc/Logger.hxx>
 
 /*}}}*/
@@ -73,7 +73,7 @@ namespace File
       } catch (libsxc::Exception::Exception &e) {
         // If the file is missing, create it. Anything else means that someone
         // tampered with the file.
-        if (libsxc::Exception::FileMissing != e.getType())
+        if (Exit::FileMissing != e.getExitCode())
           throw e;
         _create();
       }

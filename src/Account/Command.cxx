@@ -37,6 +37,7 @@
 
 #include <libsxc/Logger.hxx>
 #include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Exit/Code.hxx>
 
 /*}}}*/
 
@@ -116,7 +117,7 @@ namespace Account
           throw CommandParser::Exception::InvalidCommand(message.c_str());
         }
         // FIXME add pgp
-        throw libsxc::Exception::Exception("Unimplemented.", libsxc::Exception::General);
+        throw libsxc::Exception::Exception("Unimplemented.", libsxc::Exit::General);
 /*}}}*/
       } else if ("pwd" == name) {/*{{{*/
         _account.setPassphrase(parsed.at(1));

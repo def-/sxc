@@ -40,6 +40,7 @@
 #include <Contact/Contact.hxx>
 #include <Contact/File/Output.hxx>
 #include <File/AbcOutput.hxx>
+#include <Exit/Code.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -305,7 +306,7 @@ namespace Account
     if (!gloox::StateConnected == _client.state())
       throw libsxc::Exception::Exception(
         "Connection ist not established.",
-        libsxc::Exception::InvalidUsage);
+        Exit::InvalidUsage);
   }/*}}}*/
   void Roster::_addContactRemote(const gloox::JID &jid) const/*{{{*/
   {

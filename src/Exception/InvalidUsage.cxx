@@ -23,7 +23,7 @@
 #include <Exception/InvalidUsage.hxx>
 
 #include <libsxc/Exception/Exception.hxx>
-#include <libsxc/Exception/Type.hxx>
+#include <Exit/Code.hxx>
 
 #include <exception>
 #include <cstring>
@@ -37,7 +37,7 @@ namespace Exception
   : libsxc::Exception::Exception()
   {
     _createMessage(name);
-    setType(libsxc::Exception::InvalidUsage);
+    setExitCode(Exit::InvalidUsage);
     createBacktrace();
   }
 
@@ -48,7 +48,7 @@ namespace Exception
   : libsxc::Exception::Exception(cause)
   {
     _createMessage(name);
-    setType(libsxc::Exception::InvalidUsage);
+    setExitCode(Exit::InvalidUsage);
     createBacktrace();
   }
 

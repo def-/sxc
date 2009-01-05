@@ -21,17 +21,22 @@
 
 // INCLUDE/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+# include <config.hxx>
+#endif
+
 #include <string>
 #include <iostream>
 #include <signal.h>
 
 #include <gloox/jid.h>
 
+#include <libsxc/Logger.hxx>
 #include <libsxc/Option/Parser.hxx>
 #include <libsxc/Option/Option.hxx>
 #include <libsxc/Option/OptionPort.hxx>
 #include <libsxc/Exception/Exception.hxx>
-
+#include <libsxc/Exit/Code.hxx>
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
 
@@ -40,13 +45,6 @@
 #include <Account/File/Output.hxx>
 #include <Error/Handler.hxx>
 #include <setupClient.hxx>
-#include <Error/ExitCode.hxx>
-
-#ifdef HAVE_CONFIG_H
-# include <config.hxx>
-#endif
-
-#include <libsxc/Logger.hxx>
 
 /*}}}*/
 
@@ -94,13 +92,13 @@ int main(int argc, char *argv[])/*{{{*/
     parser.parse(argv);
   } catch (libsxc::Exception::Exception &e) {
     std::cerr << e.what() << std::endl;
-    return e.getType();
+    return e.getExitCode();
   } catch (std::exception &e) {
     std::cerr << e.what() << std::endl;
-    return Error::General;
+    return libsxc::Exit::General;
   } catch (...) {
     std::cerr << "Unexpected error parsing options." << std::endl;
-    return Error::General;
+    return libsxc::Exit::General;
   }
 
   if (parser.doShowHelp()) {
@@ -113,12 +111,12 @@ int main(int argc, char *argv[])/*{{{*/
     ++it) {
       std::cerr << *it << std::endl;
     }
-    return Error::NoError;
+    return libsxc::Exit::NoError;
   }
 
   if (parser.doShowVersion()) {
     std::cerr << VERSION << std::endl;
-    return Error::NoError;
+    return libsxc::Exit::NoError;
   }
 
   // Fill in the passphrase later.
@@ -135,7 +133,7 @@ int main(int argc, char *argv[])/*{{{*/
   } catch (libsxc::Exception::Exception &e) {
     LOG<libsxc::Error>(e.what());
     // Don't delete account, as it failed to initialize.
-    return e.getType();
+    return e.getExitCode();
   }
 
   // Has to be created before running any thread.

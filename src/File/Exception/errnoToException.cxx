@@ -23,7 +23,8 @@
 #include <errno.h>
 
 #include <libsxc/Exception/Exception.hxx>
-#include <libsxc/Exception/Type.hxx>
+#include <libsxc/Exit/Code.hxx>
+#include <Exit/Code.hxx>
 
 #include <File/Exception/errnoToException.hxx>
 
@@ -75,7 +76,7 @@ namespace File
       // case ENOMEM:
       }
 
-      return libsxc::Exception::Exception(message, libsxc::Exception::General);
+      return libsxc::Exception::Exception(message, libsxc::Exit::General);
     }
   }
 }

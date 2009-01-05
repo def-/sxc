@@ -193,7 +193,7 @@ namespace Account
   {
     if (isCritical) {
       LOG<Error>(e.what());
-      exit(e.getType());
+      exit(e.getExitCode());
     }
     _out.write(e.what());
   }/*}}}*/

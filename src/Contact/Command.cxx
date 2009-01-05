@@ -37,7 +37,8 @@
 #include <CommandParser/Exception/InvalidCommand.hxx>
 
 #include <libsxc/Logger.hxx>
-#include <libsxc/Exception/Type.hxx>
+#include <libsxc/Exit/Code.hxx>
+#include <Exit/Code.hxx>
 
 /*}}}*/
 
@@ -116,7 +117,7 @@ namespace Contact
                     + action + "' for command 'pgp'.";
           throw CommandParser::Exception::InvalidCommand(message.c_str());
         }
-        throw libsxc::Exception::Exception("Unimplemented.", libsxc::Exception::General);
+        throw libsxc::Exception::Exception("Unimplemented.", libsxc::Exit::General);
 /*}}}*/
       } else if ("sub" == name) {/*{{{*/
         _contact.subscribe(parsed.at(1));

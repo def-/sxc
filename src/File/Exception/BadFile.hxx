@@ -25,7 +25,7 @@
 #include <exception>
 
 #include <libsxc/Exception/Exception.hxx>
-#include <libsxc/Exception/Type.hxx>
+#include <Exit/Code.hxx>
 
 /*}}}*/
 

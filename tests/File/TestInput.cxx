@@ -27,7 +27,7 @@
 #include <string>
 #include <fstream>
 
-#include <libsxc/Exception/Type.hxx>
+#include <Exit/Code.hxx>
 #include "TestInput.hxx"
 
 /*}}}*/
