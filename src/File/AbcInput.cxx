@@ -108,6 +108,7 @@ namespace File
       throw Exception::BadFile(message.c_str());
     }
 
+    // FIXME: Remove check for chmod?
     // Check for chmod 600(octal):
     int chmod = fstat.st_mode
           & (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);

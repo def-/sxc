@@ -21,6 +21,10 @@
 
 // INCLUDE/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+# include <config.hxx>
+#endif
+
 #include <string>
 #include <map>
 #include <sstream>
@@ -35,18 +39,13 @@
 
 #include <libsxc/generateString.hxx>
 #include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 #include <Account/Roster.hxx>
 #include <Contact/Contact.hxx>
-#include <Contact/File/Output.hxx>
 #include <File/AbcOutput.hxx>
+#include <File/createDir.hxx>
 #include <Exit/Code.hxx>
-
-#ifdef HAVE_CONFIG_H
-# include <config.hxx>
-#endif
-
-#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
@@ -329,7 +328,7 @@ namespace Account
       return;
     }
 
-    //Contact::File::Output out(_client.jid().bare(), jid.bare());
+    File::createDir(_client.jid().bare() + "/" + jid.bare());
     _contacts.insert(std::make_pair(
       jid.bare(),
       new Contact::Contact(*this, _client.jid(), jid)));

@@ -21,6 +21,10 @@
 
 // INCLUDE/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+# include <config.hxx>
+#endif
+
 #include <string>
 #include <sstream>
 
@@ -32,11 +36,6 @@
 #include <Account/Roster.hxx>
 
 #include <libsxc/generateString.hxx>
-
-#ifdef HAVE_CONFIG_H
-# include <config.hxx>
-#endif
-
 #include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
@@ -53,6 +52,8 @@ namespace Contact
   , _out(accountJid.bare(), contactJid.bare())
   {
     LOG2("Create contact: \"" + contactJid.bare() + "\".");
+
+    _in.listen();
   }/*}}}*/
   Contact::~Contact()/*{{{*/
   {

@@ -21,14 +21,14 @@
 
 // INCLUDE/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+# include <config.hxx>
+#endif
+
 #include <gloox/client.h>
 #include <gloox/disco.h>
 
 #include <setupClient.hxx>
-
-#ifdef HAVE_CONFIG_H
-# include <config.hxx>
-#endif
 
 #include <libsxc/Debug/Logger.hxx>
 

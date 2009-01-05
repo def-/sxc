@@ -39,12 +39,14 @@
 #include <libsxc/Exit/Code.hxx>
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
+#include <libsxc/getHostName.hxx>
 
 #include <Account/Account.hxx>
 #include <Account/Roster.hxx>
 #include <Account/File/Output.hxx>
 #include <Error/Handler.hxx>
 #include <setupClient.hxx>
+#include <File/createDir.hxx>
 
 /*}}}*/
 
@@ -84,9 +86,11 @@ int main(int argc, char *argv[])/*{{{*/
   libsxc::Option::Option<std::string> version(
     &parser, ' ', "iqversion", "version",
     std::string("Version to announce (default: ") + VERSION + ")", VERSION);
-  libsxc::Option::Option<gloox::JID> jid(
+  const std::string defaultResource =
+    std::string(PACKAGE) + "@" + libsxc::getHostName();
+  libsxc::Option::Option<gloox::JID> jidRaw(
     &parser, ' ', "", "jid",
-    "user@domain[/resource]");
+    "user@domain[/resource] (resource default: " + defaultResource + ")");
 
   try {
     parser.parse(argv);
@@ -119,11 +123,17 @@ int main(int argc, char *argv[])/*{{{*/
     return libsxc::Exit::NoError;
   }
 
+  gloox::JID jid = jidRaw.getValue();
+  if ("" == jid.resource())
+    jid.setResource(defaultResource);
+
   // Fill in the passphrase later.
-  gloox::Client client(jid.getValue(), "", port.getValue());
+  gloox::Client client(jid, "", port.getValue());
   setupClient(client, name.getValue(), version.getValue());
 
-  Account::File::Output out(jid.getValue().bare());
+  File::createDir(jid.bare());
+
+  Account::File::Output out(jid.bare());
 
   Account::Roster roster(client, out);
 
