@@ -32,11 +32,10 @@
 #include <Account/File/Input.hxx>
 #include <Account/Command.hxx>
 #include <libsxc/Exception/Exception.hxx>
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-using libsxc::Error;
 
 namespace Account
 {
@@ -66,7 +65,7 @@ namespace Account
         //_account.handleError(e); // FIXME
       } catch (std::exception &e) {
         // This is *really* unexpected.
-        LOG<Error>(e.what());
+        //LOG<Error>(e.what()); // FIXME
         //_account.print(e.what()); // FIXME
       }
     }

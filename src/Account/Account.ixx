@@ -29,22 +29,21 @@
 # include <config.hxx>
 #endif
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-using libsxc::Debug;
 
 namespace Account
 {
   inline void Account::onResourceBind(const std::string &resource)/*{{{*/
   {
-    LOG<Debug>("Bind resouce: \"" + resource + "\".");
+    LOG2("Bind resouce: \"" + resource + "\".");
   }/*}}}*/
 
   inline void Account::onResourceBindError(const gloox::Error *error)/*{{{*/
   {
-    LOG<Debug>("Resource bind error.");
+    LOG2("Resource bind error.");
   }/*}}}*/
 
   inline void Account::onSessionCreateError(const gloox::Error *error)/*{{{*/

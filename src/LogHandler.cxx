@@ -30,18 +30,17 @@
 # include <config.hxx>
 #endif
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-using libsxc::Debug;
 
 void LogHandler::handleLog(/*{{{*/
   gloox::LogLevel level,
   gloox::LogArea area,
   const std::string &message)
 {
-  LOG<Debug>(message);
+  LOG2(message);
 }/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

@@ -27,11 +27,10 @@
 
 #include "InputDummy.hxx"
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-using libsxc::Debug;
 
 InputDummy::InputDummy(const std::string &filename)/*{{{*/
 : _filename(filename)
@@ -54,7 +53,7 @@ const std::string &InputDummy::getLastInput() const/*{{{*/
 void InputDummy::_handleInput(const std::string &input)/*{{{*/
 {
 #ifdef DEBUG
-  LOG<Debug>("INPUT: " + input);
+  LOG2("INPUT: " + input);
 #endif
   _lastInput = input;
 }

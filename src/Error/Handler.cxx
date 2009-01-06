@@ -21,17 +21,18 @@
 
 // INCLUDE/*{{{*/
 
-#include <libsxc/Signal/Waiter.hxx>
-#include <libsxc/Signal/stopOn.hxx>
-
-#include <Error/Handler.hxx>
-//#include <File/AbcOutput.hxx>
-
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
 #endif
 
-#include <libsxc/Logger.hxx>
+#include <iostream>
+
+#include <libsxc/Signal/Waiter.hxx>
+#include <libsxc/Signal/stopOn.hxx>
+#include <libsxc/Debug/Logger.hxx>
+
+#include <Error/Handler.hxx>
+//#include <File/AbcOutput.hxx>
 
 /*}}}*/
 

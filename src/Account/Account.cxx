@@ -44,16 +44,13 @@
 # include <config.hxx>
 #endif
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 #ifdef DEBUG
 # include <sstream>
 #endif
 
 /*}}}*/
-
-using libsxc::Debug;
-using libsxc::Error;
 
 namespace Account
 {
@@ -85,7 +82,7 @@ namespace Account
   }/*}}}*/
   Account::~Account()/*{{{*/
   {
-    LOG<Debug>("Exit.");
+    LOG2("Exit.");
 
     disconnect();
     _client.removeConnectionListener(this);
@@ -102,7 +99,7 @@ namespace Account
   }/*}}}*/
   void Account::setPassphrase(const std::string &pass)/*{{{*/
   {
-    LOG<Debug>("Set passphrase: \"" + pass + "\".");
+    LOG2("Set passphrase: \"" + pass + "\".");
 
     _client.setPassword(pass);
   }/*}}}*/
@@ -115,7 +112,7 @@ namespace Account
     text << "Set presence: (\"" << libsxc::genPresenceString(presence)
        << "\" (" << presence << "), priority: " << priority
        << ", message: \"" << status << "\").";;
-    LOG<Debug>(text.str());
+    LOG2(text.str());
 
     // Don't trust _client, but instead store the presence information
     // locally.
@@ -145,7 +142,7 @@ namespace Account
   }/*}}}*/
   void Account::disconnect()/*{{{*/
   {
-    LOG<Debug>("Disconnect.");
+    LOG2("Disconnect.");
 
     _client.disconnect();
   }/*}}}*/
@@ -192,7 +189,7 @@ namespace Account
     bool isCritical) const
   {
     if (isCritical) {
-      LOG<Error>(e.what());
+      //LOG<Error>(e.what()); // FIXME
       exit(e.getExitCode());
     }
     _out.write(e.what());
@@ -200,11 +197,11 @@ namespace Account
 
   void Account::onConnect()/*{{{*/
   {
-    LOG<Debug>("Connected: Connection established.");
+    LOG2("Connected: Connection established.");
   }/*}}}*/
   void Account::onDisconnect(gloox::ConnectionError e)/*{{{*/
   {
-    LOG<Debug>("Disconnected: " + libsxc::genConnErrorString(
+    LOG2("Disconnected: " + libsxc::genConnErrorString(
       e,
       _client.streamError(),
       _client.streamErrorText(),
@@ -221,19 +218,19 @@ namespace Account
   }/*}}}*/
   bool Account::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
   {
-    LOG<Debug>("Acknowledge TLS certificate.");
+    LOG2("Acknowledge TLS certificate.");
 
     return true;
   }/*}}}*/
 
   void *Account::_run(void *rawThat)/*{{{*/
   {
-    LOG<Debug>("Start socket receiving thread.");
+    LOG2("Start socket receiving thread.");
 
     Account *that = (Account *) rawThat;
     that->_client.connect(); // Blocking.
 
-    LOG<Debug>("End socket receiving thread.");
+    LOG2("End socket receiving thread.");
 
     return (void *) NULL;
   }/*}}}*/

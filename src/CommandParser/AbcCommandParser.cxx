@@ -34,11 +34,10 @@
 #include <CommandParser/Exception/NotACommand.hxx>
 #include <Exception/InvalidUsage.hxx>
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-using libsxc::Debug;
 
 namespace CommandParser
 {
@@ -91,7 +90,7 @@ namespace CommandParser
       msg << "entering parser loop for \""  + _command + "\", using "
         << ( it->second.first + (short) it->second.second )
         << " cycles.\n";
-      LOG<Debug>(msg.str());
+      LOG2(msg.str());
     }
 
     // Stops when the mandatory amount of parameters has been
@@ -102,7 +101,7 @@ namespace CommandParser
       // Find end of current parameter:
       delimiter = paramsLeft.find(' ');
       if (std::string::npos == delimiter) {
-        LOG<Debug>("Not found in \"" + paramsLeft + "\"\n");
+        LOG2("Not found in \"" + paramsLeft + "\"\n");
 
         // Delimiter not found -> only one parameter left.
         if (i == it->second.first) // No problem, last one was optional.
@@ -114,14 +113,14 @@ namespace CommandParser
       // Extract the parameter and push it into the container.
       _parsed.push_back(paramsLeft.substr(0, (int)delimiter));
 
-      LOG<Debug>(paramsLeft + '\n' + _parsed.back() + '~');
+      LOG2(paramsLeft + '\n' + _parsed.back() + '~');
 
       // Remove parameter from the list of parameters left.
       paramsLeft = paramsLeft.substr((int)delimiter + 1);
 
-      LOG<Debug>(paramsLeft + "\n----next cycle----\n");
+      LOG2(paramsLeft + "\n----next cycle----\n");
     }
-    LOG<Debug>("Out of loop, appending the last one.\n" + paramsLeft + '~');
+    LOG2("Out of loop, appending the last one.\n" + paramsLeft + '~');
 
     _parsed.push_back(paramsLeft);
 

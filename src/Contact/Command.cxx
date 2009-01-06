@@ -36,13 +36,12 @@
 #include <Account/Roster.hxx>
 #include <CommandParser/Exception/InvalidCommand.hxx>
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 #include <libsxc/Exit/Code.hxx>
 #include <Exit/Code.hxx>
 
 /*}}}*/
 
-using libsxc::Error;
 
 using CommandParser::commandMap;
 using CommandParser::command;
@@ -137,7 +136,7 @@ namespace Contact
       std::string message = "out_of_range: ";
       message.append(e.what());
       //_account.print(message); // FIXME
-      LOG<Error>(message);
+      //LOG<Error>(message); // FIXME
     }
   }
 

@@ -32,11 +32,10 @@
 #include <Contact/File/Input.hxx>
 #include <Contact/Command.hxx>
 #include <libsxc/Exception/Exception.hxx>
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-using libsxc::Error;
 
 namespace Contact
 {

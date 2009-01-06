@@ -40,11 +40,10 @@
 #include <File/Exception/errnoToException.hxx>
 
 #include <Exit/Code.hxx>
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-using libsxc::Debug;
 
 namespace File
 {
@@ -118,7 +117,7 @@ namespace File
     msg << "fstat.st_mode = " << std::oct << fstat.st_mode << '\n';
     msg << "chmod         = " << std::oct << chmod         << '\n';
     msg << "expected      = " << std::oct << chmodExpected << '\n';
-    LOG<Debug>(msg.str());
+    LOG2(msg.str());
 
     if (chmod != chmodExpected) {
       std::stringstream msg;
@@ -161,18 +160,18 @@ namespace File
     }
     _isListening = true;
 
-    LOG<Debug>("Creating thread.");
+    LOG2("Creating thread.");
 
     // Start the thread in the background.
     pthread_create(&_thread, NULL, _listen, (void*)this);
 
-    LOG<Debug>("Thread created.");
+    LOG2("Thread created.");
 
     // Join the thread when this functions should read in a blocking way.
     if (true == blocking)
       pthread_join(_thread, NULL);
 
-    LOG<Debug>("listen() ends here.");
+    LOG2("listen() ends here.");
   }
 
   /*}}}*/
@@ -210,7 +209,7 @@ namespace File
   /*}}}*/
   void *AbcInput::_listen(void *fifo)/*{{{*/
   {
-    LOG<Debug>("Thread running.");
+    LOG2("Thread running.");
     // FIXME: Add exception handling. || called methods must not throw
     AbcInput *that = (AbcInput *) fifo;
     while (!that->_mustClose) {
@@ -228,7 +227,7 @@ namespace File
       }
     }
 
-    LOG<Debug>("Thread terminating.");
+    LOG2("Thread terminating.");
 
     return NULL;
   }

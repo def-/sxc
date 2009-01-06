@@ -31,7 +31,7 @@
 
 #include <gloox/jid.h>
 
-#include <libsxc/Logger.hxx>
+#include <libsxc/Debug/Logger.hxx>
 #include <libsxc/Option/Parser.hxx>
 #include <libsxc/Option/Option.hxx>
 #include <libsxc/Option/OptionPort.hxx>
