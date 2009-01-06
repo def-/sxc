@@ -130,18 +130,18 @@ namespace Contact
       void remove();
 
 /*}}}*/
-      //void subscribe(const std::string &message=gloox::EmptyString);/*{{{*/
+      //void subscribe(const std::string &message="");/*{{{*/
 
       /**
        */
-      void subscribe(const std::string &message=gloox::EmptyString);
+      void subscribe(const std::string &message="");
 
 /*}}}*/
-      //void unsubscribe(const std::string &message=gloox::EmptyString);/*{{{*/
+      //void unsubscribe(const std::string &message="");/*{{{*/
 
       /**
        */
-      void unsubscribe(const std::string &message=gloox::EmptyString);
+      void unsubscribe(const std::string &message="");
 
 /*}}}*/
       //void acknowledgeSubscription();/*{{{*/

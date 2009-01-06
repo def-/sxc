@@ -40,6 +40,7 @@
 #include <libsxc/generateString.hxx>
 #include <libsxc/Exception/Exception.hxx>
 #include <libsxc/Debug/Logger.hxx>
+#include <libsxc/Error/Handler.hxx>
 
 #include <Account/Roster.hxx>
 #include <Contact/Contact.hxx>
@@ -51,11 +52,15 @@
 
 namespace Account
 {
-  Roster::Roster(gloox::Client &client, ::File::AbcOutput &out)/*{{{*/
+  Roster::Roster(/*{{{*/
+    gloox::Client &client,
+    ::File::AbcOutput &out,
+    libsxc::Error::Handler &eh)
   : RosterListener()
   , _client(client)
   , _out(out)
   , _contacts()
+  , _eh(eh)
   {
     // Asynchronous subscription request handling.
     _client.rosterManager()->registerRosterListener(this, false);
@@ -289,16 +294,12 @@ namespace Account
   void Roster::handleRosterError(const gloox::IQ &iq)/*{{{*/
   {
     const gloox::Error *error = iq.error();
-    if (error)
-      LOG(
+    if (error) {
+      _eh.print(
         "Roster error received: " +
         libsxc::genStanzaErrorString(error->error()));
+    }
 
-    // FIXME: Use handleError
-    //if (error)
-    //  _account->print(
-    //    "Roster error received: " +
-    //    libsxc::genStanzaErrorString(error->error()));
   }/*}}}*/
 
   void Roster::_checkClient() const/*{{{*/

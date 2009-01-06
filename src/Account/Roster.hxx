@@ -40,6 +40,8 @@
 #include <gloox/message.h>
 #include <gloox/messagehandler.h>
 
+#include <libsxc/Error/Handler.hxx>
+
 #include <Contact/Contact.hxx>
 #include <File/AbcOutput.hxx>
 
@@ -62,14 +64,17 @@ namespace Account
   class Roster : public gloox::RosterListener, public gloox::MessageHandler
   {
     public:
-      //Roster(gloox::Client &client, ::File::AbcOutput &out);/*{{{*/
+      //Roster(gloox::Client &, AbcOutput &, libsxc::Error::Handler &);/*{{{*/
 
       /**
        * @brief Initialise the roster and register with the client.
        *
        * @param client The client instance to register with.
        */
-      Roster(gloox::Client &client, ::File::AbcOutput &out);
+      Roster(
+        gloox::Client &client,
+        ::File::AbcOutput &out,
+        libsxc::Error::Handler &eh);
 
 /*}}}*/
       //~Roster();/*{{{*/
@@ -120,7 +125,7 @@ namespace Account
 
 /*}}}*/
 
-      //void subscribe(const JID &jid, &message=EmptyString) const;/*{{{*/
+      //void subscribe(const JID &jid, &message="") const;/*{{{*/
 
       /**
        * @brief Send a subscription request.
@@ -135,7 +140,7 @@ namespace Account
        */
       void subscribe(
         const gloox::JID &jid,
-        const std::string &message=gloox::EmptyString) const;
+        const std::string &message="") const;
 
 /*}}}*/
       //void unsubscribe(const JID &jid, &message=Empty) const;/*{{{*/
@@ -151,7 +156,7 @@ namespace Account
        */
       void unsubscribe(
         const gloox::JID &jid,
-        const std::string &message=gloox::EmptyString) const;
+        const std::string &message="") const;
 
 /*}}}*/
 
@@ -456,13 +461,21 @@ namespace Account
       gloox::Client &_client;
 
 /*}}}*/
+      //::File::AbcOutput &_out;/*{{{*/
+      ///
       ::File::AbcOutput &_out;
+
+/*}}}*/
       //contactList _contacts;/*{{{*/
       /// All @ref Contact instances of the roster.
       contactList _contacts;
 
 /*}}}*/
+      //libsxc::Error::Handler &_eh;/*{{{*/
+      ///
+      libsxc::Error::Handler &_eh;
 
+/*}}}*/
   };
 }
 

@@ -50,7 +50,6 @@
 
 /*}}}*/
 
-#include <iostream>
 /**
  * @mainpage sxc Documentation
  *
@@ -144,13 +143,13 @@ int main(int argc, char *argv[])/*{{{*/
   waiter.reg(SIGTERM, handler);
   waiter.run(); // From this moment on signals are handled. Not blocking.
 
-  Account::Roster roster(client, out);
+  Account::Roster roster(client, out, handler);
 
   Account::Account *account;
   try {
-    account = new Account::Account(client, roster, out);
+    account = new Account::Account(client, roster, out, handler);
   } catch (libsxc::Exception::Exception &e) {
-    //LOG<libsxc::Error>(e.what()); // FIXME
+    handler.printCritical(e.what());
     // Don't delete account, as it failed to initialize.
     return e.getExitCode();
   }
@@ -159,9 +158,7 @@ int main(int argc, char *argv[])/*{{{*/
 
   waiter.join(); // Blocking. Wait until execution stop is requested.
 
-  std::cerr << "a" << std::endl;
   delete account;
-  std::cerr << "b" << std::endl;
   return handler.getExitCode();
 }/*}}}*/
 
