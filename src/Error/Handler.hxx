@@ -27,7 +27,7 @@
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
 
-//#include <File/AbcOutput.hxx>
+#include <File/AbcOutput.hxx>
 
 /*}}}*/
 
@@ -38,46 +38,64 @@ namespace Error
   , public libsxc::Signal::Stopper
   {
     public:
-      //Handler(libsxc::Signal::Waiter &waiter);/*{{{*/
+      //Handler(libsxc::Signal::Waiter &waiter, File::AbcOutput &out);/*{{{*/
 
       /**
+       * @param waiter The signal waiter to be used when calling @ref terminate.
+       * @param out The file to be used when calling @ref print.
        */
-      Handler(libsxc::Signal::Waiter &waiter /*, File::AbcOutput &out*/);
+      Handler(libsxc::Signal::Waiter &waiter, File::AbcOutput &out);
 
 /*}}}*/
       //int getExitCode();/*{{{*/
 
       /**
+       * Get the exit code that has been assigned before using @ref terminate.
+       * See @ref libsxc::Exit::Code and @ref Exit::Code for exit codes to be
+       * used.
        */
       int getExitCode();
 
 /*}}}*/
       // From Error::Handler
-      //void print(const std::string &message);/*{{{*/
+      //virtual void print(const std::string &message);/*{{{*/
 
       /**
+       * Simply print a message to the account's output file. Call this method
+       * in case some error occured and you want to notify the user. For
+       * critical errors, see @ref printCritical.
+       *
+       * @param message The raw message to print; will be formatted.
        */
-      void print(const std::string &message);
+      virtual void print(const std::string &message);
 
   /*}}}*/
-      //void printCritical(const std::string &message);/*{{{*/
+      //virtual void printCritical(const std::string &message);/*{{{*/
 
       /**
+       * Print a message about an error on stderr. This method should be called
+       * on errors, that are a serious threat to the correct running of the
+       * program.
+       *
+       * @param message The message to print.
        */
-      void printCritical(const std::string &message);
+      virtual void printCritical(const std::string &message);
 
   /*}}}*/
-      //void terminate(int exitCode);/*{{{*/
+      //virtual void terminate(int exitCode);/*{{{*/
 
       /**
+       * This will call the assigned @ref Signal::Waiter and make it break out
+       * of the blocking running. The main function may then exit the program
+       * by getting the exit code using @ref getExitCode.
        */
-      void terminate(int exitCode);
+      virtual void terminate(int exitCode);
 
 /*}}}*/
 
     private:
       int _exitCode;
-      //File::AbcOutput &_out;
+      File::AbcOutput &_out;
   };
 }
 

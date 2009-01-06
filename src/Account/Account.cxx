@@ -71,7 +71,6 @@ namespace Account
   , _out(out)
   {
     _client.registerConnectionListener(this);
-    _client.registerMessageHandler(&_roster);
 
 #   ifdef DEBUG
       _client.logInstance().registerLogHandler(
@@ -85,8 +84,9 @@ namespace Account
     LOG("Exit.");
 
     disconnect();
+    pthread_join(_thread, NULL);
+
     _client.removeConnectionListener(this);
-    _client.removeMessageHandler(&_roster);
 
 #   if DEBUG
       _client.logInstance().removeLogHandler(&_logHandler);

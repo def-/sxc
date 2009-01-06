@@ -30,17 +30,19 @@
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
 #include <libsxc/Debug/Logger.hxx>
+#include <libsxc/Exit/Code.hxx>
 
 #include <Error/Handler.hxx>
-//#include <File/AbcOutput.hxx>
+#include <File/AbcOutput.hxx>
 
 /*}}}*/
 
 namespace Error
 {
-  Handler::Handler(libsxc::Signal::Waiter &waiter/*, File::AbcOutput &out*/)/*{{{*/
+  Handler::Handler(libsxc::Signal::Waiter &waiter, File::AbcOutput &out)/*{{{*/
   : libsxc::Signal::Stopper(waiter)
-  //, _out(out)
+  , _out(out)
+  , _exitCode(libsxc::Exit::NoError)
   {
   }/*}}}*/
 
@@ -51,7 +53,7 @@ namespace Error
 
   void Handler::print(const std::string &message)/*{{{*/
   {
-    //_out.write(message);
+    _out.write(message);
   }/*}}}*/
 
   void Handler::printCritical(const std::string &message)/*{{{*/

@@ -59,10 +59,12 @@ namespace Account
   {
     // Asynchronous subscription request handling.
     _client.rosterManager()->registerRosterListener(this, false);
+    _client.registerMessageHandler(this);
   }/*}}}*/
   Roster::~Roster()/*{{{*/
   {
     _client.rosterManager()->removeRosterListener();
+    _client.removeMessageHandler(this);
 
     for(
     contactList::iterator entry = _contacts.begin();

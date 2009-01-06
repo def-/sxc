@@ -50,6 +50,7 @@
 
 /*}}}*/
 
+#include <iostream>
 /**
  * @mainpage sxc Documentation
  *
@@ -135,6 +136,14 @@ int main(int argc, char *argv[])/*{{{*/
 
   Account::File::Output out(jid.bare());
 
+  // Signal waiter as to be created before running any thread. Else signals
+  // directed to them would not get handled by the registered handlers.
+  libsxc::Signal::Waiter waiter;
+  Error::Handler handler(waiter, out);
+  waiter.reg(SIGINT, handler);
+  waiter.reg(SIGTERM, handler);
+  waiter.run(); // From this moment on signals are handled. Not blocking.
+
   Account::Roster roster(client, out);
 
   Account::Account *account;
@@ -146,18 +155,13 @@ int main(int argc, char *argv[])/*{{{*/
     return e.getExitCode();
   }
 
-  // Has to be created before running any thread.
-  libsxc::Signal::Waiter waiter;
-  Error::Handler handler(waiter);
-
-  waiter.reg(SIGINT, handler);
-  waiter.reg(SIGTERM, handler);
-
   account->run(); // Starts threads.
 
-  waiter.run(); // Blocking. From this moment on signals are handled.
+  waiter.join(); // Blocking. Wait until execution stop is requested.
 
+  std::cerr << "a" << std::endl;
   delete account;
+  std::cerr << "b" << std::endl;
   return handler.getExitCode();
 }/*}}}*/
 
