@@ -83,7 +83,6 @@ namespace Contact
         std::string _format(const std::string &output) const;
 
 /*}}}*/
-        std::string _indent(const std::string &prefix, std::string &text) const;
     };
   }
 }

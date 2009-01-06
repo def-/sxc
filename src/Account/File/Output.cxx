@@ -39,23 +39,30 @@ namespace Account
     Output::Output(const std::string &accountJid)/*{{{*/
     : _accountJid(accountJid)
     {
-    }
+      initialize();
+      open();
+    }/*}}}*/
+    Output::~Output()/*{{{*/
+    {
+      close();
+    }/*}}}*/
 
-/*}}}*/
+    void Output::write(const std::string &message)/*{{{*/
+    {
+      std::string msg(message);
+      AbcOutput::write(_indent(_format(""), msg) + "\n");
+    }/*}}}*/
+
     std::string Output::_createPath() const/*{{{*/
     {
       return _accountJid + "/out";
-    }
-
-/*}}}*/
+    }/*}}}*/
     std::string Output::_format(const std::string &output) const/*{{{*/
     {
       Time::LocalDateTime date = Time::LocalDateTime(Time::Timestamp());
       Time::IsoDateTimeFormat format(&date);
       return format.string() + ' ' + output;
-    }
-
-/*}}}*/
+    }/*}}}*/
   }
 }
 

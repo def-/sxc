@@ -209,7 +209,7 @@ namespace Account
       _client.streamError(),
       _client.streamErrorText(),
       _client.authError(),
-      true)); // Debug.
+      /* Debug = */ true));
 
     std::string text = libsxc::genConnErrorString(
       e,

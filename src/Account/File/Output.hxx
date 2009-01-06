@@ -51,6 +51,9 @@ namespace Account
         Output(const std::string &accountJid);
 
 /*}}}*/
+        ~Output();
+
+        virtual void write(const std::string &message);
 
       protected:
 

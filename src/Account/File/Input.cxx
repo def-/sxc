@@ -63,7 +63,7 @@ namespace Account
         command.execute();
       } catch (libsxc::Exception::Exception &e) {
         // TODO: Fix handleError() to make use of stderr
-        _account.handleError(e); // FIXME
+        //_account.handleError(e); // FIXME
       } catch (std::exception &e) {
         // This is *really* unexpected.
         LOG<Error>(e.what());

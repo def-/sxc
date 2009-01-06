@@ -70,42 +70,6 @@ namespace Contact
       Time::IsoDateTimeFormat format(&date);
       return format.string() + ' ' + output;
     }/*}}}*/
-    std::string Output::_indent(const std::string &prefix, std::string &text) const/*{{{*/
-    {
-      size_t pos = 0;
-      while (true) {
-        pos = text.find('\n', pos);
-
-        std::ostringstream ss;
-        ss << "Found newline (pos: " << pos << ", size: " << text.size() << ").";
-        LOG2(ss.str());
-
-        if (std::string::npos == pos)
-          return prefix + text;
-
-        text.insert(pos + 1, std::string(prefix.size(), ' '));
-
-        pos += prefix.size() + 1;
-      }
-    }/*}}}*/
-    //std::string Output::_indent(const std::string &prefix, std::string &text) const/*{{{*/
-    //{
-    //  size_t pos = 0;
-    //  while (true) {
-    //    pos = text.find('\n', pos);
-
-    //    std::ostringstream ss;
-    //    ss << "Found newline (pos: " << pos << ", size: " << text.size() << ").";
-    //    LOG2(ss.str());
-
-    //    if (std::string::npos == pos)
-    //      return prefix + text;
-
-    //    text.insert(pos + 1, std::string(prefix.size(), ' '));
-
-    //    pos += prefix.size() + 1;
-    //  }
-    //}/*}}}*/
   }
 }
 

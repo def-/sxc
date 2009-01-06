@@ -132,6 +132,7 @@ namespace File
       virtual void _dispose() throw();
 
 /*}}}*/
+      std::string _indent(const std::string &prefix, std::string &text) const;
 
     private:
       // std::string _path;/*{{{*/
