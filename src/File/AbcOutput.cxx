@@ -81,7 +81,7 @@ namespace File
 
       std::ostringstream ss;
       ss << "Found newline (pos: " << pos << ", size: " << text.size() << ").";
-      LOG2(ss.str());
+      LOG(ss.str());
 
       if (std::string::npos == pos)
         return prefix + text;

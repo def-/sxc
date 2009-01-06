@@ -34,7 +34,7 @@
 namespace Error
 {
   class Handler
-  : public libsxc::Error2::Handler
+  : public libsxc::Error::Handler
   , public libsxc::Signal::Stopper
   {
     public:

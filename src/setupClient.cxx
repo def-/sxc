@@ -44,13 +44,13 @@ void setupClient(/*{{{*/
   const std::string category = "client";
   const std::string type = "console";
 
-  LOG2(
+  LOG(
     "Set identity: (category: \"" + category + "\", type: \"" +
     type + "\", name: \"" + name + "\").");
 
   client.disco()->setIdentity(category, type, name);
 
-  LOG2(
+  LOG(
     "Set version: (name: \"" + name + "\", version: \"" +
     version + "\").");
 

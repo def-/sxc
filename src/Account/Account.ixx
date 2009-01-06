@@ -38,12 +38,12 @@ namespace Account
 {
   inline void Account::onResourceBind(const std::string &resource)/*{{{*/
   {
-    LOG2("Bind resouce: \"" + resource + "\".");
+    LOG("Bind resouce: \"" + resource + "\".");
   }/*}}}*/
 
   inline void Account::onResourceBindError(const gloox::Error *error)/*{{{*/
   {
-    LOG2("Resource bind error.");
+    LOG("Resource bind error.");
   }/*}}}*/
 
   inline void Account::onSessionCreateError(const gloox::Error *error)/*{{{*/

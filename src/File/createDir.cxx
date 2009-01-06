@@ -43,13 +43,13 @@ namespace File
     // existing, is a directory.
     struct stat fstat;
     if (0 == stat(path.c_str(), &fstat)) {
-      LOG2("File already exists: \"" + path + "\"");
+      LOG("File already exists: \"" + path + "\"");
       // Is it a directory?
       if (!S_ISDIR(fstat.st_mode)) {
         throw Exception::BadFile(("Not a directory: " + path).c_str());
       }
       // It is a directory, so there is no need to do anything.
-      LOG2("Directory already exists: \"" + path + "\"");
+      LOG("Directory already exists: \"" + path + "\"");
       return;
     }
 
@@ -59,7 +59,7 @@ namespace File
         ("Could not get fstat: " + path).c_str());
     }
 
-    LOG2("Create directory: \"" + path + "\"");
+    LOG("Create directory: \"" + path + "\"");
 
     // Directory does not exist. Create it with chmod 700.
     if (0 == mkdir(path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR))

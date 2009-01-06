@@ -82,7 +82,7 @@ namespace Account
   }/*}}}*/
   Account::~Account()/*{{{*/
   {
-    LOG2("Exit.");
+    LOG("Exit.");
 
     disconnect();
     _client.removeConnectionListener(this);
@@ -99,7 +99,7 @@ namespace Account
   }/*}}}*/
   void Account::setPassphrase(const std::string &pass)/*{{{*/
   {
-    LOG2("Set passphrase: \"" + pass + "\".");
+    LOG("Set passphrase: \"" + pass + "\".");
 
     _client.setPassword(pass);
   }/*}}}*/
@@ -112,7 +112,7 @@ namespace Account
     text << "Set presence: (\"" << libsxc::genPresenceString(presence)
        << "\" (" << presence << "), priority: " << priority
        << ", message: \"" << status << "\").";;
-    LOG2(text.str());
+    LOG(text.str());
 
     // Don't trust _client, but instead store the presence information
     // locally.
@@ -142,7 +142,7 @@ namespace Account
   }/*}}}*/
   void Account::disconnect()/*{{{*/
   {
-    LOG2("Disconnect.");
+    LOG("Disconnect.");
 
     _client.disconnect();
   }/*}}}*/
@@ -197,11 +197,11 @@ namespace Account
 
   void Account::onConnect()/*{{{*/
   {
-    LOG2("Connected: Connection established.");
+    LOG("Connected: Connection established.");
   }/*}}}*/
   void Account::onDisconnect(gloox::ConnectionError e)/*{{{*/
   {
-    LOG2("Disconnected: " + libsxc::genConnErrorString(
+    LOG("Disconnected: " + libsxc::genConnErrorString(
       e,
       _client.streamError(),
       _client.streamErrorText(),
@@ -218,19 +218,19 @@ namespace Account
   }/*}}}*/
   bool Account::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
   {
-    LOG2("Acknowledge TLS certificate.");
+    LOG("Acknowledge TLS certificate.");
 
     return true;
   }/*}}}*/
 
   void *Account::_run(void *rawThat)/*{{{*/
   {
-    LOG2("Start socket receiving thread.");
+    LOG("Start socket receiving thread.");
 
     Account *that = (Account *) rawThat;
     that->_client.connect(); // Blocking.
 
-    LOG2("End socket receiving thread.");
+    LOG("End socket receiving thread.");
 
     return (void *) NULL;
   }/*}}}*/

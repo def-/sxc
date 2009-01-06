@@ -51,13 +51,13 @@ namespace Contact
   , _in(*this, accountJid.bare(), contactJid.bare())
   , _out(accountJid.bare(), contactJid.bare())
   {
-    LOG2("Create contact: \"" + contactJid.bare() + "\".");
+    LOG("Create contact: \"" + contactJid.bare() + "\".");
 
     _in.listen();
   }/*}}}*/
   Contact::~Contact()/*{{{*/
   {
-    LOG2("Delete contact: \"" + _session->target().bare() + "\".");
+    LOG("Delete contact: \"" + _session->target().bare() + "\".");
 
     _roster.disposeMessageSession(_session); // Will be deleted.
   }/*}}}*/
@@ -83,14 +83,14 @@ namespace Contact
     ss << "\" (" << msg.subtype();
     ss << "), subject: \"" << msg.subject();
     ss << "\", body: \"" << msg.body() << "\").";
-    LOG2(ss.str());
+    LOG(ss.str());
 
     _out.writeIncomming(msg.body());
   }/*}}}*/
 
   void Contact::sendMessage(const std::string &message)/*{{{*/
   {
-    LOG2("Sending message: \"" + message + "\"");
+    LOG("Sending message: \"" + message + "\"");
     _session->send(message);
     _out.writeOutgoing(message);
   }/*}}}*/

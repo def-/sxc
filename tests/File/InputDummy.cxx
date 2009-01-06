@@ -53,7 +53,7 @@ const std::string &InputDummy::getLastInput() const/*{{{*/
 void InputDummy::_handleInput(const std::string &input)/*{{{*/
 {
 #ifdef DEBUG
-  LOG2("INPUT: " + input);
+  LOG("INPUT: " + input);
 #endif
   _lastInput = input;
 }

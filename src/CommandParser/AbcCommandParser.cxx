@@ -90,7 +90,7 @@ namespace CommandParser
       msg << "entering parser loop for \""  + _command + "\", using "
         << ( it->second.first + (short) it->second.second )
         << " cycles.\n";
-      LOG2(msg.str());
+      LOG(msg.str());
     }
 
     // Stops when the mandatory amount of parameters has been
@@ -101,7 +101,7 @@ namespace CommandParser
       // Find end of current parameter:
       delimiter = paramsLeft.find(' ');
       if (std::string::npos == delimiter) {
-        LOG2("Not found in \"" + paramsLeft + "\"\n");
+        LOG("Not found in \"" + paramsLeft + "\"\n");
 
         // Delimiter not found -> only one parameter left.
         if (i == it->second.first) // No problem, last one was optional.
@@ -113,14 +113,14 @@ namespace CommandParser
       // Extract the parameter and push it into the container.
       _parsed.push_back(paramsLeft.substr(0, (int)delimiter));
 
-      LOG2(paramsLeft + '\n' + _parsed.back() + '~');
+      LOG(paramsLeft + '\n' + _parsed.back() + '~');
 
       // Remove parameter from the list of parameters left.
       paramsLeft = paramsLeft.substr((int)delimiter + 1);
 
-      LOG2(paramsLeft + "\n----next cycle----\n");
+      LOG(paramsLeft + "\n----next cycle----\n");
     }
-    LOG2("Out of loop, appending the last one.\n" + paramsLeft + '~');
+    LOG("Out of loop, appending the last one.\n" + paramsLeft + '~');
 
     _parsed.push_back(paramsLeft);
 

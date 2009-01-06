@@ -40,7 +40,7 @@ void LogHandler::handleLog(/*{{{*/
   gloox::LogArea area,
   const std::string &message)
 {
-  LOG2(message);
+  LOG(message);
 }/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

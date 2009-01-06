@@ -141,7 +141,7 @@ int main(int argc, char *argv[])/*{{{*/
   try {
     account = new Account::Account(client, roster, out);
   } catch (libsxc::Exception::Exception &e) {
-    LOG<libsxc::Error>(e.what());
+    //LOG<libsxc::Error>(e.what()); // FIXME
     // Don't delete account, as it failed to initialize.
     return e.getExitCode();
   }

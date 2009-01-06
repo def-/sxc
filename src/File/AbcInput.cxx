@@ -117,7 +117,7 @@ namespace File
     msg << "fstat.st_mode = " << std::oct << fstat.st_mode << '\n';
     msg << "chmod         = " << std::oct << chmod         << '\n';
     msg << "expected      = " << std::oct << chmodExpected << '\n';
-    LOG2(msg.str());
+    LOG(msg.str());
 
     if (chmod != chmodExpected) {
       std::stringstream msg;
@@ -160,18 +160,18 @@ namespace File
     }
     _isListening = true;
 
-    LOG2("Creating thread.");
+    LOG("Creating thread.");
 
     // Start the thread in the background.
     pthread_create(&_thread, NULL, _listen, (void*)this);
 
-    LOG2("Thread created.");
+    LOG("Thread created.");
 
     // Join the thread when this functions should read in a blocking way.
     if (true == blocking)
       pthread_join(_thread, NULL);
 
-    LOG2("listen() ends here.");
+    LOG("listen() ends here.");
   }
 
   /*}}}*/
@@ -209,7 +209,7 @@ namespace File
   /*}}}*/
   void *AbcInput::_listen(void *fifo)/*{{{*/
   {
-    LOG2("Thread running.");
+    LOG("Thread running.");
     // FIXME: Add exception handling. || called methods must not throw
     AbcInput *that = (AbcInput *) fifo;
     while (!that->_mustClose) {
@@ -227,7 +227,7 @@ namespace File
       }
     }
 
-    LOG2("Thread terminating.");
+    LOG("Thread terminating.");
 
     return NULL;
   }
