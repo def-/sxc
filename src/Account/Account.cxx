@@ -58,7 +58,7 @@ namespace Account
     gloox::Client &client,
     Roster &roster,
     ::File::AbcOutput &out)
-  : _thread()
+  : _thread(0)
   , _client(client) // Fill in the passphrase later.
   , _roster(roster)
 #   ifdef DEBUG
@@ -81,10 +81,10 @@ namespace Account
   }/*}}}*/
   Account::~Account()/*{{{*/
   {
-    LOG("Exit.");
-
+    pthread_t thread = _thread;
     disconnect();
-    pthread_join(_thread, NULL);
+    if (thread)
+      pthread_join(thread, NULL);
 
     _client.removeConnectionListener(this);
 
@@ -145,6 +145,7 @@ namespace Account
     LOG("Disconnect.");
 
     _client.disconnect();
+    _thread = 0; // Reset to be able to restart another thread.
   }/*}}}*/
 
   void Account::sendMessage(/*{{{*/
