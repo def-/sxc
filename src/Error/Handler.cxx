@@ -26,6 +26,7 @@
 #endif
 
 #include <iostream>
+#include <sstream>
 
 #include <libsxc/Signal/Waiter.hxx>
 #include <libsxc/Signal/stopOn.hxx>
@@ -53,6 +54,7 @@ namespace Error
 
   void Handler::print(const std::string &message)/*{{{*/
   {
+    LOG("Message: \"" + message + "\"");
     _out.write(message);
   }/*}}}*/
 
@@ -63,6 +65,10 @@ namespace Error
 
   void Handler::terminate(int exitCode)/*{{{*/
   {
+    std::ostringstream ss;
+    ss << "Exit code: " << exitCode;
+    LOG(ss.str());
+
     _exitCode = exitCode;
     stop(); // Stop the waiter.
   }/*}}}*/
