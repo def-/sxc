@@ -67,9 +67,6 @@
 
 /**
  * @brief The starting point of sxc.
- *
- * Parse the parameters the program was started with and then initialize the
- * @ref Account::Account.
  */
 int main(int argc, char *argv[])/*{{{*/
 {
@@ -147,7 +144,7 @@ int main(int argc, char *argv[])/*{{{*/
 
   Account::Account *account;
   try {
-    account = new Account::Account(client, roster, out, handler);
+    account = new Account::Account(client, roster, out);
   } catch (libsxc::Exception::Exception &e) {
     handler.printCritical(e.what());
     // Don't delete account, as it failed to initialize.
