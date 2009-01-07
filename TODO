@@ -13,3 +13,18 @@
 * Check copy constructor of each class. If none is needed, make it protected
   without implementing it. If one is needed, implement it explicit.
 * Re-check StyleExample.
+
+
+Generalize Exception classes -- Command Framework may use some of Option Parser
+
+Generic Exception:
+* RuntimeError
+  * OutOfBounds
+  * InvalidInput
+* LogicError
+  * InvalidUsage
+
+
+More verbose Exceptions, i.e. give Command::Exception a command which will be parsed to string by Command::toString() (util.{c,h}xx)
+
+

@@ -268,6 +268,8 @@ AC_CONFIG_FILES([
     Doxyfile
     sxc.1
     src/Makefile
+    src/Command/Makefile
+    src/Command/Exception/Makefile
     src/CommandParser/Makefile
     src/CommandParser/Exception/Makefile
     src/Contact/Makefile
@@ -281,6 +283,8 @@ AC_CONFIG_FILES([
     src/File/Exception/Makefile
     src/Time/Makefile
     tests/Makefile
+    tests/Command/Makefile
+    tests/Command/Mock/Makefile
     tests/CommandParser/Makefile
     tests/File/Makefile
     tests/Time/Makefile
