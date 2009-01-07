@@ -23,6 +23,7 @@
 
 #include <File/TestInput.hxx>
 #include <File/TestOutput.hxx>
+#include <Command/TestCommand.hxx>
 #include <CommandParser/TestCommandParser.hxx>
 #include <CommandParser/TestNoCommandParser.hxx>
 #include <CommandParser/TestInvalidCommandParser.hxx>
@@ -37,6 +38,7 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestInput);
 CPPUNIT_TEST_SUITE_REGISTRATION(TestOutput);
+CPPUNIT_TEST_SUITE_REGISTRATION(TestCommand);
 CPPUNIT_TEST_SUITE_REGISTRATION(TestCommandParser);
 CPPUNIT_TEST_SUITE_REGISTRATION(TestNoCommandParser);
 CPPUNIT_TEST_SUITE_REGISTRATION(TestInvalidCommandParser);
