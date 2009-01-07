@@ -23,3 +23,8 @@ Generic Exception:
   * InvalidInput
 * LogicError
   * InvalidUsage
+
+
+More verbose Exceptions, i.e. give Command::Exception a command which will be parsed to string by Command::toString() (util.{c,h}xx)
+
+
