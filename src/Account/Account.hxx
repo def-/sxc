@@ -35,6 +35,7 @@
 #include <gloox/presence.h>
 
 #include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Error/Handler.hxx>
 
 #include <Account/File/Input.hxx>
 #include <LogHandler.hxx>
@@ -58,12 +59,16 @@ namespace Account
   class Account : public gloox::ConnectionListener
   {
     public:
-      //Account(&client, &roster, &out);/*{{{*/
+      //Account(Client &, Roster &, AbcOutput &, Error::Handler &);/*{{{*/
 
       /**
        * @brief The constructor.
        */
-      Account(gloox::Client &client, Roster &roster, ::File::AbcOutput &out);
+      Account(
+        gloox::Client &client,
+        Roster &roster,
+        ::File::AbcOutput &out,
+        libsxc::Error::Handler &eh);
 
 /*}}}*/
       //~Account();/*{{{*/
@@ -107,10 +112,10 @@ namespace Account
       void setPresence(
         gloox::Presence::PresenceType presence,
         int priority,
-        const std::string &status=gloox::EmptyString);
+        const std::string &status="");
 
 /*}}}*/
-      //bool setPresence(presence, string status=EmptyString);/*{{{*/
+      //bool setPresence(presence, string status="");/*{{{*/
 
       /**
        * @brief Set the presence.
@@ -122,7 +127,7 @@ namespace Account
        */
       void setPresence(
         gloox::Presence::PresenceType presence,
-        const std::string &status=gloox::EmptyString);
+        const std::string &status="");
 
 /*}}}*/
       //void setPriority(int priority);/*{{{*/
@@ -179,13 +184,13 @@ namespace Account
       void removeContact(const gloox::JID &jid) const;
 
 /*}}}*/
-      //void subscribe(const JID &jid, &message=EmptyString) const;/*{{{*/
+      //void subscribe(const JID &jid, &message="") const;/*{{{*/
 
       /**
        */
       void subscribe(
         const gloox::JID &jid,
-        const std::string &message=gloox::EmptyString) const;
+        const std::string &message="") const;
 
 /*}}}*/
       //void unsubscribe(const JID &jid, &message=Empty) const;/*{{{*/
@@ -194,7 +199,7 @@ namespace Account
        */
       void unsubscribe(
         const gloox::JID &jid,
-        const std::string &message=gloox::EmptyString) const;
+        const std::string &message="") const;
 
 /*}}}*/
       //void acknowledgeSubscription(const gloox::JID &jid) const;/*{{{*/
@@ -209,22 +214,6 @@ namespace Account
       /**
        */
       void declineSubscription(const gloox::JID &jid) const;
-
-/*}}}*/
-
-      //void handleError(Exception &e, isCritical=false) const;/*{{{*/
-
-      /**
-       * @brief Handle an error that happened inside sxc.
-       *
-       * @param e The @ref Exception object that contains more
-       *        information.
-       * @param isCritical Whether sxc cannot run anymore because of this
-       *        error and has to be closed.
-       */
-      void handleError(
-        libsxc::Exception::Exception &e,
-        bool isCritical=false) const;
 
 /*}}}*/
 
@@ -361,6 +350,7 @@ namespace Account
       ::File::AbcOutput &_out;
 
 /*}}}*/
+      libsxc::Error::Handler &_eh;
   };
 }
 

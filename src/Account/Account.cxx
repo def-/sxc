@@ -34,6 +34,7 @@
 
 #include <libsxc/generateString.hxx>
 #include <libsxc/Exception/Exception.hxx>
+#include <libsxc/Error/Handler.hxx>
 
 #include <Account/Account.hxx>
 #include <Account/Roster.hxx>
@@ -57,7 +58,8 @@ namespace Account
   Account::Account(/*{{{*/
     gloox::Client &client,
     Roster &roster,
-    ::File::AbcOutput &out)
+    ::File::AbcOutput &out,
+    libsxc::Error::Handler &eh)
   : _thread(0)
   , _client(client) // Fill in the passphrase later.
   , _roster(roster)
@@ -69,6 +71,7 @@ namespace Account
   , _status("")
   , _in(*this, client.jid().bare())
   , _out(out)
+  , _eh(eh)
   {
     _client.registerConnectionListener(this);
 
@@ -125,10 +128,12 @@ namespace Account
     // Don't connect if already connected or connecting.
     if (_thread)
       return;
-    if ("" == _client.password())
-      _out.write("Password not set.");
-    else
+    if ("" == _client.password()) {
+      // Empty passwords are invalid in XMPP.
+      _eh.print("Password not set.");
+    } else {
       pthread_create(&_thread, NULL, _run, (void*)this);
+    }
   }/*}}}*/
   void Account::setPresence(/*{{{*/
     gloox::Presence::PresenceType presence,
@@ -183,17 +188,6 @@ namespace Account
   void Account::declineSubscription(const gloox::JID &jid) const/*{{{*/
   {
     _roster.declineSubscription(jid);
-  }/*}}}*/
-
-  void Account::handleError(/*{{{*/
-    libsxc::Exception::Exception &e,
-    bool isCritical) const
-  {
-    if (isCritical) {
-      //LOG<Error>(e.what()); // FIXME
-      exit(e.getExitCode());
-    }
-    _out.write(e.what());
   }/*}}}*/
 
   void Account::onConnect()/*{{{*/
