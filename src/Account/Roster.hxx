@@ -94,22 +94,20 @@ namespace Account
 
 /*}}}*/
 
-      //void addContact(const JID &jid, isPermanent=true) const;/*{{{*/
+      //void addContact(const JID &jid);/*{{{*/
 
       /**
        * @brief Add contact to the roster.
+       *
+       * Add to local roster, and also send an add-command to the server to
+       * permanently add the contact.
        *
        * @note This method does not send a subscription request, use @ref
        *       subscribe() if you want to see the contact's status.
        *
        * @param jid The JID to add to the roster.
-       * @param isPermanent If false only add to local roster, else also
-       *        send an add-command to the server to permanently add the
-       *        contact.
        */
-      void addContact(
-        const gloox::JID &jid,
-        bool isPermanent=true);
+      void addContact(const gloox::JID &jid);
 
 /*}}}*/
       //void removeContact(const gloox::JID &jid) const;/*{{{*/
@@ -221,7 +219,7 @@ namespace Account
        * @brief Handle an incomming message.
        *
        * This function adds a new contact to the roster (local only) and
-       * redirects the incommint message to it.
+       * redirects the incomming message to it.
        *
        * @note Only messages, whose senders don't have a @ref
        *       Contact::Contact registered, get to this function. Once

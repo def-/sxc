@@ -96,7 +96,7 @@ namespace Contact
   }/*}}}*/
   void Contact::add()/*{{{*/
   {
-    _roster.addContact(_getJid(), /* isPermanent = */ true);
+    _roster.addContact(_getJid());
   }/*}}}*/
   void Contact::remove()/*{{{*/
   {

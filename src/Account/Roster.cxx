@@ -84,13 +84,10 @@ namespace Account
     // FIXME
   }/*}}}*/
 
-  void Roster::addContact(/*{{{*/
-    const gloox::JID &jid,
-    bool isPermanent)
+  void Roster::addContact(const gloox::JID &jid)/*{{{*/
   {
     _addContactLocal(jid);
-    if (isPermanent)
-      _addContactRemote(jid);
+    _addContactRemote(jid);
   }/*}}}*/
   void Roster::removeContact(const gloox::JID &jid) const/*{{{*/
   {
@@ -149,7 +146,7 @@ namespace Account
     const gloox::Message &msg,
     gloox::MessageSession *session)
   {
-    addContact(msg.from(), false); // Local only.
+    _addContactLocal(msg.from()); // Local only.
 
     contactList::iterator contact = _getContact(msg.from().bare());
     if (_contacts.end() == contact)
