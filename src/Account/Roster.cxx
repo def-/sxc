@@ -81,7 +81,13 @@ namespace Account
 
   void Roster::sendMessage(const gloox::JID &jid, const std::string &message)/*{{{*/
   {
-    // FIXME
+    _addContactLocal(jid);
+
+    contactList::iterator contact = _getContact(jid.bare());
+    if (_contacts.end() == contact)
+      return; // FIXME: Throw exception, this is really unexpected.
+
+    contact->second->sendMessage(message);
   }/*}}}*/
 
   void Roster::addContact(const gloox::JID &jid)/*{{{*/

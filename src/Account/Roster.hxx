@@ -89,6 +89,10 @@ namespace Account
       //void sendMessage(const gloox::JID &jid, const std::string &message);/*{{{*/
 
       /**
+       * @brief Send a message to the specified jid.
+       *
+       * This method also adds the specified contact to the local roster, if it
+       * is not already.
        */
       void sendMessage(const gloox::JID &jid, const std::string &message);
 
