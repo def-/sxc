@@ -17,8 +17,8 @@
  */
 /*}}}*/
 
-#ifndef COMMAND_UTILITIES_HXX
-#define COMMAND_UTILITIES_HXX
+#ifndef COMMAND_FACTORY_HXX
+#define COMMAND_FACTORY_HXX
 
 // INCLUDE/*{{{*/
 
@@ -30,12 +30,15 @@
 
 namespace Command
 {
-  // TODO: Doc
-  unsigned int countArguments(const Command&);
-  std::string argument(const Command&, unsigned int index);
-  void append(Command&, const std::string& value);
+  class Factory
+  {
+    public:
+      virtual ~Factory() {}
+      virtual Command* createCommand(const std::string& name) const = 0;
+  };
 }
 
-#endif // COMMAND_UTILITIES_HXX
+#endif // COMMAND_FACTORY_HXX
+
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

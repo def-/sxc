@@ -1,6 +1,7 @@
+#line 2 "sxc:Command/Exception/NotParsed.cxx"
 // LICENSE/*{{{*/
 /*
-  sxc - Simple Xmpp Client
+  libsxc
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
   Permission to use, copy, modify, and/or distribute this software for any
@@ -17,25 +18,38 @@
  */
 /*}}}*/
 
-#ifndef COMMAND_UTILITIES_HXX
-#define COMMAND_UTILITIES_HXX
-
 // INCLUDE/*{{{*/
 
-#include <Command/Command.hxx>
+#include <Command/Exception/NotParsed.hxx>
+#include <Command/Exception/Exception.hxx>
 
-#include <string>
+#include <exception>
 
 /*}}}*/
 
 namespace Command
 {
-  // TODO: Doc
-  unsigned int countArguments(const Command&);
-  std::string argument(const Command&, unsigned int index);
-  void append(Command&, const std::string& value);
+  namespace Exception
+  {
+    NotParsed::NotParsed() throw()/*{{{*/
+    : Exception("Parser has not yet finished parsing.")
+    {
+    }
+
+/*}}}*/
+    NotParsed::NotParsed(const std::exception& cause) throw()/*{{{*/
+    : Exception("Parser has not yet finished parsing.", cause)
+    {
+    }
+
+/*}}}*/
+    NotParsed::~NotParsed() throw()/*{{{*/
+    {
+    }
+
+/*}}}*/
+  }
 }
 
-#endif // COMMAND_UTILITIES_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

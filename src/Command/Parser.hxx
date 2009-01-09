@@ -17,11 +17,12 @@
  */
 /*}}}*/
 
-#ifndef COMMAND_UTILITIES_HXX
-#define COMMAND_UTILITIES_HXX
+#ifndef COMMAND_PARSER_HXX
+#define COMMAND_PARSER_HXX
 
 // INCLUDE/*{{{*/
 
+#include <Command/Factory.hxx>
 #include <Command/Command.hxx>
 
 #include <string>
@@ -30,12 +31,28 @@
 
 namespace Command
 {
-  // TODO: Doc
-  unsigned int countArguments(const Command&);
-  std::string argument(const Command&, unsigned int index);
-  void append(Command&, const std::string& value);
+  class Parser
+  {
+    public:
+      static std::string substr(
+        const std::string& str, std::string::iterator pos);
+
+      Parser(const std::string& input, const Factory& factory);
+      virtual ~Parser();
+      const std::string& getInput() const;
+      Command& parse();
+      Command& getCommand() const;
+
+    private:
+      std::string _input;
+      const Factory* _factory;
+      Command* _command;
+
+      void _dispose();
+  };
 }
 
-#endif // COMMAND_UTILITIES_HXX
+#endif // COMMAND_PARSER_HXX
+
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

@@ -17,25 +17,47 @@
  */
 /*}}}*/
 
-#ifndef COMMAND_UTILITIES_HXX
-#define COMMAND_UTILITIES_HXX
+// INCLUDES/*{{{*/
 
-// INCLUDE/*{{{*/
+#include <Command/Parser.hxx>
 
-#include <Command/Command.hxx>
-
-#include <string>
+#include <cppunit/extensions/HelperMacros.h>
 
 /*}}}*/
 
-namespace Command
-{
-  // TODO: Doc
-  unsigned int countArguments(const Command&);
-  std::string argument(const Command&, unsigned int index);
-  void append(Command&, const std::string& value);
-}
+#ifndef TESTPARSER_HXX
+#define TESTPARSER_HXX
 
-#endif // COMMAND_UTILITIES_HXX
+class TestParser : public CppUnit::TestFixture
+{
+  CPPUNIT_TEST_SUITE(TestParser);
+    CPPUNIT_TEST(testException);
+    CPPUNIT_TEST(testLifecycle);
+    CPPUNIT_TEST(testGetInput);
+    CPPUNIT_TEST(testParseSimple);
+    CPPUNIT_TEST(testGetCommand);
+    CPPUNIT_TEST(testParseResult);
+    // CPPUNIT_TEST(testParseComplex);
+  CPPUNIT_TEST_SUITE_END();
+
+  public:
+    TestParser();
+    void setUp();
+    void tearDown();
+
+    void testException();
+    void testLifecycle();
+    void testGetInput();
+    void testParseSimple();
+    void testGetCommand();
+    void testParseResult();
+    void testParseComplex();
+
+  private:
+    Command::Parser* _parser;
+};
+
+#endif // TESTPARSER_HXX
+
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

@@ -1,3 +1,4 @@
+#line 2 "sxc:Command/Exception/CouldNotExecute.cxx"
 // LICENSE/*{{{*/
 /*
   libsxc

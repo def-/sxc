@@ -17,25 +17,32 @@
  */
 /*}}}*/
 
-#ifndef COMMAND_UTILITIES_HXX
-#define COMMAND_UTILITIES_HXX
+// INCLUDES/*{{{*/
 
-// INCLUDE/*{{{*/
+#include "Factory.hxx"
+#include "NoOp.hxx"
+#include "OneParamSwitch.hxx"
 
 #include <Command/Command.hxx>
-
+#include <libsxc/Exception/LogicError.hxx>
 #include <string>
 
 /*}}}*/
 
-namespace Command
+namespace Mock
 {
-  // TODO: Doc
-  unsigned int countArguments(const Command&);
-  std::string argument(const Command&, unsigned int index);
-  void append(Command&, const std::string& value);
+  Factory factory;
+  Command::Command* Factory::createCommand(const std::string& name) const
+  {
+    if ("noop" == name) {
+      return new NoOp();
+    } else if ("ops" == name) {
+      return new OneParamSwitch();
+    } else {
+      throw libsxc::Exception::LogicError("Invalid command name.");
+    }
+  }
 }
 
-#endif // COMMAND_UTILITIES_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

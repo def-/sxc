@@ -17,12 +17,12 @@
  */
 /*}}}*/
 
-#ifndef COMMAND_EXCEPTION_EXCEPTION_HXX
-#define COMMAND_EXCEPTION_EXCEPTION_HXX
+#ifndef COMMAND_EXCEPTION_NOTPARSED_HXX
+#define COMMAND_EXCEPTION_NOTPARSED_HXX
 
 // INCLUDE/*{{{*/
 
-#include <libsxc/Exception/Exception.hxx>
+#include <Command/Exception/Exception.hxx>
 
 #include <exception>
 
@@ -33,62 +33,43 @@ namespace Command
   namespace Exception
   {
     /**
-     * @brief Base class for exceptions thrown by the command framework.
+     * @brief To be thrown when the parser has not yet finished parsing.
+     *
+     * Thrown by Parser::getCommand().
      */
-    class Exception : public libsxc::Exception::Exception
+    class NotParsed : virtual public Exception
     {
       public:
-        // Exception(const char* message) throw();/*{{{*/
+        // NotParsed() throw();/*{{{*/
 
         /**
          * @brief Default constructor.
-         *
-         * @param message C-string describing the error.
          */
-        Exception(const char* message) throw();
+        NotParsed() throw();
 
 /*}}}*/
-        // Exception(const char* message, const std::exception& cause) throw();/*{{{*/
+        // NotParsed(const std::exception&) throw();/*{{{*/
 
         /**
-         * @brief Extended default constructor using a backtrace.
-         *
-         * @param message C-string describing the error.
+         * @brief Extended constructor using a backtrace.
          * @param cause The cause for the throwing of this exception.
          */
-        Exception(const char* message, const std::exception& cause) throw();
+        NotParsed(const std::exception& cause) throw();
 
 /*}}}*/
-        // virtual ~Exception() throw()/*{{{*/
+        // virtual ~NotParsed() throw()/*{{{*/
 
         /**
          * @brief Virtual destructor.
          */
-        virtual ~Exception() throw();
+        virtual ~NotParsed() throw();
 
 /*}}}*/
-
-      protected:
-        // Exception() throw();/*{{{*/
-
-        /**
-         * @see libsxc::Exception::Exception::Exception()
-         */
-        Exception() throw();
-
-/*}}}*/
-        // Exception(const std::exception& cause) throw();/*{{{*/
-
-        /**
-         * @see libsxc::Exception::Exception::Exception(const std::exception&)
-         */
-        Exception(const std::exception& cause) throw();
-
-/*}}}*/
+      private:
     };
   }
 }
 
-#endif // COMMAND_EXCEPTION_EXCEPTION_HXX
+#endif // COMMAND_EXCEPTION_NOTPARSED_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

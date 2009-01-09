@@ -17,12 +17,12 @@
  */
 /*}}}*/
 
-#ifndef COMMAND_EXCEPTION_EXCEPTION_HXX
-#define COMMAND_EXCEPTION_EXCEPTION_HXX
+#ifndef COMMAND_EXCEPTION_COULDNOTPARSE_HXX
+#define COMMAND_EXCEPTION_COULDNOTPARSE_HXX
 
 // INCLUDE/*{{{*/
 
-#include <libsxc/Exception/Exception.hxx>
+#include <Command/Exception/Exception.hxx>
 
 #include <exception>
 
@@ -33,62 +33,56 @@ namespace Command
   namespace Exception
   {
     /**
-     * @brief Base class for exceptions thrown by the command framework.
+     * @brief To be thrown when an input could not been parsed.
+     *
+     * Thrown by Parser::parse().
      */
-    class Exception : public libsxc::Exception::Exception
+    class CouldNotParse : public Exception
     {
       public:
-        // Exception(const char* message) throw();/*{{{*/
+        // CouldNotParse(const char* input) throw();/*{{{*/
 
         /**
          * @brief Default constructor.
          *
-         * @param message C-string describing the error.
+         * @param input The input that had to be parsed.
          */
-        Exception(const char* message) throw();
+        CouldNotParse(const char* input) throw();
 
 /*}}}*/
-        // Exception(const char* message, const std::exception& cause) throw();/*{{{*/
+        // CouldNotParse(const char*, const std::exception&) throw();/*{{{*/
 
         /**
          * @brief Extended default constructor using a backtrace.
          *
-         * @param message C-string describing the error.
+         * @param input The input that had to be parsed.
          * @param cause The cause for the throwing of this exception.
          */
-        Exception(const char* message, const std::exception& cause) throw();
+        CouldNotParse(const char* input, const std::exception& cause) throw();
 
 /*}}}*/
-        // virtual ~Exception() throw()/*{{{*/
+        // virtual ~CouldNotParse() throw()/*{{{*/
 
         /**
          * @brief Virtual destructor.
          */
-        virtual ~Exception() throw();
+        virtual ~CouldNotParse() throw();
 
 /*}}}*/
-
-      protected:
-        // Exception() throw();/*{{{*/
-
-        /**
-         * @see libsxc::Exception::Exception::Exception()
-         */
-        Exception() throw();
-
-/*}}}*/
-        // Exception(const std::exception& cause) throw();/*{{{*/
+      private:
+        // void _createMessage(const char*) throw();/*{{{*/
 
         /**
-         * @see libsxc::Exception::Exception::Exception(const std::exception&)
+         * @brief Creates the message describing this exception.
+         * @param input The input that had to be parsed.
          */
-        Exception(const std::exception& cause) throw();
+        void _createMessage(const char* input) throw();
 
 /*}}}*/
     };
   }
 }
 
-#endif // COMMAND_EXCEPTION_EXCEPTION_HXX
+#endif // COMMAND_EXCEPTION_COULDNOTPARSE_HXX
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

@@ -54,6 +54,15 @@ namespace Command
   }
 
 /*}}}*/
+  void append(Command& command, const std::string& value)/*{{{*/
+  {
+    unsigned int back = countArguments(command) - 1;
+    std::string arg   = argument(command, back);
+    arg.append(value);
+    command.set(back, arg);
+  }
+
+/*}}}*/
 }
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

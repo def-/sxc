@@ -1,3 +1,3 @@
 noinst_LTLIBRARIES = libException.la
 libException_la_CPPFLAGS = $(GLOOX_CFLAGS) $(LIBSXC_CFLAGS)
-libException_la_SOURCES = Exception.cxx CouldNotAdd.cxx CouldNotExecute.cxx CouldNotSet.cxx
+libException_la_SOURCES = CouldNotAdd.cxx CouldNotExecute.cxx CouldNotParse.cxx CouldNotSet.cxx Exception.cxx NotParsed.cxx
