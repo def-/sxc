@@ -36,6 +36,8 @@
 #include <Contact/File/Input.hxx>
 //#include <File/AbcOutput.hxx>
 #include <Contact/File/Output.hxx>
+//#include <File/AbcInfo.hxx>
+#include <Contact/File/Info.hxx>
 
 /*}}}*/
 
@@ -83,14 +85,14 @@ namespace Contact
 
 /*}}}*/
 
-      //void printPresenceUpdate(&resource, presence, &message)/*{{{*/
+      //void updatePresence(&resource, presence, &message)/*{{{*/
 
       /**
        * @brief Print a text to the contact's output file.
        *
        * @param text The text to print.
        */
-      void printPresenceUpdate(
+      void updatePresence(
         const std::string &resource,
         gloox::Presence::PresenceType presence,
         const std::string &message);
@@ -166,6 +168,8 @@ namespace Contact
       File::Input _in;
       //::File::AbcOutput &_out;
       File::Output _out;
+      //::File::AbcInfo &_nfo;
+      File::Info _nfo;
 
       //const gloox::JID &_getJid();/*{{{*/
 

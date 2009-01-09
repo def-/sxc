@@ -44,6 +44,7 @@
 #include <Account/Account.hxx>
 #include <Account/Roster.hxx>
 #include <Account/File/Output.hxx>
+#include <Account/File/Info.hxx>
 #include <Error/Handler.hxx>
 #include <setupClient.hxx>
 #include <File/createDir.hxx>
@@ -131,6 +132,7 @@ int main(int argc, char *argv[])/*{{{*/
   File::createDir(jid.bare());
 
   Account::File::Output out(jid.bare());
+  Account::File::Info nfo(jid.bare());
 
   // Signal waiter as to be created before running any thread. Else signals
   // directed to them would not get handled by the registered handlers.
@@ -140,7 +142,7 @@ int main(int argc, char *argv[])/*{{{*/
   waiter.reg(SIGTERM, handler);
   waiter.run(); // From this moment on signals are handled. Not blocking.
 
-  Account::Roster roster(client, out, handler);
+  Account::Roster roster(client, out, nfo, handler);
 
   Account::Account *account;
   try {

@@ -44,6 +44,7 @@
 
 #include <Contact/Contact.hxx>
 #include <File/AbcOutput.hxx>
+#include <Account/File/Info.hxx>
 
 /*}}}*/
 
@@ -64,7 +65,7 @@ namespace Account
   class Roster : public gloox::RosterListener, public gloox::MessageHandler
   {
     public:
-      //Roster(gloox::Client &, AbcOutput &, libsxc::Error::Handler &);/*{{{*/
+      //Roster(Client &, AbcOutput &, File::Info &, Error::Handler &);/*{{{*/
 
       /**
        * @brief Initialise the roster and register with the client.
@@ -74,6 +75,7 @@ namespace Account
       Roster(
         gloox::Client &client,
         ::File::AbcOutput &out,
+        File::Info &nfo,
         libsxc::Error::Handler &eh);
 
 /*}}}*/
@@ -89,6 +91,10 @@ namespace Account
       //void sendMessage(const gloox::JID &jid, const std::string &message);/*{{{*/
 
       /**
+       * @brief Send a message to the specified jid.
+       *
+       * This method also adds the specified contact to the local roster, if it
+       * is not already.
        */
       void sendMessage(const gloox::JID &jid, const std::string &message);
 
@@ -462,6 +468,11 @@ namespace Account
       //::File::AbcOutput &_out;/*{{{*/
       ///
       ::File::AbcOutput &_out;
+
+/*}}}*/
+      //File::Info &_nfo;/*{{{*/
+      ///
+      File::Info &_nfo;
 
 /*}}}*/
       //contactList _contacts;/*{{{*/
