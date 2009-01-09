@@ -44,6 +44,7 @@
 
 #include <Contact/Contact.hxx>
 #include <File/AbcOutput.hxx>
+#include <Account/File/Info.hxx>
 
 /*}}}*/
 
@@ -64,7 +65,7 @@ namespace Account
   class Roster : public gloox::RosterListener, public gloox::MessageHandler
   {
     public:
-      //Roster(gloox::Client &, AbcOutput &, libsxc::Error::Handler &);/*{{{*/
+      //Roster(Client &, AbcOutput &, File::Info &, Error::Handler &);/*{{{*/
 
       /**
        * @brief Initialise the roster and register with the client.
@@ -74,6 +75,7 @@ namespace Account
       Roster(
         gloox::Client &client,
         ::File::AbcOutput &out,
+        File::Info &nfo,
         libsxc::Error::Handler &eh);
 
 /*}}}*/
@@ -466,6 +468,11 @@ namespace Account
       //::File::AbcOutput &_out;/*{{{*/
       ///
       ::File::AbcOutput &_out;
+
+/*}}}*/
+      //File::Info &_nfo;/*{{{*/
+      ///
+      File::Info &_nfo;
 
 /*}}}*/
       //contactList _contacts;/*{{{*/

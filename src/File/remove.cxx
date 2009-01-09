@@ -1,4 +1,4 @@
-#line 2 "sxc:File/createDir.cxx"
+#line 2 "sxc:File/remove.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
@@ -27,10 +27,10 @@
 #include <string>
 #include <cerrno>
 #include <sys/stat.h>
+#include <stdio.h>
 
 #include <libsxc/Debug/Logger.hxx>
 
-#include <File/createDir.hxx>
 #include <File/Exception/errnoToException.hxx>
 #include <File/Exception/BadFile.hxx>
 
@@ -38,20 +38,20 @@
 
 namespace File
 {
-  void createDir(const std::string &path)
+  void remove(const std::string &path)
   {
-    // We first try to get the file stats, to see whether this file, if
-    // existing, is a directory.
+    // We first try to get the file stats, to see whether this file exists.
     struct stat fstat;
     if (0 == stat(path.c_str(), &fstat)) {
-      LOG("File already exists: \"" + path + "\"");
-      // Is it a directory?
-      if (!S_ISDIR(fstat.st_mode)) {
-        throw Exception::BadFile(("Not a directory: " + path).c_str());
-      }
-      // It is a directory, so there is no need to do anything.
-      LOG("Directory already exists: \"" + path + "\"");
-      return;
+      LOG("Remove file: \"" + path + "\"");
+
+      // File does exists. Remove it.
+      if (0 == ::remove(path.c_str()))
+        return;
+
+      throw Exception::errnoToException(
+        errno,
+        ("Could not remove file: " + path).c_str());
     }
 
     if (ENOENT != errno) {
@@ -60,15 +60,8 @@ namespace File
         ("Could not get fstat: " + path).c_str());
     }
 
-    LOG("Create directory: \"" + path + "\"");
-
-    // Directory does not exist. Create it with chmod 700.
-    if (0 == mkdir(path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR))
-      return;
-
-    throw Exception::errnoToException(
-      errno,
-      ("Could not create directory: " + path).c_str());
+    LOG("File not existing: \"" + path + "\"");
+    return;
   }
 }
 

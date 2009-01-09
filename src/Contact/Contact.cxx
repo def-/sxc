@@ -50,6 +50,7 @@ namespace Contact
   , _session(roster.createMessageSession(this, contactJid))
   , _in(*this, accountJid.bare(), contactJid.bare())
   , _out(accountJid.bare(), contactJid.bare())
+  , _nfo(accountJid.bare(), contactJid.bare())
   {
     LOG("Create contact: \"" + contactJid.bare() + "\".");
 
@@ -62,12 +63,13 @@ namespace Contact
     _roster.disposeMessageSession(_session); // Will be deleted.
   }/*}}}*/
 
-  void Contact::printPresenceUpdate(/*{{{*/
+  void Contact::updatePresence(/*{{{*/
     const std::string &resource,
     gloox::Presence::PresenceType presence,
     const std::string &message)
   {
-    // FIXME
+    _nfo.setPresence(presence);
+    _nfo.setMessage(message);
   }/*}}}*/
   void Contact::handleMessage(/*{{{*/
     const gloox::Message &msg,

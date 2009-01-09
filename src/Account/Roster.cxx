@@ -45,6 +45,7 @@
 #include <Account/Roster.hxx>
 #include <Contact/Contact.hxx>
 #include <File/AbcOutput.hxx>
+#include <Account/File/Info.hxx>
 #include <File/createDir.hxx>
 #include <Exit/Code.hxx>
 
@@ -55,10 +56,12 @@ namespace Account
   Roster::Roster(/*{{{*/
     gloox::Client &client,
     ::File::AbcOutput &out,
+    File::Info &nfo,
     libsxc::Error::Handler &eh)
   : RosterListener()
   , _client(client)
   , _out(out)
+  , _nfo(nfo)
   , _contacts()
   , _eh(eh)
   {
@@ -236,10 +239,12 @@ namespace Account
        << "), message: \"" << msg << "\").";
     LOG(ss.str());
 
-    contactList::iterator contact = _getContact(item.jid());
-    if (_contacts.end() == contact)
-      return;
-    contact->second->printPresenceUpdate(resource, presence, msg);
+    if (resource == _client.jid().resource()) {
+      contactList::iterator contact = _getContact(item.jid());
+      if (_contacts.end() == contact)
+        return;
+      contact->second->updatePresence(resource, presence, msg);
+    }
   }/*}}}*/
   void Roster::handleSelfPresence(/*{{{*/
     const gloox::RosterItem &item,
@@ -252,6 +257,11 @@ namespace Account
        << "\", resource: \"" << resource << "\", presence: "
        << presence << ", message: \"" << msg << "\").";
     LOG(ss.str());
+
+    if (resource == _client.jid().resource()) {
+      _nfo.setPresence(presence);
+      _nfo.setMessage(msg);
+    }
   }/*}}}*/
   bool Roster::handleSubscriptionRequest(/*{{{*/
     const gloox::JID &jid,
@@ -333,7 +343,7 @@ namespace Account
 
     _out.write("Add contact: " + jid.bare());
 
-    File::createDir(_client.jid().bare() + "/" + jid.bare());
+    ::File::createDir(_client.jid().bare() + "/" + jid.bare());
     _contacts.insert(std::make_pair(
       jid.bare(),
       new Contact::Contact(*this, _client.jid(), jid)));
