@@ -326,13 +326,12 @@ namespace Account
   }/*}}}*/
   void Roster::_addContactLocal(const gloox::JID &jid)/*{{{*/
   {
-    LOG(
-      "Add contact to the local roster: \"" + jid.bare() + "\".");
-
     if (_contacts.end() != _getContact(jid.bare())) {
-      LOG("Contact already in local roster, not adding.");
+      LOG("Contact already in local roster, not adding: \"" + jid.bare() + "\"");
       return;
     }
+
+    _out.write("Add contact: " + jid.bare());
 
     File::createDir(_client.jid().bare() + "/" + jid.bare());
     _contacts.insert(std::make_pair(

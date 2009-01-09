@@ -192,24 +192,17 @@ namespace Account
 
   void Account::onConnect()/*{{{*/
   {
-    LOG("Connected: Connection established.");
+    _out.write("Connected: Connection established.");
   }/*}}}*/
   void Account::onDisconnect(gloox::ConnectionError e)/*{{{*/
   {
-    LOG("Disconnected: " + libsxc::genConnErrorString(
-      e,
-      _client.streamError(),
-      _client.streamErrorText(),
-      _client.authError(),
-      /* Debug = */ true));
-
     std::string text = libsxc::genConnErrorString(
       e,
       _client.streamError(),
       _client.streamErrorText(),
-      _client.authError());
-    if (!text.empty())
-      _out.write("Disconnected: " + text);
+      _client.authError(),
+      true);
+    _out.write("Disconnected: " + text);
   }/*}}}*/
   bool Account::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
   {
