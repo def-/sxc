@@ -424,7 +424,7 @@ namespace Account
       void _checkClient() const;
 
 /*}}}*/
-      //void _addContactRemote(const gloox::JID &jid) const;/*{{{*/
+      //void _addContactRemote(const gloox::JID &jid);/*{{{*/
 
       /**
        * @brief Add a contact to the remote roster only.
@@ -434,7 +434,7 @@ namespace Account
        *
        * @param jid The JID to add to the roster.
        */
-      void _addContactRemote(const gloox::JID &jid) const;
+      void _addContactRemote(const gloox::JID &jid);
 
 /*}}}*/
       //void _addContactLocal(const gloox::JID &jid);/*{{{*/
@@ -447,7 +447,7 @@ namespace Account
       void _addContactLocal(const gloox::JID &jid);
 
 /*}}}*/
-      //contactList::iterator _getContact(const std::string &jid);/*{{{*/
+      //contactList::iterator _getContact(const std::string &jid) const;/*{{{*/
 
       /**
        * @brief Get an iterator to the contact specified by the jid.

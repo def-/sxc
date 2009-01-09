@@ -38,6 +38,11 @@ namespace Account
     : _accountJid(accountJid)
     {
       initialize();
+      _reset();
+    }/*}}}*/
+    Info::~Info()/*{{{*/
+    {
+      _reset();
     }/*}}}*/
 
     void Info::remove()/*{{{*/
@@ -50,6 +55,11 @@ namespace Account
     const std::string Info::_createPath()/*{{{*/
     {
       return _accountJid + "/nfo/";
+    }/*}}}*/
+    void Info::_reset()/*{{{*/
+    {
+      setPresence("offline");
+      setMessage("");
     }/*}}}*/
   }
 }

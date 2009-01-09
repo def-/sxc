@@ -29,8 +29,13 @@
 
 #include <fstream>
 #include <string>
+#include <sstream>
 
 #include <gloox/presence.h>
+
+#include <Account/RosterType.hxx>
+
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
@@ -38,9 +43,12 @@ namespace File
 {
   template <typename T> void AbcInfo::_set(const std::string &key, T &value)/*{{{*/
   {
+    std::ostringstream ss;
+    ss << "Setting info: (key: \"" << key << "\", value: \"" << value << "\").";
+    LOG(ss.str());
     // FIXME: Is it reasonable to open and close file every time something changes?
     // Discard current conent before filling in new.
-    std::ofstream file(key.c_str(), std::ios::trunc);
+    std::ofstream file((_path + key).c_str(), std::ios::trunc);
     file << value << std::endl;
     // File gets claused automatically.
   }/*}}}*/
@@ -75,6 +83,25 @@ namespace File
       break;
     case gloox::Presence::Error:
       text = "error";
+      break;
+    default:
+      text = "unknown";
+    }
+
+    _set(key, text);
+  }/*}}}*/
+  template <> inline void AbcInfo::_set(/*{{{*/
+    const std::string &key,
+    Account::RosterType &value)
+  {
+    std::string text;
+
+    switch (value) {
+    case Account::Local:
+      text = "local";
+      break;
+    case Account::Remote:
+      text = "remote";
       break;
     default:
       text = "unknown";

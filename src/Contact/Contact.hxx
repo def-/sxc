@@ -38,6 +38,7 @@
 #include <Contact/File/Output.hxx>
 //#include <File/AbcInfo.hxx>
 #include <Contact/File/Info.hxx>
+#include <Account/RosterType.hxx>
 
 /*}}}*/
 
@@ -96,6 +97,14 @@ namespace Contact
         const std::string &resource,
         gloox::Presence::PresenceType presence,
         const std::string &message);
+
+/*}}}*/
+      //void updateRoster(Account::RosterType type);/*{{{*/
+
+      /**
+       * Update the roster type.
+       */
+      void updateRoster(Account::RosterType type);
 
 /*}}}*/
       //void handleMessage(Message msg, MessageSession session);/*{{{*/

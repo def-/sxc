@@ -38,6 +38,7 @@ namespace Account
     {
       public:
         Info(const std::string &accountJid);
+        ~Info();
 
         virtual void remove();
 
@@ -48,6 +49,8 @@ namespace Account
         virtual const std::string _createPath();
 
       private:
+        void _reset();
+
         const std::string _accountJid;
     };
   }

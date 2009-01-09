@@ -43,6 +43,7 @@
 #include <libsxc/Error/Handler.hxx>
 
 #include <Account/Roster.hxx>
+#include <Account/RosterType.hxx>
 #include <Contact/Contact.hxx>
 #include <File/AbcOutput.hxx>
 #include <Account/File/Info.hxx>
@@ -224,6 +225,12 @@ namespace Account
     entry != roster.end();
     ++entry) {
       _addContactLocal(entry->first);
+
+      contactList::iterator contact = _getContact(entry->first);
+      if (_contacts.end() == contact)
+        continue;
+
+      contact->second->updateRoster(Remote);
     }
   }/*}}}*/
   void Roster::handleRosterPresence(/*{{{*/
@@ -239,12 +246,10 @@ namespace Account
        << "), message: \"" << msg << "\").";
     LOG(ss.str());
 
-    if (resource == _client.jid().resource()) {
-      contactList::iterator contact = _getContact(item.jid());
-      if (_contacts.end() == contact)
-        return;
-      contact->second->updatePresence(resource, presence, msg);
-    }
+    contactList::iterator contact = _getContact(item.jid());
+    if (_contacts.end() == contact)
+      return;
+    contact->second->updatePresence(resource, presence, msg);
   }/*}}}*/
   void Roster::handleSelfPresence(/*{{{*/
     const gloox::RosterItem &item,
@@ -323,7 +328,7 @@ namespace Account
         "Connection ist not established.",
         Exit::InvalidUsage);
   }/*}}}*/
-  void Roster::_addContactRemote(const gloox::JID &jid) const/*{{{*/
+  void Roster::_addContactRemote(const gloox::JID &jid)/*{{{*/
   {
     LOG(
       "Add contact to the remote roster: \"" + jid.bare() + "\".");
@@ -333,6 +338,12 @@ namespace Account
     const gloox::StringList groups;
     _client.rosterManager()->add(jid, jid.bare(), groups);
     _client.rosterManager()->synchronize();
+
+    contactList::iterator contact = _getContact(jid.bare());
+    if (_contacts.end() == contact)
+      return;
+
+    contact->second->updateRoster(Remote);
   }/*}}}*/
   void Roster::_addContactLocal(const gloox::JID &jid)/*{{{*/
   {
@@ -343,10 +354,14 @@ namespace Account
 
     _out.write("Add contact: " + jid.bare());
 
+    Contact::Contact *contact = new Contact::Contact(
+      *this, _client.jid(), jid);
+    contact->updateRoster(Local);
+
     ::File::createDir(_client.jid().bare() + "/" + jid.bare());
-    _contacts.insert(std::make_pair(
-      jid.bare(),
-      new Contact::Contact(*this, _client.jid(), jid)));
+    _contacts.insert(std::make_pair(jid.bare(), contact));
+
+
   }/*}}}*/
   contactList::iterator Roster::_getContact(const std::string &jid)/*{{{*/
   {

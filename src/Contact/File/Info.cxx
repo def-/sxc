@@ -39,6 +39,11 @@ namespace Contact
     , _contactJid(contactJid)
     {
       initialize();
+      _reset();
+    }/*}}}*/
+    Info::~Info()/*{{{*/
+    {
+      _reset();
     }/*}}}*/
 
     void Info::remove()/*{{{*/
@@ -52,6 +57,11 @@ namespace Contact
     const std::string Info::_createPath()/*{{{*/
     {
       return _accountJid + "/" + _contactJid + "/nfo/";
+    }/*}}}*/
+    void Info::_reset()/*{{{*/
+    {
+      setPresence("offline");
+      setMessage("");
     }/*}}}*/
   }
 }

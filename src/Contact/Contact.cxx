@@ -34,6 +34,7 @@
 
 #include <Contact/Contact.hxx>
 #include <Account/Roster.hxx>
+#include <Account/RosterType.hxx>
 
 #include <libsxc/generateString.hxx>
 #include <libsxc/Debug/Logger.hxx>
@@ -71,6 +72,10 @@ namespace Contact
     _nfo.setPresence(presence);
     _nfo.setMessage(message);
   }/*}}}*/
+  void Contact::updateRoster(Account::RosterType type)/*{{{*/
+  {
+    _nfo.setRoster(type);
+  }/*}}}*/
   void Contact::handleMessage(/*{{{*/
     const gloox::Message &msg,
     gloox::MessageSession *session)
@@ -102,6 +107,7 @@ namespace Contact
   }/*}}}*/
   void Contact::remove()/*{{{*/
   {
+    // FIXME: _nfo.remove();?
     _roster.removeContact(_getJid());
   }/*}}}*/
   void Contact::subscribe(const std::string &message)/*{{{*/
