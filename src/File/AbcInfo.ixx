@@ -44,7 +44,8 @@ namespace File
   template <typename T> void AbcInfo::_set(const std::string &key, T &value)/*{{{*/
   {
     std::ostringstream ss;
-    ss << "Setting info: (key: \"" << key << "\", value: \"" << value << "\").";
+    ss << "Setting info: (path: \"" << _path << "\", key: \"" << key
+       << "\", value: \"" << value << "\").";
     LOG(ss.str());
     // FIXME: Is it reasonable to open and close file every time something changes?
     // Discard current conent before filling in new.
