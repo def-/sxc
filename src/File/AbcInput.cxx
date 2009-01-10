@@ -223,7 +223,12 @@ namespace File
          it != inputs.end();
          ++it)
       {
-        that->_handleInput(*it);
+        if ('\n' == it->at(it->size() - 1)) {
+          // Remove trailing newline.
+          that->_handleInput(it->substr(0, it->size() - 1));
+        } else {
+          that->_handleInput(*it);
+        }
       }
     }
 

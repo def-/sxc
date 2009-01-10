@@ -30,7 +30,6 @@
 
 #include <Contact/Contact.hxx>
 #include <Contact/File/Input.hxx>
-#include <Contact/Command.hxx>
 #include <libsxc/Exception/Exception.hxx>
 #include <libsxc/Debug/Logger.hxx>
 
@@ -61,18 +60,7 @@ namespace Contact
 /*}}}*/
     void Input::_handleInput(const std::string &input)/*{{{*/
     {
-      // TODO
-      try {
-        Command command(_contact, input);
-        command.execute();
-      } catch (libsxc::Exception::Exception &e) {
-        // TODO: Fix handleError() to make use of stderr
-        //_account.handleError(e); // FIXME
-      } catch (std::exception &e) {
-        // This is *really* unexpected.
-        //LOG<Error>(e.what());
-        //_account.print(e.what()); // FIXME
-      }
+      _contact.sendMessage(input);
     }
 
 /*}}}*/

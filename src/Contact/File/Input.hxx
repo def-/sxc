@@ -89,10 +89,8 @@ namespace Contact
         /**
          * @brief Handles input that has been written into the FIFO.
          *
-         * For a list of valid commands see @ref
-         * Contact::Command. The main work will be done by an
-         * instance of that class, this method provides just the
-         * exception handling and creates that object.
+         * All input is interpreted as a message to the contact. A trailing
+         * newline already has to be removed.
          *
          * @param input Something that has been written into the FIFO.
          */
