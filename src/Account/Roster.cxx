@@ -354,11 +354,12 @@ namespace Account
 
     _out.write("Add contact: " + jid.bare());
 
+    ::File::createDir(_client.jid().bare() + "/" + jid.bare());
+
     Contact::Contact *contact = new Contact::Contact(
       *this, _client.jid(), jid);
     contact->updateRoster(Local);
 
-    ::File::createDir(_client.jid().bare() + "/" + jid.bare());
     _contacts.insert(std::make_pair(jid.bare(), contact));
 
 
