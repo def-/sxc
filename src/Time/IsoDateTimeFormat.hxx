@@ -29,16 +29,56 @@
 
 namespace Time
 {
+  /**
+   * @brief Formatter according to the ISO 8601 standard.
+   */
   class IsoDateTimeFormat : public DateTimeFormat
   {
     public:
+      // static const unsigned short FORMAT_DATE    = 0x1;/*{{{*/
+
+      /// Bitmask value to enable formatting of the date.
       static const unsigned short FORMAT_DATE    = 0x1;
+
+/*}}}*/
+      // static const unsigned short FORMAT_SECONDS = 0x2;/*{{{*/
+
+      /// Bitmask value to enable formatting of the seconds.
       static const unsigned short FORMAT_SECONDS = 0x2;
+
+/*}}}*/
+      // IsoDateTimeFormat(const DateTime*, unsigned short);/*{{{*/
+
+      /**
+       * @brief Constructs this object.
+       *
+       * Directly formats the passed date which then can be obtained by calling
+       * string().
+       *
+       * @param dateTime The date and time to represent.
+       * @param formatOptions Bitmask which parts of the DateTime to format.
+       */
       IsoDateTimeFormat(const DateTime *dateTime,
         unsigned short formatOptions=(FORMAT_DATE | FORMAT_SECONDS));
+
+/*}}}*/
+      // ~IsoDateTimeFormat();/*{{{*/
+
+      /**
+       * @brief Nonvirtual destructor. Do not inherit.
+       */
       ~IsoDateTimeFormat();
+
+/*}}}*/
+
     private:
+      // std::string format(const std::string &format, unsigned int length=50);/*{{{*/
+
+      /// Make format() private so that the date can not be re-formatted.
       std::string format(const std::string &format, unsigned int length=50);
+
+
+/*}}}*/
   };
 }
 

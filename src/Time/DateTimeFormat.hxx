@@ -29,18 +29,71 @@
 
 namespace Time
 {
+  /**
+   * @brief Formats a DateTime object.
+   *
+   * Basically wraps around strftime() of time.h but aims to be more secure and
+   * convenient.
+   */
   class DateTimeFormat
   {
     public:
+      // DateTimeFormat(const DateTime *dateTime);/*{{{*/
+
+      /**
+       * @brief Initializes the formatter to the given date and time.
+       * @param dateTime The date and time to be used when formatting.
+       */
       DateTimeFormat(const DateTime *dateTime);
+
+/*}}}*/
+      // virtual ~DateTimeFormat();/*{{{*/
+
+      /**
+       * @brief Virtual destructor.
+       */
       virtual ~DateTimeFormat();
+
+/*}}}*/
+      // virtual const std::string &string() const;/*{{{*/
+
+      /**
+       * @brief Returns a cached string which contains the result of format()
+       * @return Cached string. format() has to be called first.
+       */
       virtual const std::string &string() const;
+
+/*}}}*/
+      // virtual std::string format(const std::string&, unsigned int=50);/*{{{*/
+
+      /**
+       * @brief Formats the date set in the constructor.
+       *
+       * @warning You really want @a length to be at least of the size of the
+       * resulting string.
+       *
+       * @param format The formatstring to be passed to strftime() in time.h.
+       * @param length The buffer to use for this string.
+       * @return Formatted string containing the date and time.
+       */
       virtual std::string format(const std::string &format,
                      unsigned int length=50);
 
+/*}}}*/
+
     private:
+      // const DateTime *_dateTime;/*{{{*/
+
+      /// The DateTime to format.
       const DateTime *_dateTime;
+
+/*}}}*/
+      // std::string _formatted;/*{{{*/
+
+      /// Cache for the string returned by format().
       std::string _formatted;
+
+/*}}}*/
   };
 }
 
