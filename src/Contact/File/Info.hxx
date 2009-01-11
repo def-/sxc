@@ -33,14 +33,39 @@ namespace Contact
   namespace File
   {
     /**
+     * The representation of a contact's nfo directory.
      */
     class Info : public ::File::AbcInfo
     {
       public:
+        //Info(const std::string &accountJid, const std::string &contactJid);/*{{{*/
+
+        /**
+         * The constructor initializes the presence and the message with
+         * default values.
+         */
         Info(const std::string &accountJid, const std::string &contactJid);
+
+/*}}}*/
+        //~Info();/*{{{*/
+
+        /**
+         * The destructor resets the presence and message files to their
+         * default values.
+         */
         ~Info();
 
+/*}}}*/
+
+        //virtual void remove();/*{{{*/
+
+        /**
+         * Remove the created files, then run the @ref ::File::AbcInfo::remove,
+         * as it only deletes empty directories.
+         */
         virtual void remove();
+
+/*}}}*/
 
         template <typename T> void setPresence(T &value);
         template <typename T> void setMessage(T &value);
@@ -50,7 +75,15 @@ namespace Contact
         virtual const std::string _createPath();
 
       private:
+        //void _reset();/*{{{*/
+
+        /**
+         * Reset files to their default values. Presence will be set to
+         * "offline", message to "". Roster will not be altered.
+         */
         void _reset();
+
+/*}}}*/
 
         const std::string _accountJid;
         const std::string _contactJid;

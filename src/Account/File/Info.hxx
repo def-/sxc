@@ -33,14 +33,38 @@ namespace Account
   namespace File
   {
     /**
+     * The representation of the account's nfo directory.
      */
     class Info : public ::File::AbcInfo
     {
       public:
+        //Info(const std::string &accountJid);/*{{{*/
+
+        /**
+         * The constructor initializes the presence and the message files with
+         * default values.
+         */
         Info(const std::string &accountJid);
+
+/*}}}*/
+        //~Info();/*{{{*/
+
+        /**
+         * The destructor resets the presence and message files to their default values.
+         */
         ~Info();
 
+/*}}}*/
+
+        //virtual void remove();/*{{{*/
+
+        /**
+         * Remove the created files, then run the @ref ::File::AbcInfo::remove,
+         * as it only deletes empty directories.
+         */
         virtual void remove();
+
+/*}}}*/
 
         template <typename T> void setPresence(T &value);
         template <typename T> void setMessage(T &value);
@@ -49,7 +73,15 @@ namespace Account
         virtual const std::string _createPath();
 
       private:
+        //void _reset();/*{{{*/
+
+        /**
+         * Reset files to their default values. Presence will be set to
+         * "offline" and message to "".
+         */
         void _reset();
+
+/*}}}*/
 
         const std::string _accountJid;
     };

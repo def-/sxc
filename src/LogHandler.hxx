@@ -34,12 +34,15 @@
 
 /**
  * @brief Handle debug messages between gloox and the server.
+ *
+ * @note Only use this class in debug mode.
  */
 class LogHandler : public gloox::LogHandler
 {
   //void handleLog(LogLevel level, LogArea area, const string &msg);/*{{{*/
 
   /**
+   * Directly print all debug messages to stderr.
    */
   void handleLog(
     gloox::LogLevel level,

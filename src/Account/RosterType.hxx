@@ -29,6 +29,7 @@
 
 namespace Account
 {
+  /// Whether a roster is only available locally, or also saved on the server.
   enum RosterType
   {
     Local,

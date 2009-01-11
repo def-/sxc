@@ -22,10 +22,8 @@
 
 /*}}}*/
 
-//void setupClient(&client, const &name, const &version);/*{{{*/
-
 /**
- * Setup the client object.
+ * Setup the client object with the chosen values.
  *
  * @param client The client object.
  * @param name The name to announce.
@@ -35,8 +33,6 @@ void setupClient(
   gloox::Client &client,
   const std::string &name,
   const std::string &version);
-
-/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

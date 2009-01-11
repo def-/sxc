@@ -33,6 +33,11 @@
 
 namespace Error
 {
+  /**
+   * This is the error handler of sxc. It implements a signal handler and an
+   * error handler. Therefore it can handle signals sent to sxc and be used to
+   * handle errors.
+   */
   class Handler
   : public libsxc::Error::Handler
   , public libsxc::Signal::Stopper

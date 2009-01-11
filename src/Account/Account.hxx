@@ -173,6 +173,7 @@ namespace Account
       //void addContact(const gloox::JID &jid) const;/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void addContact(const gloox::JID &jid);
 
@@ -180,6 +181,7 @@ namespace Account
       //void removeContact(const gloox::JID &jid) const;/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void removeContact(const gloox::JID &jid) const;
 
@@ -187,6 +189,7 @@ namespace Account
       //void subscribe(const JID &jid, &message="") const;/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void subscribe(
         const gloox::JID &jid,
@@ -196,6 +199,7 @@ namespace Account
       //void unsubscribe(const JID &jid, &message=Empty) const;/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void unsubscribe(
         const gloox::JID &jid,
@@ -205,6 +209,7 @@ namespace Account
       //void acknowledgeSubscription(const gloox::JID &jid) const;/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void acknowledgeSubscription(const gloox::JID &jid) const;
 
@@ -212,6 +217,7 @@ namespace Account
       //void declineSubscription(const gloox::JID &jid) const;/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void declineSubscription(const gloox::JID &jid) const;
 

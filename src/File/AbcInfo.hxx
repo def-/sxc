@@ -29,6 +29,7 @@
 namespace File
 {
   /**
+   * The representation of an nfo directory (directories are files too :P).
    */
   class AbcInfo
   {

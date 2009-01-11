@@ -130,6 +130,7 @@ namespace Contact
       //void add();/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void add();
 
@@ -137,6 +138,7 @@ namespace Contact
       //void remove();/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void remove();
 
@@ -144,6 +146,7 @@ namespace Contact
       //void subscribe(const std::string &message="");/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void subscribe(const std::string &message="");
 
@@ -151,6 +154,7 @@ namespace Contact
       //void unsubscribe(const std::string &message="");/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void unsubscribe(const std::string &message="");
 
@@ -158,6 +162,7 @@ namespace Contact
       //void acknowledgeSubscription();/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void acknowledgeSubscription();
 
@@ -165,6 +170,7 @@ namespace Contact
       //void declineSubscription();/*{{{*/
 
       /**
+       * Wrapper method.
        */
       void declineSubscription();
 
