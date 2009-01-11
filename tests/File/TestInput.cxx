@@ -163,12 +163,13 @@ void TestInput::testReadNL()/*{{{*/
   _inputDummy->listen();
 
   const std::string testInput = "foobar\nfoobar\n";
+  const std::string expected = "foobar\nfoobar";
   std::ofstream fifo(TestInput::fifoPath.c_str());
   fifo << testInput << std::flush;
   fifo.close();
   sleep(1);
 
-  CPPUNIT_ASSERT_EQUAL(testInput, _inputDummy->getLastInput());
+  CPPUNIT_ASSERT_EQUAL(expected , _inputDummy->getLastInput());
 }
 
 /*}}}*/
