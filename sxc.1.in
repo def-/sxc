@@ -163,56 +163,6 @@ Set the command to be used for
 .B PGP encryption, decryption, signing,
 and
 .B checking.
-.SS
-.B ${jid}/${contact}/in
-
-.TP
-.B :msg\fI " text"
-Send the specified
-.B message
-to the contact.
-
-.TP
-.B :add
-.B Add
-this contact to the server-side roster.
-
-.TP
-.B :del
-.B Delete
-this contact from the server-side and local roster.
-
-.TP
-.B :sub\fI " [message]"
-.B Subscribe
-to this contact using the message if specified.
-
-.TP
-.B :usc\fI " [message]"
-.B Unsubscribe
-from this contact using the message if specified.
-
-.TP
-.B :ack
-.B Acknowledge
-the subscription request of this contact.
-
-.TP
-.B :dec
-.B Decline
-the subscription request of this contact.
-
-.TP
-.B :pgp " key"\fI " keyId"
-Set the
-.B PGP
-key for this contact to the specified key id.
-
-.TP
-.B :pgp " on|off"
-Enable or disable
-.B PGP
-for this contact.
 
 .SH RETURN STATUSES
 
