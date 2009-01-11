@@ -12,3 +12,15 @@ libFileException_la_SOURCES = \
   OpenFailed.cxx \
   ReadFailed.cxx \
   WriteFailed.cxx
+noinst_HEADERS = \
+  errnoToException.hxx \
+  AccessDenied.hxx \
+  BadFile.hxx \
+  BadPath.hxx \
+  CloseFailed.hxx \
+  FileExists.hxx \
+  FileLocked.hxx \
+  FileMissing.hxx \
+  OpenFailed.hxx \
+  ReadFailed.hxx \
+  WriteFailed.hxx

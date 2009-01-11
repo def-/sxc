@@ -6,3 +6,4 @@ libCommandParser_la_LIBADD = \
   ../Exception/libException.la \
   Exception/libCommandParserException.la
 libCommandParser_la_SOURCES = AbcCommandParser.cxx
+noinst_HEADERS = AbcCommandParser.hxx

@@ -5,6 +5,9 @@ libSrc_la_CPPFLAGS = $(GLOOX_CFLAGS)
 libSrc_la_SOURCES = \
     LogHandler.cxx \
     setupClient.cxx
+noinst_HEADERS = \
+    LogHandler.hxx \
+    setupClient.hxx
 
 bin_PROGRAMS = sxc
 sxc_CPPFLAGS = $(GLOOX_CFLAGS) $(LIBSXC_CFLAGS)
