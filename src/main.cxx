@@ -142,11 +142,11 @@ int main(int argc, char *argv[])/*{{{*/
   waiter.reg(SIGTERM, handler);
   waiter.run(); // From this moment on signals are handled. Not blocking.
 
-  Account::Roster roster(client, out, nfo, handler);
+  Account::Roster roster(client, out, handler);
 
   Account::Account *account;
   try {
-    account = new Account::Account(client, roster, out, handler);
+    account = new Account::Account(client, roster, out, nfo, handler);
   } catch (libsxc::Exception::Exception &e) {
     handler.printCritical(e.what());
     // Don't delete account, as it failed to initialize.

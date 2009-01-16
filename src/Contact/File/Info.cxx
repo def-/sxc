@@ -26,6 +26,8 @@
 
 #include <string>
 
+#include <gloox/presence.h>
+
 #include <Contact/File/Info.hxx>
 
 /*}}}*/
@@ -60,7 +62,8 @@ namespace Contact
     }/*}}}*/
     void Info::_reset()/*{{{*/
     {
-      setPresence("offline");
+      gloox::Presence::PresenceType type = gloox::Presence::Unavailable;
+      setPresence(type);
       setMessage("");
     }/*}}}*/
   }

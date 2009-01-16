@@ -77,7 +77,7 @@ namespace File
       text = "xaway";
       break;
     case gloox::Presence::Unavailable:
-      text = "invisible";
+      text = "offline";
       break;
     case gloox::Presence::Probe:
       text = "probe";

@@ -46,23 +46,21 @@
 #include <Account/RosterType.hxx>
 #include <Contact/Contact.hxx>
 #include <File/AbcOutput.hxx>
-#include <Account/File/Info.hxx>
 #include <File/createDir.hxx>
 #include <Exit/Code.hxx>
 
 /*}}}*/
 
+#include <iostream>
 namespace Account
 {
   Roster::Roster(/*{{{*/
     gloox::Client &client,
     ::File::AbcOutput &out,
-    File::Info &nfo,
     libsxc::Error::Handler &eh)
   : RosterListener()
   , _client(client)
   , _out(out)
-  , _nfo(nfo)
   , _contacts()
   , _eh(eh)
   {
@@ -246,13 +244,6 @@ namespace Account
        << "), message: \"" << msg << "\").";
     LOG(ss.str());
 
-    if (item.jid() == _client.jid().bare()) {
-      // Don't return, as it is possible to have yourself on the roster too.
-      // We have to call the handleSelfPresence method from here, as gloox
-      // does not call.
-      handleSelfPresence(item, resource, presence, msg);
-    }
-
     contactList::iterator contact = _getContact(item.jid());
     if (_contacts.end() == contact)
       return;
@@ -269,11 +260,6 @@ namespace Account
        << "\", resource: \"" << resource << "\", presence: "
        << presence << ", message: \"" << msg << "\").";
     LOG(ss.str());
-
-    if (resource == _client.jid().resource()) {
-      _nfo.setPresence(presence);
-      _nfo.setMessage(msg);
-    }
   }/*}}}*/
   bool Roster::handleSubscriptionRequest(/*{{{*/
     const gloox::JID &jid,

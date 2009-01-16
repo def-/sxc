@@ -26,6 +26,8 @@
 
 #include <string>
 
+#include <gloox/presence.h>
+
 #include <Account/File/Info.hxx>
 
 /*}}}*/
@@ -58,7 +60,8 @@ namespace Account
     }/*}}}*/
     void Info::_reset()/*{{{*/
     {
-      setPresence("offline");
+      gloox::Presence::PresenceType type = gloox::Presence::Unavailable;
+      setPresence(type);
       setMessage("");
     }/*}}}*/
   }

@@ -38,6 +38,7 @@
 #include <libsxc/Error/Handler.hxx>
 
 #include <Account/File/Input.hxx>
+#include <Account/File/Info.hxx>
 #include <LogHandler.hxx>
 #include <File/AbcOutput.hxx>
 
@@ -59,7 +60,7 @@ namespace Account
   class Account : public gloox::ConnectionListener
   {
     public:
-      //Account(Client &, Roster &, AbcOutput &, Error::Handler &);/*{{{*/
+      //Account(Client &, Roster &, AbcOutput &, Info &, Error::Handler &);/*{{{*/
 
       /**
        * @brief The constructor.
@@ -68,6 +69,7 @@ namespace Account
         gloox::Client &client,
         Roster &roster,
         ::File::AbcOutput &out,
+        File::Info &nfo,
         libsxc::Error::Handler &eh);
 
 /*}}}*/
@@ -316,6 +318,7 @@ namespace Account
       static void *_run(void *rawThat);
 
 /*}}}*/
+      void _updateInfo();
 
       //pthread_t _thread;/*{{{*/
 
@@ -350,10 +353,16 @@ namespace Account
       File::Input _in;
 
 /*}}}*/
-      //::File::AbcOutput _out;/*{{{*/
+      //::File::AbcOutput &_out;/*{{{*/
 
       /// The output file.
       ::File::AbcOutput &_out;
+
+/*}}}*/
+      //File::Info &_nfo;/*{{{*/
+
+      /// The nfo-directory.
+      File::Info &_nfo;
 
 /*}}}*/
       libsxc::Error::Handler &_eh;

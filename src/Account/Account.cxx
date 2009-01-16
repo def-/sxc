@@ -39,6 +39,7 @@
 #include <Account/Account.hxx>
 #include <Account/Roster.hxx>
 #include <Account/File/Input.hxx>
+#include <Account/File/Info.hxx>
 #include <File/AbcOutput.hxx>
 
 #ifdef HAVE_CONFIG_H
@@ -59,6 +60,7 @@ namespace Account
     gloox::Client &client,
     Roster &roster,
     ::File::AbcOutput &out,
+    File::Info &nfo,
     libsxc::Error::Handler &eh)
   : _thread(0)
   , _client(client) // Fill in the passphrase later.
@@ -71,6 +73,7 @@ namespace Account
   , _status("")
   , _in(*this, client.jid().bare())
   , _out(out)
+  , _nfo(nfo)
   , _eh(eh)
   {
     _client.registerConnectionListener(this);
@@ -124,6 +127,10 @@ namespace Account
     _status = status;
 
     _client.setPresence(presence, priority, status);
+
+    if (gloox::StateConnected == _client.state()) {
+      _updateInfo();
+    }
 
     // Don't connect if already connected or connecting.
     if (_thread)
@@ -193,6 +200,8 @@ namespace Account
   void Account::onConnect()/*{{{*/
   {
     _out.write("Connected: Connection established.");
+
+    _updateInfo();
   }/*}}}*/
   void Account::onDisconnect(gloox::ConnectionError e)/*{{{*/
   {
@@ -203,6 +212,10 @@ namespace Account
       _client.authError(),
       true);
     _out.write("Disconnected: " + text);
+
+    gloox::Presence::PresenceType type = gloox::Presence::Unavailable;
+    _nfo.setPresence(type);
+    _nfo.setMessage("");
   }/*}}}*/
   bool Account::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
   {
@@ -221,6 +234,15 @@ namespace Account
     LOG("End socket receiving thread.");
 
     return (void *) NULL;
+  }/*}}}*/
+  void Account::_updateInfo()/*{{{*/
+  {
+    if (gloox::Presence::Unavailable == _presence) {
+      _nfo.setPresence("invisible");
+    } else {
+      _nfo.setPresence(_presence);
+    }
+    _nfo.setMessage(_status);
   }/*}}}*/
 }
 
