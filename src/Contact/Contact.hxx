@@ -127,54 +127,6 @@ namespace Contact
       void sendMessage(const std::string &message);
 
 /*}}}*/
-      //void add();/*{{{*/
-
-      /**
-       * Wrapper method.
-       */
-      void add();
-
-/*}}}*/
-      //void remove();/*{{{*/
-
-      /**
-       * Wrapper method.
-       */
-      void remove();
-
-/*}}}*/
-      //void subscribe(const std::string &message="");/*{{{*/
-
-      /**
-       * Wrapper method.
-       */
-      void subscribe(const std::string &message="");
-
-/*}}}*/
-      //void unsubscribe(const std::string &message="");/*{{{*/
-
-      /**
-       * Wrapper method.
-       */
-      void unsubscribe(const std::string &message="");
-
-/*}}}*/
-      //void acknowledgeSubscription();/*{{{*/
-
-      /**
-       * Wrapper method.
-       */
-      void acknowledgeSubscription();
-
-/*}}}*/
-      //void declineSubscription();/*{{{*/
-
-      /**
-       * Wrapper method.
-       */
-      void declineSubscription();
-
-/*}}}*/
 
     private:
       Account::Roster &_roster;

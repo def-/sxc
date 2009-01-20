@@ -269,12 +269,8 @@ namespace Account
       "Received subscription request: (jid: \"" + jid.bare() +
       "\", message: \"" + msg + "\").");
 
-    contactList::iterator contact = _getContact(jid.bare());
-    if (_contacts.end() == contact)
-      return true;
-
-    //_account->print(
-    //  "Subscription request received: \"" + jid.bare() + "\"");
+    _out.write(
+      "Subscription request: " + jid.bare() + "\nMessage: " + msg);
 
     return true;
   }/*}}}*/

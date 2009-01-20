@@ -101,31 +101,6 @@ namespace Contact
     _session->send(message);
     _out.writeOutgoing(message);
   }/*}}}*/
-  void Contact::add()/*{{{*/
-  {
-    _roster.addContact(_getJid());
-  }/*}}}*/
-  void Contact::remove()/*{{{*/
-  {
-    // FIXME: _nfo.remove();?
-    _roster.removeContact(_getJid());
-  }/*}}}*/
-  void Contact::subscribe(const std::string &message)/*{{{*/
-  {
-    _roster.subscribe(_getJid(), message);
-  }/*}}}*/
-  void Contact::unsubscribe(const std::string &message)/*{{{*/
-  {
-    _roster.unsubscribe(_getJid(), message);
-  }/*}}}*/
-  void Contact::acknowledgeSubscription()/*{{{*/
-  {
-    _roster.acknowledgeSubscription(_getJid());
-  }/*}}}*/
-  void Contact::declineSubscription()/*{{{*/
-  {
-    _roster.declineSubscription(_getJid());
-  }/*}}}*/
   const gloox::JID &Contact::_getJid()/*{{{*/
   {
     return _session->target();
