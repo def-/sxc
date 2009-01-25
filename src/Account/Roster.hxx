@@ -28,6 +28,8 @@
 #include <string>
 #include <map>
 
+#include <pthread.h>
+
 #include <gloox/client.h>
 #include <gloox/rostermanager.h>
 #include <gloox/rosterlistener.h>
@@ -208,6 +210,15 @@ namespace Account
 
 /*}}}*/
 
+      //void reset();/*{{{*/
+
+      /**
+       * Remove every contact from the roster. This should be called on a
+       * disconnect.
+       */
+      void reset();
+
+/*}}}*/
       //const gloox::JID &getJid();/*{{{*/
 
       /**
@@ -457,6 +468,8 @@ namespace Account
       contactList::iterator _getContact(const std::string &jid);
 
 /*}}}*/
+
+      pthread_mutex_t *_resetMutex;
 
       //gloox::Client &_client;/*{{{*/
       /// The client object this roster is bound to.

@@ -28,6 +28,9 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <exception>
+
+#include <pthread.h>
 
 #include <gloox/clientbase.h>
 #include <gloox/jid.h>
@@ -59,11 +62,14 @@ namespace Account
     ::File::AbcOutput &out,
     libsxc::Error::Handler &eh)
   : RosterListener()
+  , _resetMutex(new pthread_mutex_t)
   , _client(client)
   , _out(out)
   , _contacts()
   , _eh(eh)
   {
+    pthread_mutex_init(_resetMutex, NULL);
+
     // Asynchronous subscription request handling.
     _client.rosterManager()->registerRosterListener(this, false);
     _client.registerMessageHandler(this);
@@ -73,12 +79,9 @@ namespace Account
     _client.rosterManager()->removeRosterListener();
     _client.removeMessageHandler(this);
 
-    for(
-    contactList::iterator entry = _contacts.begin();
-    entry != _contacts.end();
-    ++entry) {
-      delete entry->second;
-    }
+    reset();
+
+    pthread_mutex_destroy(_resetMutex);
   }/*}}}*/
 
   void Roster::sendMessage(const gloox::JID &jid, const std::string &message)/*{{{*/
@@ -178,6 +181,26 @@ namespace Account
     _client.disposeMessageSession(session);
   }/*}}}*/
 
+  void Roster::reset()/*{{{*/
+  {
+    pthread_mutex_lock(_resetMutex);
+
+    try {
+      for(
+      contactList::iterator entry = _contacts.begin();
+      entry != _contacts.end();
+      ++entry) {
+        delete entry->second;
+      }
+
+      _contacts.clear();
+    } catch (std::exception &e) {
+      pthread_mutex_unlock(_resetMutex);
+      throw e;
+    }
+
+    pthread_mutex_unlock(_resetMutex);
+  }/*}}}*/
   const gloox::JID &Roster::getJid()/*{{{*/
   {
     return _client.jid();

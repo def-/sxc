@@ -216,6 +216,8 @@ namespace Account
     gloox::Presence::PresenceType type = gloox::Presence::Unavailable;
     _nfo.setPresence(type);
     _nfo.setMessage("");
+
+    _roster.reset();
   }/*}}}*/
   bool Account::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
   {
