@@ -81,6 +81,7 @@ namespace Account
 
     reset();
 
+    // Has to be called after reset.
     pthread_mutex_destroy(_resetMutex);
   }/*}}}*/
 
@@ -183,6 +184,7 @@ namespace Account
 
   void Roster::reset()/*{{{*/
   {
+    // Must be unlocked!
     pthread_mutex_lock(_resetMutex);
 
     try {
@@ -197,6 +199,8 @@ namespace Account
     } catch (std::exception &e) {
       pthread_mutex_unlock(_resetMutex);
       throw e;
+    } catch (...) {
+      // Weird exception, rather ignore, so we can unlock the mutex.
     }
 
     pthread_mutex_unlock(_resetMutex);
@@ -364,8 +368,6 @@ namespace Account
       return;
     }
 
-    _out.write("Add contact: " + jid.bare());
-
     ::File::createDir(_client.jid().bare() + "/" + jid.bare());
 
     Contact::Contact *contact = new Contact::Contact(
@@ -374,7 +376,7 @@ namespace Account
 
     _contacts.insert(std::make_pair(jid.bare(), contact));
 
-
+    _out.write("Add contact: " + jid.bare());
   }/*}}}*/
   contactList::iterator Roster::_getContact(const std::string &jid)/*{{{*/
   {

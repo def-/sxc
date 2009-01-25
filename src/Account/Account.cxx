@@ -31,6 +31,8 @@
 #include <gloox/message.h>
 #include <gloox/disco.h>
 #include <gloox/error.h>
+#include <gloox/tlsbase.h>
+#include <gloox/connectionbase.h>
 
 #include <libsxc/generateString.hxx>
 #include <libsxc/Exception/Exception.hxx>
@@ -76,6 +78,7 @@ namespace Account
   , _nfo(nfo)
   , _eh(eh)
   {
+    //_client.setTls(gloox::TLSDisabled);
     _client.registerConnectionListener(this);
 
 #   ifdef DEBUG
@@ -205,6 +208,12 @@ namespace Account
   }/*}}}*/
   void Account::onDisconnect(gloox::ConnectionError e)/*{{{*/
   {
+    // Really disconnect. Some cases, like gloox::ConnIoError don't cleanly
+    // deinitialize after a disconnect has been detected.
+    disconnect();
+    //_client.encryptionImpl()->cleanup();
+    //_client.connectionImpl()->cleanup();
+
     std::string text = libsxc::genConnErrorString(
       e,
       _client.streamError(),
@@ -231,7 +240,10 @@ namespace Account
     LOG("Start socket receiving thread.");
 
     Account *that = (Account *) rawThat;
-    that->_client.connect(); // Blocking.
+    that->_client.disconnect();
+    if (!that->_client.connect()) { // Blocking.
+      that->disconnect();
+    }
 
     LOG("End socket receiving thread.");
 

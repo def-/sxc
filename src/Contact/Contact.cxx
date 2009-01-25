@@ -99,6 +99,7 @@ namespace Contact
   {
     LOG("Sending message: \"" + message + "\"");
     _session->send(message);
+    // FIXME: Find out if connection is still stable. Should work, as send is blocking. Get from Roster. 
     _out.writeOutgoing(message);
   }/*}}}*/
   const gloox::JID &Contact::_getJid()/*{{{*/
