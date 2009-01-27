@@ -167,11 +167,7 @@ namespace Account
     const gloox::JID &to,
     const std::string &body)
   {
-    gloox::Message message(
-      gloox::Message::Normal, // Not Chat.
-      to,
-      body);
-    _client.send(message);
+    _roster.sendMessage(to, body);
   }/*}}}*/
   void Account::addContact(const gloox::JID &jid)/*{{{*/
   {
