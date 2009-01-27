@@ -223,7 +223,10 @@ exec src/@PACKAGE@ $JID
 
 .SH BUGS
 When multiple processes write to the input file at the same time they cannot be
-distinguished and get interpreted as a single command.
+distinguished and get interpreted as a single command. Circumvent this by
+surrounding your input with nullstrings (\\0). This is especially important
+with :pwd, as for example a :msg or :set, that have been called before, could make your
+password public.
 .PP
 A proxy cannot be set directly. Instead use a transparent proxying library like
 .B tsocks(1)
@@ -232,10 +235,18 @@ to make
 use a proxy.
 .PP
 .B @PACKAGE@
-announces to the server to be a "console" program, while "client daemon" would
-be better.
+announces to the server to be a "console" program, but this highly depends on
+your usage of sxc. A "client daemon" would maybe be more appropriate.
 .PP
-Most signals are not handled correctly.
+Chat states - whether a contact is active, composing a message, paused,
+inactive, or gone - are not supported at all. No one can see yours, and you
+cannot see anybody's. The first is because of the file-based design of sxc, the
+second because we don't like chat states. Please fork or write a patch if you
+would like to have this feature, we are absolutely not going to include it.
+.PP
+If you are disconnected from the server, but sxc is still running, the in-files
+of the contacts are not connected to sxc. Therefore they will just block until
+you establish a new connection.
 .PP
 You cannot exit
 .B @PACKAGE@
