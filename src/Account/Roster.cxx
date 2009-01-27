@@ -101,11 +101,19 @@ namespace Account
     _addContactLocal(jid);
     _addContactRemote(jid);
   }/*}}}*/
-  void Roster::removeContact(const gloox::JID &jid) const/*{{{*/
+  void Roster::removeContact(const gloox::JID &jid)/*{{{*/
   {
     _checkClient();
 
     LOG("Remove contact from the roster: \"" + jid.bare() + "\".");
+
+    contactList::iterator contact = _getContact(jid.bare());
+    if (_contacts.end() != contact) {
+      contact->second->remove();
+    }
+
+    // Still remove the contact from the server, even if it is not available
+    // locally.
 
     _client.rosterManager()->remove(jid);
     _client.rosterManager()->synchronize();
@@ -376,7 +384,8 @@ namespace Account
 
     _contacts.insert(std::make_pair(jid.bare(), contact));
 
-    _out.write("Add contact: " + jid.bare());
+    if (contact->isNew())
+      _out.write("Add contact: " + jid.bare());
   }/*}}}*/
   contactList::iterator Roster::_getContact(const std::string &jid)/*{{{*/
   {

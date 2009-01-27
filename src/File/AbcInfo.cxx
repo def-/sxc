@@ -34,14 +34,24 @@
 
 namespace File
 {
+  AbcInfo::AbcInfo()/*{{{*/
+  : _isRemoved(false)
+  , _isNew(false)
+  {
+  }/*}}}*/
   void AbcInfo::initialize()/*{{{*/
   {
     _path = _createPath();
-    createDir(_path);
+    _isNew = createDir(_path);
   }/*}}}*/
   void AbcInfo::remove()/*{{{*/
   {
     ::File::remove(_path);
+    _isRemoved = true;
+  }/*}}}*/
+  bool AbcInfo::isNew()/*{{{*/
+  {
+    return _isNew;
   }/*}}}*/
 
   void AbcInfo::_removeFile(const std::string &key)/*{{{*/

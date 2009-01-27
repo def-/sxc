@@ -43,6 +43,8 @@ namespace File
 {
   template <typename T> void AbcInfo::_set(const std::string &key, T &value)/*{{{*/
   {
+    if (_isRemoved)
+      return;
     std::ostringstream ss;
     ss << "Setting info: (path: \"" << _path << "\", key: \"" << key
        << "\", value: \"" << value << "\").";

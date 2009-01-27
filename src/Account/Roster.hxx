@@ -116,7 +116,7 @@ namespace Account
       void addContact(const gloox::JID &jid);
 
 /*}}}*/
-      //void removeContact(const gloox::JID &jid) const;/*{{{*/
+      //void removeContact(const gloox::JID &jid);/*{{{*/
 
       /**
        * @brief Remove a contact from the roster.
@@ -125,7 +125,7 @@ namespace Account
        *
        * @param jid The JID of the contact to remove.
        */
-      void removeContact(const gloox::JID &jid) const;
+      void removeContact(const gloox::JID &jid);
 
 /*}}}*/
 
@@ -450,6 +450,9 @@ namespace Account
 
       /**
        * @brief Add a contact to the local roster only.
+       *
+       * Will print to the account's out file if the contact was not there
+       * before.
        *
        * @param jid The JID to add to the roster.
        */

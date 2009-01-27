@@ -38,6 +38,7 @@ namespace Account
   {
     Info::Info(const std::string &accountJid)/*{{{*/
     : _accountJid(accountJid)
+    , ::File::AbcInfo()
     {
       initialize();
       _reset();

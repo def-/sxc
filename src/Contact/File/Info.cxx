@@ -39,6 +39,7 @@ namespace Contact
     Info::Info(const std::string &accountJid, const std::string &contactJid)/*{{{*/
     : _accountJid(accountJid)
     , _contactJid(contactJid)
+    , ::File::AbcInfo()
     {
       initialize();
       _reset();

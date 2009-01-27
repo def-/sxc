@@ -127,6 +127,22 @@ namespace Contact
       void sendMessage(const std::string &message);
 
 /*}}}*/
+      //void remove();/*{{{*/
+
+      /**
+       * Remove the info directory of the contact.
+       */
+      void remove();
+
+/*}}}*/
+      //bool isInitial();/*{{{*/
+
+      /**
+       * Whether this contact has not been there before creating this object.
+       */
+      bool isNew();
+
+/*}}}*/
 
     private:
       Account::Roster &_roster;

@@ -31,8 +31,11 @@ namespace File
 {
   /**
    * Create a new directory, if it does not already exist.
+   *
+   * @return Whether the directory was created. Else it did exist before.
+   *         Errors will throw exceptions.
    */
-  void createDir(const std::string &path);
+  bool createDir(const std::string &path);
 }
 
 #endif // FILE_CREATEDIR_HXX

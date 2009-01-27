@@ -34,6 +34,7 @@ namespace File
   class AbcInfo
   {
     public:
+      AbcInfo();
       virtual ~AbcInfo() {}
 
       //virtual void initialize();/*{{{*/
@@ -51,9 +52,17 @@ namespace File
        * Delete the nfo-directory, if existing and empty. In derived classes
        * reimplement, use @ref removeFile on the files you are using and then
        * call this method, which will only delete the directory if no files
-       * were added to the directory outside of sxc.
+       * were added to the directory outside of sxc. This also sets the
+       * variable @ref _isRemoved to true.
        */
       virtual void remove();
+
+/*}}}*/
+      //virtual bool isNew();/*{{{*/
+
+      /**
+       */
+      virtual bool isNew();
 
 /*}}}*/
 
@@ -91,6 +100,24 @@ namespace File
 
     private:
       std::string _path;
+      //bool _isRemoved;/*{{{*/
+
+      /**
+       * If the info directory has already been removed, we should not try to
+       * write to them.
+       */
+      bool _isRemoved;
+
+/*}}}*/
+      //bool _isNew;/*{{{*/
+
+      /**
+       * Whether the info directory was created newly, meaning did not exist
+       * before the creation of this object.
+       */
+      bool _isNew;
+
+/*}}}*/
   };
 }
 

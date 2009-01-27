@@ -38,7 +38,7 @@
 
 namespace File
 {
-  void createDir(const std::string &path)
+  bool createDir(const std::string &path)
   {
     // We first try to get the file stats, to see whether this file, if
     // existing, is a directory.
@@ -51,7 +51,7 @@ namespace File
       }
       // It is a directory, so there is no need to do anything.
       LOG("Directory already exists: \"" + path + "\"");
-      return;
+      return false;
     }
 
     if (ENOENT != errno) {
@@ -64,7 +64,7 @@ namespace File
 
     // Directory does not exist. Create it with chmod 700.
     if (0 == mkdir(path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR))
-      return;
+      return true;
 
     throw Exception::errnoToException(
       errno,
