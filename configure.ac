@@ -206,17 +206,6 @@ if test "x${have_libsxc}" = xno; then
     (exit 1); exit 1
 fi
 #}}}
-# sigc++#{{{
-PKG_CHECK_MODULES([SIGC], [sigc++-2.0], [have_sigc=yes], [have_sigc=no])
-if test "x${have_sigc}" = xno; then
-    echo \
-"-------------------------------------------------
- Unable to find sigc++-2.0. Stopping
- Check \"config.log\" for more information.
--------------------------------------------------"
-    (exit 1); exit 1
-fi
-#}}}
 # gloox#{{{
 PKG_CHECK_MODULES([GLOOX], [gloox >= 1.0], [have_gloox=yes], [have_gloox=no])
 if test "x${have_gloox}" = xno; then
@@ -264,8 +253,6 @@ AC_SUBST(with_htags)
 
 AC_SUBST(LIBSXC_CFLAGS)
 AC_SUBST(LIBSXC_LIBS)
-AC_SUBST(SIGC_CFLAGS)
-AC_SUBST(SIGC_LIBS)
 AC_SUBST(GLOOX_CFLAGS)
 AC_SUBST(GLOOX_LIBS)
 AC_SUBST(CPPUNIT_CFLAGS)
@@ -281,15 +268,24 @@ AC_CONFIG_FILES([
     Doxyfile
     sxc.1
     src/Makefile
+    src/Account/Makefile
+    src/Account/File/Makefile
+    src/Command/Makefile
+    src/Command/Exception/Makefile
     src/CommandParser/Makefile
+    src/CommandParser/Exception/Makefile
     src/Contact/Makefile
     src/Contact/File/Makefile
-    src/Control/Makefile
-    src/Control/File/Makefile
+    src/Error/Makefile
     src/Exception/Makefile
+    src/Exit/Makefile
     src/File/Makefile
+    src/File/Exception/Makefile
+    src/Ping/Makefile
     src/Time/Makefile
     tests/Makefile
+    tests/Command/Makefile
+    tests/Command/Mock/Makefile
     tests/CommandParser/Makefile
     tests/File/Makefile
     tests/Time/Makefile

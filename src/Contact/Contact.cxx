@@ -1,109 +1,120 @@
+#line 2 "sxc:Contact/Contact.cxx"
 // LICENSE/*{{{*/
 /*
   sxc - Simple Xmpp Client
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 /*}}}*/
 
-/* $Id$ */
 
 // INCLUDE/*{{{*/
 
+#ifdef HAVE_CONFIG_H
+# include <config.hxx>
+#endif
+
 #include <string>
+#include <sstream>
 
 #include <gloox/clientbase.h>
 #include <gloox/messagesession.h>
 #include <gloox/presence.h>
 
 #include <Contact/Contact.hxx>
+#include <Account/Roster.hxx>
+#include <Account/RosterType.hxx>
 
-#ifdef HAVE_CONFIG_H
-#   include <config.hxx>
-#endif
-
-#ifdef DEBUG
-#   include <sstream>
-
-#   include <libsxc/generateString.hxx>
-
-#   include <print.hxx>
-#endif
+#include <libsxc/generateString.hxx>
+#include <libsxc/Debug/Logger.hxx>
 
 /*}}}*/
 
-
 namespace Contact
 {
-    Contact::Contact(gloox::ClientBase *client, const gloox::JID &jid)/*{{{*/
-    : _client(client),
-      _session(new gloox::MessageSession(client, jid))
-    {
-#       ifdef DEBUG
-            printErr("Create contact: \"" + jid.bare() + "\".");
-#       endif
-        _session->registerMessageHandler(this);
+  Contact::Contact(/*{{{*/
+    Account::Roster &roster,
+    const gloox::JID &accountJid,
+    const gloox::JID &contactJid)
+  : _roster(roster)
+  , _session(roster.createMessageSession(this, contactJid))
+  , _in(*this, accountJid.bare(), contactJid.bare())
+  , _out(accountJid.bare(), contactJid.bare())
+  , _nfo(accountJid.bare(), contactJid.bare())
+  {
+    LOG("Create contact: \"" + contactJid.bare() + "\".");
 
-        //_input = new File::Input(jid.bare());
-        //_output = new File::Output(jid.bare());
-    }/*}}}*/
-    Contact::~Contact()/*{{{*/
-    {
-#       ifdef DEBUG
-            printErr("Delete contact: \"" + _session->target().bare() + "\".");
-#       endif
-        // This deletes the session. Else the destructor of gloox::ClientBase
-        // would handle this.
-        _client->disposeMessageSession(_session);
-    }/*}}}*/
+    _in.listen();
+  }/*}}}*/
+  Contact::~Contact()/*{{{*/
+  {
+    LOG("Delete contact: \"" + _session->target().bare() + "\".");
 
-    void Contact::printPresenceUpdate(/*{{{*/
-        const std::string &resource,
-        gloox::Presence::PresenceType presence,
-        const std::string &message)
-    {
-        // FIXME
-    }/*}}}*/
-    void Contact::handleMessage(/*{{{*/
-        const gloox::Message &msg,
-        gloox::MessageSession *session)
-    {
-#       ifdef DEBUG
-            std::ostringstream ss;
-            ss << "Contact received message: (jid: \"" << msg.from().full();
-            if (session)
-                ss << "\", thread id: \"" << session->threadID() << "\"";
-            else
-                ss << "\", no session";
-            ss << ", type: \"" << libsxc::genMsgTypeString(msg.subtype());
-            ss << "\" (" << msg.subtype();
-            ss << "), subject: \"" << msg.subject();
-            ss << "\", body: \"" << msg.body() << "\").";
-            printLog(ss.str());
-#       endif
-        //_output->write(msg->body());
-    }/*}}}*/
-    const gloox::JID &Contact::getJid()/*{{{*/
-    {
-        return _session->target();
-    }/*}}}*/
-    void Contact::sendMessage(const std::string &message)/*{{{*/
-    {
-        // FIXME
-    }/*}}}*/
+    _roster.disposeMessageSession(_session); // Will be deleted.
+  }/*}}}*/
+
+  void Contact::updatePresence(/*{{{*/
+    const std::string &resource,
+    gloox::Presence::PresenceType presence,
+    const std::string &message)
+  {
+    _nfo.setPresence(presence);
+    _nfo.setMessage(message);
+  }/*}}}*/
+  void Contact::updateRoster(Account::RosterType type)/*{{{*/
+  {
+    _nfo.setRoster(type);
+  }/*}}}*/
+  void Contact::handleMessage(/*{{{*/
+    const gloox::Message &msg,
+    gloox::MessageSession *session)
+  {
+    std::ostringstream ss;
+    ss << "Contact received message: (jid: \"" << msg.from().full();
+    if (session)
+      ss << "\", thread id: \"" << session->threadID() << "\"";
+    else
+      ss << "\", no session";
+    ss << ", type: \"" << libsxc::genMsgTypeString(msg.subtype());
+    ss << "\" (" << msg.subtype();
+    ss << "), subject: \"" << msg.subject();
+    ss << "\", body: \"" << msg.body() << "\").";
+    LOG(ss.str());
+
+    _out.writeIncomming(msg.body());
+  }/*}}}*/
+
+  void Contact::sendMessage(const std::string &message)/*{{{*/
+  {
+    LOG("Sending message: \"" + message + "\"");
+    _session->send(message);
+    // FIXME: Find out if connection is still stable. Should work, as send is blocking. Get from Roster. 
+    _out.writeOutgoing(message);
+  }/*}}}*/
+  void Contact::remove()/*{{{*/
+  {
+    _nfo.remove();
+  }/*}}}*/
+  bool Contact::isNew()/*{{{*/
+  {
+    return _nfo.isNew();
+  }/*}}}*/
+  const gloox::JID &Contact::_getJid()/*{{{*/
+  {
+    return _session->target();
+  }/*}}}*/
 }
 
-// Use no tabs at all; four spaces indentation; max. eighty chars per line.
-// vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+// Use no tabs at all; two spaces indentation; max. eighty chars per line.
+// vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

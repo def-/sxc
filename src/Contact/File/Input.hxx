@@ -3,18 +3,17 @@
   sxc - Simple Xmpp Client
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 /*}}}*/
 
@@ -26,86 +25,83 @@
 #include <string>
 
 #include <File/AbcInput.hxx>
-#include <Contact/Contact.hxx>
-#include <Control/Control.hxx>
 
 /*}}}*/
 
 namespace Contact
 {
-    namespace File
+  class Contact;
+
+  namespace File
+  {
+    /**
+     * @brief Input file for communication with contacts.
+     *
+     * Creates the file <JID>/<Contact>/in which handles communication with
+     * a contact and the corresponding commands.
+     *
+     */
+    class Input : public ::File::AbcInput
     {
+      public:
+        // Input(Contact &, string &accountJid, string &contactJid);/*{{{*/
+
         /**
-         * @brief Input file for communication with contacts.
+         * @brief Default constructor, initalizes object.
          *
-         * Creates the file <JID>/<Contact>/in which handles communication with 
-         * a contact and the corresponding commands.
+         * Calls @ref initialize() so that the object is ready to use.
          *
-         * @author Andreas Waidler
+         * @param contact Contact object. Stored as a reference
+         *                internally.
          */
-        class Input : public ::File::AbcInput
-        {
-            public:
-                // Input(Control &control, Contact &contact);/*{{{*/
-
-                /**
-                 * @brief Default constructor, initalizes object.
-                 *
-                 * Calls @ref initialize() so that the object is ready to use.
-                 *
-                 * @param contact Contact object. Stored as a reference 
-                 *                internally.
-                 */
-                Input(Control::Control &control, Contact &contact);
+        Input(
+          Contact &contact,
+          const std::string &accountJid,
+          const std::string &contactJid);
 
 /*}}}*/
 
-            protected:
+      protected:
 
-            private:
-                // std::string _createPath() const;/*{{{*/
+      private:
+        // std::string _createPath() const;/*{{{*/
 
-                /**
-                 * @brief Returns the path and file name of the FIFO.
-                 *
-                 * @see File::AbcInput::_createPath()
-                 *
-                 * @return "$accountName/in"
-                 */
-                std::string _createPath() const;
-
-/*}}}*/
-                //Control &_control;/*{{{*/
-                /// The control object.
-                Control::Control &_control;
+        /**
+         * @brief Returns the path and file name of the FIFO.
+         *
+         * @see File::AbcInput::_createPath()
+         *
+         * @return "$accountName/in"
+         */
+        std::string _createPath() const;
 
 /*}}}*/
-                //Contact &_contact;/*{{{*/
-                /// The contact object.
-                Contact &_contact;
+        //Contact &_contact;/*{{{*/
+        /// The contact object.
+        Contact &_contact;
 
 /*}}}*/
+        const std::string _accountJid;
+        const std::string _contactJid;
 
-                // void _handleInput(const std::string &input);/*{{{*/
+        // void _handleInput(const std::string &input);/*{{{*/
 
-                /**
-                 * @brief Handles input that has been written into the FIFO.
-                 *
-                 * For a list of valid commands see @ref
-                 * Contact::Command. The main work will be done by an
-                 * instance of that class, this method provides just the
-                 * exception handling and creates that object.
-                 *
-                 * @param input Something that has been written into the FIFO.
-                 */
-                void _handleInput(const std::string &input);
+        /**
+         * @brief Handles input that has been written into the FIFO.
+         *
+         * All input is interpreted as a message to the contact. A trailing
+         * newline already has to be removed.
+         *
+         * @param input Something that has been written into the FIFO.
+         */
+        void _handleInput(const std::string &input);
 
 /*}}}*/
-        };
-    }
+    };
+  }
 }
 
 #endif // CONTACT_FILE_INPUT_HXX
 
-// Use no tabs at all; four spaces indentation; max. eighty chars per line.
-// vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+// Use no tabs at all; two spaces indentation; max. eighty chars per line.
+// vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

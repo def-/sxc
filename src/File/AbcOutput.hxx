@@ -3,18 +3,17 @@
   sxc - Simple Xmpp Client
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 /*}}}*/
 
@@ -30,142 +29,132 @@
 
 namespace File
 {
-    /**
-     * @brief Abstract base class handling output to files.
-     *
-     * Handles writing into a file whose path is returned by @ref _createPath().
-     * Formats the output before writing by calling @ref _format().
-     *
-     * Children of this class have to implement the abstract methods @ref
-     * _createPath() and @ref _format().
-     *
-     * @author Andreas Waidler
-     */
-    class AbcOutput
-    {
-        public:
-            // AbcOutput();/*{{{*/
+  /**
+   * @brief Abstract base class handling output to files.
+   *
+   * Handles writing into a file whose path is returned by @ref _createPath().
+   *
+   * Children of this class have to implement the abstract method @ref
+   * _createPath().
+   */
+  class AbcOutput
+  {
+    public:
+      // AbcOutput();/*{{{*/
 
-            /**
-             * @brief Default constructor, does low-level initialization.
-             *
-             * Before using any instance of derived classes, you should also
-             * call @ref initialize().
-             */
-            AbcOutput();
+      /**
+       * @brief Default constructor, does low-level initialization.
+       *
+       * Before using any instance of derived classes, you should also
+       * call @ref initialize().
+       */
+      AbcOutput();
 
 /*}}}*/
-            // virtual ~AbcOutput();/*{{{*/
+      // virtual ~AbcOutput();/*{{{*/
 
-            /**
-             * @brief Virtual destructor, closes file if open.
-             */
-            virtual ~AbcOutput();
-
-/*}}}*/
-            // void initialize();/*{{{*/
-
-            /**
-             * @brief Initializes the object.
-             *
-             * Apart from the constructor a more high-level initialization will
-             * be done, which includes calling @ref _createPath() because it
-             * can't be called in the constructor (abstract method).
-             *
-             * @note Has to be called before any other method. You may want to
-             *       call it in the constructor of the childs.
-             */
-            void initialize();
+      /**
+       * @brief Virtual destructor, closes file if open.
+       */
+      virtual ~AbcOutput();
 
 /*}}}*/
-            // void write(std::string text);/*{{{*/
+      // virtual void initialize();/*{{{*/
 
-            /**
-             * @brief Writes into file.
-             *
-             * Passes data on to @ref _format() and writes the results into the
-             * file.
-             *
-             * @note You have to @ref open() the file before writing.
-             *
-             * @param data The data to write.
-             */
-            void write(std::string data);
-
-/*}}}*/
-            // void open();/*{{{*/
-
-            /**
-             * @brief Opens the file.
-             *
-             * Before this method is called there is no physical file associated
-             * with this object.
-             */
-            void open();
+      /**
+       * @brief Initializes the object.
+       *
+       * Apart from the constructor a more high-level initialization will
+       * be done, which includes calling @ref _createPath() because it
+       * can't be called in the constructor (abstract method).
+       *
+       * @note Has to be called before any other method. You may want to
+       *       call it in the constructor of the childs.
+       */
+      virtual void initialize();
 
 /*}}}*/
-            // void close();/*{{{*/
+      // virtual void write(const std::string &data);/*{{{*/
 
-            /**
-             * @brief Closes the file.
-             *
-             * After calling this method there will no physical file be
-             * associated with this object.
-             */
-            void close();
+      /**
+       * @brief Writes into file.
+       *
+       * @note You have to @ref open() the file before writing.
+       *
+       * @param data The data to write.
+       */
+      virtual void write(const std::string &data);
 
 /*}}}*/
-            // bool isOpen();/*{{{*/
+      // void open();/*{{{*/
 
-            /**
-             * @brief Checks whether the file is opened or not.
-             *
-             * @return @c true if open, @c false otherwiese.
-             */
-            bool isOpen();
+      /**
+       * @brief Opens the file.
+       *
+       * Before this method is called there is no physical file associated
+       * with this object.
+       */
+      void open();
+
+/*}}}*/
+      // void close();/*{{{*/
+
+      /**
+       * @brief Closes the file if open.
+       *
+       * After calling this method there will no physical file be
+       * associated with this object.
+       */
+      void close();
+
+/*}}}*/
+      // bool isOpen();/*{{{*/
+
+      /**
+       * @brief Checks whether the file is opened or not.
+       *
+       * @return @c true if open, @c false otherwiese.
+       */
+      bool isOpen();
 
 /*}}}*/
 
-        protected:
+    protected:
+      // std::ofstream _ofstream;/*{{{*/
 
-        private:
-            // std::string _path;/*{{{*/
-
-            /// The path including file name where the file should be located.
-            std::string _path;
+      /// The file from which will be read.
+      std::ofstream _ofstream;
 
 /*}}}*/
-            // std::ofstream _file;/*{{{*/
+      // virtual void _dispose() throw();/*{{{*/
 
-            /// The file from which will be read.
-            std::ofstream _file;
-
-/*}}}*/
-            // virtual std::string _createPath() const = 0;/*{{{*/
-
-            /**
-             * @brief Creates the path where the file should be located.
-             *
-             * @return The path where the file should be located.
-             */
-            virtual std::string _createPath() const = 0;
+      /// Frees all resources.
+      virtual void _dispose() throw();
 
 /*}}}*/
-            // virtual std::string _format(const std::string &data) const = 0;/*{{{*/
+      std::string _indent(const std::string &prefix, std::string &text) const;
 
-            /**
-             * @brief Formats the output prior writing.
-             *
-             * @param output The data to write to the file.
-             * @return The formatted data.
-             */
-            virtual std::string _format(const std::string &data) const = 0;
+    private:
+      // std::string _path;/*{{{*/
+
+      /// The path including file name where the file should be located.
+      std::string *_path;
 
 /*}}}*/
-    };
+      // virtual std::string _createPath() const = 0;/*{{{*/
+
+      /**
+       * @brief Creates the path where the file should be located.
+       *
+       * @return The path where the file should be located.
+       */
+      virtual std::string _createPath() const = 0;
+
+/*}}}*/
+  };
 }
 
 #endif // FILE_ABCOUTPUT_H
 
-// Use no tabs at all; four spaces indentation; max. eighty chars per line.
-// vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+// Use no tabs at all; two spaces indentation; max. eighty chars per line.
+// vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

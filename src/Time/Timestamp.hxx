@@ -3,18 +3,17 @@
   sxc - Simple Xmpp Client
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 /*}}}*/
 
@@ -23,22 +22,72 @@
 
 #include <ctime>
 
+/**
+ * @brief Contains the DateTime library.
+ *
+ * The DateTime library provides functionality to deal with timestamps and
+ * dates in a more convenient and secure fashion than the C library time.h.
+ */
 namespace Time
 {
-    class Timestamp
-    {
-        public:
-            Timestamp();
-            Timestamp(time_t time);
-            virtual ~Timestamp();
-            virtual const time_t &raw() const;
+  /**
+   * @brief Represents an UNIX timestamp.
+   *
+   * Basic type for the usage of this DateTime library. Resembles an UNIX
+   * timestamp whose value can not be altered if set once. Hence, an object of
+   * Timestamp will always contain an UNIX timestamp that is not modifyable.
+   */
+  class Timestamp
+  {
+    public:
+      // Timestamp();/*{{{*/
 
-        private:
-            time_t _raw;
-    };
+      /**
+       * @brief Default constructor, makes a snapshot of current time.
+       *
+       * Stores the current UNIX timestamp as returned by time() of time.h.
+       */
+      Timestamp();
+
+/*}}}*/
+      // Timestamp(time_t time);/*{{{*/
+
+      /**
+       * @brief Constructor to initialize object to a specific timestamp value.
+       * @param time The value of an UNIX timestamp.
+       */
+      Timestamp(time_t time);
+
+/*}}}*/
+      // virtual ~Timestamp();/*{{{*/
+
+      /**
+       * @brief Virtual destructor.
+       */
+      virtual ~Timestamp();
+
+/*}}}*/
+      // virtual const time_t &raw() const;/*{{{*/
+
+      /**
+       * @brief Returns the value of this timestamp.
+       * @return The raw value of this timestamp.
+       */
+      virtual const time_t &raw() const;
+
+/*}}}*/
+
+    private:
+      // time_t _raw;/*{{{*/
+
+      /// The raw value of this timestamp.
+      time_t _raw;
+
+/*}}}*/
+  };
 }
 
 #endif // TIMESTAMP_HXX
 
-// Use no tabs at all; four spaces indentation; max. eighty chars per line.
-// vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+// Use no tabs at all; two spaces indentation; max. eighty chars per line.
+// vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

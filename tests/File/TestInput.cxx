@@ -3,18 +3,17 @@
   sxc - Simple Xmpp Client
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 /*}}}*/
 
@@ -28,8 +27,7 @@
 #include <string>
 #include <fstream>
 
-#include <Exception/FileInputException.hxx>
-#include <libsxc/Exception/Type.hxx>
+#include <Exit/Code.hxx>
 #include "TestInput.hxx"
 
 /*}}}*/
@@ -38,202 +36,203 @@ const std::string TestInput::fifoPath = "fifo.in";
 
 void TestInput::setUp()/*{{{*/
 {
-    _inputDummy = new InputDummy(TestInput::fifoPath);
-    _inputDummy->initialize(true);
+  _inputDummy = new InputDummy(TestInput::fifoPath);
+  _inputDummy->initialize(true);
 
-    // For the case that a previous test did not stop cleanly.
-    remove(TestInput::fifoPath.c_str());
+  // For the case that a previous test did not stop cleanly.
+  remove(TestInput::fifoPath.c_str());
 }
 
 /*}}}*/
 void TestInput::tearDown()/*{{{*/
 {
-    delete _inputDummy;
-    _inputDummy = NULL;
+  delete _inputDummy;
+  _inputDummy = NULL;
 
-    remove(TestInput::fifoPath.c_str());
+  remove(TestInput::fifoPath.c_str());
 }
 
 /*}}}*/
 void TestInput::testCreate()/*{{{*/
 {
-    _inputDummy->_create();
+  _inputDummy->_create();
 }
 
 /*}}}*/
 void TestInput::exceptCreateExist()/*{{{*/
 {
-    // Create a file in the place where _create() wants to store the fifo.
-    std::ofstream badFile(TestInput::fifoPath.c_str(), std::ios::out);
-    // This should fail — or the missplaced file has been overwritten.
-    _inputDummy->_create();
+  // Create a file in the place where _create() wants to store the fifo.
+  std::ofstream badFile(TestInput::fifoPath.c_str(), std::ios::out);
+  // This should fail — or the missplaced file has been overwritten.
+  _inputDummy->_create();
 }
 
 /*}}}*/
 void TestInput::testValidate()/*{{{*/
 {
-    _inputDummy->_create();
-    _inputDummy->_validate();
+  _inputDummy->_create();
+  _inputDummy->_validate();
 }
 
 /*}}}*/
 void TestInput::exceptValidateMissing()/*{{{*/
 {
-    // _inputDummy has been initialized with noPhysical=true, which means that
-    // initialize() should have not created the physical file. _create() has not
-    // been called manually. FIFO should be missing, this should fail and throw
-    // an exception.
-    _inputDummy->_validate();
+  // _inputDummy has been initialized with noPhysical=true, which means that
+  // initialize() should have not created the physical file. _create() has not
+  // been called manually. FIFO should be missing, this should fail and throw
+  // an exception.
+  _inputDummy->_validate();
 }
 
 /*}}}*/
 void TestInput::exceptValidate200()/*{{{*/
 {
-    exceptValidateChmod(S_IWUSR);
+  exceptValidateChmod(S_IWUSR);
 }
 
 /*}}}*/
 void TestInput::exceptValidate400()/*{{{*/
 {
-    exceptValidateChmod(S_IRUSR);
+  exceptValidateChmod(S_IRUSR);
 }
 
 /*}}}*/
 void TestInput::exceptValidate604()/*{{{*/
 {
-    exceptValidateChmod(S_IRUSR | S_IWUSR | S_IROTH);
+  exceptValidateChmod(S_IRUSR | S_IWUSR | S_IROTH);
 }
 
 /*}}}*/
 void TestInput::exceptValidate640()/*{{{*/
 {
-    exceptValidateChmod(S_IRUSR | S_IWUSR | S_IRGRP);
+  exceptValidateChmod(S_IRUSR | S_IWUSR | S_IRGRP);
 }
 
 /*}}}*/
 void TestInput::exceptValidateBad()/*{{{*/
 {
-    // Create a non-fifo file to let _validate() fail with BadFile.
-    std::filebuf fake;
-    fake.open(TestInput::fifoPath.c_str(), std::ios::out);
-    // This should fail and throw an exception.
-    _inputDummy->_validate();
+  // Create a non-fifo file to let _validate() fail with BadFile.
+  std::filebuf fake;
+  fake.open(TestInput::fifoPath.c_str(), std::ios::out);
+  // This should fail and throw an exception.
+  _inputDummy->_validate();
 }
 
 /*}}}*/
 void TestInput::testClose()/*{{{*/
 {
-    _inputDummy->close();
+  _inputDummy->close();
 }
 
 /*}}}*/
 void TestInput::testListen()/*{{{*/
 {
-    _inputDummy->_create();
-    _inputDummy->listen();
-    sleep(1);
+  _inputDummy->_create();
+  _inputDummy->listen();
+  sleep(1);
 }
 
 /*}}}*/
 void TestInput::testListenClose()/*{{{*/
 {
-    _inputDummy->_create();
-    _inputDummy->listen();
-    sleep(1);
-    _inputDummy->close();
+  _inputDummy->_create();
+  _inputDummy->listen();
+  sleep(1);
+  _inputDummy->close();
 }
 
 /*}}}*/
 void TestInput::testReadSimple()/*{{{*/
 {
-    _inputDummy->_create();
-    _inputDummy->listen();
+  _inputDummy->_create();
+  _inputDummy->listen();
 
-    const std::string testInput = "foobar";
-    std::ofstream fifo(TestInput::fifoPath.c_str());
-    fifo << testInput << std::flush;
-    fifo.close();
-    sleep(1);
+  const std::string testInput = "foobar";
+  std::ofstream fifo(TestInput::fifoPath.c_str());
+  fifo << testInput << std::flush;
+  fifo.close();
+  sleep(1);
 
-    CPPUNIT_ASSERT_EQUAL(testInput, _inputDummy->getLastInput());
+  CPPUNIT_ASSERT_EQUAL(testInput, _inputDummy->getLastInput());
 }
 
 /*}}}*/
 void TestInput::testReadNL()/*{{{*/
 {
-    _inputDummy->_create();
-    _inputDummy->listen();
+  _inputDummy->_create();
+  _inputDummy->listen();
 
-    const std::string testInput = "foobar\nfoobar\n";
-    std::ofstream fifo(TestInput::fifoPath.c_str());
-    fifo << testInput << std::flush;
-    fifo.close();
-    sleep(1);
+  const std::string testInput = "foobar\nfoobar\n";
+  const std::string expected = "foobar\nfoobar";
+  std::ofstream fifo(TestInput::fifoPath.c_str());
+  fifo << testInput << std::flush;
+  fifo.close();
+  sleep(1);
 
-    CPPUNIT_ASSERT_EQUAL(testInput, _inputDummy->getLastInput());
+  CPPUNIT_ASSERT_EQUAL(expected , _inputDummy->getLastInput());
 }
 
 /*}}}*/
 void TestInput::testReadNull()/*{{{*/
 {
-    _inputDummy->_create();
-    _inputDummy->listen();
+  _inputDummy->_create();
+  _inputDummy->listen();
 
-    // Create string while avoiding to let it terminate after \0
-    std::string testInput = "foo";
-    testInput.push_back('\0');
-    testInput.append("bar");
-    std::ofstream fifo(TestInput::fifoPath.c_str());
-    fifo << testInput << std::flush;
-    fifo.close();
-    sleep(1);
+  // Create string while avoiding to let it terminate after \0
+  std::string testInput = "foo";
+  testInput.push_back('\0');
+  testInput.append("bar");
+  std::ofstream fifo(TestInput::fifoPath.c_str());
+  fifo << testInput << std::flush;
+  fifo.close();
+  sleep(1);
 
-    CPPUNIT_ASSERT_EQUAL(std::string("bar"), _inputDummy->getLastInput());
+  CPPUNIT_ASSERT_EQUAL(std::string("bar"), _inputDummy->getLastInput());
 }
 
 /*}}}*/
 void TestInput::testReadTrailNull()/*{{{*/
 {
-    _inputDummy->_create();
-    _inputDummy->listen();
+  _inputDummy->_create();
+  _inputDummy->listen();
 
-    std::string testInput = "foobar";
-    testInput.push_back('\0');
-    testInput.push_back('\0');
-    std::ofstream fifo(TestInput::fifoPath.c_str());
-    fifo << testInput << std::flush;
-    fifo.close();
-    sleep(1);
+  std::string testInput = "foobar";
+  testInput.push_back('\0');
+  testInput.push_back('\0');
+  std::ofstream fifo(TestInput::fifoPath.c_str());
+  fifo << testInput << std::flush;
+  fifo.close();
+  sleep(1);
 
-    CPPUNIT_ASSERT_EQUAL(std::string("foobar"), _inputDummy->getLastInput());
+  CPPUNIT_ASSERT_EQUAL(std::string("foobar"), _inputDummy->getLastInput());
 }
 
 /*}}}*/
 void TestInput::testReadLeadNull()/*{{{*/
 {
-    _inputDummy->_create();
-    _inputDummy->listen();
+  _inputDummy->_create();
+  _inputDummy->listen();
 
-    std::string testInput;
-    testInput.push_back ('\0');
-    testInput.append("foobar");
-    std::ofstream fifo(TestInput::fifoPath.c_str());
-    fifo << testInput << std::flush;
-    fifo.close();
-    sleep(1);
+  std::string testInput;
+  testInput.push_back ('\0');
+  testInput.append("foobar");
+  std::ofstream fifo(TestInput::fifoPath.c_str());
+  fifo << testInput << std::flush;
+  fifo.close();
+  sleep(1);
 
-    CPPUNIT_ASSERT_EQUAL(std::string("foobar"), _inputDummy->getLastInput());
+  CPPUNIT_ASSERT_EQUAL(std::string("foobar"), _inputDummy->getLastInput());
 }
 
 /*}}}*/
 void TestInput::exceptValidateChmod(mode_t mode)/*{{{*/
 {
-    CPPUNIT_ASSERT_EQUAL(0, mkfifo(TestInput::fifoPath.c_str(), mode));
-    // This should fail and throw an exception.
-    _inputDummy->_validate();
+  CPPUNIT_ASSERT_EQUAL(0, mkfifo(TestInput::fifoPath.c_str(), mode));
+  // This should fail and throw an exception.
+  _inputDummy->_validate();
 }
 
 /*}}}*/
 
-// Use no tabs at all; four spaces indentation; max. eighty chars per line.
-// vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+// Use no tabs at all; two spaces indentation; max. eighty chars per line.
+// vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

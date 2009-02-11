@@ -3,22 +3,20 @@
   sxc - Simple Xmpp Client
   Copyright (C) 2008 Dennis Felsing, Andreas Waidler
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 /*}}}*/
 
-/* $Id$ */
 
 
 #ifndef CONTACT_CONTACT_HXX
@@ -34,95 +32,142 @@
 #include <gloox/messagehandler.h>
 #include <gloox/presence.h>
 
-//#include <Contact/File/Input.hxx>
+//#include <File/AbcInput.hxx>
+#include <Contact/File/Input.hxx>
+//#include <File/AbcOutput.hxx>
+#include <Contact/File/Output.hxx>
+//#include <File/AbcInfo.hxx>
+#include <Contact/File/Info.hxx>
+#include <Account/RosterType.hxx>
 
 /*}}}*/
+
+namespace Account
+{
+  class Roster;
+}
 
 /**
  * @brief Contains the classes for contacts.
  */
 namespace Contact
 {
-    /**
-     * @author Dennis Felsing
-     * @brief A representation of a contact.
-     *
-     * Objects of this class get called when a message for the represented
-     * contact gets in.
-     */
-    class Contact : public gloox::MessageHandler
-    {
-        public:
-            //Contact(gloox::ClientBase *client, const gloox::JID &jid);/*{{{*/
+  /**
+   * @brief A representation of a contact.
+   *
+   * Objects of this class get called when a message for the represented
+   * contact gets in. This class does not register itself as the message
+   * handler.
+   */
+  class Contact : public gloox::MessageHandler
+  {
+    public:
+      //Contact(&roster, &accountJid, &contactJid);/*{{{*/
 
-            /**
-             * @brief Initialise the contact.
-             */
-            Contact(gloox::ClientBase *client, const gloox::JID &jid);
-
-/*}}}*/
-            //~Contact();/*{{{*/
-
-            /**
-             * @brief Destroy the contact.
-             *
-             * This method also lets the client dispose of the MessageSession.
-             */
-            ~Contact();
+      /**
+       * @brief Initialise the contact.
+       *
+       * @param roster The roster this contact belongs to.
+       */
+      Contact(
+        Account::Roster &roster,
+        const gloox::JID &accountJid,
+        const gloox::JID &contactJid);
 
 /*}}}*/
+      //~Contact();/*{{{*/
 
-            //void printPresenceUpdate(&resource, presence, &message)/*{{{*/
-
-            /**
-             * @brief Print a text to the contact's output file.
-             *
-             * @param text The text to print.
-             */
-            void printPresenceUpdate(
-                const std::string &resource,
-                gloox::Presence::PresenceType presence,
-                const std::string &message);
+      /**
+       * @brief Destroy the contact.
+       *
+       * This method also lets the client dispose of the MessageSession.
+       */
+      ~Contact();
 
 /*}}}*/
-            //void handleMessage(Message msg, MessageSession session);/*{{{*/
 
-            /**
-             */
-            void handleMessage(
-                const gloox::Message &msg,
-                gloox::MessageSession *session);
+      //void updatePresence(&resource, presence, &message)/*{{{*/
 
-/*}}}*/
-            //const gloox::JID &getJid();/*{{{*/
-
-            /**
-             * @brief Get the JID.
-             *
-             * @return The JID of the contact.
-             */
-            const gloox::JID &getJid();
+      /**
+       * @brief Print a text to the contact's output file.
+       *
+       * @param text The text to print.
+       */
+      void updatePresence(
+        const std::string &resource,
+        gloox::Presence::PresenceType presence,
+        const std::string &message);
 
 /*}}}*/
-            //void sendMessage(const std::string &message);/*{{{*/
+      //void updateRoster(Account::RosterType type);/*{{{*/
 
-            /**
-             * @brief Send a chat message to the contact.
-             *
-             * @param message The raw message to send.
-             */
-            void sendMessage(const std::string &message);
+      /**
+       * Update the roster type.
+       */
+      void updateRoster(Account::RosterType type);
 
 /*}}}*/
-        private:
-            //File::Input *_input;
-            //File::Output *_output;
-            gloox::ClientBase *_client;
-            gloox::MessageSession *_session;
+      //void handleMessage(Message msg, MessageSession session);/*{{{*/
 
-    };
+      /**
+       */
+      void handleMessage(
+        const gloox::Message &msg,
+        gloox::MessageSession *session);
+
+/*}}}*/
+
+      //void sendMessage(const std::string &message);/*{{{*/
+
+      /**
+       * @brief Send a chat message to the contact.
+       *
+       * @param message The raw message to send.
+       */
+      void sendMessage(const std::string &message);
+
+/*}}}*/
+      //void remove();/*{{{*/
+
+      /**
+       * Remove the info directory of the contact.
+       */
+      void remove();
+
+/*}}}*/
+      //bool isInitial();/*{{{*/
+
+      /**
+       * Whether this contact has not been there before creating this object.
+       */
+      bool isNew();
+
+/*}}}*/
+
+    private:
+      Account::Roster &_roster;
+      gloox::MessageSession *_session;
+      //::File::AbcInput &_in;
+      File::Input _in;
+      //::File::AbcOutput &_out;
+      File::Output _out;
+      //::File::AbcInfo &_nfo;
+      File::Info _nfo;
+
+      //const gloox::JID &_getJid();/*{{{*/
+
+      /**
+       * @brief Get the JID.
+       *
+       * @return The JID of the contact.
+       */
+      const gloox::JID &_getJid();
+
+/*}}}*/
+  };
 }
 
+
 #endif // CONTACT_CONTACT_HXX
-// Use no tabs at all; four spaces indentation; max. eighty chars per line.
-// vim: et ts=4 sw=4 tw=80 fo+=c fdm=marker
+// Use no tabs at all; two spaces indentation; max. eighty chars per line.
+// vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker
