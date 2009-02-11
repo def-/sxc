@@ -1,4 +1,4 @@
-SUBDIRS = Error Exit Time Exception Command CommandParser File Contact Account
+SUBDIRS = Error Exit Time Exception Command CommandParser File Contact Ping Account
 
 noinst_LTLIBRARIES = libSrc.la
 libSrc_la_CPPFLAGS = $(GLOOX_CFLAGS)
