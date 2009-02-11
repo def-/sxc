@@ -164,6 +164,11 @@ Set the command to be used for
 and
 .B checking.
 
+.TP
+.B :png\fI " [jid]"
+.B Ping
+the specified jid, defaults to the server.
+
 .SH RETURN STATUSES
 
 .TP
