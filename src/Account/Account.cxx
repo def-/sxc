@@ -235,15 +235,20 @@ namespace Account
   void *Account::_run(void *rawThat)/*{{{*/
   {
     LOG("Start socket receiving thread.");
-
     Account *that = (Account *) rawThat;
-    that->_client.disconnect();
-    if (!that->_client.connect()) { // Blocking.
-      that->disconnect();
+
+    //that->_client.disconnect();
+    //if (!that->_client.connect()) { // Blocking.
+    //  that->disconnect();
+    //}
+
+    if (that->_client.connect(false)) {
+      gloox::ConnectionError ce = gloox::ConnNoError;
+      while (gloox::ConnNoError == ce)
+        ce = that->_client.recv();
     }
 
     LOG("End socket receiving thread.");
-
     return (void *) NULL;
   }/*}}}*/
   void Account::_updateInfo()/*{{{*/
