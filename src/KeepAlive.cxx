@@ -37,10 +37,10 @@
 
 /*}}}*/
 
-KeepAlive::KeepAlive(
+KeepAlive::KeepAlive(/*{{{*/
   gloox::Client &client,
   unsigned int interval,
-  unsigned int timeout)/*{{{*/
+  unsigned int timeout)
 : _client(client)
 , _interval(interval)
 , _timeout(timeout)
@@ -101,7 +101,9 @@ void *KeepAlive::_run(void *rawThat)/*{{{*/
           break;
 
         if (that->_isWaiting) {
+          LOG("Before disconnect.");
           that->_client.disconnect();
+          LOG("After disconnect.");
           that->_isWaiting = false;
         }
       }
