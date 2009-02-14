@@ -147,7 +147,7 @@ int main(int argc, char *argv[])/*{{{*/
     Account::Account account(client, roster,out, nfo, handler);
     account.run();
 
-    KeepAlive ka(client/*, interval=120, timeout=120*/);
+    KeepAlive ka(client, 60, 120);
     ka.run();
 
     waiter.join(); // Blocking. Wait until execution stop is requested.
