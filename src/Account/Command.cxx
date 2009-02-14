@@ -76,7 +76,6 @@ namespace Account
     it = map.insert(it, command("pri", param(1, false)));
     it = map.insert(it, command("sub", param(1, true)));
     it = map.insert(it, command("usc", param(1, true)));
-    it = map.insert(it, command("png", param(0, true)));
 
     return map;
   }
@@ -173,12 +172,6 @@ namespace Account
 /*}}}*/
       } else if ("usc" == name) {/*{{{*/
         _account.unsubscribe(parsed.at(1), parsed.at(2));
-/*}}}*/
-      } else if ("png" == name) {/*{{{*/
-        if ("" == parsed.at(1))
-          _account.ping();
-        else
-          _account.ping(parsed.at(1));
 /*}}}*/
       } else {/*{{{*/
         std::string message = "Unknown name: " + name;

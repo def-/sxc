@@ -48,6 +48,7 @@
 #include <Error/Handler.hxx>
 #include <setupClient.hxx>
 #include <File/createDir.hxx>
+#include <KeepAlive.hxx>
 
 /*}}}*/
 
@@ -130,7 +131,6 @@ int main(int argc, char *argv[])/*{{{*/
   setupClient(client, name.getValue(), version.getValue());
 
   File::createDir(jid.bare());
-
   Account::File::Output out(jid.bare());
   Account::File::Info nfo(jid.bare());
 
@@ -142,22 +142,20 @@ int main(int argc, char *argv[])/*{{{*/
   waiter.reg(SIGTERM, handler);
   waiter.run(); // From this moment on signals are handled. Not blocking.
 
-  Account::Roster roster(client, out, handler);
-
-  Account::Account *account;
   try {
-    account = new Account::Account(client, roster, out, nfo, handler);
+    Account::Roster roster(client, out, handler);
+    Account::Account account(client, roster,out, nfo, handler);
+    account.run();
+
+    KeepAlive ka(client/*, interval=120, timeout=120*/);
+    ka.run();
+
+    waiter.join(); // Blocking. Wait until execution stop is requested.
   } catch (libsxc::Exception::Exception &e) {
     handler.printCritical(e.what());
-    // Don't delete account, as it failed to initialize.
     return e.getExitCode();
   }
 
-  account->run(); // Starts threads.
-
-  waiter.join(); // Blocking. Wait until execution stop is requested.
-
-  delete account;
   return handler.getExitCode();
 }/*}}}*/
 

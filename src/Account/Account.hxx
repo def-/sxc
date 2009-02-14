@@ -41,9 +41,6 @@
 #include <Account/File/Info.hxx>
 #include <LogHandler.hxx>
 #include <File/AbcOutput.hxx>
-#include <Ping/Handler.hxx>
-#include <Ping/ResultHandler.hxx>
-#include <Ping/Result.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -60,7 +57,7 @@ namespace Account
   /**
    * @brief The account of the local user.
    */
-  class Account : public gloox::ConnectionListener, public Ping::ResultHandler
+  class Account : public gloox::ConnectionListener
   {
     public:
       //Account(Client &, Roster &, AbcOutput &, Info &, Error::Handler &);/*{{{*/
@@ -227,26 +224,6 @@ namespace Account
       void declineSubscription(const gloox::JID &jid) const;
 
 /*}}}*/
-      //void ping(const gloox::JID &jid);/*{{{*/
-
-      /**
-       * Send an XMPP-ping to the specified jid, which might be a server or a
-       * client. This instance will then reply to the ping with a pong, that is
-       * handled by @ref handleEvent.
-       *
-       * @param jid The JID.
-       */
-      void ping(const gloox::JID &jid);
-
-/*}}}*/
-      //void ping();/*{{{*/
-
-      /**
-       * Call @ref ping with the current server as the ping destination.
-       */
-      void ping();
-
-/*}}}*/
 
       //void onConnect();/*{{{*/
 
@@ -326,8 +303,6 @@ namespace Account
       void onStreamEvent(gloox::StreamEvent event);
 
 /*}}}*/
-
-      void handlePingResult(Ping::Result result);
 
     private:
       //static void *_run(void *rawThat);/*{{{*/

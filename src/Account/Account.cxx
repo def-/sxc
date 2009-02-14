@@ -44,8 +44,6 @@
 #include <Account/File/Input.hxx>
 #include <Account/File/Info.hxx>
 #include <File/AbcOutput.hxx>
-#include <Ping/Handler.hxx>
-#include <Ping/Result.hxx>
 
 #ifdef HAVE_CONFIG_H
 # include <config.hxx>
@@ -198,17 +196,6 @@ namespace Account
   {
     _roster.declineSubscription(jid);
   }/*}}}*/
-  void Account::ping(const gloox::JID &jid)/*{{{*/
-  {
-    LOG("Pinging " + jid.full() + ".");
-    Ping::Handler *handler = new Ping::Handler(this);
-    _client.xmppPing(jid, handler);
-    handler->run(); // Will delete.
-  }/*}}}*/
-  void Account::ping()/*{{{*/
-  {
-    ping(_client.server());
-  }/*}}}*/
 
   void Account::onConnect()/*{{{*/
   {
@@ -244,25 +231,6 @@ namespace Account
 
     return true;
   }/*}}}*/
-
-  void Account::handlePingResult(Ping::Result result)
-  {
-    switch (result) {
-    case Ping::Pong:
-      LOG("Pong");
-      break;
-    case Ping::Error:
-      // Ignore; everything ok.
-      LOG("Error");
-      break;
-    case Ping::Timeout:
-      LOG("Timeout");
-      // Fall through
-    default:
-      LOG("Bad ping result");
-      _client.disconnect();
-    }
-  }
 
   void *Account::_run(void *rawThat)/*{{{*/
   {

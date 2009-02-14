@@ -1,13 +1,16 @@
-SUBDIRS = Error Exit Time Exception Command CommandParser File Contact Ping Account
+SUBDIRS = Error Exit Time Exception Command CommandParser File Contact Account
 
 noinst_LTLIBRARIES = libSrc.la
 libSrc_la_CPPFLAGS = $(GLOOX_CFLAGS)
+libSrc_la_LDFLAGS = -pthread
 libSrc_la_SOURCES = \
     LogHandler.cxx \
-    setupClient.cxx
+    setupClient.cxx \
+    KeepAlive.cxx
 noinst_HEADERS = \
     LogHandler.hxx \
-    setupClient.hxx
+    setupClient.hxx \
+    KeepAlive.hxx
 
 bin_PROGRAMS = sxc
 sxc_CPPFLAGS = $(GLOOX_CFLAGS) $(LIBSXC_CFLAGS)

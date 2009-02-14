@@ -281,7 +281,6 @@ AC_CONFIG_FILES([
     src/Exit/Makefile
     src/File/Makefile
     src/File/Exception/Makefile
-    src/Ping/Makefile
     src/Time/Makefile
     tests/Makefile
     tests/Command/Makefile
