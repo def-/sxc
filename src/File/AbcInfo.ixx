@@ -41,7 +41,9 @@
 
 namespace File
 {
-  template <typename T> void AbcInfo::_set(const std::string &key, T &value)/*{{{*/
+  template <typename T> void AbcInfo::_set(/*{{{*/
+    const std::string &key,
+    T &value)
   {
     if (_isRemoved) {
       LOG("Not setting info, as already removed.");
@@ -53,7 +55,7 @@ namespace File
     std::string buf;
     std::string input;
 
-    file.open((_path + key).c_str());
+    file.open((_path + key).c_str(), std::ios_base::in);
 
     while (!file.eof()) {
       getline(file, buf);
@@ -77,7 +79,7 @@ namespace File
        << "\", value: \"" << value << "\").";
     LOG(ssLog.str());
 
-    file.open((_path + key).c_str(), std::ios::trunc);
+    file.open((_path + key).c_str(), std::ios_base::out | std::ios::trunc);
     file << value << std::endl;
     // File gets closed automatically.
   }/*}}}*/
