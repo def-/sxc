@@ -135,7 +135,7 @@ namespace Contact
       void remove();
 
 /*}}}*/
-      //bool isInitial();/*{{{*/
+      //bool isNew();/*{{{*/
 
       /**
        * Whether this contact has not been there before creating this object.

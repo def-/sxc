@@ -67,7 +67,6 @@ namespace Contact
       gloox::Presence::PresenceType type = gloox::Presence::Unavailable;
       setPresence(type);
       setMessage("");
-      LOG("/Resetting");
     }/*}}}*/
   }
 }

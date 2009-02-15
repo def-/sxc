@@ -110,7 +110,6 @@ namespace Account
     contactList::iterator contact = _getContact(jid.bare());
     if (_contacts.end() != contact) {
       contact->second->remove();
-      _contacts.erase(contact);
     }
 
     // Still remove the contact from the server, even if it is not available
@@ -222,25 +221,22 @@ namespace Account
 
   void Roster::handleItemAdded(const gloox::JID &jid)/*{{{*/
   {
-    LOG("Item added to the roster: \"" + jid.bare() + "\".");
-
+    _out.write("Add contact: " + jid.bare());
     _addContactLocal(jid);
   }/*}}}*/
   void Roster::handleItemSubscribed(const gloox::JID &jid)/*{{{*/
   {
-    LOG("Item subscribed: \"" + jid.bare() + "\".");
+    _out.write("Contact subscribed: " + jid.bare());
   }/*}}}*/
   void Roster::handleItemRemoved(const gloox::JID &jid)/*{{{*/
   {
-    LOG("Item removed from the roster: \"" + jid.bare() + "\".");
+    _out.write("Delete contact: " + jid.bare());
 
     contactList::iterator contact = _getContact(jid.bare());
     if (_contacts.end() == contact)
       return;
     delete contact->second;
     _contacts.erase(contact);
-
-    // _account->print("Contact removed: \"" + jid.bare() + "\".");
   }/*}}}*/
   void Roster::handleItemUpdated(const gloox::JID &jid)/*{{{*/
   {
@@ -248,8 +244,7 @@ namespace Account
   }/*}}}*/
   void Roster::handleItemUnsubscribed(const gloox::JID &jid)/*{{{*/
   {
-    LOG(
-      "Item unsubscribed: \"" + jid.bare() + "\".");
+    _out.write("Contact unsubscribed: " + jid.bare());
   }/*}}}*/
   void Roster::handleRoster(const gloox::Roster &roster)/*{{{*/
   {
@@ -302,14 +297,8 @@ namespace Account
     const gloox::JID &jid,
     const std::string &msg)
   {
-    LOG(
-      "Received subscription request: (jid: \"" + jid.bare() +
-      "\", message: \"" + msg + "\").");
-
-    _out.write(
-      "Subscription request: " + jid.bare() + "\nMessage: " + msg);
-
-    return true;
+    _out.write("Subscription request: " + jid.bare() + "\nMessage: " + msg);
+    return false; // Will be ignored anyway.
   }/*}}}*/
   bool Roster::handleUnsubscriptionRequest(/*{{{*/
     const gloox::JID &jid,
@@ -321,12 +310,11 @@ namespace Account
 
     contactList::iterator contact = _getContact(jid.bare());
     if (_contacts.end() == contact)
-      return true;
+      return false;
 
-    //_account->print(
-    //  "Unsubscription request received: \"" + jid.bare() + "\"");
+    _out.write("Unsubscription request: " + jid.bare() + "\nMessage: " + msg);
 
-    return true;
+    return false; // Will be ignored anyway.
   }/*}}}*/
   void Roster::handleNonrosterPresence(const gloox::Presence &presence)/*{{{*/
   {
@@ -394,8 +382,8 @@ namespace Account
 
     _contacts.insert(std::make_pair(jid.bare(), contact));
 
-    if (contact->isNew())
-      _out.write("Add contact: " + jid.bare());
+    //if (contact->isNew())
+    //  _out.write("Add contact: " + jid.bare());
   }/*}}}*/
   contactList::iterator Roster::_getContact(const std::string &jid)/*{{{*/
   {

@@ -205,12 +205,6 @@ namespace Account
   }/*}}}*/
   void Account::onDisconnect(gloox::ConnectionError e)/*{{{*/
   {
-    // Really disconnect. Some cases, like gloox::ConnIoError don't cleanly
-    // deinitialize after a disconnect has been detected.
-    disconnect();
-    //_client.encryptionImpl()->cleanup();
-    //_client.connectionImpl()->cleanup();
-
     std::string text = libsxc::genConnErrorString(
       e,
       _client.streamError(),
