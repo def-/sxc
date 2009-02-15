@@ -472,13 +472,13 @@ namespace Account
 
 /*}}}*/
 
-      //pthread_mutex_t *_resetMutex;/*{{{*/
+      //pthread_mutex_t _resetMutex;/*{{{*/
 
       /**
        * Mutex for the @ref reset method. Avoids multiple threads trying to
        * reset the roster at once.
        */
-      pthread_mutex_t *_resetMutex;
+      pthread_mutex_t _resetMutex;
 
 /*}}}*/
 

@@ -62,13 +62,12 @@ namespace Account
     ::File::AbcOutput &out,
     libsxc::Error::Handler &eh)
   : RosterListener()
-  , _resetMutex(new pthread_mutex_t)
   , _client(client)
   , _out(out)
   , _contacts()
   , _eh(eh)
   {
-    pthread_mutex_init(_resetMutex, NULL);
+    pthread_mutex_init(&_resetMutex, NULL);
 
     // Asynchronous subscription request handling.
     _client.rosterManager()->registerRosterListener(this, false);
@@ -82,7 +81,7 @@ namespace Account
     reset();
 
     // Has to be called after reset.
-    pthread_mutex_destroy(_resetMutex);
+    pthread_mutex_destroy(&_resetMutex);
   }/*}}}*/
 
   void Roster::sendMessage(const gloox::JID &jid, const std::string &message)/*{{{*/
@@ -193,7 +192,7 @@ namespace Account
   void Roster::reset()/*{{{*/
   {
     // Must be unlocked!
-    pthread_mutex_lock(_resetMutex);
+    pthread_mutex_lock(&_resetMutex);
 
     try {
       for(
@@ -205,13 +204,13 @@ namespace Account
 
       _contacts.clear();
     } catch (std::exception &e) {
-      pthread_mutex_unlock(_resetMutex);
+      pthread_mutex_unlock(&_resetMutex);
       throw e;
     } catch (...) {
       // Weird exception, rather ignore, so we can unlock the mutex.
     }
 
-    pthread_mutex_unlock(_resetMutex);
+    pthread_mutex_unlock(&_resetMutex);
   }/*}}}*/
   const gloox::JID &Roster::getJid()/*{{{*/
   {
