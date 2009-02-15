@@ -43,17 +43,43 @@ namespace File
 {
   template <typename T> void AbcInfo::_set(const std::string &key, T &value)/*{{{*/
   {
-    if (_isRemoved)
+    if (_isRemoved) {
+      LOG("Not setting info, as already removed.");
       return;
+    }
+
+    std::fstream file;
     std::ostringstream ss;
-    ss << "Setting info: (path: \"" << _path << "\", key: \"" << key
+    std::string buf;
+    std::string input;
+
+    file.open((_path + key).c_str());
+
+    while (!file.eof()) {
+      getline(file, buf);
+      input.append(buf);
+      input.push_back('\n');
+    }
+
+    file.close();
+
+    if (!input.empty())
+      input.erase(--input.end()); // Remove last newline.
+
+    ss << value << std::endl;
+    if (ss.str() == input) {
+      LOG("Not setting info, as already set.");
+      return;
+    }
+
+    std::ostringstream ssLog;
+    ssLog << "Setting info: (path: \"" << _path << "\", key: \"" << key
        << "\", value: \"" << value << "\").";
-    LOG(ss.str());
-    // FIXME: Is it reasonable to open and close file every time something changes?
-    // Discard current conent before filling in new.
-    std::ofstream file((_path + key).c_str(), std::ios::trunc);
+    LOG(ssLog.str());
+
+    file.open((_path + key).c_str(), std::ios::trunc);
     file << value << std::endl;
-    // File gets claused automatically.
+    // File gets closed automatically.
   }/*}}}*/
 
   template <> inline void AbcInfo::_set(/*{{{*/
