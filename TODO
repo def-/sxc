@@ -1,7 +1,8 @@
 Contact
 * Incomming messages: Use msg.when() for delayed messages
 * Outgoing messages: registerMessageFilter, only output if msg went out
-  Maybe check for server-features first, to see whether usable.
+  XEP-0184. Via Service Discovery: find out whether to send and expect
+  response.
 Roster
 * Correct commands (add, del, sub, usc)
 * Add commands to remove subscriptions? (and add?)
