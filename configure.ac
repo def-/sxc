@@ -269,6 +269,7 @@ AC_CONFIG_FILES([
     sxc.1
     src/Makefile
     src/Account/Makefile
+    src/Account/Exception/Makefile
     src/Account/File/Makefile
     src/Command/Makefile
     src/Command/Exception/Makefile

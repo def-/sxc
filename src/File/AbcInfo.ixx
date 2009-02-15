@@ -30,10 +30,14 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <sys/stat.h>
+#include <cerrno>
 
 #include <gloox/presence.h>
 
 #include <Account/RosterType.hxx>
+#include <File/Exception/BadFile.hxx>
+#include <File/Exception/errnoToException.hxx>
 
 #include <libsxc/Debug/Logger.hxx>
 
@@ -51,27 +55,43 @@ namespace File
     }
 
     std::fstream file;
-    std::ostringstream ss;
-    std::string buf;
-    std::string input;
+    struct stat fstat;
+    std::string path = _path + key;
 
-    file.open((_path + key).c_str(), std::ios_base::in);
+    if (0 == stat(path.c_str(), &fstat)) {
+      LOG("File already exists.");
 
-    while (!file.eof()) {
-      getline(file, buf);
-      input.append(buf);
-      input.push_back('\n');
-    }
+      if (!(S_ISREG(fstat.st_mode) || S_ISBLK(fstat.st_mode)
+      || S_ISFIFO(fstat.st_mode) || S_ISLNK(fstat.st_mode))) {
+        throw Exception::BadFile(("Not a usable file: " + path).c_str());
+      }
 
-    file.close();
+      std::ostringstream ss;
+      std::string buf;
+      std::string input;
 
-    if (!input.empty())
-      input.erase(--input.end()); // Remove last newline.
+      file.open(path.c_str(), std::ios_base::in);
 
-    ss << value << std::endl;
-    if (ss.str() == input) {
-      LOG("Not setting info, as already set.");
-      return;
+      while (!file.eof()) {
+        getline(file, buf);
+        input.append(buf);
+        input.push_back('\n');
+      }
+
+      file.close();
+
+      if (!input.empty())
+        input.erase(--input.end()); // Remove last newline.
+
+      ss << value << std::endl;
+      if (ss.str() == input) {
+        LOG("Not setting info, as already set.");
+        return;
+      }
+    } else if (ENOENT != errno) {
+      throw Exception::errnoToException(
+        errno,
+        ("Could not get fstat: " + path).c_str());
     }
 
     std::ostringstream ssLog;
@@ -79,7 +99,7 @@ namespace File
        << "\", value: \"" << value << "\").";
     LOG(ssLog.str());
 
-    file.open((_path + key).c_str(), std::ios_base::out | std::ios::trunc);
+    file.open(path.c_str(), std::ios_base::out | std::ios::trunc);
     file << value << std::endl;
     // File gets closed automatically.
   }/*}}}*/

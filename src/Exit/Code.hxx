@@ -34,23 +34,26 @@ namespace Exit
   enum Code
   {
     // Generic errors./*{{{*/
-    InvalidUsage   = 200,
+    InvalidUsage     = 200,
 /*}}}*/
     // File errors./*{{{*/
-    BadFile        = 150,
-    BadPath        /* = @ */,
-    FileMissing    /* = @ */,
-    FileExists     /* = @ */,
-    FileLocked     /* = @ */,
-    AccessDenied   /* = @ */,
-    OpenFailed     /* = @ */,
-    WriteFailed    /* = @ */,
-    ReadFailed     /* = @ */,
-    CloseFailed    /* = @ */,
+    BadFile          = 150,
+    BadPath          /* = @ */,
+    FileMissing      /* = @ */,
+    FileExists       /* = @ */,
+    FileLocked       /* = @ */,
+    AccessDenied     /* = @ */,
+    OpenFailed       /* = @ */,
+    WriteFailed      /* = @ */,
+    ReadFailed       /* = @ */,
+    CloseFailed      /* = @ */,
 /*}}}*/
     // Command errors:/*{{{*/
-    InvalidCommand = 170,
-    NotACommand    /* = @ */,
+    InvalidCommand   = 170,
+    NotACommand      /* = @ */,
+/*}}}*/
+    // Account errors:/*{{{*/
+    AddContactFailed = 180,
 /*}}}*/
   };
 }

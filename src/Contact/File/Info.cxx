@@ -63,9 +63,11 @@ namespace Contact
     }/*}}}*/
     void Info::_reset()/*{{{*/
     {
+      LOG("Resetting");
       gloox::Presence::PresenceType type = gloox::Presence::Unavailable;
       setPresence(type);
       setMessage("");
+      LOG("/Resetting");
     }/*}}}*/
   }
 }

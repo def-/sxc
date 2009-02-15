@@ -47,6 +47,7 @@
 
 #include <Account/Roster.hxx>
 #include <Account/RosterType.hxx>
+#include <Account/Exception/AddContactFailed.hxx>
 #include <Contact/Contact.hxx>
 #include <File/AbcOutput.hxx>
 #include <File/createDir.hxx>
@@ -109,12 +110,14 @@ namespace Account
     contactList::iterator contact = _getContact(jid.bare());
     if (_contacts.end() != contact) {
       contact->second->remove();
+      _contacts.erase(contact);
     }
 
     // Still remove the contact from the server, even if it is not available
     // locally.
 
     _client.rosterManager()->remove(jid);
+    // This should call the @ref handleItemRemoved().
     _client.rosterManager()->synchronize();
   }/*}}}*/
 
@@ -375,11 +378,19 @@ namespace Account
       return;
     }
 
-    ::File::createDir(_client.jid().bare() + "/" + jid.bare());
+    Contact::Contact *contact;
 
-    Contact::Contact *contact = new Contact::Contact(
-      *this, _client.jid(), jid);
-    contact->updateRoster(Local);
+    try {
+      ::File::createDir(_client.jid().bare() + "/" + jid.bare());
+
+      contact = new Contact::Contact(
+        *this, _client.jid(), jid);
+      contact->updateRoster(Local);
+    } catch (libsxc::Exception::Exception &e) {
+      _out.write(std::string("Add contact failed: ") + e.what());
+      const char* name = jid.bare().c_str();
+      throw Exception::AddContactFailed(name, e);
+    }
 
     _contacts.insert(std::make_pair(jid.bare(), contact));
 
