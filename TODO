@@ -6,6 +6,9 @@ Contact
 Roster
 * Correct commands (add, del, sub, usc)
 * Add commands to remove subscriptions? (and add?)
+Account
+* Call disconnect in handleDisconnect or Contact js about it not being
+  correctly disconnected after IO-Error
 
 General stuff
 * No internal references.
