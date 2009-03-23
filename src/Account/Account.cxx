@@ -213,6 +213,9 @@ namespace Account
       true);
     _out.write("Disconnected: " + text);
 
+    _client.disconnect();
+    _thread = 0; // Reset to be able to restart another thread.
+
     gloox::Presence::PresenceType type = gloox::Presence::Unavailable;
     _nfo.setPresence(type);
     _nfo.setMessage("");
