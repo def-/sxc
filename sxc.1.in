@@ -111,7 +111,8 @@ your state to offline. This disconnects from the server.
 .B :pri\fI " priority"
 Set your
 .B priority
-to the specified level. Has to be between -128 and 127, 0 is the default.
+to the specified level. Has to be between -128 and 127, 0 is the default. Only
+set below zero if you don't want to get messages at all.
 
 .TP
 .B :add\fI " jid"
