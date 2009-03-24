@@ -49,6 +49,7 @@ KeepAlive::KeepAlive(/*{{{*/
 {
   pthread_mutex_init(&_mutex, NULL);
   pthread_cond_init(&_cond, NULL);
+  _client.registerConnectionListener(this);
 }/*}}}*/
 KeepAlive::~KeepAlive()/*{{{*/
 {
@@ -66,6 +67,13 @@ void KeepAlive::run()/*{{{*/
     pthread_create(&_thread, NULL, _run, (void*)this);
 }/*}}}*/
 void KeepAlive::handleEvent(const gloox::Event &event)/*{{{*/
+{
+  if (_isWaiting) {
+    _isWaiting = false;
+    pthread_cond_broadcast(&_cond);
+  }
+}/*}}}*/
+void KeepAlive::onDisconnect(gloox::ConnectionError e)/*{{{*/
 {
   if (_isWaiting) {
     _isWaiting = false;

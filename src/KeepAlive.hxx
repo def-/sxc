@@ -27,11 +27,12 @@
 #include <pthread.h>
 
 #include <gloox/client.h>
+#include <gloox/connectionlistener.h>
 #include <gloox/eventhandler.h>
 
 /*}}}*/
 
-class KeepAlive : public gloox::EventHandler
+class KeepAlive : public gloox::EventHandler, gloox::ConnectionListener
 {
   public:
     //KeepAlive(gloox::Client &, interval = 120, timeout = 120)/*{{{*/
@@ -68,6 +69,16 @@ class KeepAlive : public gloox::EventHandler
      * Handles incomming ping and pong events.
      */
     void handleEvent(const gloox::Event &event);
+
+/*}}}*/
+    void onConnect() {}
+    bool onTLSConnect(const gloox::CertInfo &info) {return true;}
+    //void onDisconnect(gloox::ConnectionError e);/*{{{*/
+
+    /**
+     * Stop waiting if a disconnect is received, so we don't disconnect again.
+     */
+    void onDisconnect(gloox::ConnectionError e);
 
 /*}}}*/
 
