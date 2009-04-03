@@ -27,6 +27,7 @@
 
 #include <gloox/client.h>
 #include <gloox/disco.h>
+#include <gloox/delayeddelivery.h>
 
 #include <setupClient.hxx>
 
@@ -55,6 +56,9 @@ void setupClient(/*{{{*/
     version + "\").");
 
   client.disco()->setVersion(name, version);
+
+  // Has to be registered, so delayed deliveries can be handled.
+  client.registerStanzaExtension(new gloox::DelayedDelivery());
 }/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.

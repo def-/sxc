@@ -31,6 +31,7 @@
 #include <gloox/clientbase.h>
 #include <gloox/messagesession.h>
 #include <gloox/presence.h>
+#include <gloox/delayeddelivery.h>
 
 #include <Contact/Contact.hxx>
 #include <Account/Roster.hxx>
@@ -92,7 +93,14 @@ namespace Contact
     ss << "\", body: \"" << msg.body() << "\").";
     LOG(ss.str());
 
-    _out.writeIncomming(msg.body());
+    if (msg.when()) {
+      LOG("Delayed delivery: " + msg.when()->stamp());
+
+      // FIXME: _out.writeIncomming(msg.body(), msg.when()->stamp());
+      _out.writeIncomming(msg.body());
+    } else {
+      _out.writeIncomming(msg.body());
+    }
   }/*}}}*/
 
   void Contact::sendMessage(const std::string &message)/*{{{*/
