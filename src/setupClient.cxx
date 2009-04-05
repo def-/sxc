@@ -28,6 +28,7 @@
 #include <gloox/client.h>
 #include <gloox/disco.h>
 #include <gloox/delayeddelivery.h>
+#include <gloox/receipt.h>
 
 #include <setupClient.hxx>
 
@@ -59,6 +60,17 @@ void setupClient(/*{{{*/
 
   // Has to be registered, so delayed deliveries can be handled.
   client.registerStanzaExtension(new gloox::DelayedDelivery());
+
+  std::string features;
+  for (gloox::StringList::const_iterator i =
+  client.disco()->features().begin();
+  i != client.disco()->features().end();
+  ++i) {
+    features += *i + ", ";
+  }
+  if (2 <= features.length())
+    features.erase(features.end() - 2); // Remove last ", "
+  LOG("Features to be announced: " + features);
 }/*}}}*/
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
