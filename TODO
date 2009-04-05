@@ -7,8 +7,6 @@ Roster
 * Correct commands (add, del, sub, usc)
 * Add commands to remove subscriptions? (and add?)
 Account
-* Call disconnect in handleDisconnect or Contact js about it not being
-  correctly disconnected after IO-Error
 * Check certificates for validity (default to allow certified by trusted; ask
   for user input using files or command line parameter to allow any)
 
