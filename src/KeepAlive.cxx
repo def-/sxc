@@ -53,6 +53,7 @@ KeepAlive::KeepAlive(/*{{{*/
 }/*}}}*/
 KeepAlive::~KeepAlive()/*{{{*/
 {
+  _client.removeConnectionListener(this);
   _stopThread = true;
   pthread_cond_broadcast(&_cond);
   if (_thread)

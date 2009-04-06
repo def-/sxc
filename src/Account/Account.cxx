@@ -89,10 +89,16 @@ namespace Account
   }/*}}}*/
   Account::~Account()/*{{{*/
   {
+    LOG("Destructor");
+
     pthread_t thread = _thread;
     disconnect();
-    if (thread)
+    if (thread) {
+      LOG("Joining thread");
       pthread_join(thread, NULL);
+    } else {
+      LOG("Not joining thread");
+    }
 
     _client.removeConnectionListener(this);
 
@@ -119,7 +125,7 @@ namespace Account
     std::stringstream text;
     text << "Set presence: (\"" << libsxc::genPresenceString(presence)
        << "\" (" << presence << "), priority: " << priority
-       << ", message: \"" << status << "\").";;
+       << ", message: \"" << status << "\").";
     LOG(text.str());
 
     // Don't trust _client, but instead store the presence information
@@ -159,7 +165,6 @@ namespace Account
     LOG("Disconnect.");
 
     _client.disconnect();
-    _thread = 0; // Reset to be able to restart another thread.
   }/*}}}*/
 
   void Account::sendMessage(/*{{{*/
@@ -211,9 +216,6 @@ namespace Account
       true);
     _out.write("Disconnected: " + text);
 
-    _client.disconnect();
-    _thread = 0; // Reset to be able to restart another thread.
-
     gloox::Presence::PresenceType type = gloox::Presence::Unavailable;
     _nfo.setPresence(type);
     _nfo.setMessage("");
@@ -246,17 +248,14 @@ namespace Account
     LOG("Start socket receiving thread.");
     Account *that = (Account *) rawThat;
 
-    //that->_client.disconnect();
-    //if (!that->_client.connect()) { // Blocking.
-    //  that->disconnect();
-    //}
-
     if (that->_client.connect(false)) {
-      gloox::ConnectionError ce = gloox::ConnNoError;
-      while (gloox::ConnNoError == ce)
+      gloox::ConnectionError ce;
+      do {
         ce = that->_client.recv();
+      } while (gloox::ConnNoError == ce);
     }
 
+    that->_thread = 0; // Reset to be able to restart another thread.
     LOG("End socket receiving thread.");
     return (void *) NULL;
   }/*}}}*/
