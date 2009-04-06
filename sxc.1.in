@@ -58,7 +58,7 @@ Defaults to
 .TP
 .B -u/--unencrypted
 Don't use TLS to secure the connection to the server. By default the connection
-would only be established using TLS.
+will always be established using TLS.
 
 .TP
 .I jid
