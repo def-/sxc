@@ -32,7 +32,8 @@
 void setupClient(
   gloox::Client &client,
   const std::string &name,
-  const std::string &version);
+  const std::string &version,
+  const bool tls = true);
 
 // Use no tabs at all; two spaces indentation; max. eighty chars per line.
 // vim: et ts=2 sw=2 sts=2 tw=80 fdm=marker

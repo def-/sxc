@@ -31,7 +31,6 @@
 #include <gloox/message.h>
 #include <gloox/disco.h>
 #include <gloox/error.h>
-#include <gloox/tlsbase.h>
 #include <gloox/connectionbase.h>
 #include <gloox/event.h>
 
@@ -79,7 +78,6 @@ namespace Account
   , _nfo(nfo)
   , _eh(eh)
   {
-    //_client.setTls(gloox::TLSDisabled);
     _client.registerConnectionListener(this);
 
 #   ifdef DEBUG
@@ -224,6 +222,20 @@ namespace Account
   }/*}}}*/
   bool Account::onTLSConnect(const gloox::CertInfo &info)/*{{{*/
   {
+    std::ostringstream ss;
+    ss << "TLS certificate received (status: " << info.status
+       << ", chain: " << info.chain
+       << ", issuer: " << info.issuer
+       << ", server: " << info.server
+       << ", date_from: " << info.date_from
+       << ", date_to: " << info.date_to
+       << ", protocol: " << info.protocol
+       << ", cipher: " << info.cipher
+       << ", mac: " << info.mac
+       << ", compression: " << info.compression
+       << ")";
+    LOG(ss.str());
+
     LOG("Acknowledge TLS certificate.");
 
     return true;

@@ -10,7 +10,7 @@
 .I name
 .B ] [--iqversion
 .I version
-.B ]
+.B ] [-u]
 .I jid
 
 .SH DESCRIPTION
@@ -54,6 +54,11 @@ requests. Defaults to
 The version that will be used in responses to jabber:iq:version requests.
 Defaults to
 .B 0.0-prealpha.
+
+.TP
+.B -u/--unencrypted
+Don't use TLS to secure the connection to the server. By default the connection
+would only be established using TLS.
 
 .TP
 .I jid

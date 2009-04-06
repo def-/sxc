@@ -29,6 +29,7 @@
 #include <gloox/disco.h>
 #include <gloox/delayeddelivery.h>
 #include <gloox/receipt.h>
+#include <gloox/tlsbase.h>
 
 #include <setupClient.hxx>
 
@@ -39,8 +40,10 @@
 void setupClient(/*{{{*/
   gloox::Client &client,
   const std::string &name,
-  const std::string &version)
+  const std::string &version,
+  const bool tls)
 {
+  client.setTls(tls ? gloox::TLSRequired : gloox::TLSDisabled);
   // "console" is not exactly what sxc is, but "pc" is described as a
   // full-featured GUI.
   const std::string category = "client";

@@ -85,6 +85,9 @@ int main(int argc, char *argv[])/*{{{*/
   libsxc::Option::Option<std::string> version(
     &parser, ' ', "iqversion", "version",
     std::string("Version to announce (default: ") + VERSION + ")", VERSION);
+  libsxc::Option::Option<bool> unencrypted(
+    &parser, 'u', "unencrypted",
+    "Don't use TLS to secure connection to server.");
   const std::string defaultResource =
     std::string(PACKAGE) + "@" + libsxc::getHostName();
   libsxc::Option::Option<gloox::JID> jidRaw(
@@ -128,7 +131,8 @@ int main(int argc, char *argv[])/*{{{*/
 
   // Fill in the passphrase later.
   gloox::Client client(jid, "", port.getValue());
-  setupClient(client, name.getValue(), version.getValue());
+  setupClient(client, name.getValue(), version.getValue(),
+    !unencrypted.getValue());
 
   File::createDir(jid.bare());
   Account::File::Output out(jid.bare());
