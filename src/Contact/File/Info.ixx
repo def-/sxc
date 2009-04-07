@@ -50,83 +50,57 @@ namespace Contact
       _set("roster", value);
     }/*}}}*/
 
-    template <> inline void Info::setSubUser(gloox::SubscriptionType &value)/*{{{*/
+    template <> inline void Info::setSub(gloox::SubscriptionType &value)/*{{{*/
     {
-      std::string text;
+      std::string user;
+      std::string contact;
 
       switch (value) {
       case gloox::S10nNone:
-        text = "no";
+        user = "no";
+        contact = "no";
         break;
       case gloox::S10nNoneOut:
-        text = "requested";
+        user = "requested";
+        contact = "no";
         break;
       case gloox::S10nNoneIn:
-        text = "no";
+        user = "no";
+        contact = "requested";
         break;
       case gloox::S10nNoneOutIn:
-        text = "requested";
+        user = "requested";
+        contact = "requested";
         break;
       case gloox::S10nTo:
-        text = "yes";
+        user = "yes";
+        contact = "no";
         break;
       case gloox::S10nToIn:
-        text = "yes";
+        user = "yes";
+        contact = "requested";
         break;
       case gloox::S10nFrom:
-        text = "no";
+        user = "no";
+        contact = "yes";
         break;
       case gloox::S10nFromOut:
-        text = "requested";
+        user = "requested";
+        contact = "yes";
         break;
       case gloox::S10nBoth:
-        text = "yes";
+        user = "yes";
+        contact = "yes";
         break;
       default:
-        text = "unknown";
+        user = "unknown";
+        contact = "unknown";
         break;
       }
 
-      _set("subuser", text);
-    }/*}}}*/
-    template <> inline void Info::setSubContact(gloox::SubscriptionType &value)/*{{{*/
-    {
-      std::string text;
-
-      switch (value) {
-      case gloox::S10nNone:
-        text = "no";
-        break;
-      case gloox::S10nNoneOut:
-        text = "no";
-        break;
-      case gloox::S10nNoneIn:
-        text = "requested";
-        break;
-      case gloox::S10nNoneOutIn:
-        text = "requested";
-        break;
-      case gloox::S10nTo:
-        text = "no";
-        break;
-      case gloox::S10nToIn:
-        text = "requested";
-        break;
-      case gloox::S10nFrom:
-        text = "yes";
-        break;
-      case gloox::S10nFromOut:
-        text = "yes";
-        break;
-      case gloox::S10nBoth:
-        text = "yes";
-        break;
-      default:
-        text = "unknown";
-        break;
-      }
-
-      _set("subuser", text);
+      _sub = value;
+      _set("subuser", user);
+      _set("subcontact", contact);
     }/*}}}*/
   }
 }

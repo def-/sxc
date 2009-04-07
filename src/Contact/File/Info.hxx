@@ -26,6 +26,8 @@
 
 #include <string>
 
+#include <gloox/gloox.h>
+
 /*}}}*/
 
 namespace Contact
@@ -66,12 +68,12 @@ namespace Contact
         virtual void remove();
 
 /*}}}*/
+        gloox::SubscriptionType getSub();
 
         template <typename T> void setPresence(T &value);
         template <typename T> void setMessage(T &value);
         template <typename T> void setRoster(T &value);
-        template <typename T> void setSubUser(T &value);
-        template <typename T> void setSubContact(T &value);
+        template <typename T> void setSub(T &value);
 
       protected:
         virtual const std::string _createPath();
@@ -89,6 +91,7 @@ namespace Contact
 
         const std::string _accountJid;
         const std::string _contactJid;
+        gloox::SubscriptionType _sub;
     };
   }
 }

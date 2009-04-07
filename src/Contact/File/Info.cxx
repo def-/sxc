@@ -26,6 +26,7 @@
 
 #include <string>
 
+#include <gloox/gloox.h>
 #include <gloox/presence.h>
 
 #include <Contact/File/Info.hxx>
@@ -40,6 +41,7 @@ namespace Contact
     : _accountJid(accountJid)
     , _contactJid(contactJid)
     , ::File::AbcInfo()
+    , _sub(gloox::S10nNone)
     {
       initialize();
       _reset();
@@ -57,6 +59,10 @@ namespace Contact
       _removeFile("subuser");
       _removeFile("subcontact");
       ::File::AbcInfo::remove();
+    }/*}}}*/
+    gloox::SubscriptionType Info::getSub()/*{{{*/
+    {
+      return _sub;
     }/*}}}*/
 
     const std::string Info::_createPath()/*{{{*/
