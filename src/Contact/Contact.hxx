@@ -31,6 +31,7 @@
 #include <gloox/messagesession.h>
 #include <gloox/messagehandler.h>
 #include <gloox/presence.h>
+#include <gloox/gloox.h>
 
 //#include <File/AbcInput.hxx>
 #include <Contact/File/Input.hxx>
@@ -62,7 +63,7 @@ namespace Contact
   class Contact : public gloox::MessageHandler
   {
     public:
-      //Contact(&roster, &accountJid, &contactJid);/*{{{*/
+      //Contact(&roster, &accountJid, &contactJid, sub);/*{{{*/
 
       /**
        * @brief Initialise the contact.
@@ -99,12 +100,21 @@ namespace Contact
         const std::string &message);
 
 /*}}}*/
-      //void updateRoster(Account::RosterType type);/*{{{*/
+       //void updateRoster(Account::RosterType type);/*{{{*/
 
       /**
        * Update the roster type.
        */
       void updateRoster(Account::RosterType type);
+
+/*}}}*/
+      //SubscriptionType updateSub(SubscriptionType type);/*{{{*/
+
+      /**
+       * Update the subscription type.
+       * @return The old subscription type.
+       */
+      gloox::SubscriptionType updateSub(gloox::SubscriptionType type);
 
 /*}}}*/
       //void handleMessage(Message msg, MessageSession session);/*{{{*/
@@ -164,6 +174,8 @@ namespace Contact
       const gloox::JID &_getJid();
 
 /*}}}*/
+      gloox::SubscriptionType _sub;
+      bool _subSet;
   };
 }
 

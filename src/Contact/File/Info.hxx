@@ -91,7 +91,6 @@ namespace Contact
 
         const std::string _accountJid;
         const std::string _contactJid;
-        gloox::SubscriptionType _sub;
     };
   }
 }

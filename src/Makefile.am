@@ -6,11 +6,13 @@ libSrc_la_LDFLAGS = -pthread
 libSrc_la_SOURCES = \
     LogHandler.cxx \
     setupClient.cxx \
-    KeepAlive.cxx
+    KeepAlive.cxx \
+    Subscriptions.cxx
 noinst_HEADERS = \
     LogHandler.hxx \
     setupClient.hxx \
-    KeepAlive.hxx
+    KeepAlive.hxx \
+    Subscriptions.hxx
 
 bin_PROGRAMS = sxc
 sxc_CPPFLAGS = $(GLOOX_CFLAGS) $(LIBSXC_CFLAGS)

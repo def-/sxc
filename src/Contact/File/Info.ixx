@@ -31,6 +31,8 @@
 
 #include <gloox/gloox.h>
 
+#include <Subscriptions.hxx>
+
 /*}}}*/
 
 namespace Contact
@@ -52,55 +54,8 @@ namespace Contact
 
     template <> inline void Info::setSub(gloox::SubscriptionType &value)/*{{{*/
     {
-      std::string user;
-      std::string contact;
-
-      switch (value) {
-      case gloox::S10nNone:
-        user = "no";
-        contact = "no";
-        break;
-      case gloox::S10nNoneOut:
-        user = "requested";
-        contact = "no";
-        break;
-      case gloox::S10nNoneIn:
-        user = "no";
-        contact = "requested";
-        break;
-      case gloox::S10nNoneOutIn:
-        user = "requested";
-        contact = "requested";
-        break;
-      case gloox::S10nTo:
-        user = "yes";
-        contact = "no";
-        break;
-      case gloox::S10nToIn:
-        user = "yes";
-        contact = "requested";
-        break;
-      case gloox::S10nFrom:
-        user = "no";
-        contact = "yes";
-        break;
-      case gloox::S10nFromOut:
-        user = "requested";
-        contact = "yes";
-        break;
-      case gloox::S10nBoth:
-        user = "yes";
-        contact = "yes";
-        break;
-      default:
-        user = "unknown";
-        contact = "unknown";
-        break;
-      }
-
-      _sub = value;
-      _set("subuser", user);
-      _set("subcontact", contact);
+      _set("subuser", subTypeToUser(value));
+      _set("subcontact", subTypeToContact(value));
     }/*}}}*/
   }
 }

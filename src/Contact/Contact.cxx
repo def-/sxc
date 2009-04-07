@@ -32,6 +32,7 @@
 #include <gloox/messagesession.h>
 #include <gloox/presence.h>
 #include <gloox/delayeddelivery.h>
+#include <gloox/gloox.h>
 
 #include <Contact/Contact.hxx>
 #include <Account/Roster.hxx>
@@ -53,6 +54,8 @@ namespace Contact
   , _in(*this, accountJid.bare(), contactJid.bare())
   , _out(accountJid.bare(), contactJid.bare())
   , _nfo(accountJid.bare(), contactJid.bare())
+  , _sub(gloox::S10nNone)
+  , _subSet(false)
   {
     LOG("Create contact: \"" + contactJid.bare() + "\".");
 
@@ -76,6 +79,21 @@ namespace Contact
   void Contact::updateRoster(Account::RosterType type)/*{{{*/
   {
     _nfo.setRoster(type);
+  }/*}}}*/
+  gloox::SubscriptionType Contact::updateSub(/*{{{*/
+    gloox::SubscriptionType type)
+  {
+    _nfo.setSub(type);
+
+    gloox::SubscriptionType ret;
+    if (_subSet) {
+      ret = _sub;
+    } else {
+      ret = type;
+      _subSet = true;
+    }
+    _sub = type;
+    return ret;
   }/*}}}*/
   void Contact::handleMessage(/*{{{*/
     const gloox::Message &msg,
