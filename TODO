@@ -3,8 +3,6 @@ Contact
 * Outgoing messages: registerMessageFilter, only output if msg went out
   XEP-0184. Via Service Discovery: find out whether to send and expect
   response. (see RosterItem's capabilities)
-* nfo/subscription and in Roster::handleItemUpdated(): Print to out if
-  subscription got accepted.
 * Resources, but how? in links to highest prio, all resources as in-files.
 
 Account
