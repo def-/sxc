@@ -54,6 +54,8 @@ namespace Contact
       _removeFile("presence");
       _removeFile("message");
       _removeFile("roster");
+      _removeFile("subuser");
+      _removeFile("subcontact");
       ::File::AbcInfo::remove();
     }/*}}}*/
 

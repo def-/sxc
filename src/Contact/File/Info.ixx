@@ -27,6 +27,10 @@
 # include <config.hxx>
 #endif
 
+#include <string>
+
+#include <gloox/gloox.h>
+
 /*}}}*/
 
 namespace Contact
@@ -44,6 +48,85 @@ namespace Contact
     template <typename T> void Info::setRoster(T &value)/*{{{*/
     {
       _set("roster", value);
+    }/*}}}*/
+
+    template <> inline void Info::setSubUser(gloox::SubscriptionType &value)/*{{{*/
+    {
+      std::string text;
+
+      switch (value) {
+      case gloox::S10nNone:
+        text = "no";
+        break;
+      case gloox::S10nNoneOut:
+        text = "requested";
+        break;
+      case gloox::S10nNoneIn:
+        text = "no";
+        break;
+      case gloox::S10nNoneOutIn:
+        text = "requested";
+        break;
+      case gloox::S10nTo:
+        text = "yes";
+        break;
+      case gloox::S10nToIn:
+        text = "yes";
+        break;
+      case gloox::S10nFrom:
+        text = "no";
+        break;
+      case gloox::S10nFromOut:
+        text = "requested";
+        break;
+      case gloox::S10nBoth:
+        text = "yes";
+        break;
+      default:
+        text = "unknown";
+        break;
+      }
+
+      _set("subuser", text);
+    }/*}}}*/
+    template <> inline void Info::setSubContact(gloox::SubscriptionType &value)/*{{{*/
+    {
+      std::string text;
+
+      switch (value) {
+      case gloox::S10nNone:
+        text = "no";
+        break;
+      case gloox::S10nNoneOut:
+        text = "no";
+        break;
+      case gloox::S10nNoneIn:
+        text = "requested";
+        break;
+      case gloox::S10nNoneOutIn:
+        text = "requested";
+        break;
+      case gloox::S10nTo:
+        text = "no";
+        break;
+      case gloox::S10nToIn:
+        text = "requested";
+        break;
+      case gloox::S10nFrom:
+        text = "yes";
+        break;
+      case gloox::S10nFromOut:
+        text = "yes";
+        break;
+      case gloox::S10nBoth:
+        text = "yes";
+        break;
+      default:
+        text = "unknown";
+        break;
+      }
+
+      _set("subuser", text);
     }/*}}}*/
   }
 }

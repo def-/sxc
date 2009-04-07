@@ -70,6 +70,8 @@ namespace Contact
         template <typename T> void setPresence(T &value);
         template <typename T> void setMessage(T &value);
         template <typename T> void setRoster(T &value);
+        template <typename T> void setSubUser(T &value);
+        template <typename T> void setSubContact(T &value);
 
       protected:
         virtual const std::string _createPath();
