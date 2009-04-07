@@ -88,18 +88,18 @@ namespace Account
 
 /*}}}*/
 
-      //void sendMessage(const gloox::JID &jid, const std::string &message);/*{{{*/
+      //void addContactLocal(const JID &jid);/*{{{*/
 
       /**
-       * @brief Send a message to the specified jid.
+       * @brief Add contact to the local roster.
        *
-       * This method also adds the specified contact to the local roster, if it
-       * is not already.
+       * Add to local roster only.
+       *
+       * @param jid The JID to add to the roster.
        */
-      void sendMessage(const gloox::JID &jid, const std::string &message);
+      void addContactLocal(const gloox::JID &jid);
 
 /*}}}*/
-
       //void addContact(const JID &jid);/*{{{*/
 
       /**
@@ -159,6 +159,24 @@ namespace Account
        * @param message The message to send along.
        */
       void unsubscribe(
+        const gloox::JID &jid,
+        const std::string &message="") const;
+
+/*}}}*/
+
+      //void cancel(const JID &jid, &message=Empty) const;/*{{{*/
+
+      /**
+       * @brief Cancel contact's subscription from our presence
+       *
+       * This method drops the JID's subscription to our presence. The contact
+       * will not receive any more presence updates from us, and be unable to
+       * see our presence.
+       *
+       * @param jid The JID.
+       * @param message The message to send along.
+       */
+      void cancel(
         const gloox::JID &jid,
         const std::string &message="") const;
 

@@ -120,38 +120,42 @@ to the specified level. Has to be between -128 and 127, 0 is the default. Only
 set below zero if you don't want to get messages at all.
 
 .TP
-.B :add\fI " jid"
-.B Add
-the JID to the roster. Use
-.B :sub
-instead if you want to receive presence updates.
+.B :loc\fI " jid"
+Add the JID to the
+.B local
+roster only. Won't survive a restart or reconnect.
 
 .TP
-.B :del\fI " jid"
-.B Delete
-the JID from the roster. In order not to receive presence updates use
-.B :usc
-instead.
+.B :add\fI " jid"
+.B Add
+the JID to the local and remote roster without sending out a subscription
+request, hence you will not receive presence updates and are unable to see this
+contact's presence.
 
 .TP
 .B :sub\fI " jid [message]"
 Send a
 .B subscription
-request to the specified JID including the message. This
-also adds the contact to the roster.
+request to the specified JID including the message and add the contact to the
+local and remote roster.
 
 .TP
 .B :usc\fI " jid [message]"
 Send an
 .B unsubscription
-request to the specified JID including the message. This
-also removes the contact from the roster.
+request to the specified JID including the message, so you won't receive any
+more presence updates from this contact.
 
 .TP
-.B :msg\fI " jid text"
-Send a single
-.B message
-to the specified jid.
+.B :del\fI " jid"
+.B Delete
+the JID from the roster and remove its subscription from your presence updates.
+
+.TP
+.B :cnc\fI " jid [message]"
+.B Drop
+the JID's subscription of your presence. The contact will not receive any more
+presence updates from you, and be unable to see your presence.
 
 .TP
 .B :ack\fI " jid"
@@ -169,11 +173,6 @@ Set the command to be used for
 .B PGP encryption, decryption, signing,
 and
 .B checking.
-
-.TP
-.B :png\fI " [jid]"
-.B Ping
-the specified jid, defaults to the server.
 
 .SH RETURN STATUSES
 
@@ -233,6 +232,10 @@ PRI=23
 exec src/@PACKAGE@ $JID
 
 .SH BUGS
+There is not support for contact groups and displayed names, as all the
+contacts are represented as directories named like their JID in a flat
+hierarchy.
+.PP
 When multiple processes write to the input file at the same time they cannot be
 distinguished and get interpreted as a single command. Circumvent this by
 surrounding your input with nullstrings (\\0). This is especially important

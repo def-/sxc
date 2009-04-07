@@ -154,25 +154,15 @@ namespace Account
 
 /*}}}*/
 
-      //void sendMessage(const gloox::JID &to, const string &body);/*{{{*/
+      //void addContactLocal(const gloox::JID &jid);/*{{{*/
 
       /**
-       * @brief Send a text message to a user.
-       *
-       * This function sends a given message to a recipant, whether he is
-       * on the roster or not.
-       *
-       * @note This message sends a "normal", not a "chat" message. Use
-       *       @ref Contact::Contact for "chat" messages.
-       *
-       * @param to The JID of the recipant.
-       * @param body The message to be transmitted.
-       * @return Whether it was possible to send the message.
+       * Wrapper method.
        */
-      void sendMessage(const gloox::JID &to, const std::string &body);
+      void addContactLocal(const gloox::JID &jid);
 
 /*}}}*/
-      //void addContact(const gloox::JID &jid) const;/*{{{*/
+      //void addContact(const gloox::JID &jid);/*{{{*/
 
       /**
        * Wrapper method.
@@ -204,6 +194,16 @@ namespace Account
        * Wrapper method.
        */
       void unsubscribe(
+        const gloox::JID &jid,
+        const std::string &message="") const;
+
+/*}}}*/
+      //void cancel(const JID &jid, &message=Empty) const;/*{{{*/
+
+      /**
+       * Wrapper method.
+       */
+      void cancel(
         const gloox::JID &jid,
         const std::string &message="") const;
 

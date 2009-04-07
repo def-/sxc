@@ -85,17 +85,11 @@ namespace Account
     pthread_mutex_destroy(&_resetMutex);
   }/*}}}*/
 
-  void Roster::sendMessage(const gloox::JID &jid, const std::string &message)/*{{{*/
+  void Roster::addContactLocal(const gloox::JID &jid)/*{{{*/
   {
+    _out.write("Add contact locally: " + jid.bare());
     _addContactLocal(jid);
-
-    contactList::iterator contact = _getContact(jid.bare());
-    if (_contacts.end() == contact)
-      return; // FIXME: Throw exception, this is really unexpected.
-
-    contact->second->sendMessage(message);
   }/*}}}*/
-
   void Roster::addContact(const gloox::JID &jid)/*{{{*/
   {
     _addContactLocal(jid);
@@ -106,17 +100,19 @@ namespace Account
     _checkClient();
 
     LOG("Remove contact from the roster: \"" + jid.bare() + "\".");
+    _out.write("Delete contact: " + jid.bare());
 
     contactList::iterator contact = _getContact(jid.bare());
     if (_contacts.end() != contact) {
       contact->second->remove();
+      delete contact->second;
+      _contacts.erase(contact);
     }
 
     // Still remove the contact from the server, even if it is not available
     // locally.
 
     _client.rosterManager()->remove(jid);
-    // This should call the @ref handleItemRemoved().
     _client.rosterManager()->synchronize();
   }/*}}}*/
 
@@ -126,10 +122,8 @@ namespace Account
   {
     _checkClient();
 
-    LOG(
-      "Sending subscription request: (jid: \"" + jid.bare() +
-      "\", message: \"" + message + "\").");
-
+    _out.write("Subscribing: " + jid.bare() +
+      "\nMessage: " + message);
     const gloox::StringList groups;
     _client.rosterManager()->subscribe(jid, jid.bare(), groups, message);
     _client.rosterManager()->synchronize();
@@ -140,26 +134,32 @@ namespace Account
   {
     _checkClient();
 
-    LOG(
-      "Sending unsubscription request: (jid: \"" + jid.bare() +
-      "\", message: \"" + message + "\").");
-
+    _out.write("Unsubscribed: " + jid.bare() +
+      "\nMessage: " + message);
     _client.rosterManager()->unsubscribe(jid, message);
+    _client.rosterManager()->synchronize();
+  }/*}}}*/
+
+  void Roster::cancel(/*{{{*/
+    const gloox::JID &jid,
+    const std::string &message) const
+  {
+    _checkClient();
+
+    _out.write("Cancelled subscription: " + jid.bare() +
+      "\nMessage: " + message);
+    _client.rosterManager()->cancel(jid, message);
     _client.rosterManager()->synchronize();
   }/*}}}*/
 
   void Roster::acknowledgeSubscription(const gloox::JID &jid) const/*{{{*/
   {
-    LOG(
-      "Acknowledge subscription request: \"" + jid.bare() + "\".");
-
+    _out.write("Acknowledged subscription request: " + jid.bare());
     _client.rosterManager()->ackSubscriptionRequest(jid, true);
   }/*}}}*/
   void Roster::declineSubscription(const gloox::JID &jid) const/*{{{*/
   {
-    LOG(
-      "Decline subscription request: \"" + jid.bare() + "\".");
-
+    _out.write("Declined subscription request: " + jid.bare());
     _client.rosterManager()->ackSubscriptionRequest(jid, false);
   }/*}}}*/
 
@@ -223,6 +223,11 @@ namespace Account
   {
     _out.write("Add contact: " + jid.bare());
     _addContactLocal(jid);
+
+    contactList::iterator contact = _getContact(jid.bare());
+    if (_contacts.end() == contact)
+      return;
+    contact->second->updateRoster(Remote);
   }/*}}}*/
   void Roster::handleItemSubscribed(const gloox::JID &jid)/*{{{*/
   {
@@ -230,13 +235,7 @@ namespace Account
   }/*}}}*/
   void Roster::handleItemRemoved(const gloox::JID &jid)/*{{{*/
   {
-    _out.write("Delete contact: " + jid.bare());
-
-    contactList::iterator contact = _getContact(jid.bare());
-    if (_contacts.end() == contact)
-      return;
-    delete contact->second;
-    _contacts.erase(contact);
+    LOG("Item removed: \"" + jid.bare() + "\".");
   }/*}}}*/
   void Roster::handleItemUpdated(const gloox::JID &jid)/*{{{*/
   {

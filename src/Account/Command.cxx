@@ -67,15 +67,16 @@ namespace Account
 
     it = map.insert(it, command("ack", param(1, false)));
     it = map.insert(it, command("dec", param(1, false)));
+    it = map.insert(it, command("loc", param(1, false)));
     it = map.insert(it, command("add", param(1, false)));
     it = map.insert(it, command("del", param(1, false)));
-    it = map.insert(it, command("msg", param(2, false)));
     it = map.insert(it, command("pgp", param(2, false)));
     it = map.insert(it, command("pwd", param(1, false)));
     it = map.insert(it, command("set", param(1, true)));
     it = map.insert(it, command("pri", param(1, false)));
     it = map.insert(it, command("sub", param(1, true)));
     it = map.insert(it, command("usc", param(1, true)));
+    it = map.insert(it, command("cnc", param(1, true)));
 
     return map;
   }
@@ -95,14 +96,14 @@ namespace Account
       } else if ("dec" == name) {/*{{{*/
         _account.declineSubscription(parsed.at(1));
 /*}}}*/
+      } else if ("loc" == name) {/*{{{*/
+        _account.addContactLocal(parsed.at(1));
+/*}}}*/
       } else if ("add" == name) {/*{{{*/
         _account.addContact(parsed.at(1));
 /*}}}*/
       } else if ("del" == name) {/*{{{*/
         _account.removeContact(parsed.at(1));
-/*}}}*/
-      } else if ("msg" == name) {/*{{{*/
-        _account.sendMessage(parsed.at(1), parsed.at(2));
 /*}}}*/
       } else if ("pgp" == name) {/*{{{*/
         const std::string action = parsed.at(1);
@@ -172,6 +173,9 @@ namespace Account
 /*}}}*/
       } else if ("usc" == name) {/*{{{*/
         _account.unsubscribe(parsed.at(1), parsed.at(2));
+/*}}}*/
+      } else if ("cnc" == name) {/*{{{*/
+        _account.cancel(parsed.at(1), parsed.at(2));
 /*}}}*/
       } else {/*{{{*/
         std::string message = "Unknown name: " + name;

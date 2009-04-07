@@ -167,11 +167,9 @@ namespace Account
     _client.disconnect();
   }/*}}}*/
 
-  void Account::sendMessage(/*{{{*/
-    const gloox::JID &to,
-    const std::string &body)
+  void Account::addContactLocal(const gloox::JID &jid)/*{{{*/
   {
-    _roster.sendMessage(to, body);
+    _roster.addContactLocal(jid);
   }/*}}}*/
   void Account::addContact(const gloox::JID &jid)/*{{{*/
   {
@@ -190,6 +188,12 @@ namespace Account
     const std::string &message) const
   {
     _roster.unsubscribe(jid, message);
+  }/*}}}*/
+  void Account::cancel(/*{{{*/
+    const gloox::JID &jid,
+    const std::string &message) const
+  {
+    _roster.cancel(jid, message);
   }/*}}}*/
   void Account::acknowledgeSubscription(const gloox::JID &jid) const/*{{{*/
   {
