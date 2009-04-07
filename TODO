@@ -6,9 +6,7 @@ Contact
 * nfo/subscription and in Roster::handleItemUpdated(): Print to out if
   subscription got accepted.
 * Resources, but how? in links to highest prio, all resources as in-files.
-Roster
-* Correct commands (add, del, sub, usc)
-* Add commands to remove subscriptions? (and add?)
+
 Account
 * Check certificates for validity (default to allow certified by trusted; ask
   for user input using files or command line parameter to allow any)
