@@ -9,6 +9,9 @@ Account
 * Check certificates for validity (default to allow certified by trusted; ask
   for user input using files or command line parameter to allow any)
 
+Man page
+* Add nfo files
+
 General stuff
 * No internal references.
 * No pointers as parameters.
