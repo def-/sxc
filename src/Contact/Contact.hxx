@@ -33,11 +33,9 @@
 #include <gloox/presence.h>
 #include <gloox/gloox.h>
 
-//#include <File/AbcInput.hxx>
+#include <File/AbcOutput.hxx>
 #include <Contact/File/Input.hxx>
-//#include <File/AbcOutput.hxx>
 #include <Contact/File/Output.hxx>
-//#include <File/AbcInfo.hxx>
 #include <Contact/File/Info.hxx>
 #include <Account/RosterType.hxx>
 
@@ -63,7 +61,7 @@ namespace Contact
   class Contact : public gloox::MessageHandler
   {
     public:
-      //Contact(&roster, &accountJid, &contactJid, sub);/*{{{*/
+      //Contact(&roster, &accountOut, &accountJid, &contactJid, sub);/*{{{*/
 
       /**
        * @brief Initialise the contact.
@@ -72,6 +70,7 @@ namespace Contact
        */
       Contact(
         Account::Roster &roster,
+        ::File::AbcOutput &accountOut,
         const gloox::JID &accountJid,
         const gloox::JID &contactJid);
 
@@ -157,6 +156,7 @@ namespace Contact
     private:
       Account::Roster &_roster;
       gloox::MessageSession *_session;
+      ::File::AbcOutput &_accountOut;
       //::File::AbcInput &_in;
       File::Input _in;
       //::File::AbcOutput &_out;

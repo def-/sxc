@@ -379,7 +379,7 @@ namespace Account
       ::File::createDir(_client.jid().bare() + "/" + jid.bare());
 
       contact = new Contact::Contact(
-        *this, _client.jid(), jid);
+        *this, _out, _client.jid(), jid);
       contact->updateRoster(Local);
     } catch (libsxc::Exception::Exception &e) {
       _out.write(std::string("Adding contact failed: ") + e.what());

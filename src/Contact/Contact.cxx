@@ -33,10 +33,12 @@
 #include <gloox/presence.h>
 #include <gloox/delayeddelivery.h>
 #include <gloox/gloox.h>
+#include <gloox/error.h>
 
 #include <Contact/Contact.hxx>
 #include <Account/Roster.hxx>
 #include <Account/RosterType.hxx>
+#include <File/AbcOutput.hxx>
 
 #include <libsxc/generateString.hxx>
 #include <libsxc/Debug/Logger.hxx>
@@ -47,10 +49,12 @@ namespace Contact
 {
   Contact::Contact(/*{{{*/
     Account::Roster &roster,
+    ::File::AbcOutput &accountOut,
     const gloox::JID &accountJid,
     const gloox::JID &contactJid)
   : _roster(roster)
   , _session(roster.createMessageSession(this, contactJid))
+  , _accountOut(accountOut)
   , _in(*this, accountJid.bare(), contactJid.bare())
   , _out(accountJid.bare(), contactJid.bare())
   , _nfo(accountJid.bare(), contactJid.bare())
@@ -108,10 +112,30 @@ namespace Contact
     ss << ", type: \"" << libsxc::genMsgTypeString(msg.subtype());
     ss << "\" (" << msg.subtype();
     ss << "), subject: \"" << msg.subject();
-    ss << "\", body: \"" << msg.body() << "\").";
+    ss << "\", body: \"" << msg.body();
+    if (msg.error()) {
+      ss << "\", error: \""
+         << libsxc::genStanzaErrorString(msg.error()->error())
+         << "\", error text: \"" << msg.error()->text();
+
+    }
+    ss << "\").";
     LOG(ss.str());
 
-    if (msg.when()) {
+    if (gloox::Message::Error == msg.subtype() || msg.error()) {
+      std::string text =  "Error occured: " + msg.from().bare() +
+        "\nMessage: " + msg.body();
+      if (msg.error()) {
+        text += "\nError: " +
+          libsxc::genStanzaErrorString(msg.error()->error()) +
+          "\nText: " + msg.error()->text();
+      } else {
+        text += "\nError: \nText: ";
+      }
+      _accountOut.write(text);
+    } else if (gloox::Message::Invalid == msg.subtype()) {
+      LOG("Invalid message received, ignoring.");
+    } else if (msg.when()) {
       LOG("Delayed delivery: " + msg.when()->stamp());
 
       // FIXME: _out.writeIncomming(msg.body(), msg.when()->stamp());
