@@ -69,7 +69,7 @@ The resource defaults to
 .SH STDERR
 The standard error is only used for diagnostic messages.
 
-.SH OUTPUT FILES
+.SH FILES
 
 .TP
 .I ${jid}/in
@@ -79,15 +79,15 @@ the specified jid.
 .RE
 .I ${jid}/out
 .RS
-The single global output file of @PACKAGE@.
+The account's output file.
 .RE
 .I ${jid}/${contact}/in
 .RS
-ads
+Input will be sent directly to the specified contact.
 .RE
 .I ${jid}/${contact}/out
 .RS
-fob
+The contact's output file. The conversation is logged to this file.
 .RE
 
 .SH COMMANDS
