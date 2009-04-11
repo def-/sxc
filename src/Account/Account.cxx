@@ -73,7 +73,7 @@ namespace Account
   , _presence(gloox::Presence::Available)
   , _priority(0)
   , _status("")
-  , _in(*this, client.jid().bare())
+  , _in(*this, out, client.jid().bare())
   , _out(out)
   , _nfo(nfo)
   , _eh(eh)

@@ -49,6 +49,11 @@ namespace File
     const std::string &key,
     T &value)
   {
+    std::ostringstream ssLog;
+    ssLog << "Setting info: (path: \"" << _path << "\", key: \"" << key
+       << "\", value: \"" << value << "\").";
+    LOG(ssLog.str());
+
     if (_isRemoved) {
       LOG("Not setting info, as already removed.");
       return;
@@ -94,12 +99,7 @@ namespace File
         ("Could not get fstat: " + path).c_str());
     }
 
-    std::ostringstream ssLog;
-    ssLog << "Setting info: (path: \"" << _path << "\", key: \"" << key
-       << "\", value: \"" << value << "\").";
-    LOG(ssLog.str());
-
-    file.open(path.c_str(), std::ios_base::out | std::ios::trunc);
+    file.open(path.c_str(), std::ios_base::out);
     file << value << std::endl;
     // File gets closed automatically.
   }/*}}}*/

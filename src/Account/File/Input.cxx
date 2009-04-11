@@ -41,8 +41,12 @@ namespace Account
 {
   namespace File
   {
-    Input::Input(Account &account, const std::string &jid)/*{{{*/
+    Input::Input(/*{{{*/
+      Account &account,
+      ::File::AbcOutput &out,
+      const std::string &jid)
     : _account(account)
+    , _out(out)
     , _jid(jid)
     {
       initialize();
@@ -61,12 +65,12 @@ namespace Account
         Command command(_account, input);
         command.execute();
       } catch (libsxc::Exception::Exception &e) {
-        // TODO: Fix handleError() to make use of stderr
-        //_account.handleError(e); // FIXME
+        LOG(e.what());
+        _out.write(e.getMessage());
       } catch (std::exception &e) {
         // This is *really* unexpected.
-        //LOG<Error>(e.what()); // FIXME
-        //_account.print(e.what()); // FIXME
+        LOG(e.what());
+        _out.write(e.what());
       }
     }
 

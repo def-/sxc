@@ -25,6 +25,7 @@
 #include <string>
 
 #include <File/AbcInput.hxx>
+#include <File/AbcOutput.hxx>
 #include <Account/Account.hxx>
 
 /*}}}*/
@@ -45,14 +46,17 @@ namespace Account
     class Input : public ::File::AbcInput
     {
       public:
-        // Input(Account &account, const std::string &jid);/*{{{*/
+        // Input(Account &account, &out, const std::string &jid);/*{{{*/
 
         /**
          * @brief Initializes the object.
          *
          * @param account The Account object.
          */
-        Input(Account &account, const std::string &jid);
+        Input(
+          Account &account,
+          ::File::AbcOutput &out,
+          const std::string &jid);
 
 /*}}}*/
 
@@ -94,6 +98,8 @@ namespace Account
         void _handleInput(const std::string &input);
 
 /*}}}*/
+
+        ::File::AbcOutput &_out;
     };
   }
 }
