@@ -446,9 +446,9 @@ namespace Account
 /*}}}*/
 
     private:
-      //void _checkClient() const;/*{{{*/
-      /// Check if there is a client. Throw an exception if not.
-      void _checkClient() const;
+      //bool _isOn() const;/*{{{*/
+      /// Check if the client is online.
+      bool _isOn() const;
 
 /*}}}*/
       //void _addContactRemote(const gloox::JID &jid);/*{{{*/

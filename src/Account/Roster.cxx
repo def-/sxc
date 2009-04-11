@@ -97,7 +97,7 @@ namespace Account
   }/*}}}*/
   void Roster::removeContact(const gloox::JID &jid)/*{{{*/
   {
-    _checkClient();
+    if (!_isOn()) return;
 
     _out.write("Delete contact: " + jid.bare());
 
@@ -118,7 +118,7 @@ namespace Account
     const gloox::JID &jid,
     const std::string &message) const
   {
-    _checkClient();
+    if (!_isOn()) return;
 
     _out.write("Request subscription: " + jid.bare() + "\nMessage: " + message);
     const gloox::StringList groups;
@@ -129,7 +129,7 @@ namespace Account
     const gloox::JID &jid,
     const std::string &message) const
   {
-    _checkClient();
+    if (!_isOn()) return;
 
     _out.write("Unsubscribe: " + jid.bare() +
       "\nMessage: " + message);
@@ -141,7 +141,7 @@ namespace Account
     const gloox::JID &jid,
     const std::string &message) const
   {
-    _checkClient();
+    if (!_isOn()) return;
 
     _out.write("Cancel contact's subscription: " + jid.bare() +
       "\nMessage: " + message);
@@ -151,11 +151,15 @@ namespace Account
 
   void Roster::acknowledgeSubscription(const gloox::JID &jid) const/*{{{*/
   {
+    if (!_isOn()) return;
+
     _out.write("Acknowledge subscription request: " + jid.bare());
     _client.rosterManager()->ackSubscriptionRequest(jid, true);
   }/*}}}*/
   void Roster::declineSubscription(const gloox::JID &jid) const/*{{{*/
   {
+    if (!_isOn()) return;
+
     _out.write("Decline subscription request: " + jid.bare());
     _client.rosterManager()->ackSubscriptionRequest(jid, false);
   }/*}}}*/
@@ -340,20 +344,20 @@ namespace Account
 
   }/*}}}*/
 
-  void Roster::_checkClient() const/*{{{*/
+  bool Roster::_isOn() const/*{{{*/
   {
-    // FIXME: Better exception or none at all
-    if (!gloox::StateConnected == _client.state())
-      throw libsxc::Exception::Exception(
-        "Connection ist not established.",
-        Exit::InvalidUsage);
+    if (!gloox::StateConnected == _client.state()) {
+      _out.write("Not connected, ignoring command.");
+      return false;
+    }
+    return true;
   }/*}}}*/
   void Roster::_addContactRemote(const gloox::JID &jid)/*{{{*/
   {
     LOG(
       "Add contact to the remote roster: \"" + jid.bare() + "\".");
 
-    _checkClient();
+    if (!_isOn()) return;
 
     const gloox::StringList groups;
     _client.rosterManager()->add(jid, jid.bare(), groups);
