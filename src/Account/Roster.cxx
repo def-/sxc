@@ -39,6 +39,7 @@
 #include <gloox/message.h>
 #include <gloox/messagehandler.h>
 #include <gloox/error.h>
+#include <gloox/resource.h>
 
 #include <libsxc/generateString.hxx>
 #include <libsxc/Exception/Exception.hxx>
@@ -292,7 +293,13 @@ namespace Account
     contactList::iterator contact = _getContact(item.jid());
     if (_contacts.end() == contact)
       return;
-    contact->second->updatePresence(resource, presence, msg);
+
+    const gloox::Resource *highest = item.highestResource();
+    if (highest) {
+      contact->second->updatePresence(highest->presence(), highest->message());
+    } else {
+      contact->second->updatePresence(gloox::Presence::Unavailable, "");
+    }
   }/*}}}*/
   void Roster::handleSelfPresence(/*{{{*/
     const gloox::RosterItem &item,

@@ -73,7 +73,6 @@ namespace Contact
   }/*}}}*/
 
   void Contact::updatePresence(/*{{{*/
-    const std::string &resource,
     gloox::Presence::PresenceType presence,
     const std::string &message)
   {

@@ -86,15 +86,12 @@ namespace Contact
 
 /*}}}*/
 
-      //void updatePresence(&resource, presence, &message)/*{{{*/
+      //void updatePresence(presence, &message)/*{{{*/
 
       /**
-       * @brief Print a text to the contact's output file.
-       *
-       * @param text The text to print.
+       * @brief Update the presence.
        */
       void updatePresence(
-        const std::string &resource,
         gloox::Presence::PresenceType presence,
         const std::string &message);
 
